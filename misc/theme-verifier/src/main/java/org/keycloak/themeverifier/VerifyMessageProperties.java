@@ -50,6 +50,7 @@ public class VerifyMessageProperties {
             String contents = Files.readString(file.toPath());
             verifyNoDuplicateKeys(contents);
             verifySafeHtml();
+            verifyEnglishSourceExists();
             verifyProblematicBlanks();
             if (validateMessageFormatQuotes) {
                 verifyMessageFormatQuotes();
@@ -233,6 +234,17 @@ public class VerifyMessageProperties {
         }
         return file.getAbsolutePath().replaceAll("resources-community", "resources")
                 .replaceAll("_[a-zA-Z-_]*\\.properties", "_en.properties");
+    }
+
+    /**
+     * Every translation must have an English source next to it; a missing source means the file was added to the
+     * wrong tree and would silently skip the HTML check.
+     */
+    private void verifyEnglishSourceExists() {
+        File english = new File(englishFileFor(file));
+        if (!english.exists()) {
+            messages.add("No English source bundle for " + file + " (expected " + english + ")");
+        }
     }
 
     /**
