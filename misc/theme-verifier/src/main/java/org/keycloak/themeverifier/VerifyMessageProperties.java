@@ -175,8 +175,7 @@ public class VerifyMessageProperties {
         PropertyResourceBundle bundle = getPropertyResourceBundle();
 
         PropertyResourceBundle bundleEnglish;
-        String englishFile = file.getAbsolutePath().replaceAll("resources-community", "resources")
-                .replaceAll("_[a-zA-Z-_]*\\.properties", "_en.properties");
+        String englishFile = englishFileFor(file);
         try (FileInputStream fis = new FileInputStream(englishFile)) {
             bundleEnglish = new PropertyResourceBundle(fis);
         } catch (IOException e) {
@@ -216,6 +215,15 @@ public class VerifyMessageProperties {
             }
 
         });
+    }
+
+    /**
+     * The English bundle a translation is checked against: the same file name with the locale suffix replaced by
+     * {@code _en}, in the non-community resources tree.
+     */
+    private String englishFileFor(File file) {
+        return file.getAbsolutePath().replaceAll("resources-community", "resources")
+                .replaceAll("_[a-zA-Z-_]*\\.properties", "_en.properties");
     }
 
     /**
