@@ -176,6 +176,10 @@ public class VerifyMessageProperties {
 
         PropertyResourceBundle bundleEnglish;
         String englishFile = englishFileFor(file);
+        if (englishFile == null) {
+            // A bundle without a locale suffix is the source itself; there is nothing to compare it against.
+            return;
+        }
         try (FileInputStream fis = new FileInputStream(englishFile)) {
             bundleEnglish = new PropertyResourceBundle(fis);
         } catch (IOException e) {
@@ -217,11 +221,16 @@ public class VerifyMessageProperties {
         });
     }
 
+    private static final Pattern LOCALE_SUFFIX = Pattern.compile("_[a-zA-Z-_]+\\.properties$");
+
     /**
-     * The English bundle a translation is checked against: the same file name with the locale suffix replaced by
-     * {@code _en}, in the non-community resources tree.
+     * The English bundle a translation is checked against, or {@code null} when the file carries no locale suffix
+     * and is therefore its own source.
      */
     private String englishFileFor(File file) {
+        if (!LOCALE_SUFFIX.matcher(file.getName()).find()) {
+            return null;
+        }
         return file.getAbsolutePath().replaceAll("resources-community", "resources")
                 .replaceAll("_[a-zA-Z-_]*\\.properties", "_en.properties");
     }
