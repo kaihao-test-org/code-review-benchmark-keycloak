@@ -37,7 +37,7 @@ import org.keycloak.events.admin.ResourceType;
 import org.keycloak.http.FormPartValue;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -86,11 +86,11 @@ public class ClientAttributeCertificateResource {
     protected final RealmModel realm;
     private final AdminPermissionEvaluator auth;
     protected final ClientModel client;
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final AdminEventBuilder adminEvent;
     protected final String attributePrefix;
 
-    public ClientAttributeCertificateResource(AdminPermissionEvaluator auth, ClientModel client, KeycloakSession session, String attributePrefix, AdminEventBuilder adminEvent) {
+    public ClientAttributeCertificateResource(AdminPermissionEvaluator auth, ClientModel client, KeycloakRequestSession session, String attributePrefix, AdminEventBuilder adminEvent) {
         this.realm = session.getContext().getRealm();
         this.auth = auth;
         this.client = client;

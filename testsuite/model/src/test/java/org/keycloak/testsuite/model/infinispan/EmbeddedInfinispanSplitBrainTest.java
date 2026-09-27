@@ -17,7 +17,7 @@ import org.junit.rules.TestRule;
 import org.keycloak.common.Profile;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.cache.CacheRealmProvider;
 import org.keycloak.testsuite.model.KeycloakModelTest;
@@ -43,7 +43,7 @@ public class EmbeddedInfinispanSplitBrainTest extends KeycloakModelTest {
    };
 
    @Override
-   public void createEnvironment(KeycloakSession s) {
+   public void createEnvironment(KeycloakRequestSession s) {
       RealmModel realm = createRealm(s, "test");
       s.getContext().setRealm(realm);
       realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));

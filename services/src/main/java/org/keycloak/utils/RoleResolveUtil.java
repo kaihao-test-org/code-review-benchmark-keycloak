@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.representations.AccessToken;
@@ -47,7 +47,7 @@ public class RoleResolveUtil {
      * @param createIfMissing
      * @return can return null (just in case that createIfMissing is false)
      */
-    public static AccessToken.Access getResolvedRealmRoles(KeycloakSession session, ClientSessionContext clientSessionCtx, boolean createIfMissing) {
+    public static AccessToken.Access getResolvedRealmRoles(KeycloakRequestSession session, ClientSessionContext clientSessionCtx, boolean createIfMissing) {
         AccessToken rolesToken = getAndCacheResolvedRoles(session, clientSessionCtx);
         AccessToken.Access access = rolesToken.getRealmAccess();
         if (access == null && createIfMissing) {
@@ -70,7 +70,7 @@ public class RoleResolveUtil {
      * @param createIfMissing
      * @return can return null (just in case that createIfMissing is false)
      */
-    public static AccessToken.Access getResolvedClientRoles(KeycloakSession session, ClientSessionContext clientSessionCtx, String clientId, boolean createIfMissing) {
+    public static AccessToken.Access getResolvedClientRoles(KeycloakRequestSession session, ClientSessionContext clientSessionCtx, String clientId, boolean createIfMissing) {
         AccessToken rolesToken = getAndCacheResolvedRoles(session, clientSessionCtx);
         AccessToken.Access access = rolesToken.getResourceAccess(clientId);
 
@@ -91,11 +91,11 @@ public class RoleResolveUtil {
      * @param clientSessionCtx
      * @return not-null object (can return empty map)
      */
-    public static Map<String, AccessToken.Access> getAllResolvedClientRoles(KeycloakSession session, ClientSessionContext clientSessionCtx) {
+    public static Map<String, AccessToken.Access> getAllResolvedClientRoles(KeycloakRequestSession session, ClientSessionContext clientSessionCtx) {
         return getAndCacheResolvedRoles(session, clientSessionCtx).getResourceAccess();
     }
 
-    private static AccessToken getAndCacheResolvedRoles(KeycloakSession session, ClientSessionContext clientSessionCtx) {
+    private static AccessToken getAndCacheResolvedRoles(KeycloakRequestSession session, ClientSessionContext clientSessionCtx) {
         ClientModel client = clientSessionCtx.getClientSession().getClient();
         String resolvedRolesAttrName = RESOLVED_ROLES_ATTR + ":" + clientSessionCtx.getClientSession().getUserSession().getId() + ":" + client.getId();
         AccessToken token = session.getAttribute(resolvedRolesAttrName, AccessToken.class);

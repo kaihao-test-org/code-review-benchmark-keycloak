@@ -34,7 +34,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.ServicesLogger;
@@ -61,7 +61,7 @@ public class IdpEmailVerificationAuthenticator extends AbstractIdpAuthenticator 
 
     @Override
     protected void authenticateImpl(AuthenticationFlowContext context, SerializedBrokeredIdentityContext serializedCtx, BrokeredIdentityContext brokerContext) {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
         AuthenticationSessionModel authSession = context.getAuthenticationSession();
 
@@ -116,11 +116,11 @@ public class IdpEmailVerificationAuthenticator extends AbstractIdpAuthenticator 
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return false;
     }
 
-    private void sendVerifyEmail(KeycloakSession session, AuthenticationFlowContext context, UserModel existingUser, BrokeredIdentityContext brokerContext) throws UriBuilderException, IllegalArgumentException {
+    private void sendVerifyEmail(KeycloakRequestSession session, AuthenticationFlowContext context, UserModel existingUser, BrokeredIdentityContext brokerContext) throws UriBuilderException, IllegalArgumentException {
         RealmModel realm = session.getContext().getRealm();
         UriInfo uriInfo = session.getContext().getUri();
         AuthenticationSessionModel authSession = context.getAuthenticationSession();

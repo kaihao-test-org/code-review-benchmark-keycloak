@@ -25,7 +25,7 @@ import org.eclipse.microprofile.openapi.annotations.extensions.Extension;
 import org.keycloak.authorization.AuthorizationProvider;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resources.KeycloakOpenAPI;
 import org.keycloak.services.resources.admin.AdminEventBuilder;
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
@@ -42,7 +42,7 @@ public class AuthorizationService {
     private final AuthorizationProvider authorization;
     private final AdminEventBuilder adminEvent;
 
-    public AuthorizationService(KeycloakSession session, ClientModel client, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public AuthorizationService(KeycloakRequestSession session, ClientModel client, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.client = client;
         this.authorization = session.getProvider(AuthorizationProvider.class);
         this.adminEvent = adminEvent;

@@ -52,7 +52,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -127,7 +127,7 @@ public abstract class AbstractOAuth2IdentityProvider<C extends OAuth2IdentityPro
     private static final String BROKER_CODE_CHALLENGE_METHOD_PARAM = "BROKER_CODE_CHALLENGE_METHOD";
 
 
-    public AbstractOAuth2IdentityProvider(KeycloakSession session, C config) {
+    public AbstractOAuth2IdentityProvider(KeycloakRequestSession session, C config) {
         super(session, config);
 
         if (config.getDefaultScope() == null || config.getDefaultScope().isEmpty()) {
@@ -152,7 +152,7 @@ public abstract class AbstractOAuth2IdentityProvider<C extends OAuth2IdentityPro
     }
 
     @Override
-    public Response retrieveToken(KeycloakSession session, FederatedIdentityModel identity) {
+    public Response retrieveToken(KeycloakRequestSession session, FederatedIdentityModel identity) {
         return Response.ok(identity.getToken()).type(MediaType.APPLICATION_JSON).build();
     }
 
@@ -494,7 +494,7 @@ public abstract class AbstractOAuth2IdentityProvider<C extends OAuth2IdentityPro
         protected final EventBuilder event;
         private final AbstractOAuth2IdentityProvider provider;
 
-        protected final KeycloakSession session;
+        protected final KeycloakRequestSession session;
 
         protected final ClientConnection clientConnection;
 

@@ -24,7 +24,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.AccessTokenIntrospectionProviderFactory;
 import org.keycloak.protocol.oidc.TokenIntrospectionProvider;
@@ -50,7 +50,7 @@ public class TokenIntrospectionEndpoint {
     public static final String PARAM_TOKEN_TYPE_HINT = "token_type_hint";
     public static final String PARAM_TOKEN = "token";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final HttpRequest request;
 
@@ -59,7 +59,7 @@ public class TokenIntrospectionEndpoint {
     private final RealmModel realm;
     private final EventBuilder event;
 
-    public TokenIntrospectionEndpoint(KeycloakSession session, EventBuilder event) {
+    public TokenIntrospectionEndpoint(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

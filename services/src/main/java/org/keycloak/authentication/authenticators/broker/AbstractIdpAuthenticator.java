@@ -25,7 +25,7 @@ import org.keycloak.authentication.authenticators.broker.util.ExistingUserInfo;
 import org.keycloak.authentication.authenticators.broker.util.SerializedBrokeredIdentityContext;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.events.Errors;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -100,7 +100,7 @@ public abstract class AbstractIdpAuthenticator implements Authenticator {
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class AbstractIdpAuthenticator implements Authenticator {
 
     }
 
-    public static UserModel getExistingUser(KeycloakSession session, RealmModel realm, AuthenticationSessionModel authSession) {
+    public static UserModel getExistingUser(KeycloakRequestSession session, RealmModel realm, AuthenticationSessionModel authSession) {
         String existingUserId = authSession.getAuthNote(EXISTING_USER_INFO);
         if (existingUserId == null) {
             throw new AuthenticationFlowException("Unexpected state. There is no existing duplicated user identified in ClientSession",

@@ -27,7 +27,7 @@ import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.events.admin.AdminEventQuery;
 import org.keycloak.events.admin.AuthDetails;
 import org.keycloak.events.admin.OperationType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.jpa.entities.RealmAttributeEntity;
 import org.keycloak.models.jpa.entities.RealmAttributes;
@@ -51,10 +51,10 @@ public class JpaEventStoreProvider implements EventStoreProvider {
 
     private static final Logger logger = Logger.getLogger(JpaEventStoreProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final EntityManager em;
 
-    public JpaEventStoreProvider(KeycloakSession session, EntityManager em) {
+    public JpaEventStoreProvider(KeycloakRequestSession session, EntityManager em) {
         this.session = session;
         this.em = em;
     }

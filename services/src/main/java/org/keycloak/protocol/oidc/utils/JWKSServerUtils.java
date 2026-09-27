@@ -20,7 +20,7 @@ import org.keycloak.crypto.KeyType;
 import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.jose.jwk.JWKBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import java.security.cert.X509Certificate;
@@ -33,7 +33,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:francis.pouatcha@adorsys.com">Francis Pouatcha</a>
  */public class JWKSServerUtils {
-    public static JSONWebKeySet getRealmJwks(KeycloakSession session, RealmModel realm){
+    public static JSONWebKeySet getRealmJwks(KeycloakRequestSession session, RealmModel realm){
         JWK[] jwks = session.keys().getKeysStream(realm)
                 .filter(k -> k.getStatus().isEnabled() && k.getPublicKey() != null)
                 .map(k -> {

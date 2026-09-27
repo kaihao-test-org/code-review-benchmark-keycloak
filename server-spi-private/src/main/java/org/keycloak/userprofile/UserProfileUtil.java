@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.representations.idm.UserProfileAttributeGroupMetadata;
@@ -55,7 +55,7 @@ public class UserProfileUtil {
      * @param session
      * @return metadata group if exists, otherwise null
      */
-    public static AttributeGroupMetadata lookupUserMetadataGroup(KeycloakSession session) {
+    public static AttributeGroupMetadata lookupUserMetadataGroup(KeycloakRequestSession session) {
         UserProfileProvider provider = session.getProvider(UserProfileProvider.class);
         UPConfig config = provider.getConfiguration();
         return config.getGroups().stream()
@@ -119,7 +119,7 @@ public class UserProfileUtil {
                 || UserModel.LOCALE.equals(name);
     }
 
-    public static org.keycloak.representations.idm.UserProfileMetadata createUserProfileMetadata(KeycloakSession session, UserProfile profile) {
+    public static org.keycloak.representations.idm.UserProfileMetadata createUserProfileMetadata(KeycloakRequestSession session, UserProfile profile) {
         Attributes profileAttributes = profile.getAttributes();
         Map<String, List<String>> am = profileAttributes.getReadable();
 
@@ -148,7 +148,7 @@ public class UserProfileUtil {
         return new org.keycloak.representations.idm.UserProfileMetadata(attributes, groups);
     }
 
-    private static UserProfileAttributeMetadata toRestMetadata(AttributeMetadata am, KeycloakSession session, UserProfile profile) {
+    private static UserProfileAttributeMetadata toRestMetadata(AttributeMetadata am, KeycloakRequestSession session, UserProfile profile) {
         String group = null;
 
         if (am.getAttributeGroupMetadata() != null) {
@@ -167,7 +167,7 @@ public class UserProfileUtil {
                 am.isMultivalued());
     }
 
-    private static Map<String, Map<String, Object>> toValidatorMetadata(AttributeMetadata am, KeycloakSession session){
+    private static Map<String, Map<String, Object>> toValidatorMetadata(AttributeMetadata am, KeycloakRequestSession session){
         // we return only validators which are instance of ConfiguredProvider. Others are expected as internal.
         return am.getValidators() == null ? null : am.getValidators().stream()
                 .filter(avm -> (Validators.validator(session, avm.getValidatorId()) instanceof ConfiguredProvider))

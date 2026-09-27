@@ -34,7 +34,7 @@ import org.keycloak.common.util.Retry;
 import org.keycloak.common.util.Time;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
@@ -50,7 +50,7 @@ public class RemoteInfinispanClusterProviderFactory implements ClusterProviderFa
     private volatile Executor executor;
 
     @Override
-    public ClusterProvider create(KeycloakSession session) {
+    public ClusterProvider create(KeycloakRequestSession session) {
         if (workCache == null) {
             // Keycloak does not ensure postInit() is invoked before create()
             lazyInit(session);
@@ -95,7 +95,7 @@ public class RemoteInfinispanClusterProviderFactory implements ClusterProviderFa
         return InfinispanUtils.isRemoteInfinispan();
     }
 
-    private synchronized void lazyInit(KeycloakSession session) {
+    private synchronized void lazyInit(KeycloakRequestSession session) {
         if (workCache != null) {
             return;
         }

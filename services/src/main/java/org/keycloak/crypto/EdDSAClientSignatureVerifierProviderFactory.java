@@ -17,7 +17,7 @@
 
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
@@ -32,7 +32,7 @@ public class EdDSAClientSignatureVerifierProviderFactory implements ClientSignat
     }
 
     @Override
-    public ClientSignatureVerifierProvider create(KeycloakSession session) {
+    public ClientSignatureVerifierProvider create(KeycloakRequestSession session) {
         return new EdDSAClientSignatureVerifierProvider(session, Algorithm.EdDSA);
     }
 

@@ -26,7 +26,7 @@ import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.reflections.Reflections;
 import org.keycloak.models.Constants;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -263,7 +263,7 @@ public class SerializedBrokeredIdentityContext implements UpdateProfileContext {
         }
     }
 
-    public BrokeredIdentityContext deserialize(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public BrokeredIdentityContext deserialize(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         RealmModel realm = authSession.getRealm();
         IdentityProviderModel idpConfig = session.identityProviders().getByAlias(getIdentityProviderId());
 

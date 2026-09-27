@@ -20,7 +20,7 @@ package org.keycloak.models.jpa;
 import jakarta.persistence.EntityManager;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import static org.keycloak.models.jpa.JpaRealmProviderFactory.PROVIDER_ID;
 import static org.keycloak.models.jpa.JpaRealmProviderFactory.PROVIDER_PRIORITY;
@@ -43,7 +43,7 @@ public class JpaDeploymentStateProviderFactory implements DeploymentStateProvide
     }
 
     @Override
-    public DeploymentStateProvider create(KeycloakSession session) {
+    public DeploymentStateProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaRealmProvider(session, em, null, null);
     }

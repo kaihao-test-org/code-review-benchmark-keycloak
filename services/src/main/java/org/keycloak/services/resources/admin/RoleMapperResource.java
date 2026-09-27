@@ -33,7 +33,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
 import org.keycloak.models.RealmModel;
@@ -97,11 +97,11 @@ public class RoleMapperResource {
 
     protected final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final HttpHeaders headers;
 
-    public RoleMapperResource(KeycloakSession session,
+    public RoleMapperResource(KeycloakRequestSession session,
                               AdminPermissionEvaluator auth,
                               RoleMapperModel roleMapper,
                               AdminEventBuilder adminEvent,

@@ -57,7 +57,7 @@ import org.keycloak.jose.jws.JWSHeader;
 import org.keycloak.jose.jws.crypto.HashUtils;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
@@ -149,7 +149,7 @@ public class DPoPUtil {
     /**
      * checks the current request if a DPoP HTTP Header is present and returns it if it is present.
      */
-    public static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakSession keycloakSession,
+    public static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakRequestSession keycloakSession,
                                                              OIDCAdvancedConfigWrapper clientConfig,
                                                              EventBuilder event,
                                                              Cors cors) {
@@ -161,7 +161,7 @@ public class DPoPUtil {
         });
     }
 
-    public static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakSession keycloakSession,
+    public static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakRequestSession keycloakSession,
                                                              EventBuilder event,
                                                              Cors cors) {
         return retrieveDPoPHeaderIfPresent(keycloakSession, event, cors, ()-> {
@@ -171,7 +171,7 @@ public class DPoPUtil {
         });
     }
 
-    private static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakSession keycloakSession,
+    private static Optional<DPoP> retrieveDPoPHeaderIfPresent(KeycloakRequestSession keycloakSession,
                                                               EventBuilder event,
                                                               Cors cors,
                                                               BooleanSupplier isDPoPNotApplicableRequest) {
@@ -191,7 +191,7 @@ public class DPoPUtil {
         }
     }
     
-    private static DPoP validateDPoP(KeycloakSession session, URI uri, String method, String token, String accessToken, int lifetime, int clockSkew) throws VerificationException {
+    private static DPoP validateDPoP(KeycloakRequestSession session, URI uri, String method, String token, String accessToken, int lifetime, int clockSkew) throws VerificationException {
 
         if (token == null || token.trim().isEmpty()) {
             throw new VerificationException("DPoP proof is missing");
@@ -307,7 +307,7 @@ public class DPoPUtil {
     }
 
 
-    public static void validateDPoPJkt(String dpopJkt, KeycloakSession session, EventBuilder event, Cors cors) {
+    public static void validateDPoPJkt(String dpopJkt, KeycloakRequestSession session, EventBuilder event, Cors cors) {
         if (dpopJkt == null) {
             // if Keycloak did not receive dpop_jkt in an authorization request, Keycloak needs not to verify whether DPoP Proof public key thumbprint matches dpop_jkt.
             return;
@@ -385,10 +385,10 @@ public class DPoPUtil {
 
     private static class DPoPReplayCheck implements TokenVerifier.Predicate<DPoP> {
 
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
         private final int lifetime;
 
-        public DPoPReplayCheck(KeycloakSession session, int lifetime) {
+        public DPoPReplayCheck(KeycloakRequestSession session, int lifetime) {
             this.session = session;
             this.lifetime = lifetime;
         }
@@ -411,7 +411,7 @@ public class DPoPUtil {
         private final int lifetime;
         private final int clockSkew;
 
-        public DPoPIsActiveCheck(KeycloakSession session, int lifetime, int clockSkew) {
+        public DPoPIsActiveCheck(KeycloakRequestSession session, int lifetime, int clockSkew) {
             this.lifetime = lifetime;
             this.clockSkew = clockSkew;
         }
@@ -514,9 +514,9 @@ public class DPoPUtil {
         private int clockSkew = DEFAULT_ALLOWED_CLOCK_SKEW;
         private int lifetime = DEFAULT_PROOF_LIFETIME;
 
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
 
-        public Validator(KeycloakSession session) {
+        public Validator(KeycloakRequestSession session) {
             this.session = session;
         }
 
@@ -600,7 +600,7 @@ public class DPoPUtil {
         }
 
         @Override
-        public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+        public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
             boolean isDPoPSupported = Profile.isFeatureEnabled(Profile.Feature.DPOP);
             if (!isDPoPSupported) {
                 return super.transformAccessToken(token, mappingModel, session, userSession, clientSessionCtx);

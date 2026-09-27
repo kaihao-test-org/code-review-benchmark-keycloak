@@ -22,7 +22,7 @@ import com.webauthn4j.converter.util.ObjectConverter;
 import com.webauthn4j.data.attestation.authenticator.COSEKey;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.credential.CredentialModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.SubjectCredentialManager;
 import org.keycloak.models.credential.dto.WebAuthnCredentialData;
@@ -39,12 +39,12 @@ import static org.keycloak.models.credential.WebAuthnCredentialModel.createFromC
 public class WebAuthnDataWrapper implements Serializable {
     private static final ObjectConverter converter = new ObjectConverter();
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String username;
     private final String credentialType;
     private WebAuthnCredentialData webAuthnData = null;
 
-    public WebAuthnDataWrapper(KeycloakSession session, String username, String credentialType) {
+    public WebAuthnDataWrapper(KeycloakRequestSession session, String username, String credentialType) {
         this.session = session;
         this.username = username;
         this.credentialType = credentialType;

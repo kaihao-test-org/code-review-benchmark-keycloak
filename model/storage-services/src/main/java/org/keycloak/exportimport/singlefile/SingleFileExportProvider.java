@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.exportimport.ExportProvider;
 import org.keycloak.exportimport.util.ExportImportSessionTask;
 import org.keycloak.exportimport.util.ExportUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -64,7 +64,7 @@ public class SingleFileExportProvider implements ExportProvider {
         new ExportImportSessionTask() {
 
             @Override
-            protected void runExportImportTask(KeycloakSession session) throws IOException {
+            protected void runExportImportTask(KeycloakRequestSession session) throws IOException {
                 if (realmName != null) {
                     ServicesLogger.LOGGER.realmExportRequested(realmName);
                     exportRealm(session, realmName);
@@ -82,7 +82,7 @@ public class SingleFileExportProvider implements ExportProvider {
         ServicesLogger.LOGGER.exportSuccess();
     }
 
-    private void exportRealm(KeycloakSession session, final String realmName) throws IOException {
+    private void exportRealm(KeycloakRequestSession session, final String realmName) throws IOException {
         logger.infof("Exporting realm '%s' into file %s", realmName, this.file.getAbsolutePath());
         RealmModel realm = session.realms().getRealmByName(realmName);
         Objects.requireNonNull(realm, "realm not found by realm name '" + realmName + "'");

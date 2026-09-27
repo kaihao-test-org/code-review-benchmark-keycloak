@@ -20,7 +20,7 @@ import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -39,7 +39,7 @@ public class PayPalIdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public PayPalIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public PayPalIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new PayPalIdentityProvider(session, new PayPalIdentityProviderConfig(model));
     }
 

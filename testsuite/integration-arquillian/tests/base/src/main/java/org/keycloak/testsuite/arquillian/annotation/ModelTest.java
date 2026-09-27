@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * The annotation on test methods. The annotated method MUST have single parameter - KeycloakSession
+ * The annotation on test methods. The annotated method MUST have single parameter - KeycloakRequestSession
  *
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */

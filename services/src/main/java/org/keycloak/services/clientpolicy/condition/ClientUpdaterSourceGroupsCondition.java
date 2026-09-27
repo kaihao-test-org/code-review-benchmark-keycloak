@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
@@ -49,7 +49,7 @@ public class ClientUpdaterSourceGroupsCondition extends AbstractClientPolicyCond
 
     private static final Logger logger = Logger.getLogger(ClientUpdaterSourceGroupsCondition.class);
 
-    public ClientUpdaterSourceGroupsCondition(KeycloakSession session) {
+    public ClientUpdaterSourceGroupsCondition(KeycloakRequestSession session) {
         super(session);
     }
 

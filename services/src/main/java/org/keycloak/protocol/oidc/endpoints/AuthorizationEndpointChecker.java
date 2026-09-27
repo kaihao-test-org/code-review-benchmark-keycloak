@@ -32,7 +32,7 @@ import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
@@ -65,7 +65,7 @@ public class AuthorizationEndpointChecker {
 
     private EventBuilder event;
     private AuthorizationEndpointRequest request;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private ClientModel client;
     private RealmModel realm;
 
@@ -89,7 +89,7 @@ public class AuthorizationEndpointChecker {
         return this;
     }
 
-    public AuthorizationEndpointChecker session(KeycloakSession session) {
+    public AuthorizationEndpointChecker session(KeycloakRequestSession session) {
         this.session = session;
         return this;
     }

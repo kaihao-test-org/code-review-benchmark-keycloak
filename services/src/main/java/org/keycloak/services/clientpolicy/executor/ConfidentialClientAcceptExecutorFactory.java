@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -32,7 +32,7 @@ public class ConfidentialClientAcceptExecutorFactory implements ClientPolicyExec
     public static final String PROVIDER_ID = "confidential-client";
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new ConfidentialClientAcceptExecutor(session);
     }
 

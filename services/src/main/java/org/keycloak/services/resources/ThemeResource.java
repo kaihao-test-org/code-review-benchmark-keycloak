@@ -33,7 +33,7 @@ import org.keycloak.common.Version;
 import org.keycloak.common.util.MimeTypeUtil;
 import org.keycloak.encoding.ResourceEncodingHelper;
 import org.keycloak.encoding.ResourceEncodingProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.services.cors.Cors;
@@ -75,7 +75,7 @@ public class ThemeResource {
     private static final Pattern RESOURCE_TAG_PATTERN = Pattern.compile("[0-9a-z]{5}");
 
     @Context
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
     /**
      * Get theme content

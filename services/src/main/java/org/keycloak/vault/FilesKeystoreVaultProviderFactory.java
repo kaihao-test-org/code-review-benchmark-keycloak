@@ -2,7 +2,7 @@ package org.keycloak.vault;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import java.lang.invoke.MethodHandles;
@@ -21,7 +21,7 @@ public class FilesKeystoreVaultProviderFactory extends AbstractVaultProviderFact
     private String keystoreType;
 
     @Override
-    public VaultProvider create(KeycloakSession session) {
+    public VaultProvider create(KeycloakRequestSession session) {
         if (keystoreFile == null) {
             logger.debug("Can not create a vault since it's not initialized correctly");
             return null;

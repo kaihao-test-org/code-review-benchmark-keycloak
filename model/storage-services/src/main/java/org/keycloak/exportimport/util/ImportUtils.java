@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.exportimport.ExportImportConfig;
 import org.keycloak.exportimport.Strategy;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -50,7 +50,7 @@ public class ImportUtils {
 
     private static final Logger logger = Logger.getLogger(ImportUtils.class);
 
-    public static void importRealms(KeycloakSession session, Collection<RealmRepresentation> realms, Strategy strategy) {
+    public static void importRealms(KeycloakRequestSession session, Collection<RealmRepresentation> realms, Strategy strategy) {
         boolean masterImported = false;
 
         // Import admin realm first
@@ -90,7 +90,7 @@ public class ImportUtils {
      * @deprecated
      */
     @Deprecated
-    public static boolean importRealm(KeycloakSession session, RealmRepresentation rep, Strategy strategy, boolean skipUserDependent) {
+    public static boolean importRealm(KeycloakRequestSession session, RealmRepresentation rep, Strategy strategy, boolean skipUserDependent) {
         return importRealm(session, rep, strategy, skipUserDependent ? null : () -> {});
     }
 
@@ -103,7 +103,7 @@ public class ImportUtils {
      * @param userImport use null to indicate additional users will not be imported
      * @return newly imported realm (or existing realm if ignoreExisting is true and realm of this name already exists)
      */
-    public static boolean importRealm(KeycloakSession session, RealmRepresentation rep, Strategy strategy, Runnable userImport) {
+    public static boolean importRealm(KeycloakRequestSession session, RealmRepresentation rep, Strategy strategy, Runnable userImport) {
         String realmName = rep.getRealm();
         RealmProvider model = session.realms();
         RealmModel realm = model.getRealmByName(realmName);
@@ -177,7 +177,7 @@ public class ImportUtils {
 
 
     // Assuming that it's invoked inside transaction
-    public static void importUsersFromStream(KeycloakSession session, String realmName, ObjectMapper mapper, InputStream is, boolean federated, Consumer<KeycloakSession> onUserCreated) throws IOException {
+    public static void importUsersFromStream(KeycloakRequestSession session, String realmName, ObjectMapper mapper, InputStream is, boolean federated, Consumer<KeycloakRequestSession> onUserCreated) throws IOException {
         RealmProvider model = session.realms();
         JsonFactory factory = mapper.getJsonFactory();
         RealmModel realm = model.getRealmByName(realmName);

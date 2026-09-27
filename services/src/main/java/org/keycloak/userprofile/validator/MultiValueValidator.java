@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.userprofile.AttributeContext;
@@ -80,7 +80,7 @@ public class MultiValueValidator implements SimpleValidator, ConfiguredProvider 
     }
 
     @Override
-    public ValidationResult validateConfig(KeycloakSession session, ValidatorConfig config) {
+    public ValidationResult validateConfig(KeycloakRequestSession session, ValidatorConfig config) {
         if (ValidatorConfig.isEmpty(config)) {
             return ValidationResult.of(new ValidationError(ID, KEY_MAX, MESSAGE_CONFIG_MISSING_VALUE));
         }

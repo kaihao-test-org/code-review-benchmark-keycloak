@@ -36,7 +36,7 @@ import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientScopeModel.ClientScopeRemovedEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.authorization.ClientScopePolicyRepresentation;
@@ -52,7 +52,7 @@ public class ClientScopePolicyProviderFactory implements PolicyProviderFactory<C
     private ClientScopePolicyProvider provider = new ClientScopePolicyProvider(this::toRepresentation);
 
     @Override
-    public PolicyProvider create(KeycloakSession session) {
+    public PolicyProvider create(KeycloakRequestSession session) {
         return provider;
     }
 
@@ -64,7 +64,7 @@ public class ClientScopePolicyProviderFactory implements PolicyProviderFactory<C
     public void postInit(KeycloakSessionFactory factory) {
         factory.register(event -> {
             if (event instanceof ClientScopeRemovedEvent) {
-                KeycloakSession keycloakSession = ((ClientScopeRemovedEvent) event).getKeycloakSession();
+                KeycloakRequestSession keycloakSession = ((ClientScopeRemovedEvent) event).getKeycloakSession();
                 AuthorizationProvider provider = keycloakSession.getProvider(AuthorizationProvider.class);
                 StoreFactory storeFactory = provider.getStoreFactory();
                 PolicyStore policyStore = storeFactory.getPolicyStore();

@@ -21,7 +21,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.cors.Cors;
 
@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class TokenExchangeContext {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final MultivaluedMap<String, String> formParams;
 
     private final Cors cors;
@@ -57,7 +57,7 @@ public class TokenExchangeContext {
     // Reason why the particular tokenExchange provider cannot be supported
     private String unsupportedReason;
 
-    public TokenExchangeContext(KeycloakSession session,
+    public TokenExchangeContext(KeycloakRequestSession session,
             MultivaluedMap<String, String> formParams,
             Cors cors,
             RealmModel realm,
@@ -79,7 +79,7 @@ public class TokenExchangeContext {
         this.clientAuthAttributes = clientAuthAttributes;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

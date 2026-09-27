@@ -21,7 +21,7 @@ import java.util.Objects;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AccountRoles;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.DefaultRequiredActions;
 
 public class MigrateTo12_0_0 implements Migration {
@@ -29,7 +29,7 @@ public class MigrateTo12_0_0 implements Migration {
     public static final ModelVersion VERSION = new ModelVersion("12.0.0");
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms()
           .getRealmsStream()
           .map(realm -> realm.getClientByClientId(Constants.ACCOUNT_MANAGEMENT_CLIENT_ID))

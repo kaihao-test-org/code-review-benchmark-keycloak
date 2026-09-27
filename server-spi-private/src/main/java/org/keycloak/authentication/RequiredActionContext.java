@@ -21,7 +21,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
 import org.keycloak.models.UserModel;
@@ -102,7 +102,7 @@ public interface RequiredActionContext {
     AuthenticationSessionModel getAuthenticationSession();
     ClientConnection getConnection();
     UriInfo getUriInfo();
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
     HttpRequest getHttpRequest();
 
     /**

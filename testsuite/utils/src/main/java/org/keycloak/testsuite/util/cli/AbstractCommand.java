@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.util.cli;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -45,7 +45,7 @@ public abstract class AbstractCommand {
             KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
                 @Override
-                public void run(KeycloakSession session) {
+                public void run(KeycloakRequestSession session) {
                     doRunCommand(session);
                 }
 
@@ -58,7 +58,7 @@ public abstract class AbstractCommand {
     }
 
     public abstract String getName();
-    protected abstract void doRunCommand(KeycloakSession session);
+    protected abstract void doRunCommand(KeycloakRequestSession session);
 
     protected String getArg(int index) {
         try {

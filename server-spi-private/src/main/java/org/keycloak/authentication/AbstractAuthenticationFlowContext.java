@@ -23,7 +23,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.FormMessage;
 import org.keycloak.services.managers.BruteForceProtector;
@@ -89,7 +89,7 @@ public interface AbstractAuthenticationFlowContext {
      *
      * @return
      */
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
 
     HttpRequest getHttpRequest();
     BruteForceProtector getProtector();

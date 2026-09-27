@@ -19,7 +19,7 @@ package org.keycloak.storage.ldap.mappers;
 
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -63,7 +63,7 @@ public class HardcodedLDAPRoleStorageMapperFactory extends AbstractLDAPStorageMa
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         String roleName = config.getConfig().getFirst(HardcodedLDAPRoleStorageMapper.ROLE);
         if (roleName == null) {
             throw new ComponentValidationException("Role can't be null");

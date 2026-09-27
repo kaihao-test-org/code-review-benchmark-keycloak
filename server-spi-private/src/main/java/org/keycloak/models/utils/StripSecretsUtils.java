@@ -19,7 +19,7 @@ package org.keycloak.models.utils;
 
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.models.ClientSecretConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.ComponentExportRepresentation;
@@ -46,12 +46,12 @@ public class StripSecretsUtils {
 
     private static final Pattern VAULT_VALUE = Pattern.compile("^\\$\\{vault\\.(.+?)}$");
 
-    private static final Map<Class<?>, BiConsumer<KeycloakSession, Object>> REPRESENTATION_FORMATTER = new HashMap<>();
+    private static final Map<Class<?>, BiConsumer<KeycloakRequestSession, Object>> REPRESENTATION_FORMATTER = new HashMap<>();
 
     /** interface to encapsulate the getComponentProperties() function in order to make the code unit-testable
      */
     protected interface GetComponentPropertiesFn {
-        Map<String, ProviderConfigProperty> getComponentProperties(KeycloakSession session, String providerType, String providerId);
+        Map<String, ProviderConfigProperty> getComponentProperties(KeycloakRequestSession session, String providerType, String providerId);
     }
 
     static {
@@ -63,8 +63,8 @@ public class StripSecretsUtils {
         REPRESENTATION_FORMATTER.put(CredentialRepresentation.class, (session, o) -> StripSecretsUtils.stripCredentials((CredentialRepresentation) o));
     }
 
-    public static <T> T stripSecrets(KeycloakSession session, T representation) {
-        BiConsumer<KeycloakSession, Object> formatter = REPRESENTATION_FORMATTER.get(representation.getClass());
+    public static <T> T stripSecrets(KeycloakRequestSession session, T representation) {
+        BiConsumer<KeycloakRequestSession, Object> formatter = REPRESENTATION_FORMATTER.get(representation.getClass());
 
         if (formatter == null) {
             return representation;
@@ -89,7 +89,7 @@ public class StripSecretsUtils {
         return rep;
     }
 
-    private static ComponentRepresentation stripComponent(KeycloakSession session, ComponentRepresentation rep) {
+    private static ComponentRepresentation stripComponent(KeycloakRequestSession session, ComponentRepresentation rep) {
         Map<String, ProviderConfigProperty> configProperties = ComponentUtil.getComponentConfigProperties(session, rep);
         return stripComponent(configProperties, rep);
     }
@@ -138,10 +138,10 @@ public class StripSecretsUtils {
         return rep;
     }
 
-    private static void stripRealm(KeycloakSession session, RealmRepresentation rep) {
+    private static void stripRealm(KeycloakRequestSession session, RealmRepresentation rep) {
         stripRealm(session, rep, ComponentUtil::getComponentConfigProperties);
     }
-    protected static void stripRealm(KeycloakSession session, RealmRepresentation rep, GetComponentPropertiesFn fnGetConfigProperties) {
+    protected static void stripRealm(KeycloakRequestSession session, RealmRepresentation rep, GetComponentPropertiesFn fnGetConfigProperties) {
         stripRealm(rep);
 
         Optional.ofNullable(rep.getClients())
@@ -176,10 +176,10 @@ public class StripSecretsUtils {
         return rep;
     }
 
-    private static ComponentExportRepresentation stripComponentExport(KeycloakSession session, String providerType, ComponentExportRepresentation rep) {
+    private static ComponentExportRepresentation stripComponentExport(KeycloakRequestSession session, String providerType, ComponentExportRepresentation rep) {
         return stripComponentExport(session, providerType, rep, ComponentUtil::getComponentConfigProperties);
     }
-    private static ComponentExportRepresentation stripComponentExport(KeycloakSession session, String providerType, ComponentExportRepresentation rep, GetComponentPropertiesFn fnGetConfigProperties) {
+    private static ComponentExportRepresentation stripComponentExport(KeycloakRequestSession session, String providerType, ComponentExportRepresentation rep, GetComponentPropertiesFn fnGetConfigProperties) {
         Map<String, ProviderConfigProperty> configProperties = fnGetConfigProperties.getComponentProperties(session, providerType, rep.getProviderId());
 
         if (rep.getConfig() != null) {

@@ -19,7 +19,7 @@ package org.keycloak.models.sessions.infinispan;
 
 import org.infinispan.Cache;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.connections.infinispan.InfinispanUtil;
 import org.keycloak.sessions.StickySessionEncoderProvider;
 
@@ -28,10 +28,10 @@ import org.keycloak.sessions.StickySessionEncoderProvider;
  */
 public class InfinispanStickySessionEncoderProvider implements StickySessionEncoderProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final boolean shouldAttachRoute;
 
-    public InfinispanStickySessionEncoderProvider(KeycloakSession session, boolean shouldAttachRoute) {
+    public InfinispanStickySessionEncoderProvider(KeycloakRequestSession session, boolean shouldAttachRoute) {
         this.session = session;
         this.shouldAttachRoute = shouldAttachRoute;
     }

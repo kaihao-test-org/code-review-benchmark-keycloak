@@ -33,7 +33,7 @@ import org.keycloak.authorization.policy.evaluation.DefaultEvaluation;
 import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -126,7 +126,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
     @Test
     public void testCheckDateAndTime() {testingClient.server().run(PolicyEvaluationTest::testCheckDateAndTime);}
 
-    public static void testCheckDateAndTime(KeycloakSession session) {
+    public static void testCheckDateAndTime(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -161,7 +161,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserInGroup);
     }
 
-    public static void testCheckUserInGroup(KeycloakSession session) {
+    public static void testCheckUserInGroup(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -284,7 +284,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserInRole);
     }
 
-    public static void testCheckUserInRole(KeycloakSession session) {
+    public static void testCheckUserInRole(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -323,7 +323,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserInClientRole);
     }
 
-    public static void testCheckUserInClientRole(KeycloakSession session) {
+    public static void testCheckUserInClientRole(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -361,7 +361,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckGroupInRole);
     }
 
-    public static void testCheckGroupInRole(KeycloakSession session) {
+    public static void testCheckGroupInRole(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -400,7 +400,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserRealmRoles);
     }
 
-    public static void testCheckUserRealmRoles(KeycloakSession session) {
+    public static void testCheckUserRealmRoles(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -426,7 +426,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserClientRoles);
     }
 
-    public static void testCheckUserClientRoles(KeycloakSession session) {
+    public static void testCheckUserClientRoles(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -452,7 +452,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserGroups);
     }
 
-    public static void testCheckUserGroups(KeycloakSession session) {
+    public static void testCheckUserGroups(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -478,7 +478,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckUserAttributes);
     }
 
-    public static void testCheckUserAttributes(KeycloakSession session) {
+    public static void testCheckUserAttributes(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName("authz-test");
         UserModel jdoe = session.users().getUserByUsername(realm, "jdoe");
 
@@ -510,7 +510,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckResourceAttributes);
     }
 
-    public static void testCheckResourceAttributes(KeycloakSession session) {
+    public static void testCheckResourceAttributes(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -540,7 +540,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCheckReadOnlyInstances);
     }
 
-    public static void testCheckReadOnlyInstances(KeycloakSession session) {
+    public static void testCheckReadOnlyInstances(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -582,7 +582,7 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         testingClient.server().run(PolicyEvaluationTest::testCachedDecisionsWithNegativePolicies);
     }
 
-    public static void testCachedDecisionsWithNegativePolicies(KeycloakSession session) {
+    public static void testCachedDecisionsWithNegativePolicies(KeycloakRequestSession session) {
         session.getContext().setRealm(session.realms().getRealmByName("authz-test"));
         AuthorizationProvider authorization = session.getProvider(AuthorizationProvider.class);
         ClientModel clientModel = session.clients().getClientByClientId(session.getContext().getRealm(), "resource-server-test");
@@ -624,21 +624,21 @@ public class PolicyEvaluationTest extends AbstractAuthzTest {
         Assert.assertEquals(0, permissions.size());
     }
 
-    private static DefaultEvaluation createEvaluation(KeycloakSession session, AuthorizationProvider authorization, ResourceServer resourceServer, Policy policy) {
+    private static DefaultEvaluation createEvaluation(KeycloakRequestSession session, AuthorizationProvider authorization, ResourceServer resourceServer, Policy policy) {
         return createEvaluation(session, authorization, null, resourceServer, policy);
     }
 
-    private static DefaultEvaluation createEvaluation(KeycloakSession session, AuthorizationProvider authorization, Resource resource, ResourceServer resourceServer, Policy policy) {
+    private static DefaultEvaluation createEvaluation(KeycloakRequestSession session, AuthorizationProvider authorization, Resource resource, ResourceServer resourceServer, Policy policy) {
         return createEvaluation(session, authorization, resource, resourceServer, policy, null);
     }
 
-    private static DefaultEvaluation createEvaluation(KeycloakSession session, AuthorizationProvider authorization,
+    private static DefaultEvaluation createEvaluation(KeycloakRequestSession session, AuthorizationProvider authorization,
                                                       Resource resource, ResourceServer resourceServer, Policy policy,
                                                       Map<String, Collection<String>> contextAttributes) {
         return new DefaultEvaluation(new ResourcePermission(resource, null, resourceServer), createEvaluationContext(session, contextAttributes), policy, evaluation -> {}, authorization, null);
     }
 
-    private static DefaultEvaluationContext createEvaluationContext(KeycloakSession session, Map<String, Collection<String>> contextAttributes) {
+    private static DefaultEvaluationContext createEvaluationContext(KeycloakRequestSession session, Map<String, Collection<String>> contextAttributes) {
         return new DefaultEvaluationContext(new Identity() {
             @Override
             public String getId() {

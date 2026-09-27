@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
@@ -65,7 +65,7 @@ public class FederatedUserTest extends KeycloakModelTest {
     }
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         inComittedTransaction(session -> {
             RealmModel realm = session.realms().createRealm("realm");
             s.getContext().setRealm(realm);
@@ -96,7 +96,7 @@ public class FederatedUserTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         final RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
 
@@ -107,7 +107,7 @@ public class FederatedUserTest extends KeycloakModelTest {
         s.realms().removeRealm(realmId);
     }
 
-    private record TestContext (KeycloakSession session, RealmModel realm, String previousUserId, String previousLdapId) {};
+    private record TestContext (KeycloakRequestSession session, RealmModel realm, String previousUserId, String previousLdapId) {};
 
     private void assertAttributeDifferentThanExternalStorage(Consumer<TestContext> assertion) {
         // create user1 in LDAP
@@ -131,7 +131,7 @@ public class FederatedUserTest extends KeycloakModelTest {
             return null;
         });
 
-        withRealm(realmId, (BiFunction<KeycloakSession, RealmModel, Void>) (session, realm) -> {
+        withRealm(realmId, (BiFunction<KeycloakRequestSession, RealmModel, Void>) (session, realm) -> {
             assertion.accept(new TestContext(session, realm, previous, ldapId));
             return null;
         });
@@ -147,7 +147,7 @@ public class FederatedUserTest extends KeycloakModelTest {
         });
 
         assertAttributeDifferentThanExternalStorage((context) -> {
-            KeycloakSession session = context.session();
+            KeycloakRequestSession session = context.session();
             RealmModel realm = context.realm();
             UserModel cached = session.users().getUserByUsername(realm, "user1");
             assertThat(cached, nullValue());
@@ -170,7 +170,7 @@ public class FederatedUserTest extends KeycloakModelTest {
         });
 
         assertAttributeDifferentThanExternalStorage((context) -> {
-            KeycloakSession session = context.session();
+            KeycloakRequestSession session = context.session();
             RealmModel realm = context.realm();
             // cache not yet invalidated, set a max lifespan if you want to eventually invalidate federated users
             UserModel cached = session.users().getUserByUsername(realm, "user1");
@@ -198,7 +198,7 @@ public class FederatedUserTest extends KeycloakModelTest {
         });
 
         assertAttributeDifferentThanExternalStorage((context) -> {
-            KeycloakSession session = context.session();
+            KeycloakRequestSession session = context.session();
             RealmModel realm = context.realm();
             UserModel cached = session.users().getUserByUsername(realm, "user1");
             assertThat(cached, notNullValue());

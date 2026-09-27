@@ -18,7 +18,7 @@
 package org.keycloak.authorization.config;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.wellknown.WellKnownProvider;
 import org.keycloak.wellknown.WellKnownProviderFactory;
@@ -31,7 +31,7 @@ public class UmaWellKnownProviderFactory implements WellKnownProviderFactory {
     public static final String PROVIDER_ID = "uma2-configuration";
 
     @Override
-    public WellKnownProvider create(KeycloakSession session) {
+    public WellKnownProvider create(KeycloakRequestSession session) {
         return new UmaWellKnownProvider(session);
     }
 

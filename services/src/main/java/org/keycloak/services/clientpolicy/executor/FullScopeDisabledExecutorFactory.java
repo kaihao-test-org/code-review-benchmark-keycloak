@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -42,7 +42,7 @@ public class FullScopeDisabledExecutorFactory implements ClientPolicyExecutorPro
             "If off, the clients are validated to not have fullScopeAllowed enabled during create/update client", ProviderConfigProperty.BOOLEAN_TYPE, true);
 
     @Override
-    public FullScopeDisabledExecutor create(KeycloakSession session) {
+    public FullScopeDisabledExecutor create(KeycloakRequestSession session) {
         return new FullScopeDisabledExecutor();
     }
 

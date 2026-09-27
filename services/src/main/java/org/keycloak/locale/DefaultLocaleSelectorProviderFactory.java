@@ -17,12 +17,12 @@
 package org.keycloak.locale;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class DefaultLocaleSelectorProviderFactory implements LocaleSelectorProviderFactory {
     @Override
-    public LocaleSelectorProvider create(KeycloakSession session) {
+    public LocaleSelectorProvider create(KeycloakRequestSession session) {
         return new DefaultLocaleSelectorProvider(session);
     }
 

@@ -4,7 +4,7 @@ import org.keycloak.broker.oidc.KeycloakOIDCIdentityProvider;
 import org.keycloak.broker.oidc.KeycloakOIDCIdentityProviderFactory;
 import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.provider.IdentityProviderMapper;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class OverwrittenMappersTestIdentityProvider extends KeycloakOIDCIdentityProvider {
 
-    public OverwrittenMappersTestIdentityProvider(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public OverwrittenMappersTestIdentityProvider(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         super(session, config);
     }
 

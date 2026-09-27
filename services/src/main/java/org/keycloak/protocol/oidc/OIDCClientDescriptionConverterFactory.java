@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc;
 import org.keycloak.Config;
 import org.keycloak.exportimport.ClientDescriptionConverter;
 import org.keycloak.exportimport.ClientDescriptionConverterFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -37,7 +37,7 @@ public class OIDCClientDescriptionConverterFactory implements ClientDescriptionC
     }
 
     @Override
-    public ClientDescriptionConverter create(KeycloakSession session) {
+    public ClientDescriptionConverter create(KeycloakRequestSession session) {
         return new OIDCClientDescriptionConverter(session);
     }
 

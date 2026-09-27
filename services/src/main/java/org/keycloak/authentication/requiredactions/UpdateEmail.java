@@ -43,7 +43,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsPages;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.forms.login.freemarker.Templates;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
@@ -94,7 +94,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
         return isVerifyEmailEnabled(realm, config);
     }
 
-    public static void forceEmailVerification(KeycloakSession session) {
+    public static void forceEmailVerification(KeycloakRequestSession session) {
         session.setAttribute(FORCE_EMAIL_VERIFICATION, true);
     }
 
@@ -121,7 +121,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
     @Override
     public void requiredActionChallenge(RequiredActionContext context) {
         if (isEnabled(context.getRealm())) {
-            KeycloakSession session = context.getSession();
+            KeycloakRequestSession session = context.getSession();
 
             if (session.getAttributeOrDefault(FORCE_EMAIL_VERIFICATION, Boolean.FALSE)) {
                 sendEmailUpdateConfirmation(context, false);
@@ -174,7 +174,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
         int validityInSecs = realm.getActionTokenGeneratedByUserLifespan(UpdateEmailActionToken.TOKEN_TYPE);
 
         UriInfo uriInfo = context.getUriInfo();
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         AuthenticationSessionModel authenticationSession = context.getAuthenticationSession();
 
         UpdateEmailActionToken actionToken = new UpdateEmailActionToken(user.getId(), Time.currentTime() + validityInSecs,
@@ -209,7 +209,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
         context.success();
     }
 
-    public static UserProfile validateEmailUpdate(KeycloakSession session, UserModel user, String newEmail) {
+    public static UserProfile validateEmailUpdate(KeycloakRequestSession session, UserModel user, String newEmail) {
         MultivaluedMap<String, String> formData = new MultivaluedHashMap<>();
         formData.putSingle(UserModel.USERNAME, user.getUsername());
         formData.putSingle(UserModel.EMAIL, newEmail);
@@ -228,7 +228,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
     }
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -253,7 +253,7 @@ public class UpdateEmail implements RequiredActionProvider, RequiredActionFactor
     }
 
     @Override
-    public int getMaxAuthAge(KeycloakSession session) {
+    public int getMaxAuthAge(KeycloakRequestSession session) {
         // always require re-authentication
         return 0;
     }

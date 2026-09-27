@@ -18,7 +18,7 @@ package org.keycloak.models.cache.infinispan;
 
 import java.util.function.Supplier;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * <p>A functional interface that can be used to return data {@code D} from a source {@code S} where implementations are free to define how and when
@@ -39,5 +39,5 @@ public interface LazyLoader<S, D> {
      * @param source the source from where data will be fetched.
      * @return the data from source
      */
-    D get(KeycloakSession session, Supplier<S> source);
+    D get(KeycloakRequestSession session, Supplier<S> source);
 }

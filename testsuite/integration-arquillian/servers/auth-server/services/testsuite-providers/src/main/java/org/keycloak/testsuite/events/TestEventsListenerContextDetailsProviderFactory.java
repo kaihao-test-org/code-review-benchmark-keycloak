@@ -20,7 +20,7 @@ package org.keycloak.testsuite.events;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -38,7 +38,7 @@ public class TestEventsListenerContextDetailsProviderFactory implements EventLis
     public static final String CONTEXT_CLIENT_DETAIL = "context.clientId";
 
     @Override
-    public EventListenerProvider create(KeycloakSession session) {
+    public EventListenerProvider create(KeycloakRequestSession session) {
         return new TestEventsListenerContextDetailsProvider(session);
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.credential;
 
 import com.webauthn4j.converter.util.ObjectConverter;
 import org.keycloak.authentication.requiredactions.WebAuthnPasswordlessRegisterFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.WebAuthnPolicy;
 import org.keycloak.models.credential.WebAuthnCredentialModel;
 
@@ -31,7 +31,7 @@ import org.keycloak.models.credential.WebAuthnCredentialModel;
  */
 public class WebAuthnPasswordlessCredentialProvider extends WebAuthnCredentialProvider {
 
-    public WebAuthnPasswordlessCredentialProvider(KeycloakSession session, ObjectConverter objectConverter) {
+    public WebAuthnPasswordlessCredentialProvider(KeycloakRequestSession session, ObjectConverter objectConverter) {
         super(session, objectConverter);
     }
 

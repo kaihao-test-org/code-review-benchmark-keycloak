@@ -21,7 +21,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSecretConstants;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -67,7 +67,7 @@ public class OIDCClientRegistrationProvider extends AbstractClientRegistrationPr
 
     private static final Logger logger = Logger.getLogger(OIDCClientRegistrationProvider.class);
 
-    public OIDCClientRegistrationProvider(KeycloakSession session) {
+    public OIDCClientRegistrationProvider(KeycloakRequestSession session) {
         super(session);
     }
 

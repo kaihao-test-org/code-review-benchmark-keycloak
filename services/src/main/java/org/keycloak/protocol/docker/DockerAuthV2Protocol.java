@@ -10,7 +10,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ClientData;
@@ -41,7 +41,7 @@ public class DockerAuthV2Protocol implements LoginProtocol {
     public static final String ISSUER = "docker.iss"; // don't want to overlap with OIDC notes
     public static final String ISO_8601_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private RealmModel realm;
     private UriInfo uriInfo;
     private HttpHeaders headers;
@@ -50,7 +50,7 @@ public class DockerAuthV2Protocol implements LoginProtocol {
     public DockerAuthV2Protocol() {
     }
 
-    public DockerAuthV2Protocol(final KeycloakSession session, final RealmModel realm, final UriInfo uriInfo, final HttpHeaders headers, final EventBuilder event) {
+    public DockerAuthV2Protocol(final KeycloakRequestSession session, final RealmModel realm, final UriInfo uriInfo, final HttpHeaders headers, final EventBuilder event) {
         this.session = session;
         this.realm = realm;
         this.uriInfo = uriInfo;
@@ -59,7 +59,7 @@ public class DockerAuthV2Protocol implements LoginProtocol {
     }
 
     @Override
-    public LoginProtocol setSession(final KeycloakSession session) {
+    public LoginProtocol setSession(final KeycloakRequestSession session) {
         this.session = session;
         return this;
     }

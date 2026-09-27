@@ -16,7 +16,7 @@
  */
 package org.keycloak.component;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.Provider;
@@ -32,10 +32,10 @@ import java.util.Map;
  * @version $Revision: 1 $
  */
 public interface ComponentFactory<CreatedType, ProviderType extends Provider> extends ProviderFactory<ProviderType>, ConfiguredProvider {
-    CreatedType create(KeycloakSession session, ComponentModel model);
+    CreatedType create(KeycloakRequestSession session, ComponentModel model);
 
     @Override
-    default ProviderType create(KeycloakSession session) {
+    default ProviderType create(KeycloakRequestSession session) {
         return null;
     }
 
@@ -48,7 +48,7 @@ public interface ComponentFactory<CreatedType, ProviderType extends Provider> ex
      * @throws ComponentValidationException
      */
     default
-    void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException
+    void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException
     {
 
     }
@@ -61,7 +61,7 @@ public interface ComponentFactory<CreatedType, ProviderType extends Provider> ex
      * @param model
      */
     default
-    void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
 
     }
 
@@ -75,7 +75,7 @@ public interface ComponentFactory<CreatedType, ProviderType extends Provider> ex
      * @param newModel new configuration
      */
     default
-    void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
 
     }
 
@@ -87,7 +87,7 @@ public interface ComponentFactory<CreatedType, ProviderType extends Provider> ex
      * @param model model of the component, which is going to be removed
      */
     default
-    void preRemove(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    void preRemove(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
 
     }
 

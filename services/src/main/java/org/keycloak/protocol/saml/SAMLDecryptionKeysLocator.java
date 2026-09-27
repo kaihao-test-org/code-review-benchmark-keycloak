@@ -28,7 +28,7 @@ import org.apache.xml.security.keys.content.KeyName;
 import org.keycloak.common.util.DerUtils;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.KeyWrapper;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.saml.processing.core.util.XMLEncryptionUtil;
 
@@ -72,11 +72,11 @@ import java.util.stream.Stream;
  */
 public class SAMLDecryptionKeysLocator implements XMLEncryptionUtil.DecryptionKeyLocator {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final String requestedAlgorithm;
 
-    public SAMLDecryptionKeysLocator(KeycloakSession session, RealmModel realm, String requestedAlgorithm) {
+    public SAMLDecryptionKeysLocator(KeycloakRequestSession session, RealmModel realm, String requestedAlgorithm) {
         this.session = session;
         this.realm = realm;
         this.requestedAlgorithm = requestedAlgorithm;

@@ -26,7 +26,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
@@ -37,10 +37,10 @@ public class SecureSigningAlgorithmForSignedJwtExecutor implements ClientPolicyE
 
     private static final Logger logger = Logger.getLogger(SecureSigningAlgorithmForSignedJwtExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public SecureSigningAlgorithmForSignedJwtExecutor(KeycloakSession session) {
+    public SecureSigningAlgorithmForSignedJwtExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

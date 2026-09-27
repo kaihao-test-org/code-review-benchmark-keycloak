@@ -23,7 +23,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.ClientProvider;
 import org.keycloak.models.ClientProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.jpa.entities.RealmAttributes;
@@ -68,7 +68,7 @@ public class JpaClientProviderFactory implements ClientProviderFactory {
             factory.register(event -> {
                 if (event instanceof RealmModel.RealmAttributeUpdateEvent attrUpdateEvent) {
                     if (Objects.equals(attrUpdateEvent.getAttributeName(), RealmAttributes.ADMIN_PERMISSIONS_ENABLED) && Boolean.parseBoolean(attrUpdateEvent.getAttributeValue())) {
-                        KeycloakSession keycloakSession = attrUpdateEvent.getKeycloakSession();
+                        KeycloakRequestSession keycloakSession = attrUpdateEvent.getKeycloakSession();
                         RealmModel realm = attrUpdateEvent.getRealm();
                         AdminPermissionsSchema.SCHEMA.init(keycloakSession, realm);
                     }
@@ -83,7 +83,7 @@ public class JpaClientProviderFactory implements ClientProviderFactory {
     }
 
     @Override
-    public ClientProvider create(KeycloakSession session) {
+    public ClientProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaRealmProvider(session, em, clientSearchableAttributes, null);
     }

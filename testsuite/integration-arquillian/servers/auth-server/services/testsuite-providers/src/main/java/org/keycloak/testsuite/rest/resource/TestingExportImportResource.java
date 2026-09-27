@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.rest.resource;
 
 import org.keycloak.exportimport.ExportImportManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -45,10 +45,10 @@ import org.keycloak.exportimport.Strategy;
  */
 public class TestingExportImportResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private static String tempDir;
 
-    public TestingExportImportResource(KeycloakSession session) {
+    public TestingExportImportResource(KeycloakRequestSession session) {
         this.session = session;
     }
 

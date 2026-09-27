@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.Version;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.platform.Platform;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -25,7 +25,7 @@ public class GzipResourceEncodingProviderFactory implements ResourceEncodingProv
     private File cacheDir;
 
     @Override
-    public ResourceEncodingProvider create(KeycloakSession session) {
+    public ResourceEncodingProvider create(KeycloakRequestSession session) {
         if (cacheDir == null) {
             cacheDir = initCacheDir();
         }

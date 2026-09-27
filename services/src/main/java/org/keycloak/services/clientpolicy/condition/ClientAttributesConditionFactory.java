@@ -17,7 +17,7 @@
 
 package org.keycloak.services.clientpolicy.condition;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ClientAttributesConditionFactory extends AbstractClientPolicyCondit
     }
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new ClientAttributesCondition(session);
     }
 

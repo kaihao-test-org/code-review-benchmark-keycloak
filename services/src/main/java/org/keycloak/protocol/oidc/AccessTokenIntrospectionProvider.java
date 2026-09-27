@@ -33,7 +33,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
 import org.keycloak.models.ImpersonationSessionNote;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -53,7 +53,7 @@ import jakarta.ws.rs.core.Response;
  */
 public class AccessTokenIntrospectionProvider<T extends AccessToken> implements TokenIntrospectionProvider {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final TokenManager tokenManager;
     protected final RealmModel realm;
     private static final Logger logger = Logger.getLogger(AccessTokenIntrospectionProvider.class);
@@ -65,7 +65,7 @@ public class AccessTokenIntrospectionProvider<T extends AccessToken> implements 
     protected UserSessionModel userSession;
     protected UserModel user;
 
-    public AccessTokenIntrospectionProvider(KeycloakSession session) {
+    public AccessTokenIntrospectionProvider(KeycloakRequestSession session) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.tokenManager = new TokenManager();

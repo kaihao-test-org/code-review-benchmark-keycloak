@@ -20,7 +20,7 @@ package org.keycloak.testsuite.domainextension.jpa;
 import org.keycloak.Config.Scope;
 import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
 import org.keycloak.connections.jpa.entityprovider.JpaEntityProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -33,7 +33,7 @@ public class ExampleJpaEntityProviderFactory implements JpaEntityProviderFactory
 	protected static final String ID = "example-entity-provider";
 	
     @Override
-    public JpaEntityProvider create(KeycloakSession session) {
+    public JpaEntityProvider create(KeycloakRequestSession session) {
         return new ExampleJpaEntityProvider();
     }
 

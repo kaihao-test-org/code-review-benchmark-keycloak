@@ -30,7 +30,7 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.delegate.ClientModelLazyDelegate;
@@ -49,7 +49,7 @@ public class AdminEventQueryTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -57,7 +57,7 @@ public class AdminEventQueryTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         EventStoreProvider eventStore = s.getProvider(EventStoreProvider.class);
@@ -143,7 +143,7 @@ public class AdminEventQueryTest extends KeycloakModelTest {
         });
     }
 
-    private AdminEvent createClientEvent(RealmModel realm, KeycloakSession session, OperationType operation) {
+    private AdminEvent createClientEvent(RealmModel realm, KeycloakRequestSession session, OperationType operation) {
         return new AdminEventBuilder(realm, new DummyAuth(realm), session, DummyClientConnection.DUMMY_CONNECTION)
                 .resource(ResourceType.CLIENT).operation(operation).getEvent();
     }

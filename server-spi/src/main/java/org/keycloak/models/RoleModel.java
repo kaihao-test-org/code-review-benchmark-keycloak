@@ -37,7 +37,7 @@ public interface RoleModel {
          * @return the Client ID of the client, for a client role; {@code null}, for a realm role
          */
         String getClientId();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     String getName();

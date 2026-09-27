@@ -24,7 +24,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
 import org.keycloak.models.UserModel;
@@ -44,7 +44,7 @@ public class RequiredActionContextResult implements RequiredActionContext {
     protected AuthenticationSessionModel authenticationSession;
     protected RealmModel realm;
     protected EventBuilder eventBuilder;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected Status status;
     protected String errorMessage;
     protected Response challenge;
@@ -54,7 +54,7 @@ public class RequiredActionContextResult implements RequiredActionContext {
     protected RequiredActionConfigModel config;
 
     public RequiredActionContextResult(AuthenticationSessionModel authSession,
-                                       RealmModel realm, EventBuilder eventBuilder, KeycloakSession session,
+                                       RealmModel realm, EventBuilder eventBuilder, KeycloakRequestSession session,
                                        HttpRequest httpRequest,
                                        UserModel user, RequiredActionFactory factory) {
         this.authenticationSession = authSession;
@@ -107,7 +107,7 @@ public class RequiredActionContextResult implements RequiredActionContext {
     }
 
     @Override
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

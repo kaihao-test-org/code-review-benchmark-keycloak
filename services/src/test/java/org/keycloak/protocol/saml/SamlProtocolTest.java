@@ -55,7 +55,7 @@ public class SamlProtocolTest {
     private static final KeyPair rsaKeyPair;
 
     // reference RedirectUtilsTest
-    private static KeycloakSession session;
+    private static KeycloakRequestSession session;
 
     @BeforeClass
     public static void beforeClass() {

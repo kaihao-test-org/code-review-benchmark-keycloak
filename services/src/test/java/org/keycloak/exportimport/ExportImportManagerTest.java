@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.Provider;
 import org.keycloak.services.DefaultKeycloakContext;
 import org.keycloak.services.DefaultKeycloakSession;
@@ -28,13 +28,13 @@ public class ExportImportManagerTest {
         new ExportImportManager(new DefaultKeycloakSession(new DefaultKeycloakSessionFactory() {
 
             @Override
-            public KeycloakSession create() {
+            public KeycloakRequestSession create() {
                 return null;
             }
         }) {
 
             @Override
-            protected DefaultKeycloakContext createKeycloakContext(KeycloakSession session) {
+            protected DefaultKeycloakContext createKeycloakContext(KeycloakRequestSession session) {
                 return null;
             }
 
@@ -50,7 +50,7 @@ public class ExportImportManagerTest {
         new ExportImportManager(new DefaultKeycloakSession(null) {
 
             @Override
-            protected DefaultKeycloakContext createKeycloakContext(KeycloakSession session) {
+            protected DefaultKeycloakContext createKeycloakContext(KeycloakRequestSession session) {
                 return null;
             }
 

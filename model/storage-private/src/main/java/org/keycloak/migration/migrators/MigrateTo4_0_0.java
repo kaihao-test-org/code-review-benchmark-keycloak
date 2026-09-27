@@ -25,7 +25,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.DefaultClientScopes;
@@ -47,17 +47,17 @@ public class MigrateTo4_0_0 implements Migration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> migrateRealm(session, realm, false));
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealm(session, realm, true);
     }
 
 
-    protected void migrateRealm(KeycloakSession session, RealmModel realm, boolean json) {
+    protected void migrateRealm(KeycloakRequestSession session, RealmModel realm, boolean json) {
         // Upgrade names of clientScopes to not contain space
         realm.getClientScopesStream()
                 .filter(clientScope -> clientScope.getName().contains(" "))

@@ -18,7 +18,7 @@
 package org.keycloak.authorization.protection.introspect;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.TokenIntrospectionProvider;
 import org.keycloak.protocol.oidc.TokenIntrospectionProviderFactory;
@@ -28,7 +28,7 @@ import org.keycloak.protocol.oidc.TokenIntrospectionProviderFactory;
  */
 public class RPTIntrospectionProviderFactory implements TokenIntrospectionProviderFactory {
     @Override
-    public TokenIntrospectionProvider create(KeycloakSession session) {
+    public TokenIntrospectionProvider create(KeycloakRequestSession session) {
         return new RPTIntrospectionProvider(session);
     }
 

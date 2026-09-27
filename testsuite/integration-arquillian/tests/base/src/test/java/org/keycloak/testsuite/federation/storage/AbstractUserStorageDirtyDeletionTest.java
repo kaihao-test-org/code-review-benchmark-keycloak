@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.keycloak.admin.client.resource.GroupResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ComponentRepresentation;
@@ -41,7 +41,7 @@ public abstract class AbstractUserStorageDirtyDeletionTest extends AbstractConcu
 
     private List<Creator<UserResource>> createdUsers;
 
-    public static void remove20UsersFromStorageProvider(KeycloakSession session) {
+    public static void remove20UsersFromStorageProvider(KeycloakRequestSession session) {
         assertThat(REMOVED_USERS_COUNT, Matchers.lessThan(NUM_USERS));
         final RealmModel realm = session.realms().getRealmByName(TEST_REALM_NAME);
         UserStorageProvidersTestUtils.getEnabledStorageProviders(session, realm, UserMapStorage.class)

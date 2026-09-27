@@ -22,7 +22,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -47,12 +47,12 @@ public class GeneratedHmacKeyProviderFactory extends AbstractGeneratedSecretKeyP
             .build();
 
     @Override
-    public GeneratedHmacKeyProvider create(KeycloakSession session, ComponentModel model) {
+    public GeneratedHmacKeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new GeneratedHmacKeyProvider(model);
     }
 
     @Override
-    public boolean createFallbackKeys(KeycloakSession session, KeyUse keyUse, String algorithm) {
+    public boolean createFallbackKeys(KeycloakRequestSession session, KeyUse keyUse, String algorithm) {
         if (keyUse.equals(KeyUse.SIG) && (algorithm.equals(Algorithm.HS256) || algorithm.equals(Algorithm.HS384) || algorithm.equals(Algorithm.HS512))) {
             RealmModel realm = session.getContext().getRealm();
 

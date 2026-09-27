@@ -1,6 +1,6 @@
 package org.keycloak.credential.hash;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Provider factory for SHA512 variant of the PBKDF2 password hash algorithm.
@@ -19,7 +19,7 @@ public class Pbkdf2Sha512PasswordHashProviderFactory extends AbstractPbkdf2Passw
     public static final int DEFAULT_ITERATIONS = 210_000;
 
     @Override
-    public PasswordHashProvider create(KeycloakSession session) {
+    public PasswordHashProvider create(KeycloakRequestSession session) {
         return new Pbkdf2PasswordHashProvider(ID, PBKDF2_ALGORITHM, DEFAULT_ITERATIONS, getMaxPaddingLength());
     }
 

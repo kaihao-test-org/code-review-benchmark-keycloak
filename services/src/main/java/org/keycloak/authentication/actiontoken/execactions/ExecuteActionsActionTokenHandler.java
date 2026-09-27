@@ -79,7 +79,7 @@ public class ExecuteActionsActionTokenHandler extends AbstractActionTokenHandler
         AuthenticationSessionModel authSession = tokenContext.getAuthenticationSession();
         final UriInfo uriInfo = tokenContext.getUriInfo();
         final RealmModel realm = tokenContext.getRealm();
-        final KeycloakSession session = tokenContext.getSession();
+        final KeycloakRequestSession session = tokenContext.getSession();
         if (tokenContext.isAuthenticationSessionFresh()) {
             // Update the authentication session in the token
             String authSessionEncodedId = AuthenticationSessionCompoundId.fromAuthSession(authSession).getEncodedId();

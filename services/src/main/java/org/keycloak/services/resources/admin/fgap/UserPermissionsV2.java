@@ -28,7 +28,7 @@ import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.model.Resource;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.resources.admin.fgap.ModelRecord.UserModelRecord;
 
@@ -36,7 +36,7 @@ class UserPermissionsV2 extends UserPermissions {
 
     private final FineGrainedAdminPermissionEvaluator eval;
 
-    UserPermissionsV2(KeycloakSession session, AuthorizationProvider authz, MgmtPermissionsV2 root) {
+    UserPermissionsV2(KeycloakRequestSession session, AuthorizationProvider authz, MgmtPermissionsV2 root) {
         super(session, authz, root);
         this.eval = new FineGrainedAdminPermissionEvaluator(session, root, resourceStore, policyStore);
     }

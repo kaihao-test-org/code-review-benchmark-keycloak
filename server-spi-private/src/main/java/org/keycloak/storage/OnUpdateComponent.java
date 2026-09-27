@@ -17,7 +17,7 @@
 package org.keycloak.storage;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 /**
@@ -28,5 +28,5 @@ import org.keycloak.models.RealmModel;
  * @version $Revision: 1 $
  */
 public interface OnUpdateComponent {
-    void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel);
+    void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel);
 }

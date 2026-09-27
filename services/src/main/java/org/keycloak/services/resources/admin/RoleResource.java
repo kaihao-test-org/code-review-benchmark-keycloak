@@ -20,7 +20,7 @@ package org.keycloak.services.resources.admin;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -59,7 +59,7 @@ public abstract class RoleResource {
     }
 
     protected void updateRole(RoleRepresentation rep, RoleModel role, RealmModel realm,
-            KeycloakSession session) {
+            KeycloakRequestSession session) {
         String newName = rep.getName();
         String previousName = role.getName();
         if (!Objects.equals(previousName, newName)) {
@@ -91,7 +91,7 @@ public abstract class RoleResource {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });

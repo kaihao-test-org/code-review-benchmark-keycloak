@@ -17,7 +17,7 @@
 
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderEvent;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -35,23 +35,23 @@ import org.keycloak.representations.idm.RealmRepresentation;
  */
 @Deprecated
 public class ImportRealmFromRepresentationEvent implements ProviderEvent {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmRepresentation realmRepresentation;
 
     private RealmModel realmModel;
 
-    public ImportRealmFromRepresentationEvent(KeycloakSession session, RealmRepresentation realmRepresentation) {
+    public ImportRealmFromRepresentationEvent(KeycloakRequestSession session, RealmRepresentation realmRepresentation) {
         this.session = session;
         this.realmRepresentation = realmRepresentation;
     }
 
-    public static RealmModel fire(KeycloakSession session, RealmRepresentation rep) {
+    public static RealmModel fire(KeycloakRequestSession session, RealmRepresentation rep) {
         ImportRealmFromRepresentationEvent event = new ImportRealmFromRepresentationEvent(session, rep);
         session.getKeycloakSessionFactory().publish(event);
         return event.getRealmModel();
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

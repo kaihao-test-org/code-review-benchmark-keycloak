@@ -19,7 +19,7 @@ package org.keycloak.exportimport;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderFactory;
 
@@ -46,12 +46,12 @@ public class ExportImportManager {
     private static final Logger logger = Logger.getLogger(ExportImportManager.class);
 
     private final KeycloakSessionFactory sessionFactory;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private ExportProvider exportProvider;
     private List<ImportProvider> importProviders = List.of();
 
-    public ExportImportManager(KeycloakSession session) {
+    public ExportImportManager(KeycloakRequestSession session) {
         this.sessionFactory = session.getKeycloakSessionFactory();
         this.session = session;
 

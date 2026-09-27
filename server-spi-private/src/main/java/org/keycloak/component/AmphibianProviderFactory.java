@@ -17,7 +17,7 @@
 package org.keycloak.component;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.InvalidationHandler.ObjectType;
 import java.util.Collections;
@@ -36,7 +36,7 @@ import java.util.Objects;
  * <li>The component-specific factory is initialized via {@link #init} method where the configuration
  *     is taken from the component configuration, converted into a {@link Scope}. The
  *     component configuration takes precedence over configuration of the provider factory.</li>
- * <li>Creation of the instances is done via standard {@link #create(KeycloakSession)} method even for components,
+ * <li>Creation of the instances is done via standard {@link #create(KeycloakRequestSession)} method even for components,
  *     since there is now a specific factory per component.</li>
  * <li>Component-specific factories are cached inside the provider factory
  *     similarly to how provider factories are cached in the session factory.</li>
@@ -49,12 +49,12 @@ import java.util.Objects;
 public interface AmphibianProviderFactory<ProviderType extends Provider> extends ProviderFactory<ProviderType>, ComponentFactory<ProviderType, ProviderType> {
 
     @Override
-    ProviderType create(KeycloakSession session);
+    ProviderType create(KeycloakRequestSession session);
 
     @Override
     @Deprecated
-    default ProviderType create(KeycloakSession session, ComponentModel model) {
-        throw new UnsupportedOperationException("Use create(KeycloakSession) instead");
+    default ProviderType create(KeycloakRequestSession session, ComponentModel model) {
+        throw new UnsupportedOperationException("Use create(KeycloakRequestSession) instead");
     }
 
     @Override
@@ -63,7 +63,7 @@ public interface AmphibianProviderFactory<ProviderType extends Provider> extends
     }
 
     @Override
-    default void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    default void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         String oldId = oldModel == null ? null : oldModel.getId();
         String newId = newModel == null ? null : newModel.getId();
         if (oldId != null) {
@@ -78,7 +78,7 @@ public interface AmphibianProviderFactory<ProviderType extends Provider> extends
     }
 
     @Override
-    default void preRemove(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    default void preRemove(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         if (model != null && model.getId() != null) {
             session.invalidate(ObjectType.COMPONENT, model.getId());
         }

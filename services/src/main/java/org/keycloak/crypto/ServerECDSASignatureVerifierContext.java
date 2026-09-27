@@ -1,10 +1,10 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ServerECDSASignatureVerifierContext extends  AsymmetricSignatureVerifierContext {
-    public ServerECDSASignatureVerifierContext(KeycloakSession session, String kid, String algorithm) throws VerificationException {
+    public ServerECDSASignatureVerifierContext(KeycloakRequestSession session, String kid, String algorithm) throws VerificationException {
         super(ServerAsymmetricSignatureVerifierContext.getKey(session, kid, algorithm));
     }
 

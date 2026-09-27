@@ -20,7 +20,7 @@ package org.keycloak.models.jpa.session;
 import jakarta.persistence.EntityManager;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.session.RevokedTokenPersisterProvider;
 import org.keycloak.models.session.RevokedTokensPersisterProviderFactory;
@@ -33,7 +33,7 @@ public class JpaRevokedTokensPersisterProviderFactory implements RevokedTokensPe
     public static final String ID = "jpa";
 
     @Override
-    public RevokedTokenPersisterProvider create(KeycloakSession session) {
+    public RevokedTokenPersisterProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaRevokedTokensPersisterProvider(em);
     }

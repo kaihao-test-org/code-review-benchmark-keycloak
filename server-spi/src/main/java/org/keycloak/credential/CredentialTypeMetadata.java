@@ -19,7 +19,7 @@
 package org.keycloak.credential;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 
@@ -226,7 +226,7 @@ public class CredentialTypeMetadata implements Comparable<CredentialTypeMetadata
          *
          * @return metadata
          */
-        public CredentialTypeMetadata build(KeycloakSession session) {
+        public CredentialTypeMetadata build(KeycloakRequestSession session) {
             assertNotNull(instance.type, "type");
             assertNotNull(instance.displayName, "displayName");
             assertNotNull(instance.helpText, "helpText");
@@ -258,7 +258,7 @@ public class CredentialTypeMetadata implements Comparable<CredentialTypeMetadata
         }
 
         // Check if required action of specified providerId is registered in the realm and enabled
-        private boolean verifyRequiredAction(KeycloakSession session, String requiredActionProviderId) {
+        private boolean verifyRequiredAction(KeycloakRequestSession session, String requiredActionProviderId) {
             if (requiredActionProviderId == null) {
                 return false;
             }

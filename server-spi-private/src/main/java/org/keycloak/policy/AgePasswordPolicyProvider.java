@@ -19,7 +19,7 @@ package org.keycloak.policy;
 
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.hash.PasswordHashProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -34,9 +34,9 @@ import java.time.Duration;
 public class AgePasswordPolicyProvider implements PasswordPolicyProvider {
     private static final String ERROR_MESSAGE = "invalidPasswordGenericMessage";
     public static final Logger logger = Logger.getLogger(AgePasswordPolicyProvider.class);
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public AgePasswordPolicyProvider(KeycloakSession session) {
+    public AgePasswordPolicyProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

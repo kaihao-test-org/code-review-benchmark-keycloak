@@ -27,7 +27,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.authorization.model.Scope;
 import org.keycloak.authorization.policy.evaluation.Result;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.AccessToken;
@@ -198,7 +198,7 @@ public class PolicyEvaluationResponseBuilder {
             List<PermissionTicket> tickets = authorization.getStoreFactory().getPermissionTicketStore().find(resourceServer, filters, -1, 1);
 
             if (!tickets.isEmpty()) {
-                KeycloakSession keycloakSession = authorization.getKeycloakSession();
+                KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
                 RealmModel realm = authorization.getRealm();
                 PermissionTicket ticket = tickets.get(0);
                 UserModel userOwner = keycloakSession.users().getUserById(realm, ticket.getOwner());

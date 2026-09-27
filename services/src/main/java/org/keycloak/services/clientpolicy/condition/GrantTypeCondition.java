@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.condition;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import org.jboss.logging.Logger;
 import org.keycloak.OAuth2Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.OIDCResponseType;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -37,7 +37,7 @@ public class GrantTypeCondition extends AbstractClientPolicyConditionProvider<Gr
 
     private static final Logger logger = Logger.getLogger(GrantTypeCondition.class);
 
-    public GrantTypeCondition(KeycloakSession session) {
+    public GrantTypeCondition(KeycloakRequestSession session) {
         super(session);
     }
 

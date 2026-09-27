@@ -25,7 +25,7 @@ import org.keycloak.validate.Validators;
 /**
  * Validate that input value is {@link ValidatorConfig} and it is correct for validator (<code>inputHint</code> must be
  * ID of the validator config is for) by
- * {@link Validators#validateConfig(org.keycloak.models.KeycloakSession, String, ValidatorConfig)}. .
+ * {@link Validators#validateConfig(org.keycloak.models.KeycloakRequestSession, String, ValidatorConfig)}. .
  */
 public class ValidatorConfigValidator implements SimpleValidator {
 

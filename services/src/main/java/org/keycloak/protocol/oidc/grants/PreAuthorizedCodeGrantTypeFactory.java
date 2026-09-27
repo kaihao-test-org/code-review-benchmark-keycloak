@@ -19,7 +19,7 @@ package org.keycloak.protocol.oidc.grants;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
@@ -34,7 +34,7 @@ public class PreAuthorizedCodeGrantTypeFactory implements OAuth2GrantTypeFactory
     public static final String CODE_REQUEST_PARAM = "pre-authorized_code";
 
     @Override
-    public OAuth2GrantType create(KeycloakSession session) {
+    public OAuth2GrantType create(KeycloakRequestSession session) {
         return new PreAuthorizedCodeGrantType();
     }
 

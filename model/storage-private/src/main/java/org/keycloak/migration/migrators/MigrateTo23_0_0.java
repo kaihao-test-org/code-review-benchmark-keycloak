@@ -26,7 +26,7 @@ import org.keycloak.authentication.AuthenticationFlow;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.userprofile.UserProfileProvider;
 
@@ -42,7 +42,7 @@ public class MigrateTo23_0_0 extends RealmMigration {
     private static final String UP_COMPONENT_CONFIG_KEY = "kc.user.profile.config";
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         updateUserProfileConfig(realm);
         removeRegistrationProfileFormExecution(realm);
     }

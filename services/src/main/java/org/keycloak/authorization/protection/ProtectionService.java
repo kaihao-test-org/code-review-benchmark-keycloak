@@ -26,7 +26,7 @@ import org.keycloak.authorization.protection.permission.PermissionService;
 import org.keycloak.authorization.protection.resource.ResourceService;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.ErrorResponseException;
@@ -43,7 +43,7 @@ import org.keycloak.authorization.protection.policy.UserManagedPermissionService
  */
 public class ProtectionService {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AuthorizationProvider authorization;
 
     protected final ClientConnection clientConnection;
@@ -65,7 +65,7 @@ public class ProtectionService {
     private AdminEventBuilder createAdminEventBuilder(KeycloakIdentity identity, ResourceServer resourceServer) {
         RealmModel realm = authorization.getRealm();
         ClientModel client = realm.getClientById(resourceServer.getClientId());
-        KeycloakSession keycloakSession = authorization.getKeycloakSession();
+        KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
         UserModel serviceAccount = keycloakSession.users().getServiceAccount(client);
         AdminEventBuilder adminEvent = new AdminEventBuilder(realm, new AdminAuth(realm, identity.getAccessToken(), serviceAccount, client), keycloakSession, clientConnection);
         return adminEvent;
@@ -95,7 +95,7 @@ public class ProtectionService {
     private KeycloakIdentity createIdentity(boolean checkProtectionScope) {
         KeycloakIdentity identity = new KeycloakIdentity(this.authorization.getKeycloakSession());
         ResourceServer resourceServer = getResourceServer(identity);
-        KeycloakSession keycloakSession = authorization.getKeycloakSession();
+        KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
         RealmModel realm = keycloakSession.getContext().getRealm();
         ClientModel client = realm.getClientById(resourceServer.getClientId());
 

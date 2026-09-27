@@ -37,7 +37,7 @@ import org.infinispan.util.EmbeddedTimeService;
 import org.jboss.logging.Logger;
 import org.jgroups.JChannel;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.spi.infinispan.impl.embedded.CacheConfigurator;
 
 /**
@@ -49,7 +49,7 @@ public class InfinispanUtil {
 
     public static final int MAXIMUM_REPLACE_RETRIES = 25;
 
-    public static TopologyInfo getTopologyInfo(KeycloakSession session) {
+    public static TopologyInfo getTopologyInfo(KeycloakRequestSession session) {
         return session.getProvider(InfinispanConnectionProvider.class).getTopologyInfo();
     }
 

@@ -19,7 +19,7 @@ package org.keycloak.services.util;
 
 import org.keycloak.common.util.StringPropertyReplacer;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.urls.UrlType;
 
 import jakarta.ws.rs.core.UriBuilder;
@@ -30,7 +30,7 @@ import jakarta.ws.rs.core.UriBuilder;
  */
 public class ResolveRelative {
 
-    public static String resolveRelativeUri(KeycloakSession session, String rootUrl, String url) {
+    public static String resolveRelativeUri(KeycloakRequestSession session, String rootUrl, String url) {
         String frontendUrl = session.getContext().getUri(UrlType.FRONTEND).getBaseUri().toString();
         String adminUrl = session.getContext().getUri(UrlType.ADMIN).getBaseUri().toString();
         return resolveRelativeUri(frontendUrl, adminUrl, rootUrl, url);
@@ -50,7 +50,7 @@ public class ResolveRelative {
         return StringPropertyReplacer.replaceProperties(finalUrl);
     }
 
-    public static String resolveRootUrl(KeycloakSession session, String rootUrl) {
+    public static String resolveRootUrl(KeycloakRequestSession session, String rootUrl) {
         String frontendUrl = session.getContext().getUri(UrlType.FRONTEND).getBaseUri().toString();
         String adminUrl = session.getContext().getUri(UrlType.ADMIN).getBaseUri().toString();
         return resolveRootUrl(frontendUrl, adminUrl, rootUrl);

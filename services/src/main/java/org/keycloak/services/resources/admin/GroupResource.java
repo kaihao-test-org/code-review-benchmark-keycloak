@@ -29,7 +29,7 @@ import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.GroupPathChangeEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -75,12 +75,12 @@ import static org.keycloak.utils.StreamsUtil.paginatedStream;
 public class GroupResource {
 
     private final RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
     private final GroupModel group;
 
-    public GroupResource(RealmModel realm, GroupModel group, KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public GroupResource(RealmModel realm, GroupModel group, KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.realm = realm;
         this.session = session;
         this.auth = auth;
@@ -252,7 +252,7 @@ public class GroupResource {
         }
     }
 
-    public static void updateGroup(GroupRepresentation rep, GroupModel model, RealmModel realm, KeycloakSession session) {
+    public static void updateGroup(GroupRepresentation rep, GroupModel model, RealmModel realm, KeycloakRequestSession session) {
         String newName = rep.getName();
         if (newName != null) {
             String existingName = model.getName();

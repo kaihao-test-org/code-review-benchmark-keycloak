@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 /**
@@ -55,7 +55,7 @@ public class ClientUpdaterContextConditionFactory extends AbstractClientPolicyCo
     }
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new ClientUpdaterContextCondition(session);
     }
 

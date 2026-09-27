@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.testsuite.arquillian.annotation.SetDefaultProvider;
 import org.keycloak.testsuite.runonserver.RunOnServer;
@@ -49,7 +49,7 @@ public class CustomUserProfileTest extends AbstractUserProfileTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) CustomUserProfileTest::testCustomUserProfileProviderIsActive);
     }
 
-    private static void testCustomUserProfileProviderIsActive(KeycloakSession session) {
+    private static void testCustomUserProfileProviderIsActive(KeycloakRequestSession session) {
         UserProfileProvider provider = getUserProfileProvider(session);
         assertEquals(CustomUserProfileProvider.class.getName(), provider.getClass().getName());
         assertTrue(provider instanceof  CustomUserProfileProvider);
@@ -64,7 +64,7 @@ public class CustomUserProfileTest extends AbstractUserProfileTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) CustomUserProfileTest::testInvalidConfiguration);
     }
 
-    private static void testInvalidConfiguration(KeycloakSession session) {
+    private static void testInvalidConfiguration(KeycloakRequestSession session) {
         try {
             setConfiguration(session, "{\"validateConfigAttribute\": true}");
             fail("Should fail validation");
@@ -78,7 +78,7 @@ public class CustomUserProfileTest extends AbstractUserProfileTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) CustomUserProfileTest::testDefaultConfig);
     }
 
-    private static void testDefaultConfig(KeycloakSession session) {
+    private static void testDefaultConfig(KeycloakRequestSession session) {
         UserProfileProvider provider = getUserProfileProvider(session);
 
         // reset configuration to default

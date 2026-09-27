@@ -18,7 +18,7 @@
 package org.keycloak.credential.hash;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Provider factory for SHA1 variant of the PBKDF2 password hash algorithm.
@@ -43,7 +43,7 @@ public class Pbkdf2PasswordHashProviderFactory extends AbstractPbkdf2PasswordHas
     private static boolean usageWarningPrinted;
 
     @Override
-    public PasswordHashProvider create(KeycloakSession session) {
+    public PasswordHashProvider create(KeycloakRequestSession session) {
         if (!usageWarningPrinted) {
             LOG.warnf("Detected usage of password hashing provider '%s'. The provider is no longer recommended, use 'pbkdf2-sha256' or 'pbkdf2-sha512' instead.", ID);
             usageWarningPrinted = true;

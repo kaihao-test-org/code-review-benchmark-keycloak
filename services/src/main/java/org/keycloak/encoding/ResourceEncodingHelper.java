@@ -1,10 +1,10 @@
 package org.keycloak.encoding;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ResourceEncodingHelper {
 
-    public static ResourceEncodingProvider getResourceEncodingProvider(KeycloakSession session, String contentType) {
+    public static ResourceEncodingProvider getResourceEncodingProvider(KeycloakRequestSession session, String contentType) {
         String acceptEncoding = session.getContext().getRequestHeaders().getHeaderString("Accept-Encoding");
         if (acceptEncoding != null) {
             for (String e : acceptEncoding.split(",")) {

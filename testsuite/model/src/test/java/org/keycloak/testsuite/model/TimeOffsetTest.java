@@ -22,7 +22,7 @@ import org.keycloak.events.Event;
 import org.keycloak.events.EventStoreProvider;
 import org.keycloak.events.EventType;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderFactory;
 
@@ -34,7 +34,7 @@ public class TimeOffsetTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    protected void createEnvironment(KeycloakSession s) {
+    protected void createEnvironment(KeycloakRequestSession s) {
         RealmModel r = s.realms().createRealm("realm");
         s.getContext().setRealm(r);
         r.setDefaultRole(s.roles().addRealmRole(r, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + r.getName()));
@@ -43,7 +43,7 @@ public class TimeOffsetTest extends KeycloakModelTest {
     }
 
     @Override
-    protected void cleanEnvironment(KeycloakSession s) {
+    protected void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel r = s.realms().getRealm(realmId);
         s.getContext().setRealm(r);
         s.realms().removeRealm(realmId);

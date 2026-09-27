@@ -49,7 +49,7 @@ public class ActionTokenContext<T extends JsonWebToken> {
         Response brokerLoginFlow(String authSessionId, String code, String execution, String clientId, String tabId, String clientData, String flowPath);
     };
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final UriInfo uriInfo;
     private final ClientConnection clientConnection;
@@ -63,7 +63,7 @@ public class ActionTokenContext<T extends JsonWebToken> {
     private final ProcessAuthenticateFlow processAuthenticateFlow;
     private final ProcessBrokerFlow processBrokerFlow;
 
-    public ActionTokenContext(KeycloakSession session, RealmModel realm, UriInfo uriInfo,
+    public ActionTokenContext(KeycloakRequestSession session, RealmModel realm, UriInfo uriInfo,
       ClientConnection clientConnection, HttpRequest request,
       EventBuilder event, ActionTokenHandler<T> handler, String executionId, String clientData,
       ProcessAuthenticateFlow processFlow, ProcessBrokerFlow processBrokerFlow) {
@@ -88,7 +88,7 @@ public class ActionTokenContext<T extends JsonWebToken> {
         this.event = event;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

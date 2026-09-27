@@ -4,7 +4,7 @@ import org.keycloak.Config;
 import org.keycloak.common.Profile;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.AbstractLoginProtocolFactory;
@@ -50,7 +50,7 @@ public class DockerAuthV2ProtocolFactory extends AbstractLoginProtocolFactory im
     }
 
     @Override
-    public Object createProtocolEndpoint(final KeycloakSession session, final EventBuilder event) {
+    public Object createProtocolEndpoint(final KeycloakRequestSession session, final EventBuilder event) {
         return new DockerV2LoginProtocolService(session, event);
     }
 
@@ -61,7 +61,7 @@ public class DockerAuthV2ProtocolFactory extends AbstractLoginProtocolFactory im
 
 
     @Override
-    public LoginProtocol create(final KeycloakSession session) {
+    public LoginProtocol create(final KeycloakRequestSession session) {
         return new DockerAuthV2Protocol().setSession(session);
     }
 

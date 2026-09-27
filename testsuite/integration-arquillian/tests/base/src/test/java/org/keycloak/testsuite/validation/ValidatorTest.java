@@ -20,7 +20,7 @@
 package org.keycloak.testsuite.validation;
 
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -54,7 +54,7 @@ public class ValidatorTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) ValidatorTest::testIsoDateValidator);
     }
 
-    private static void testLocalDateValidator(KeycloakSession session) {
+    private static void testLocalDateValidator(KeycloakRequestSession session) {
         assertTrue(BuiltinValidators.dateValidator().validate(null, new ValidationContext(session)).isValid());
         assertTrue(BuiltinValidators.dateValidator().validate("", new ValidationContext(session)).isValid());
 
@@ -83,7 +83,7 @@ public class ValidatorTest extends AbstractTestRealmKeycloakTest {
         assertFalse(BuiltinValidators.dateValidator().validate("13/12/2021", context).isValid());
     }
 
-    private static void testIsoDateValidator(KeycloakSession session) {
+    private static void testIsoDateValidator(KeycloakRequestSession session) {
         assertTrue(BuiltinValidators.isoDateValidator().validate(null, new ValidationContext(session)).isValid());
         assertTrue(BuiltinValidators.isoDateValidator().validate("", new ValidationContext(session)).isValid());
         assertTrue(BuiltinValidators.isoDateValidator().validate("2021-12-13", new ValidationContext(session)).isValid());

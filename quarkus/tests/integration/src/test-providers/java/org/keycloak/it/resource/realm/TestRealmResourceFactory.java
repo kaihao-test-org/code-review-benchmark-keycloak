@@ -18,7 +18,7 @@
 package org.keycloak.it.resource.realm;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
@@ -30,7 +30,7 @@ public class TestRealmResourceFactory implements RealmResourceProviderFactory {
     public static final String ID = "test-resources";
 
     @Override
-    public RealmResourceProvider create(KeycloakSession session) {
+    public RealmResourceProvider create(KeycloakRequestSession session) {
         return new TestRealmResource(session);
     }
 

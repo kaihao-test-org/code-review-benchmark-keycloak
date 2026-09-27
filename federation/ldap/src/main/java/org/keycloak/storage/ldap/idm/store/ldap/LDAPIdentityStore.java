@@ -20,7 +20,7 @@ package org.keycloak.storage.ldap.idm.store.ldap;
 import javax.naming.NameAlreadyBoundException;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Base64;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelException;
 import org.keycloak.storage.ldap.LDAPConfig;
@@ -82,7 +82,7 @@ public class LDAPIdentityStore implements IdentityStore {
     private final LDAPConfig config;
     private final LDAPOperationManager operationManager;
 
-    public LDAPIdentityStore(KeycloakSession session, LDAPConfig config) {
+    public LDAPIdentityStore(KeycloakRequestSession session, LDAPConfig config) {
         this.config = config;
         this.operationManager = new LDAPOperationManager(session, config);
     }

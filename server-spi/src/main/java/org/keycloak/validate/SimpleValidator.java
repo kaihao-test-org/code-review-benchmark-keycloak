@@ -17,7 +17,7 @@
 package org.keycloak.validate;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -28,7 +28,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public interface SimpleValidator extends Validator, ValidatorFactory {
 
     @Override
-    default Validator create(KeycloakSession session) {
+    default Validator create(KeycloakRequestSession session) {
         return this;
     }
 

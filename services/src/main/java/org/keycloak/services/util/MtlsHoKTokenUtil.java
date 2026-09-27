@@ -9,7 +9,7 @@ import java.security.cert.X509Certificate;
 import org.jboss.logging.Logger;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.common.util.Base64Url;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.x509.X509ClientCertificateLookup;
 
@@ -24,7 +24,7 @@ public class MtlsHoKTokenUtil {
     public static final String CERT_VERIFY_ERROR_DESC = "Client certificate missing, or its thumbprint and one in the refresh token did NOT match";
 
 
-    public static AccessToken.Confirmation bindTokenWithClientCertificate(HttpRequest request, KeycloakSession session) {
+    public static AccessToken.Confirmation bindTokenWithClientCertificate(HttpRequest request, KeycloakRequestSession session) {
         X509Certificate[] certs = getCertificateChain(request, session);
 
         if (certs == null || certs.length < 1) {
@@ -48,7 +48,7 @@ public class MtlsHoKTokenUtil {
         return confirmation;
     }
 
-    public static boolean verifyTokenBindingWithClientCertificate(AccessToken token, HttpRequest request, KeycloakSession session) {
+    public static boolean verifyTokenBindingWithClientCertificate(AccessToken token, HttpRequest request, KeycloakRequestSession session) {
         if (token == null) {
             logger.warnf("token is null");
             return false;
@@ -89,7 +89,7 @@ public class MtlsHoKTokenUtil {
         return true;
     }
 
-    private static X509Certificate[] getCertificateChain(HttpRequest request, KeycloakSession session) {
+    private static X509Certificate[] getCertificateChain(HttpRequest request, KeycloakRequestSession session) {
         try {
                // Get a x509 client certificate
             X509ClientCertificateLookup provider = session.getProvider(X509ClientCertificateLookup.class);

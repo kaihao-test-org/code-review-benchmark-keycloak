@@ -20,7 +20,7 @@ package org.keycloak.models.sessions.infinispan;
 import org.keycloak.common.Profile;
 import org.keycloak.common.Profile.Feature;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.light.LightweightUserAdapter;
@@ -44,12 +44,12 @@ import static org.keycloak.models.light.LightweightUserAdapter.isLightweightUser
  */
 public class AuthenticationSessionAdapter implements AuthenticationSessionModel {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RootAuthenticationSessionModel parent;
     private final  SessionEntityUpdater<AuthenticationSessionEntity> updater;
     private final String tabId;
 
-    public AuthenticationSessionAdapter(KeycloakSession session, RootAuthenticationSessionModel parent, SessionEntityUpdater<AuthenticationSessionEntity> updater, String tabId) {
+    public AuthenticationSessionAdapter(KeycloakRequestSession session, RootAuthenticationSessionModel parent, SessionEntityUpdater<AuthenticationSessionEntity> updater, String tabId) {
         this.session = session;
         this.parent = parent;
         this.updater = updater;

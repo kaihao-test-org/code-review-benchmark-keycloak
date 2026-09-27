@@ -19,7 +19,7 @@ package org.keycloak.broker.provider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -90,10 +90,10 @@ public interface IdentityProvider<C extends IdentityProviderModel> extends Provi
     C getConfig();
 
 
-    void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, BrokeredIdentityContext context);
+    void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, BrokeredIdentityContext context);
     void authenticationFinished(AuthenticationSessionModel authSession, BrokeredIdentityContext context);
-    void importNewUser(KeycloakSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context);
-    void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context);
+    void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context);
+    void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context);
 
     /**
      * JAXRS callback endpoint for when the remote IDP wants to callback to keycloak.
@@ -119,9 +119,9 @@ public interface IdentityProvider<C extends IdentityProviderModel> extends Provi
      * @param identity
      * @return
      */
-    Response retrieveToken(KeycloakSession session, FederatedIdentityModel identity);
+    Response retrieveToken(KeycloakRequestSession session, FederatedIdentityModel identity);
 
-    void backchannelLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm);
+    void backchannelLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm);
 
     /**
      * Called when a Keycloak application initiates a logout through the browser.  This is expected to do a logout
@@ -132,7 +132,7 @@ public interface IdentityProvider<C extends IdentityProviderModel> extends Provi
      * @param realm
      * @return null if this is not supported by this provider
      */
-    Response keycloakInitiatedBrowserLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm);
+    Response keycloakInitiatedBrowserLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm);
 
     /**
      * Export a representation of the IdentityProvider in a specific format.  For example, a SAML EntityDescriptor

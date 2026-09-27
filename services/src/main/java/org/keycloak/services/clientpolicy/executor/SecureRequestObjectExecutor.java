@@ -28,7 +28,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.endpoints.request.AuthzEndpointRequestParser;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -50,10 +50,10 @@ public class SecureRequestObjectExecutor implements ClientPolicyExecutorProvider
     public static final Integer DEFAULT_AVAILABLE_PERIOD = Integer.valueOf(3600); // (sec) from FAPI 1.0 Advanced requirement
     public static final Integer DEAULT_ALLOWED_CLOCK_SKEW = Integer.valueOf(15); // (sec) from FAPI 2.0 requirement
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public SecureRequestObjectExecutor(KeycloakSession session) {
+    public SecureRequestObjectExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

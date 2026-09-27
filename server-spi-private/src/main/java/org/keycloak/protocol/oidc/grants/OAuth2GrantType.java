@@ -33,7 +33,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.Provider;
 import org.keycloak.services.cors.Cors;
@@ -69,7 +69,7 @@ public interface OAuth2GrantType extends Provider {
     Response process(Context context);
 
     public static class Context {
-        protected KeycloakSession session;
+        protected KeycloakRequestSession session;
         protected RealmModel realm;
         protected ClientModel client;
         protected Object clientConfig;
@@ -84,7 +84,7 @@ public interface OAuth2GrantType extends Provider {
         protected Object tokenManager;
         protected String grantType;
 
-        public Context(KeycloakSession session, Object clientConfig, Map<String, String> clientAuthAttributes,
+        public Context(KeycloakRequestSession session, Object clientConfig, Map<String, String> clientAuthAttributes,
                 MultivaluedMap<String, String> formParams, EventBuilder event, Cors cors, Object tokenManager) {
             this.session = session;
             this.realm = session.getContext().getRealm();
@@ -162,7 +162,7 @@ public interface OAuth2GrantType extends Provider {
             return response;
         }
 
-        public KeycloakSession getSession() {
+        public KeycloakRequestSession getSession() {
             return session;
         }
 

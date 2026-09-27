@@ -16,7 +16,7 @@
  */
 package org.keycloak.validation;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public interface ValidationContext<T> {
 
@@ -27,7 +27,7 @@ public interface ValidationContext<T> {
 
     Event getEvent();
 
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
 
     T getObjectToValidate();
 

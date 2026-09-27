@@ -27,7 +27,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OAuth2DeviceCodeModel;
 import org.keycloak.protocol.oidc.grants.ciba.channel.AuthenticationChannelResponse;
 import org.keycloak.protocol.oidc.grants.ciba.channel.AuthenticationChannelResponse.Status;
@@ -57,7 +57,7 @@ public class BackchannelAuthenticationCallbackEndpoint extends AbstractCibaEndpo
 
     private final HttpRequest httpRequest;
 
-    public BackchannelAuthenticationCallbackEndpoint(KeycloakSession session, EventBuilder event) {
+    public BackchannelAuthenticationCallbackEndpoint(KeycloakRequestSession session, EventBuilder event) {
         super(session, event);
         this.httpRequest = session.getContext().getHttpRequest();
     }

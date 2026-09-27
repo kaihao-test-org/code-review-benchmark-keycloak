@@ -20,7 +20,7 @@ import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author Pedro Igor
@@ -35,7 +35,7 @@ public class GitLabIdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public GitLabIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public GitLabIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new GitLabIdentityProvider(session, new OIDCIdentityProviderConfig(model));
     }
 

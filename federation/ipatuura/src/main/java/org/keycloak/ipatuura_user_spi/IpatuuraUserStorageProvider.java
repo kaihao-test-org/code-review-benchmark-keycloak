@@ -26,7 +26,7 @@ import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.credential.UserCredentialManager;
 import org.keycloak.models.CredentialValidationOutput;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -62,14 +62,14 @@ import org.apache.http.HttpStatus;
  */
 public class IpatuuraUserStorageProvider implements UserStorageProvider, UserLookupProvider, CredentialInputValidator,
         CredentialAuthentication, UserRegistrationProvider, UserQueryProvider, ImportedUserValidation {
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected ComponentModel model;
     protected Ipatuura ipatuura;
     private static final Logger logger = Logger.getLogger(IpatuuraUserStorageProvider.class);
     protected final Set<String> supportedCredentialTypes = new HashSet<>();
     protected IpatuuraUserStorageProviderFactory factory;
 
-    public IpatuuraUserStorageProvider(KeycloakSession session, ComponentModel model, Ipatuura ipatuura,
+    public IpatuuraUserStorageProvider(KeycloakRequestSession session, ComponentModel model, Ipatuura ipatuura,
                                        IpatuuraUserStorageProviderFactory factory) {
         this.session = session;
         this.model = model;

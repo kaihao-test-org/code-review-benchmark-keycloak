@@ -42,7 +42,7 @@ import org.keycloak.keys.loader.PublicKeyStorageManager;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -86,7 +86,7 @@ public class UserInfoEndpoint {
 
     private final HttpRequest request;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final ClientConnection clientConnection;
 
@@ -97,7 +97,7 @@ public class UserInfoEndpoint {
     private Cors cors;
     private TokenForUserInfo tokenForUserInfo = new TokenForUserInfo();
 
-    public UserInfoEndpoint(KeycloakSession session, org.keycloak.protocol.oidc.TokenManager tokenManager) {
+    public UserInfoEndpoint(KeycloakRequestSession session, org.keycloak.protocol.oidc.TokenManager tokenManager) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

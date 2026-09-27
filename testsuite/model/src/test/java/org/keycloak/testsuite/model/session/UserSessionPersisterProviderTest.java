@@ -26,7 +26,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserManager;
@@ -81,7 +81,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "test");
         s.getContext().setRealm(realm);
         realm.setSsoSessionMaxLifespan(Constants.DEFAULT_SESSION_MAX_LIFESPAN);
@@ -97,7 +97,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         createClients(s, realm);
     }
 
-    protected static void createClients(KeycloakSession s, RealmModel realm) {
+    protected static void createClients(KeycloakRequestSession s, RealmModel realm) {
         ClientModel clientModel = s.clients().addClient(realm, "test-app");
         clientModel.setEnabled(true);
         clientModel.setBaseUrl("http://localhost:8180/auth/realms/master/app/auth");
@@ -117,7 +117,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.sessions().removeUserSessions(realm);
@@ -619,7 +619,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         });
     }
 
-    private long countUserSessionsInRealm(KeycloakSession session) {
+    private long countUserSessionsInRealm(KeycloakRequestSession session) {
         JpaUserSessionPersisterProvider sessionPersisterProvider = (JpaUserSessionPersisterProvider) session.getProvider(UserSessionPersisterProvider.class);
         RealmModel realm = session.realms().getRealm(realmId);
         return sessionPersisterProvider.getUserSessionsCountsByClients(realm, false).keySet().stream()
@@ -627,7 +627,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
                 .distinct().count();
     }
 
-    private void setupClientStorageComponents(KeycloakSession s, RealmModel realm) {
+    private void setupClientStorageComponents(KeycloakRequestSession s, RealmModel realm) {
         s.getContext().setRealm(realm);
         getParameters(ClientStorageProviderModel.class).forEach(cm -> {
             cm.put(HardcodedClientStorageProviderFactory.CLIENT_ID, "external-storage-client");
@@ -642,7 +642,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         s.clientScopes().addClientScope(realm, OIDCLoginProtocolFactory.WEB_ORIGINS_SCOPE);
     }
 
-    private void cleanClientStorageComponents(KeycloakSession s, RealmModel realm) {
+    private void cleanClientStorageComponents(KeycloakRequestSession s, RealmModel realm) {
         s.getContext().setRealm(realm);
         s.roles().removeRoles(realm);
         s.clientScopes().removeClientScopes(realm);
@@ -650,7 +650,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         realm.removeComponents(realm.getId());
     }
 
-    protected static AuthenticatedClientSessionModel createClientSession(KeycloakSession session, String realmId, ClientModel client, UserSessionModel userSession, String redirect, String state) {
+    protected static AuthenticatedClientSessionModel createClientSession(KeycloakRequestSession session, String realmId, ClientModel client, UserSessionModel userSession, String redirect, String state) {
         RealmModel realm = session.realms().getRealm(realmId);
         AuthenticatedClientSessionModel clientSession = session.sessions().createClientSession(realm, client, userSession);
         clientSession.setRedirectUri(redirect);
@@ -658,7 +658,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         return clientSession;
     }
 
-    protected static UserSessionModel[] createSessions(KeycloakSession session, String realmId) {
+    protected static UserSessionModel[] createSessions(KeycloakRequestSession session, String realmId) {
         RealmModel realm = session.realms().getRealm(realmId);
         session.getContext().setRealm(realm);
         UserSessionModel[] sessions = new UserSessionModel[3];
@@ -676,7 +676,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         return sessions;
     }
 
-    private void persistUserSession(KeycloakSession session, UserSessionModel userSession, boolean offline) {
+    private void persistUserSession(KeycloakRequestSession session, UserSessionModel userSession, boolean offline) {
         UserSessionPersisterProvider persister = session.getProvider(UserSessionPersisterProvider.class);
         persister.createUserSession(userSession, offline);
         for (AuthenticatedClientSessionModel clientSession : userSession.getAuthenticatedClientSessions().values()) {
@@ -694,7 +694,7 @@ public class UserSessionPersisterProviderTest extends KeycloakModelTest {
         Assert.fail("Session with ID " + id + " not found in the list");
     }
 
-    private List<UserSessionModel> loadPersistedSessionsPaginated(KeycloakSession session, boolean offline, int sessionsPerPage, int expectedPageCount, int expectedSessionsCount) {
+    private List<UserSessionModel> loadPersistedSessionsPaginated(KeycloakRequestSession session, boolean offline, int sessionsPerPage, int expectedPageCount, int expectedSessionsCount) {
         UserSessionPersisterProvider persister = session.getProvider(UserSessionPersisterProvider.class);
 
         int count = persister.getUserSessionsCount(offline);

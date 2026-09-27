@@ -4,7 +4,7 @@ import org.infinispan.Cache;
 import org.jboss.logging.Logger;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.models.cache.infinispan.events.InvalidationEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.infinispan.entities.Revisioned;
 
 import java.util.Collection;
@@ -213,7 +213,7 @@ public abstract class CacheManager {
     }
 
 
-    public void sendInvalidationEvents(KeycloakSession session, Collection<InvalidationEvent> invalidationEvents, String eventKey) {
+    public void sendInvalidationEvents(KeycloakRequestSession session, Collection<InvalidationEvent> invalidationEvents, String eventKey) {
         session.getProvider(ClusterProvider.class)
                 .notify(eventKey, invalidationEvents, true);
     }

@@ -20,14 +20,14 @@
 package org.keycloak.examples.providersoverride;
 
 import org.keycloak.forms.login.freemarker.FreeMarkerLoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */
 public class CustomLoginFormsProvider extends FreeMarkerLoginFormsProvider {
 
-    public CustomLoginFormsProvider(KeycloakSession session) {
+    public CustomLoginFormsProvider(KeycloakRequestSession session) {
         super(session);
     }
 }

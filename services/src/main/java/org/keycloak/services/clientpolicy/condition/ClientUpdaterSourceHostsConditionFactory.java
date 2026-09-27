@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.condition;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 /**
@@ -44,7 +44,7 @@ public class ClientUpdaterSourceHostsConditionFactory extends AbstractClientPoli
     }
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new ClientUpdaterSourceHostsCondition(session);
     }
 

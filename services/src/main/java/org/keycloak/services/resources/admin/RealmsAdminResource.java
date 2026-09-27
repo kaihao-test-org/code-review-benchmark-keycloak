@@ -32,7 +32,7 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
@@ -83,11 +83,11 @@ public class RealmsAdminResource {
     protected final AdminAuth auth;
     protected final TokenManager tokenManager;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final ClientConnection clientConnection;
 
-    public RealmsAdminResource(KeycloakSession session, AdminAuth auth, TokenManager tokenManager) {
+    public RealmsAdminResource(KeycloakRequestSession session, AdminAuth auth, TokenManager tokenManager) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.auth = auth;

@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.models.CibaConfig;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -47,14 +47,14 @@ public class SecureCibaAuthenticationRequestSigningAlgorithmExecutor implements 
 
     private static final Logger logger = Logger.getLogger(SecureCibaAuthenticationRequestSigningAlgorithmExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
     private static final String sigTarget = CibaConfig.CIBA_BACKCHANNEL_AUTH_REQUEST_SIGNING_ALG;
 
     private static final String DEFAULT_ALGORITHM_VALUE = Algorithm.PS256;
 
-    public SecureCibaAuthenticationRequestSigningAlgorithmExecutor(KeycloakSession session) {
+    public SecureCibaAuthenticationRequestSigningAlgorithmExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -27,7 +27,7 @@ import org.keycloak.jose.jwe.JWE;
 import org.keycloak.jose.jwe.JWEHeader;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 
@@ -40,7 +40,7 @@ public class AuthzEndpointRequestObjectParser extends AuthzEndpointRequestParser
 
     private final JsonNode requestParams;
 
-    public AuthzEndpointRequestObjectParser(KeycloakSession session, String requestObject, ClientModel client) {
+    public AuthzEndpointRequestObjectParser(KeycloakRequestSession session, String requestObject, ClientModel client) {
         super(session);
         this.requestParams = session.tokens().decodeClientJWT(requestObject, client, createRequestObjectValidator(session), JsonNode.class);
 
@@ -80,7 +80,7 @@ public class AuthzEndpointRequestObjectParser extends AuthzEndpointRequestParser
         return keys;
     }
 
-    private BiConsumer<JOSE, ClientModel> createRequestObjectValidator(KeycloakSession session) {
+    private BiConsumer<JOSE, ClientModel> createRequestObjectValidator(KeycloakRequestSession session) {
         return (jwt, clientModel) -> {
             if (jwt instanceof JWSInput) {
                 JOSEHeader header = jwt.getHeader();

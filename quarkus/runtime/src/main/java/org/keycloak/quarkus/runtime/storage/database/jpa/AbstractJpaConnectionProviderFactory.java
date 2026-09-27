@@ -31,7 +31,7 @@ import org.keycloak.Config;
 import org.keycloak.config.DatabaseOptions;
 import org.keycloak.connections.jpa.JpaConnectionProviderFactory;
 import org.keycloak.connections.jpa.support.EntityManagerProxy;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.quarkus.runtime.configuration.Configuration;
 
@@ -108,7 +108,7 @@ public abstract class AbstractJpaConnectionProviderFactory implements JpaConnect
         return Optional.empty();
     }
 
-    protected EntityManager createEntityManager(EntityManagerFactory emf, KeycloakSession session) {
+    protected EntityManager createEntityManager(EntityManagerFactory emf, KeycloakRequestSession session) {
         EntityManager entityManager = EntityManagerProxy.create(session, emf.createEntityManager(SynchronizationType.SYNCHRONIZED));
 
         entityManager.setFlushMode(FlushModeType.AUTO);

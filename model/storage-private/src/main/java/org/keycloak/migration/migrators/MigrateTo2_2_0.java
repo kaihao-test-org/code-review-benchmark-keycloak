@@ -22,7 +22,7 @@ import java.util.Map;
 import org.jboss.logging.Logger;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -36,7 +36,7 @@ public class MigrateTo2_2_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         RealmModel sessionRealm = session.getContext().getRealm();
         session.realms().getRealmsStream().forEach(realm -> {
             session.getContext().setRealm(realm);
@@ -46,14 +46,14 @@ public class MigrateTo2_2_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         RealmModel sessionRealm = session.getContext().getRealm();
         session.getContext().setRealm(realm);
         addIdentityProviderAuthenticator(session, realm);
         session.getContext().setRealm(sessionRealm);
     }
 
-    private void addIdentityProviderAuthenticator(KeycloakSession session, RealmModel realm) {
+    private void addIdentityProviderAuthenticator(KeycloakRequestSession session, RealmModel realm) {
         String defaultProvider = session.identityProviders()
                 .getAllStream(Map.of(IdentityProviderModel.ENABLED, "true", IdentityProviderModel.AUTHENTICATE_BY_DEFAULT, "true"), 0, 1)
                 .map(IdentityProviderModel::getAlias)

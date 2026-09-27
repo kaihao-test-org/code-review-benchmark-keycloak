@@ -48,7 +48,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
@@ -157,11 +157,11 @@ public class UserResource {
 
     protected final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final HttpHeaders headers;
 
-    public UserResource(KeycloakSession session, UserModel user, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public UserResource(KeycloakRequestSession session, UserModel user, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();
@@ -268,7 +268,7 @@ public class UserResource {
         }
     }
 
-    public static Response validateUserProfile(UserProfile profile, KeycloakSession session, AdminAuth adminAuth) {
+    public static Response validateUserProfile(UserProfile profile, KeycloakRequestSession session, AdminAuth adminAuth) {
         try {
             profile.validate();
         } catch (ValidationException pve) {
@@ -289,7 +289,7 @@ public class UserResource {
         return null;
     }
 
-    public static void updateUserFromRep(UserProfile profile, UserModel user, UserRepresentation rep, KeycloakSession session, boolean isUpdateExistingUser) {
+    public static void updateUserFromRep(UserProfile profile, UserModel user, UserRepresentation rep, KeycloakRequestSession session, boolean isUpdateExistingUser) {
         boolean removeMissingRequiredActions = isUpdateExistingUser;
 
         if (rep.isEnabled() != null) user.setEnabled(rep.isEnabled());

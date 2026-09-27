@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.saml.SamlClient;
 import org.keycloak.protocol.saml.SamlProtocol;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -36,7 +36,7 @@ import org.keycloak.services.clientpolicy.context.SamlLogoutRequestContext;
  */
 public class SamlSignatureEnforcerExecutor implements ClientPolicyExecutorProvider<ClientPolicyExecutorConfigurationRepresentation> {
 
-    public SamlSignatureEnforcerExecutor(KeycloakSession session) {
+    public SamlSignatureEnforcerExecutor(KeycloakRequestSession session) {
     }
 
     @Override

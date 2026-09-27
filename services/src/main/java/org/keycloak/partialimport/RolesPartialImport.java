@@ -16,7 +16,7 @@
  */
 package org.keycloak.partialimport;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -59,12 +59,12 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
     private RoleRepresentation newDefaultRole;
 
     @Override
-    public void prepare(PartialImportRepresentation rep, RealmModel realm, KeycloakSession session) {
+    public void prepare(PartialImportRepresentation rep, RealmModel realm, KeycloakRequestSession session) {
         prepareRealmRoles(rep, realm, session);
         prepareClientRoles(rep, realm, session);
     }
 
-    private void prepareRealmRoles(PartialImportRepresentation rep, RealmModel realm, KeycloakSession session) {
+    private void prepareRealmRoles(PartialImportRepresentation rep, RealmModel realm, KeycloakRequestSession session) {
         if (!rep.hasRealmRoles()) return;
 
         realmRolesPI.prepare(rep, realm, session);
@@ -82,7 +82,7 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
         this.realmRolesToSkip = realmRolesPI.getToSkip();
     }
 
-    private void prepareClientRoles(PartialImportRepresentation rep, RealmModel realm, KeycloakSession session) {
+    private void prepareClientRoles(PartialImportRepresentation rep, RealmModel realm, KeycloakRequestSession session) {
         if (!rep.hasClientRoles()) return;
 
         clientRolesPI.prepare(rep, realm, session);
@@ -91,13 +91,13 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
     }
 
     @Override
-    public void removeOverwrites(RealmModel realm, KeycloakSession session) {
+    public void removeOverwrites(RealmModel realm, KeycloakRequestSession session) {
         deleteClientRoleOverwrites(realm);
         deleteRealmRoleOverwrites(realm, session);
     }
 
     @Override
-    public PartialImportResults doImport(PartialImportRepresentation rep, RealmModel realm, KeycloakSession session) {
+    public PartialImportResults doImport(PartialImportRepresentation rep, RealmModel realm, KeycloakRequestSession session) {
         PartialImportResults results = new PartialImportResults();
         if (!rep.hasRealmRoles() && !rep.hasClientRoles()) return results;
 
@@ -147,7 +147,7 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
     private void removeRealmRoleSkips(PartialImportResults results,
                                       PartialImportRepresentation rep,
                                       RealmModel realm,
-                                      KeycloakSession session) {
+                                      KeycloakRequestSession session) {
         if (isEmpty(realmRolesToSkip)) return;
 
         for (RoleRepresentation roleRep : realmRolesToSkip) {
@@ -171,7 +171,7 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
         }
     }
 
-    private void deleteRealmRoleOverwrites(RealmModel realm, KeycloakSession session) {
+    private void deleteRealmRoleOverwrites(RealmModel realm, KeycloakRequestSession session) {
         if (isEmpty(realmRolesToOverwrite)) return;
 
         for (RoleRepresentation roleRep : realmRolesToOverwrite) {
@@ -179,7 +179,7 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
         }
     }
 
-    private void addResultsForOverwrittenRealmRoles(PartialImportResults results, RealmModel realm, KeycloakSession session) {
+    private void addResultsForOverwrittenRealmRoles(PartialImportResults results, RealmModel realm, KeycloakRequestSession session) {
         if (isEmpty(realmRolesToOverwrite)) return;
 
         for (RoleRepresentation roleRep : realmRolesToOverwrite) {
@@ -220,7 +220,7 @@ public class RolesPartialImport implements PartialImport<RolesRepresentation> {
     private void realmRoleAdds(PartialImportResults results,
                                PartialImportRepresentation rep,
                                RealmModel realm,
-                               KeycloakSession session) {
+                               KeycloakRequestSession session) {
         if (!rep.hasRealmRoles()) return;
 
         for (RoleRepresentation roleRep : rep.getRoles().getRealm()) {

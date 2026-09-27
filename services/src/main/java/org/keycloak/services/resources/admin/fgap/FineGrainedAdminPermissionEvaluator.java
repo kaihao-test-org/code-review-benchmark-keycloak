@@ -32,16 +32,16 @@ import org.keycloak.authorization.permission.ResourcePermission;
 import org.keycloak.authorization.policy.evaluation.EvaluationContext;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.ResourceStore;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.authorization.Permission;
 
 class FineGrainedAdminPermissionEvaluator {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final MgmtPermissions root;
     private final ResourceStore resourceStore;
     private final PolicyStore policyStore;
 
-    FineGrainedAdminPermissionEvaluator(KeycloakSession session, MgmtPermissions root, ResourceStore resourceStore, PolicyStore policyStore) {
+    FineGrainedAdminPermissionEvaluator(KeycloakRequestSession session, MgmtPermissions root, ResourceStore resourceStore, PolicyStore policyStore) {
         this.session = session;
         this.root = root;
         this.resourceStore = resourceStore;

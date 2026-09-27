@@ -27,7 +27,7 @@ import org.keycloak.executors.ExecutorsProvider;
 import org.keycloak.http.FormPartValue;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserLoginFailureModel;
@@ -65,7 +65,7 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
         this.factory = factory;
     }
 
-    protected void failure(KeycloakSession session, RealmModel realm, String userId, String remoteAddr, long failureTime) {
+    protected void failure(KeycloakRequestSession session, RealmModel realm, String userId, String remoteAddr, long failureTime) {
         logger.debug("failure");
 
         UserLoginFailureModel userLoginFailure = getUserFailureModel(session, realm, userId);
@@ -146,12 +146,12 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
         }
     }
 
-    protected UserLoginFailureModel getUserFailureModel(KeycloakSession session, RealmModel realm, String userId) {
+    protected UserLoginFailureModel getUserFailureModel(KeycloakRequestSession session, RealmModel realm, String userId) {
         if (realm == null) return null;
         return session.loginFailures().getUserLoginFailure(realm, userId);
     }
 
-    protected void sendEvent(KeycloakSession session, RealmModel realm, UserLoginFailureModel userLoginFailure, EventType type) {
+    protected void sendEvent(KeycloakRequestSession session, RealmModel realm, UserLoginFailureModel userLoginFailure, EventType type) {
         EventBuilder builder = new EventBuilder(realm, session)
                 .ipAddress(userLoginFailure.getLastIPFailure())
                 .event(type)
@@ -173,7 +173,7 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
 
     public void shutdown() {}
 
-    protected void success(KeycloakSession session, RealmModel realm, String userId) {
+    protected void success(KeycloakRequestSession session, RealmModel realm, String userId) {
         UserLoginFailureModel userLoginFailure = getUserFailureModel(session, realm, userId);
         if(userLoginFailure == null) return;
         if (logger.isDebugEnabled()) {
@@ -219,7 +219,7 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
     }
 
     @Override
-    public boolean isTemporarilyDisabled(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean isTemporarilyDisabled(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         UserLoginFailureModel userLoginFailure = getUserFailureModel(session, realm, user.getId());
 
         if (userLoginFailure != null) {
@@ -236,7 +236,7 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
     }
 
     @Override
-    public boolean isPermanentlyLockedOut(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean isPermanentlyLockedOut(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (!user.isEnabled() && DISABLED_BY_PERMANENT_LOCKOUT.equals(user.getFirstAttribute(DISABLED_REASON))) {
             return true;
         }
@@ -249,7 +249,7 @@ public class DefaultBruteForceProtector implements BruteForceProtector {
     }
 
     @Override
-    public void cleanUpPermanentLockout(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void cleanUpPermanentLockout(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (DISABLED_BY_PERMANENT_LOCKOUT.equals(user.getFirstAttribute(DISABLED_REASON)) || isPermanentlyLockedOut(session, realm, user)) {
             user.removeAttribute(DISABLED_REASON);
 

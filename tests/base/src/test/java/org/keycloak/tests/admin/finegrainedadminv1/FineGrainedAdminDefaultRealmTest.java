@@ -8,7 +8,7 @@ import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -54,7 +54,7 @@ public class FineGrainedAdminDefaultRealmTest extends AbstractFineGrainedAdminTe
         runOnServer.run(FineGrainedAdminDefaultRealmTest::invokeDelete);
     }
 
-    public static void setup5152(KeycloakSession session) {
+    public static void setup5152(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         ClientModel realmAdminClient = realm.getClientByClientId(Constants.REALM_MANAGEMENT_CLIENT_ID);
         RoleModel realmAdminRole = realmAdminClient.getRole(AdminRoles.REALM_ADMIN);
@@ -69,7 +69,7 @@ public class FineGrainedAdminDefaultRealmTest extends AbstractFineGrainedAdminTe
     }
 
     // test role deletion that it cleans up authz objects
-    public static void setupDeleteTest(KeycloakSession session )  {
+    public static void setupDeleteTest(KeycloakRequestSession session )  {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         RoleModel removedRole = realm.addRole("removedRole");
         ClientModel client = realm.addClient("removedClient");
@@ -83,7 +83,7 @@ public class FineGrainedAdminDefaultRealmTest extends AbstractFineGrainedAdminTe
         management.users().setPermissionsEnabled(true);
     }
 
-    public static void invokeDelete(KeycloakSession session)  {
+    public static void invokeDelete(KeycloakRequestSession session)  {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         AdminPermissionManagement management = AdminPermissions.management(session, realm);
         List<Resource> byResourceServer = management.authz().getStoreFactory().getResourceStore().findByResourceServer(management.realmResourceServer());

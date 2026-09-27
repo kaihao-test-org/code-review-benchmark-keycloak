@@ -18,7 +18,7 @@ package org.keycloak.broker.provider;
 
 import org.keycloak.http.HttpRequest;
 import org.keycloak.broker.provider.util.IdentityBrokerState;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.UriInfo;
  */
 public class AuthenticationRequest {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final UriInfo uriInfo;
     private final IdentityBrokerState state;
     private final HttpRequest httpRequest;
@@ -37,7 +37,7 @@ public class AuthenticationRequest {
     private final String redirectUri;
     private final AuthenticationSessionModel authSession;
 
-    public AuthenticationRequest(KeycloakSession session, RealmModel realm, AuthenticationSessionModel authSession, HttpRequest httpRequest, UriInfo uriInfo, IdentityBrokerState state, String redirectUri) {
+    public AuthenticationRequest(KeycloakRequestSession session, RealmModel realm, AuthenticationSessionModel authSession, HttpRequest httpRequest, UriInfo uriInfo, IdentityBrokerState state, String redirectUri) {
         this.session = session;
         this.realm = realm;
         this.httpRequest = httpRequest;
@@ -47,7 +47,7 @@ public class AuthenticationRequest {
         this.authSession = authSession;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

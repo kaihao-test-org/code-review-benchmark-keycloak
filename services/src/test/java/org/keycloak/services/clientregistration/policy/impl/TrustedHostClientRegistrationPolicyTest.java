@@ -26,7 +26,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.common.crypto.CryptoProvider;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.clientregistration.policy.ClientRegistrationPolicyException;
 import org.keycloak.services.resteasy.ResteasyKeycloakSession;
 import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
@@ -37,7 +37,7 @@ import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
  */
 public class TrustedHostClientRegistrationPolicyTest {
 
-    private static KeycloakSession session;
+    private static KeycloakRequestSession session;
 
     @BeforeClass
     public static void beforeClass() {

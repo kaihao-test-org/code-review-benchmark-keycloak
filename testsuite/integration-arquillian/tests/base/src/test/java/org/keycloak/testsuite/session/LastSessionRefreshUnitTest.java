@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.keycloak.common.Profile;
 import org.keycloak.common.util.Retry;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.sessions.infinispan.changes.sessions.AbstractLastSessionRefreshStore;
 import org.keycloak.models.sessions.infinispan.changes.sessions.PersisterLastSessionRefreshStore;
 import org.keycloak.models.sessions.infinispan.changes.sessions.PersisterLastSessionRefreshStoreFactory;
@@ -72,7 +72,7 @@ public class LastSessionRefreshUnitTest extends AbstractKeycloakTest {
 
 
         @Override
-        public void run(KeycloakSession session) {
+        public void run(KeycloakRequestSession session) {
             AbstractLastSessionRefreshStore customStore = createStoreInstance(session, 1000000, 1000);
             System.out.println("sss");
 
@@ -118,7 +118,7 @@ public class LastSessionRefreshUnitTest extends AbstractKeycloakTest {
     public static class LastSessionRefreshServerIntervalsTest extends LastSessionRefreshServerTest {
 
         @Override
-        public void run(KeycloakSession session) {
+        public void run(KeycloakRequestSession session) {
             try {
                 // Long timer interval. No message due the timer wasn't executed
                 AbstractLastSessionRefreshStore customStore1 = createStoreInstance(session, 100000, 10);
@@ -160,7 +160,7 @@ public class LastSessionRefreshUnitTest extends AbstractKeycloakTest {
 
         AtomicInteger counter = new AtomicInteger();
 
-        AbstractLastSessionRefreshStore createStoreInstance(KeycloakSession session, long timerIntervalMs, int maxIntervalBetweenMessagesSeconds) {
+        AbstractLastSessionRefreshStore createStoreInstance(KeycloakRequestSession session, long timerIntervalMs, int maxIntervalBetweenMessagesSeconds) {
             PersisterLastSessionRefreshStoreFactory factory = new PersisterLastSessionRefreshStoreFactory() {
 
                 @Override
@@ -168,7 +168,7 @@ public class LastSessionRefreshUnitTest extends AbstractKeycloakTest {
                     return new PersisterLastSessionRefreshStore(maxIntervalBetweenMessagesSeconds, maxCount, offline) {
 
                         @Override
-                        protected void sendMessage(KeycloakSession kcSession, Map<String, SessionData> refreshesToSend) {
+                        protected void sendMessage(KeycloakRequestSession kcSession, Map<String, SessionData> refreshesToSend) {
                             counter.incrementAndGet();
                         }
 

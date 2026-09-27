@@ -44,7 +44,7 @@ import org.keycloak.models.GroupProvider;
 import org.keycloak.models.GroupProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.KeycloakSessionTaskWithResult;
@@ -313,7 +313,7 @@ public final class KeycloakModelUtils {
      * @param username the username or email of the user
      * @return the found user if present; otherwise, {@code null}
      */
-    public static UserModel findUserByNameOrEmail(KeycloakSession session, RealmModel realm, String username) {
+    public static UserModel findUserByNameOrEmail(KeycloakRequestSession session, RealmModel realm, String username) {
         if (realm.isLoginWithEmailAllowed() && username.indexOf('@') != -1) {
             UserModel user = session.users().getUserByEmail(realm, username);
             if (user != null) {
@@ -352,7 +352,7 @@ public final class KeycloakModelUtils {
      * @param origContext The original context to propagate
      * @param targetSession The new target session to propagate the context to
      */
-    public static void cloneContextRealmClientToSession(final KeycloakContext origContext, final KeycloakSession targetSession) {
+    public static void cloneContextRealmClientToSession(final KeycloakContext origContext, final KeycloakRequestSession targetSession) {
         cloneContextToSession(origContext, targetSession, false);
     }
 
@@ -363,7 +363,7 @@ public final class KeycloakModelUtils {
      * @param origContext The original context to propagate
      * @param targetSession The new target session to propagate the context to
      */
-    public static void cloneContextRealmClientSessionToSession(final KeycloakContext origContext, final KeycloakSession targetSession) {
+    public static void cloneContextRealmClientSessionToSession(final KeycloakContext origContext, final KeycloakRequestSession targetSession) {
         cloneContextToSession(origContext, targetSession, true);
     }
 
@@ -372,7 +372,7 @@ public final class KeycloakModelUtils {
      * determine what models need to be re-loaded using the current session. The models
      * in the context are re-read from the new session via the IDs.
      */
-    private static void cloneContextToSession(final KeycloakContext origContext, final KeycloakSession targetSession,
+    private static void cloneContextToSession(final KeycloakContext origContext, final KeycloakRequestSession targetSession,
             final boolean includeAuthenticatedSessionModel) {
         if (origContext == null) {
             return;
@@ -448,8 +448,8 @@ public final class KeycloakModelUtils {
     public static <V> V runJobInTransactionWithResult(KeycloakSessionFactory factory, KeycloakContext context, final KeycloakSessionTaskWithResult<V> callable,
                                                       String taskName) {
         V result;
-        KeycloakSession existing = KeycloakSessionUtil.getKeycloakSession();
-        try (KeycloakSession session = factory.create()) {
+        KeycloakRequestSession existing = KeycloakSessionUtil.getKeycloakSession();
+        try (KeycloakRequestSession session = factory.create()) {
             RequestContextHelper.getContext(session).setContextMessage(taskName);
             session.getTransactionManager().begin();
             KeycloakSessionUtil.setKeycloakSession(session);
@@ -773,7 +773,7 @@ public final class KeycloakModelUtils {
      * @param session The session
      * @return true or false
      */
-    public static boolean escapeSlashesInGroupPath(KeycloakSession session) {
+    public static boolean escapeSlashesInGroupPath(KeycloakRequestSession session) {
         GroupProviderFactory fact = (GroupProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(GroupProvider.class);
         return fact.escapeSlashesInGroupPath();
     }
@@ -791,7 +791,7 @@ public final class KeycloakModelUtils {
      *
      * @return {@code GroupModel} corresponding to the given {@code path} or {@code null} if no group was found
      */
-    public static GroupModel findGroupByPath(KeycloakSession session, RealmModel realm, String path) {
+    public static GroupModel findGroupByPath(KeycloakRequestSession session, RealmModel realm, String path) {
         if (path == null) {
             return null;
         }
@@ -810,7 +810,7 @@ public final class KeycloakModelUtils {
      *
      * @return {@code GroupModel} corresponding to the given {@code path} or {@code null} if no group was found
      */
-    public static GroupModel findGroupByPath(KeycloakSession session, RealmModel realm, String[] path) {
+    public static GroupModel findGroupByPath(KeycloakRequestSession session, RealmModel realm, String[] path) {
         if (path == null || path.length == 0) {
             return null;
         }
@@ -989,7 +989,7 @@ public final class KeycloakModelUtils {
      * @param model
      * @return
      */
-    public static boolean isFlowUsed(KeycloakSession session, RealmModel realm, AuthenticationFlowModel model) {
+    public static boolean isFlowUsed(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel model) {
         AuthenticationFlowModel realmFlow = null;
 
         if ((realmFlow = realm.getBrowserFlow()) != null && realmFlow.getId().equals(model.getId())) return true;
@@ -1023,7 +1023,7 @@ public final class KeycloakModelUtils {
      * @param flowUnavailableHandler Will be executed when flow, sub-flow or executor is null
      * @param builtinFlowHandler will be executed when flow is built-in flow
      */
-    public static void deepDeleteAuthenticationFlow(KeycloakSession session, RealmModel realm, AuthenticationFlowModel authFlow, Runnable flowUnavailableHandler, Runnable builtinFlowHandler) {
+    public static void deepDeleteAuthenticationFlow(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel authFlow, Runnable flowUnavailableHandler, Runnable builtinFlowHandler) {
         if (authFlow == null) {
             flowUnavailableHandler.run();
             return;
@@ -1047,7 +1047,7 @@ public final class KeycloakModelUtils {
      * @param flowUnavailableHandler Handler that will be executed when flow, sub-flow or executor is null
      * @param builtinFlowHandler Handler that will be executed when flow is built-in flow
      */
-    public static void deepDeleteAuthenticationExecutor(KeycloakSession session, RealmModel realm, AuthenticationExecutionModel authExecutor, Runnable flowUnavailableHandler, Runnable builtinFlowHandler) {
+    public static void deepDeleteAuthenticationExecutor(KeycloakRequestSession session, RealmModel realm, AuthenticationExecutionModel authExecutor, Runnable flowUnavailableHandler, Runnable builtinFlowHandler) {
         if (authExecutor == null) {
             flowUnavailableHandler.run();
             return;
@@ -1153,7 +1153,7 @@ public final class KeycloakModelUtils {
 
     }
 
-    public static String getIdentityProviderDisplayName(KeycloakSession session, IdentityProviderModel provider) {
+    public static String getIdentityProviderDisplayName(KeycloakRequestSession session, IdentityProviderModel provider) {
         String displayName = provider.getDisplayName();
         if (displayName != null && !displayName.isEmpty()) {
             return displayName;
@@ -1194,7 +1194,7 @@ public final class KeycloakModelUtils {
      * @param groups
      * @throws RuntimeException if a group does not exist
      */
-    public static void setDefaultGroups(KeycloakSession session, RealmModel realm, Stream<String> groups) {
+    public static void setDefaultGroups(KeycloakRequestSession session, RealmModel realm, Stream<String> groups) {
         realm.getDefaultGroupsStream().collect(Collectors.toList()).forEach(realm::removeDefaultGroup);
         groups.forEach(path -> {
             GroupModel found = KeycloakModelUtils.findGroupByPath(session, realm, path);
@@ -1214,7 +1214,7 @@ public final class KeycloakModelUtils {
      * @param operation the operation
      * @return the result from the supplier
      */
-    public static <T> T runOnRealm(KeycloakSession session, RealmModel target, Function<KeycloakSession, T> operation) {
+    public static <T> T runOnRealm(KeycloakRequestSession session, RealmModel target, Function<KeycloakRequestSession, T> operation) {
         KeycloakContext context = session.getContext();
         RealmModel currentRealm = context.getRealm();
 

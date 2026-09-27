@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -31,7 +31,7 @@ public class DefaultClientPolicyManagerFactory implements ClientPolicyManagerFac
     private static final Logger logger = Logger.getLogger(DefaultClientPolicyManagerFactory.class);
 
     @Override
-    public ClientPolicyManager create(KeycloakSession session) {
+    public ClientPolicyManager create(KeycloakRequestSession session) {
         return new DefaultClientPolicyManager(session);
     }
 

@@ -42,7 +42,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.TokenManager;
 import org.keycloak.models.UserModel;
@@ -69,9 +69,9 @@ public class DefaultTokenManager implements TokenManager {
 
     private static final Logger logger = Logger.getLogger(DefaultTokenManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultTokenManager(KeycloakSession session) {
+    public DefaultTokenManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

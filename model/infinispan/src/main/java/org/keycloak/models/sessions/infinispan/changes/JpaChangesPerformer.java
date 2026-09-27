@@ -21,7 +21,7 @@ import org.infinispan.util.function.TriConsumer;
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -58,7 +58,7 @@ public class JpaChangesPerformer<K, V extends SessionEntity> implements SessionC
 
     private final String cacheName;
     private final List<PersistentUpdate> changes = new LinkedList<>();
-    private final TriConsumer<KeycloakSession, Map.Entry<K, SessionUpdatesList<V>>, MergedUpdate<V>> processor;
+    private final TriConsumer<KeycloakRequestSession, Map.Entry<K, SessionUpdatesList<V>>, MergedUpdate<V>> processor;
     private final ArrayBlockingQueue<PersistentUpdate> batchingQueue;
 
     public JpaChangesPerformer(String cacheName, ArrayBlockingQueue<PersistentUpdate> batchingQueue) {
@@ -72,7 +72,7 @@ public class JpaChangesPerformer<K, V extends SessionEntity> implements SessionC
         changes.add(new PersistentUpdate(innerSession -> processor.accept(innerSession, entry, merged)));
     }
 
-    private TriConsumer<KeycloakSession, Map.Entry<K, SessionUpdatesList<V>>, MergedUpdate<V>> processor() {
+    private TriConsumer<KeycloakRequestSession, Map.Entry<K, SessionUpdatesList<V>>, MergedUpdate<V>> processor() {
         return switch (cacheName) {
             case USER_SESSION_CACHE_NAME, OFFLINE_USER_SESSION_CACHE_NAME -> this::processUserSessionUpdate;
             case CLIENT_SESSION_CACHE_NAME, OFFLINE_CLIENT_SESSION_CACHE_NAME -> this::processClientSessionUpdate;
@@ -117,14 +117,14 @@ public class JpaChangesPerformer<K, V extends SessionEntity> implements SessionC
         }
     }
 
-    public void applyChangesSynchronously(KeycloakSession session) {
+    public void applyChangesSynchronously(KeycloakRequestSession session) {
         if (!changes.isEmpty()) {
             changes.forEach(persistentUpdate -> persistentUpdate.perform(session));
             changes.clear();
         }
     }
 
-    private void processClientSessionUpdate(KeycloakSession innerSession, Map.Entry<K, SessionUpdatesList<V>> entry, MergedUpdate<V> merged) {
+    private void processClientSessionUpdate(KeycloakRequestSession innerSession, Map.Entry<K, SessionUpdatesList<V>> entry, MergedUpdate<V> merged) {
         SessionUpdatesList<V> sessionUpdates = entry.getValue();
         SessionEntityWrapper<V> sessionWrapper = sessionUpdates.getEntityWrapper();
         RealmModel realm = sessionUpdates.getRealm();
@@ -383,7 +383,7 @@ public class JpaChangesPerformer<K, V extends SessionEntity> implements SessionC
 
     }
 
-    private void processUserSessionUpdate(KeycloakSession innerSession, Map.Entry<K, SessionUpdatesList<V>> entry, MergedUpdate<V> merged) {
+    private void processUserSessionUpdate(KeycloakRequestSession innerSession, Map.Entry<K, SessionUpdatesList<V>> entry, MergedUpdate<V> merged) {
         SessionUpdatesList<V> sessionUpdates = entry.getValue();
         SessionEntityWrapper<V> sessionWrapper = sessionUpdates.getEntityWrapper();
         RealmModel realm = sessionUpdates.getRealm();

@@ -18,7 +18,7 @@ package org.keycloak.testsuite.federation;
 
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.storage.UserStorageProviderFactory;
@@ -57,7 +57,7 @@ public class UserMapStorageFactory implements UserStorageProviderFactory<UserMap
     }
 
     @Override
-    public UserMapStorage create(KeycloakSession session, ComponentModel model) {
+    public UserMapStorage create(KeycloakRequestSession session, ComponentModel model) {
         return new UserMapStorage(session, model, userPasswords, userGroups);
     }
 

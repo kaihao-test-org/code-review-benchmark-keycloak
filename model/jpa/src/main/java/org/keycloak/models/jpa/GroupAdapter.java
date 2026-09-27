@@ -26,7 +26,7 @@ import org.keycloak.authorization.fgap.evaluation.partial.PartialEvaluationStora
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.jpa.entities.GroupAttributeEntity;
@@ -57,12 +57,12 @@ import static org.keycloak.utils.StreamsUtil.closing;
  */
 public class GroupAdapter implements GroupModel , JpaModel<GroupEntity> {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected GroupEntity group;
     protected EntityManager em;
     protected RealmModel realm;
 
-    public GroupAdapter(KeycloakSession session, RealmModel realm, EntityManager em, GroupEntity group) {
+    public GroupAdapter(KeycloakRequestSession session, RealmModel realm, EntityManager em, GroupEntity group) {
         this.session = session;
         this.em = em;
         this.group = group;

@@ -28,7 +28,7 @@ import org.jboss.resteasy.reactive.NoCache;
 import jakarta.ws.rs.NotFoundException;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ProtocolMapperContainerModel;
 import org.keycloak.models.ProtocolMapperModel;
@@ -80,9 +80,9 @@ public class ProtocolMappersResource {
 
     protected final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ProtocolMappersResource(KeycloakSession session, ProtocolMapperContainerModel client, AdminPermissionEvaluator auth,
+    public ProtocolMappersResource(KeycloakRequestSession session, ProtocolMapperContainerModel client, AdminPermissionEvaluator auth,
                                    AdminEventBuilder adminEvent,
                                    AdminPermissionEvaluator.RequirePermissionCheck managePermission,
                                    AdminPermissionEvaluator.RequirePermissionCheck viewPermission) {

@@ -47,7 +47,7 @@ public interface TracingProvider extends Provider {
      * class MyClass {
      *   private final TracingProvider tracing;
      *
-     *   MyClass(KeycloakSession session) {
+     *   MyClass(KeycloakRequestSession session) {
      *     tracing = session.getProvider(TracingProvider.class);
      *   }
      *
@@ -132,7 +132,7 @@ public interface TracingProvider extends Provider {
      * class MyClass {
      *   private final TracingProvider tracing;
      *
-     *   MyClass(KeycloakSession session) {
+     *   MyClass(KeycloakRequestSession session) {
      *     tracing = session.getProvider(TracingProvider.class);
      *   }
      *
@@ -195,7 +195,7 @@ public interface TracingProvider extends Provider {
      * class MyClass {
      *   private final TracingProvider tracing;
      *
-     *   MyClass(KeycloakSession session) {
+     *   MyClass(KeycloakRequestSession session) {
      *     tracing = session.getProvider(TracingProvider.class);
      *   }
      *

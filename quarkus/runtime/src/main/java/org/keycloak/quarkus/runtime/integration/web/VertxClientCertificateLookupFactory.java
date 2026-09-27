@@ -17,7 +17,7 @@
 package org.keycloak.quarkus.runtime.integration.web;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.x509.X509ClientCertificateLookup;
 import org.keycloak.services.x509.X509ClientCertificateLookupFactory;
@@ -30,7 +30,7 @@ public class VertxClientCertificateLookupFactory implements X509ClientCertificat
     private static X509ClientCertificateLookup SINGLETON;
 
     @Override
-    public X509ClientCertificateLookup create(KeycloakSession session) {
+    public X509ClientCertificateLookup create(KeycloakRequestSession session) {
         return SINGLETON;
     }
 

@@ -18,7 +18,7 @@
 
 package org.keycloak.authorization;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderFactory;
 
@@ -27,5 +27,5 @@ import org.keycloak.provider.ProviderFactory;
  */
 public interface AuthorizationProviderFactory extends ProviderFactory<AuthorizationProvider> {
 
-    AuthorizationProvider create(KeycloakSession session, RealmModel realm);
+    AuthorizationProvider create(KeycloakRequestSession session, RealmModel realm);
 }

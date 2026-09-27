@@ -18,7 +18,7 @@
 package org.keycloak.tracing;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.KeycloakSessionUtil;
 
 public class TracingProviderUtil {
@@ -26,7 +26,7 @@ public class TracingProviderUtil {
     private static final Logger log = Logger.getLogger(TracingProviderUtil.class);
     private static TracingProvider NOOP_PROVIDER;
 
-    public static TracingProvider getTracingProvider(KeycloakSession session) {
+    public static TracingProvider getTracingProvider(KeycloakRequestSession session) {
         return session.getProvider(TracingProvider.class);
     }
 

@@ -27,7 +27,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.keycloak.admin.ui.rest.model.UIRealmRepresentation;
 import org.keycloak.admin.ui.rest.model.UIRealmInfo;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.representations.userprofile.config.UPConfig;
 import org.keycloak.services.resources.admin.AdminEventBuilder;
@@ -53,11 +53,11 @@ import jakarta.ws.rs.core.Response.Status.Family;
 public class UIRealmResource {
 
     private final RealmAdminResource delegate;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
-    public UIRealmResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public UIRealmResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.adminEvent = adminEvent;

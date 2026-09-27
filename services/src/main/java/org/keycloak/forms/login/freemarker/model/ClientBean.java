@@ -18,7 +18,7 @@
 package org.keycloak.forms.login.freemarker.model;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.util.ResolveRelative;
 
 import java.util.Map;
@@ -29,10 +29,10 @@ import java.util.Map;
  */
 public class ClientBean {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     protected ClientModel client;
 
-    public ClientBean(KeycloakSession session, ClientModel client) {
+    public ClientBean(KeycloakRequestSession session, ClientModel client) {
         this.session = session;
         this.client = client;
     }

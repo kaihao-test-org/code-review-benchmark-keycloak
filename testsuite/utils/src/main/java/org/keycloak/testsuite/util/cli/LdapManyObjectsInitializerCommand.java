@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.UserModelDelegate;
@@ -64,7 +64,7 @@ public class LdapManyObjectsInitializerCommand extends AbstractCommand {
     }
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         String realmName = getArg(0);
         String groupsDn = getArg(1);
         int startOffsetUsers = getIntArg(2);
@@ -89,7 +89,7 @@ public class LdapManyObjectsInitializerCommand extends AbstractCommand {
         // Create users
         Set<String> createdUserDNs = new HashSet<>();
         BatchTaskRunner.runInBatches(startOffsetUsers, countUsers, batchCount, session.getKeycloakSessionFactory(),
-                (KeycloakSession kcSession, int firstIt, int countInIt) -> {
+                (KeycloakRequestSession kcSession, int firstIt, int countInIt) -> {
 
                     LDAPStorageProvider ldapProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, ldapModel);
                     RealmModel appRealm = session.realms().getRealmByName(realmName);
@@ -110,7 +110,7 @@ public class LdapManyObjectsInitializerCommand extends AbstractCommand {
 
         // Create groups
         BatchTaskRunner.runInBatches(startOffsetGroups, countGroups, batchCount, session.getKeycloakSessionFactory(),
-                (KeycloakSession kcSession, int firstIt, int countInIt) -> {
+                (KeycloakRequestSession kcSession, int firstIt, int countInIt) -> {
 
                     LDAPStorageProvider ldapProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, ldapModel);
                     RealmModel appRealm = session.realms().getRealmByName(realmName);

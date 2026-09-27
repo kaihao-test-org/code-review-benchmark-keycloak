@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import org.keycloak.connections.jpa.support.EntityManagers;
 import org.keycloak.exportimport.ExportImportConfig;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.utils.KeycloakSessionUtil;
@@ -44,7 +44,7 @@ public abstract class ExportImportSessionTask {
 
     public void runTask(KeycloakSessionFactory factory, Mode mode) {
         boolean useExistingSession = ExportImportConfig.isSingleTransaction();
-        KeycloakSession existing = KeycloakSessionUtil.getKeycloakSession();
+        KeycloakRequestSession existing = KeycloakSessionUtil.getKeycloakSession();
         if (useExistingSession && existing != null && existing.getTransactionManager().isActive()) {
             run(mode, existing);
         } else {
@@ -52,7 +52,7 @@ public abstract class ExportImportSessionTask {
         }
     }
 
-    private void run(Mode mode, KeycloakSession session) {
+    private void run(Mode mode, KeycloakRequestSession session) {
         Runnable task = () -> {
             try {
                 runExportImportTask(session);
@@ -67,5 +67,5 @@ public abstract class ExportImportSessionTask {
         }
     }
 
-    protected abstract void runExportImportTask(KeycloakSession session) throws IOException;
+    protected abstract void runExportImportTask(KeycloakRequestSession session) throws IOException;
 }

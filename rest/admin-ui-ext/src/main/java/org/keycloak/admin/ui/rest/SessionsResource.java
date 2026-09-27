@@ -12,7 +12,7 @@ import org.keycloak.admin.ui.rest.model.SessionRepresentation;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.light.LightweightUserAdapter;
@@ -31,11 +31,11 @@ import java.util.stream.Stream;
 import static org.keycloak.admin.ui.rest.model.ClientIdSessionType.SessionType.*;
 
 public class SessionsResource {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final AdminPermissionEvaluator auth;
 
-    public SessionsResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth) {
+    public SessionsResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth) {
         this.session = session;
         this.realm = realm;
         this.auth = auth;

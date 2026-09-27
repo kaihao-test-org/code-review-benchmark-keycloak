@@ -24,7 +24,7 @@ import org.keycloak.authorization.admin.AuthorizationService;
 import org.keycloak.common.Profile;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -50,7 +50,7 @@ import java.util.Objects;
 public class KeycloakOIDCClientInstallation implements ClientInstallationProvider {
 
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI baseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI baseUri) {
         ClientManager.InstallationAdapterConfig rep = new ClientManager.InstallationAdapterConfig();
         rep.setAuthServerUrl(baseUri.toString());
         rep.setRealm(realm.getName());
@@ -82,7 +82,7 @@ public class KeycloakOIDCClientInstallation implements ClientInstallationProvide
         return Response.ok(json, MediaType.TEXT_PLAIN_TYPE).build();
     }
 
-    public static Map<String, Object> getClientCredentialsAdapterConfig(KeycloakSession session, ClientModel client) {
+    public static Map<String, Object> getClientCredentialsAdapterConfig(KeycloakRequestSession session, ClientModel client) {
         String clientAuthenticator = client.getClientAuthenticatorType();
         ClientAuthenticatorFactory authenticator = (ClientAuthenticatorFactory) session.getKeycloakSessionFactory().getProviderFactory(ClientAuthenticator.class, clientAuthenticator);
         return authenticator.getAdapterConfiguration(client);
@@ -140,7 +140,7 @@ public class KeycloakOIDCClientInstallation implements ClientInstallationProvide
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -174,7 +174,7 @@ public class KeycloakOIDCClientInstallation implements ClientInstallationProvide
         return MediaType.APPLICATION_JSON;
     }
 
-    private void configureAuthorizationSettings(KeycloakSession session, ClientModel client, ClientManager.InstallationAdapterConfig rep) {
+    private void configureAuthorizationSettings(KeycloakRequestSession session, ClientModel client, ClientManager.InstallationAdapterConfig rep) {
         if (Profile.isFeatureEnabled(Profile.Feature.AUTHORIZATION) && new AuthorizationService(session, client, null, null).isEnabled()) {
             PolicyEnforcerConfig enforcerConfig = new PolicyEnforcerConfig();
 

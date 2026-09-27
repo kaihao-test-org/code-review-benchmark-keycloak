@@ -17,7 +17,7 @@
 
 package org.keycloak.services.clientpolicy.condition;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
@@ -28,7 +28,7 @@ import org.keycloak.services.clientpolicy.ClientPolicyVote;
  */
 public class AnyClientCondition extends AbstractClientPolicyConditionProvider<ClientPolicyConditionConfigurationRepresentation> {
 
-    public AnyClientCondition(KeycloakSession session) {
+    public AnyClientCondition(KeycloakRequestSession session) {
         super(session);
     }
 

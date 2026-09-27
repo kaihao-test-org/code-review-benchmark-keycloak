@@ -28,7 +28,7 @@ import org.infinispan.commons.util.concurrent.CompletionStages;
 import org.jboss.logging.Logger;
 import org.keycloak.connections.infinispan.InfinispanUtil;
 import org.keycloak.models.AbstractKeycloakTransaction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.sessions.infinispan.CacheDecorators;
@@ -43,7 +43,7 @@ public class InfinispanChangelogBasedTransaction<K, V extends SessionEntity> ext
 
     public static final Logger logger = Logger.getLogger(InfinispanChangelogBasedTransaction.class);
 
-    protected final KeycloakSession kcSession;
+    protected final KeycloakRequestSession kcSession;
     protected final Cache<K, SessionEntityWrapper<V>> cache;
 
     protected final Map<K, SessionUpdatesList<V>> updates = new HashMap<>();
@@ -52,7 +52,7 @@ public class InfinispanChangelogBasedTransaction<K, V extends SessionEntity> ext
     protected final SessionFunction<V> maxIdleTimeMsLoader;
     private final SerializeExecutionsByKey<K> serializer;
 
-    public InfinispanChangelogBasedTransaction(KeycloakSession kcSession, Cache<K, SessionEntityWrapper<V>> cache,
+    public InfinispanChangelogBasedTransaction(KeycloakRequestSession kcSession, Cache<K, SessionEntityWrapper<V>> cache,
                                                SessionFunction<V> lifespanMsLoader, SessionFunction<V> maxIdleTimeMsLoader, SerializeExecutionsByKey<K> serializer) {
         this.kcSession = kcSession;
         this.cache = cache;

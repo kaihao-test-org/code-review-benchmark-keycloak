@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.session.UserSessionPersisterProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -48,7 +48,7 @@ public class PersisterLastSessionRefreshStore extends AbstractLastSessionRefresh
     }
 
 
-    protected void sendMessage(KeycloakSession kcSession, Map<String, SessionData> refreshesToSend) {
+    protected void sendMessage(KeycloakRequestSession kcSession, Map<String, SessionData> refreshesToSend) {
         Map<String, Set<String>> sessionIdsByRealm =
                 refreshesToSend.entrySet().stream().collect(
                         Collectors.groupingBy(entry -> entry.getValue().realmId(),

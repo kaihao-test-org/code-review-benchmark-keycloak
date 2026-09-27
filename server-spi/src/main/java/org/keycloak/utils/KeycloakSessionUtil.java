@@ -19,7 +19,7 @@ package org.keycloak.utils;
 
 import org.keycloak.common.util.Resteasy;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 public class KeycloakSessionUtil {
@@ -31,26 +31,26 @@ public class KeycloakSessionUtil {
     }
 
     /**
-     * Get the {@link KeycloakSession} currently associated with the thread.
+     * Get the {@link KeycloakRequestSession} currently associated with the thread.
      *
      * @return the current session
      */
-    public static KeycloakSession getKeycloakSession() {
-        return Resteasy.getContextData(KeycloakSession.class);
+    public static KeycloakRequestSession getKeycloakSession() {
+        return Resteasy.getContextData(KeycloakRequestSession.class);
     }
 
     /**
-     * Associate the {@link KeycloakSession} with the current thread.
+     * Associate the {@link KeycloakRequestSession} with the current thread.
      * <br>Warning: should not be called directly. Keycloak will manage this.
      *
      * @param session
-     * @return the existing {@link KeycloakSession} or null
+     * @return the existing {@link KeycloakRequestSession} or null
      */
-    public static KeycloakSession setKeycloakSession(KeycloakSession session) {
-        return Resteasy.pushContext(KeycloakSession.class, session);
+    public static KeycloakRequestSession setKeycloakSession(KeycloakRequestSession session) {
+        return Resteasy.pushContext(KeycloakRequestSession.class, session);
     }
 
-    public static String getRealmNameFromContext(KeycloakSession session) {
+    public static String getRealmNameFromContext(KeycloakRequestSession session) {
         if(session == null) {
             return NO_REALM;
         }

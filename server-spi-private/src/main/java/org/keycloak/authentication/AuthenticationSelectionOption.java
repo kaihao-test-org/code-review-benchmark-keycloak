@@ -4,14 +4,14 @@ import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.CredentialTypeMetadata;
 import org.keycloak.credential.CredentialTypeMetadataContext;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class AuthenticationSelectionOption {
 
     private final AuthenticationExecutionModel authExec;
     private final CredentialTypeMetadata credentialTypeMetadata;
 
-    public AuthenticationSelectionOption(KeycloakSession session, AuthenticationExecutionModel authExec) {
+    public AuthenticationSelectionOption(KeycloakRequestSession session, AuthenticationExecutionModel authExec) {
         this.authExec = authExec;
         Authenticator authenticator = session.getProvider(Authenticator.class, authExec.getAuthenticator());
         if (authenticator instanceof CredentialValidator) {

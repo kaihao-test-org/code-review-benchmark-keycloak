@@ -42,7 +42,7 @@ import org.keycloak.authorization.store.ResourceServerStore;
 import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.authorization.store.ScopeStore;
 import org.keycloak.authorization.store.StoreFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.cache.authorization.CachedStoreFactoryProvider;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -80,10 +80,10 @@ public final class AuthorizationProvider implements Provider {
     private final PolicyEvaluator policyEvaluator;
     private StoreFactory storeFactory;
     private StoreFactory storeFactoryDelegate;
-    private final KeycloakSession keycloakSession;
+    private final KeycloakRequestSession keycloakSession;
     private final RealmModel realm;
 
-    public AuthorizationProvider(KeycloakSession session, RealmModel realm, PolicyEvaluator policyEvaluator) {
+    public AuthorizationProvider(KeycloakRequestSession session, RealmModel realm, PolicyEvaluator policyEvaluator) {
         this.keycloakSession = session;
         this.realm = realm;
         this.policyEvaluator = policyEvaluator;
@@ -162,7 +162,7 @@ public final class AuthorizationProvider implements Provider {
         return (P) policyProviderFactory.create(this);
     }
 
-    public KeycloakSession getKeycloakSession() {
+    public KeycloakRequestSession getKeycloakSession() {
         return this.keycloakSession;
     }
 

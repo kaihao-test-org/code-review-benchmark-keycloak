@@ -27,7 +27,7 @@ import org.infinispan.affinity.KeyAffinityService;
 import org.infinispan.affinity.KeyAffinityServiceFactory;
 import org.infinispan.affinity.KeyGenerator;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.sessions.StickySessionEncoderProvider;
 
@@ -42,17 +42,17 @@ public class InfinispanKeyGenerator {
     private final Map<String, KeyAffinityService> keyAffinityServices = new ConcurrentHashMap<>();
 
 
-    public String generateKeyString(KeycloakSession session, Cache<String, ?> cache) {
+    public String generateKeyString(KeycloakRequestSession session, Cache<String, ?> cache) {
         return generateKey(session, cache, new StringKeyGenerator());
     }
 
 
-    public UUID generateKeyUUID(KeycloakSession session, Cache<UUID, ?> cache) {
+    public UUID generateKeyUUID(KeycloakRequestSession session, Cache<UUID, ?> cache) {
         return generateKey(session, cache, new UUIDKeyGenerator());
     }
 
 
-    protected <K> K generateKey(KeycloakSession session, Cache<K, ?> cache, KeyGenerator<K> keyGenerator) {
+    protected <K> K generateKey(KeycloakRequestSession session, Cache<K, ?> cache, KeyGenerator<K> keyGenerator) {
         String cacheName = cache.getName();
 
         // "wantsLocalKey" is true if route is not attached to the sticky session cookie. Without attached route, We want the key, which will be "owned" by this node.

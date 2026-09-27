@@ -30,7 +30,7 @@ import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
 import org.keycloak.models.RealmModel;
@@ -68,7 +68,7 @@ import java.util.stream.Stream;
 public class ClientRoleMappingsResource {
     protected static final Logger logger = Logger.getLogger(ClientRoleMappingsResource.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected AdminPermissionEvaluator auth;
     protected RoleMapperModel user;
@@ -79,7 +79,7 @@ public class ClientRoleMappingsResource {
     protected AdminPermissionEvaluator.RequirePermissionCheck viewPermission;
 
 
-    public ClientRoleMappingsResource(UriInfo uriInfo, KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth,
+    public ClientRoleMappingsResource(UriInfo uriInfo, KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth,
                                       RoleMapperModel user, ClientModel client, AdminEventBuilder adminEvent,
                                       AdminPermissionEvaluator.RequirePermissionCheck manageCheck, AdminPermissionEvaluator.RequirePermissionCheck viewCheck ) {
         this.uriInfo = uriInfo;

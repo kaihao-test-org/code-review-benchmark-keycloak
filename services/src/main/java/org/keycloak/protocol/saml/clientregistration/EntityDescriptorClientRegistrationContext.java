@@ -17,7 +17,7 @@
 
 package org.keycloak.protocol.saml.clientregistration;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientregistration.AbstractClientRegistrationContext;
 import org.keycloak.services.clientregistration.ClientRegistrationProvider;
@@ -27,7 +27,7 @@ import org.keycloak.services.clientregistration.ClientRegistrationProvider;
  */
 public class EntityDescriptorClientRegistrationContext extends AbstractClientRegistrationContext {
 
-    public EntityDescriptorClientRegistrationContext(KeycloakSession session, ClientRepresentation client, ClientRegistrationProvider provider) {
+    public EntityDescriptorClientRegistrationContext(KeycloakRequestSession session, ClientRepresentation client, ClientRegistrationProvider provider) {
         super(session, client, provider);
     }
 }

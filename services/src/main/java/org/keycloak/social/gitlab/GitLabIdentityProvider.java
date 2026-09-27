@@ -30,7 +30,7 @@ import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.IDToken;
 import org.keycloak.representations.JsonWebToken;
@@ -50,7 +50,7 @@ public class GitLabIdentityProvider extends OIDCIdentityProvider  implements Soc
 	public static final String USER_INFO = "https://gitlab.com/api/v4/user";
 	public static final String READ_USER_SCOPE = "read_user";
 
-	public GitLabIdentityProvider(KeycloakSession session, OIDCIdentityProviderConfig config) {
+	public GitLabIdentityProvider(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(AUTH_URL);
 		config.setTokenUrl(TOKEN_URL);

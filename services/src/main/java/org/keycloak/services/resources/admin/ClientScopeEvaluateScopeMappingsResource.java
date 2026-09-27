@@ -38,7 +38,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -53,13 +53,13 @@ import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 @Extension(name = KeycloakOpenAPI.Profiles.ADMIN, value = "")
 public class ClientScopeEvaluateScopeMappingsResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RoleContainerModel roleContainer;
     private final AdminPermissionEvaluator auth;
     private final ClientModel client;
     private final String scopeParam;
 
-    public ClientScopeEvaluateScopeMappingsResource(KeycloakSession session, RoleContainerModel roleContainer, AdminPermissionEvaluator auth, ClientModel client,
+    public ClientScopeEvaluateScopeMappingsResource(KeycloakRequestSession session, RoleContainerModel roleContainer, AdminPermissionEvaluator auth, ClientModel client,
                                                     String scopeParam) {
         this.session = session;
         this.roleContainer = roleContainer;
@@ -115,7 +115,7 @@ public class ClientScopeEvaluateScopeMappingsResource {
                 .map(ModelToRepresentation::toBriefRepresentation);
     }
 
-    private Stream<RoleModel> getGrantedRoles(KeycloakSession session) {
+    private Stream<RoleModel> getGrantedRoles(KeycloakRequestSession session) {
         if (client.isFullScopeAllowed()) {
             return roleContainer.getRolesStream();
         }

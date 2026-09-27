@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.tokenexchange;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.TokenExchangeProvider;
 import org.keycloak.protocol.oidc.TokenExchangeProviderFactory;
@@ -34,7 +34,7 @@ import org.keycloak.provider.EnvironmentDependentProviderFactory;
 public class V1TokenExchangeProviderFactory implements TokenExchangeProviderFactory, EnvironmentDependentProviderFactory {
 
     @Override
-    public TokenExchangeProvider create(KeycloakSession session) {
+    public TokenExchangeProvider create(KeycloakRequestSession session) {
         return new V1TokenExchangeProvider();
     }
 

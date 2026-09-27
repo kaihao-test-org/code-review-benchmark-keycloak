@@ -25,7 +25,7 @@ import java.util.Map;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.models.AbstractKeycloakTransaction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Postpone sending notifications of session events to the commit of Keycloak transaction
@@ -34,11 +34,11 @@ import org.keycloak.models.KeycloakSession;
  */
 public class SessionEventsSenderTransaction extends AbstractKeycloakTransaction {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final Map<String, List<ClusterEvent>> sessionEvents = new HashMap<>();
 
-    public SessionEventsSenderTransaction(KeycloakSession session) {
+    public SessionEventsSenderTransaction(KeycloakRequestSession session) {
         this.session = session;
     }
 

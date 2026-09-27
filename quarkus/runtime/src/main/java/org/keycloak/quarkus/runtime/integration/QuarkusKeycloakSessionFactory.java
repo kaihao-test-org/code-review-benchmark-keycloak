@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
 import org.keycloak.provider.ProviderManagerRegistry;
@@ -103,7 +103,7 @@ public final class QuarkusKeycloakSessionFactory extends DefaultKeycloakSessionF
     }
 
     @Override
-    public KeycloakSession create() {
+    public KeycloakRequestSession create() {
         return new QuarkusKeycloakSession(this);
     }
 }

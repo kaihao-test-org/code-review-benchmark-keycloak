@@ -37,7 +37,7 @@ import org.keycloak.connections.infinispan.remote.RemoteInfinispanConnectionProv
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.marshalling.KeycloakIndexSchemaUtil;
 import org.keycloak.marshalling.KeycloakModelSchema;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.infinispan.ClearCacheEvent;
 import org.keycloak.models.cache.infinispan.events.RealmRemovedEvent;
@@ -87,7 +87,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
     private volatile InfinispanConnectionProvider connectionProvider;
 
     @Override
-    public InfinispanConnectionProvider create(KeycloakSession session) {
+    public InfinispanConnectionProvider create(KeycloakRequestSession session) {
         return lazyInit(session);
     }
 
@@ -147,7 +147,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
         factory.register(this);
     }
 
-    protected InfinispanConnectionProvider lazyInit(KeycloakSession keycloakSession) {
+    protected InfinispanConnectionProvider lazyInit(KeycloakRequestSession keycloakSession) {
         if (connectionProvider != null) {
             return connectionProvider;
         }
@@ -170,7 +170,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
         }
     }
 
-    protected EmbeddedCacheManager createEmbeddedCacheManager(KeycloakSession session) {
+    protected EmbeddedCacheManager createEmbeddedCacheManager(KeycloakRequestSession session) {
         var holder = session.getProvider(CacheEmbeddedConfigProvider.class).configuration();
         var cm = new DefaultCacheManager(holder, true);
         cm.getCache(KEYS_CACHE_NAME, true);
@@ -180,7 +180,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
         return cm;
     }
 
-    protected RemoteCacheManager createRemoteCacheManager(KeycloakSession session) {
+    protected RemoteCacheManager createRemoteCacheManager(KeycloakRequestSession session) {
         var remoteConfig = session.getProvider(CacheRemoteConfigProvider.class).configuration();
         if (remoteConfig.isEmpty()) {
             logger.debug("Remote Cache feature is disabled");
@@ -204,7 +204,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
     }
 
     /**
-     * @deprecated not invoked anymore. Overwrite {@link #createEmbeddedCacheManager(KeycloakSession)}.
+     * @deprecated not invoked anymore. Overwrite {@link #createEmbeddedCacheManager(KeycloakRequestSession)}.
      */
     @Deprecated(since = "26.0", forRemoval = true)
     protected EmbeddedCacheManager initContainerManaged(EmbeddedCacheManager cacheManager) {
@@ -212,7 +212,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
     }
 
     /**
-     * @deprecated not used anymore. Overwrite {@link #createEmbeddedCacheManager(KeycloakSession)} if you want to
+     * @deprecated not used anymore. Overwrite {@link #createEmbeddedCacheManager(KeycloakRequestSession)} if you want to
      * create a custom {@link EmbeddedCacheManager}.
      */
     @Deprecated(since = "26.3", forRemoval = true)
@@ -244,7 +244,7 @@ public class DefaultInfinispanConnectionProviderFactory implements InfinispanCon
         return CacheConfigurator.getCrlCacheConfig().build();
     }
 
-    private void registerSystemWideListeners(KeycloakSession session) {
+    private void registerSystemWideListeners(KeycloakRequestSession session) {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
         ClusterProvider cluster = session.getProvider(ClusterProvider.class);
         cluster.registerListener(REALM_CLEAR_CACHE_EVENTS, (ClusterEvent event) -> {

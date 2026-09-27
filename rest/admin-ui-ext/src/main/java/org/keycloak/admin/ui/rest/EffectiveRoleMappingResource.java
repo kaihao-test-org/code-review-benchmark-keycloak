@@ -21,7 +21,7 @@ import org.keycloak.admin.ui.rest.model.ClientRole;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -30,7 +30,7 @@ import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 import static org.keycloak.admin.ui.rest.model.RoleMapper.convertToModel;
 
 public class EffectiveRoleMappingResource extends RoleMappingResource {
-    public EffectiveRoleMappingResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth) {
+    public EffectiveRoleMappingResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth) {
         super(session, realm, auth);
     }
 

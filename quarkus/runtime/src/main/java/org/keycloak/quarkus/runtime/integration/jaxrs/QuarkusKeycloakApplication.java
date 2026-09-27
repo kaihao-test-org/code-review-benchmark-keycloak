@@ -18,7 +18,7 @@
 package org.keycloak.quarkus.runtime.integration.jaxrs;
 
 import org.keycloak.config.BootstrapAdminOptions;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.platform.Platform;
 import org.keycloak.quarkus.runtime.configuration.Configuration;
@@ -67,7 +67,7 @@ public class QuarkusKeycloakApplication extends KeycloakApplication {
     }
 
     @Override
-    protected void createTemporaryAdmin(KeycloakSession session) {
+    protected void createTemporaryAdmin(KeycloakRequestSession session) {
         var adminUsername = getOption(BootstrapAdminOptions.USERNAME.getKey(), KEYCLOAK_ADMIN_ENV_VAR);
         var adminPassword = getOption(BootstrapAdminOptions.PASSWORD.getKey(), KEYCLOAK_ADMIN_PASSWORD_ENV_VAR);
 
@@ -102,11 +102,11 @@ public class QuarkusKeycloakApplication extends KeycloakApplication {
         }
     }
 
-    public boolean createTemporaryMasterRealmAdminUser(String adminUserName, String adminPassword, /*Integer adminExpiration,*/ KeycloakSession session) {
+    public boolean createTemporaryMasterRealmAdminUser(String adminUserName, String adminPassword, /*Integer adminExpiration,*/ KeycloakRequestSession session) {
         return new ApplianceBootstrap(session).createTemporaryMasterRealmAdminUser(adminUserName, adminPassword /*, adminExpiration*/, false);
     }
 
-    public boolean createTemporaryMasterRealmAdminService(String clientId, String clientSecret, /*Integer adminExpiration,*/ KeycloakSession session) {
+    public boolean createTemporaryMasterRealmAdminService(String clientId, String clientSecret, /*Integer adminExpiration,*/ KeycloakRequestSession session) {
         return new ApplianceBootstrap(session).createTemporaryMasterRealmAdminService(clientId, clientSecret /*, adminExpiration*/);
     }
 

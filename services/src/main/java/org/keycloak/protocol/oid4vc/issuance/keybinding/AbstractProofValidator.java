@@ -25,13 +25,13 @@ import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.jose.jwk.JWKParser;
 import org.keycloak.jose.jwk.OKPPublicJWK;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public abstract class AbstractProofValidator implements ProofValidator {
 
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
 
-    protected AbstractProofValidator(KeycloakSession keycloakSession) {
+    protected AbstractProofValidator(KeycloakRequestSession keycloakSession) {
         this.keycloakSession = keycloakSession;
     }
 

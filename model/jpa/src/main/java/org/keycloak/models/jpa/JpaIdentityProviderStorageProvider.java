@@ -41,7 +41,7 @@ import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderStorageProvider;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.jpa.entities.IdentityProviderEntity;
@@ -74,9 +74,9 @@ public class JpaIdentityProviderStorageProvider implements IdentityProviderStora
     protected static final Logger logger = Logger.getLogger(IdentityProviderStorageProvider.class);
 
     private final EntityManager em;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public JpaIdentityProviderStorageProvider(KeycloakSession session) {
+    public JpaIdentityProviderStorageProvider(KeycloakRequestSession session) {
         this.session = session;
         this.em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
     }
@@ -149,7 +149,7 @@ public class JpaIdentityProviderStorageProvider implements IdentityProviderStora
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });
@@ -186,7 +186,7 @@ public class JpaIdentityProviderStorageProvider implements IdentityProviderStora
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });

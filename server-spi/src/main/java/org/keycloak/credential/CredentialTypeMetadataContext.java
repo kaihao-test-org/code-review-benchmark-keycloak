@@ -18,7 +18,7 @@
 
 package org.keycloak.credential;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 
 /**
@@ -53,7 +53,7 @@ public class CredentialTypeMetadataContext {
             return this;
         }
 
-        public CredentialTypeMetadataContext build(KeycloakSession session) {
+        public CredentialTypeMetadataContext build(KeycloakRequestSession session) {
             // Possible to have null user
             return instance;
         }

@@ -25,7 +25,7 @@ import java.util.Map;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.util.FindFile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -46,7 +46,7 @@ public class OIDCWellKnownProviderFactory implements WellKnownProviderFactory {
     private boolean includeClientScopes = true;
 
     @Override
-    public WellKnownProvider create(KeycloakSession session) {
+    public WellKnownProvider create(KeycloakRequestSession session) {
         return new OIDCWellKnownProvider(session, openidConfigOverride, includeClientScopes);
     }
 

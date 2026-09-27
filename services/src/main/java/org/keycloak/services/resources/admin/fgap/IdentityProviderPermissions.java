@@ -27,7 +27,7 @@ import org.keycloak.authorization.model.Scope;
 import org.keycloak.authorization.policy.evaluation.EvaluationContext;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import java.util.Arrays;
@@ -48,12 +48,12 @@ import static org.keycloak.services.resources.admin.fgap.AdminPermissionManageme
  */
 class IdentityProviderPermissions implements  IdentityProviderPermissionManagement {
     private static final Logger logger = Logger.getLogger(IdentityProviderPermissions.class);
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final RealmModel realm;
     protected final AuthorizationProvider authz;
     protected final MgmtPermissions root;
 
-    public IdentityProviderPermissions(KeycloakSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
+    public IdentityProviderPermissions(KeycloakRequestSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
         this.session = session;
         this.realm = realm;
         this.authz = authz;

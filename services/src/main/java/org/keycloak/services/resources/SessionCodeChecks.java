@@ -37,7 +37,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.AuthorizationEndpointBase;
 import org.keycloak.protocol.ClientData;
@@ -71,7 +71,7 @@ public class SessionCodeChecks {
     private final UriInfo uriInfo;
     private final HttpRequest request;
     private final ClientConnection clientConnection;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final EventBuilder event;
 
     private final String code;
@@ -83,7 +83,7 @@ public class SessionCodeChecks {
     private final String authSessionId;
 
 
-    public SessionCodeChecks(RealmModel realm, UriInfo uriInfo, HttpRequest request, ClientConnection clientConnection, KeycloakSession session, EventBuilder event,
+    public SessionCodeChecks(RealmModel realm, UriInfo uriInfo, HttpRequest request, ClientConnection clientConnection, KeycloakRequestSession session, EventBuilder event,
                              String authSessionId, String code, String execution, String clientId, String tabId, String clientData, String flowPath) {
         this.realm = realm;
         this.uriInfo = uriInfo;
@@ -504,7 +504,7 @@ public class SessionCodeChecks {
                 .showPageExpired(authSession);
     }
 
-    protected KeycloakSession getSession() {
+    protected KeycloakRequestSession getSession() {
         return session;
     }
 

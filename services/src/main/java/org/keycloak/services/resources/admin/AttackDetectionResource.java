@@ -25,7 +25,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.util.Time;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserLoginFailureModel;
 import org.keycloak.models.UserModel;
@@ -57,13 +57,13 @@ public class AttackDetectionResource {
     protected final RealmModel realm;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final ClientConnection connection;
 
     protected final HttpHeaders headers;
 
-    public AttackDetectionResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public AttackDetectionResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();
@@ -130,7 +130,7 @@ public class AttackDetectionResource {
         return isUserDisabledOrLockedByBruteForce(session, realm, user);
     }
 
-    private boolean isUserDisabledOrLockedByBruteForce(KeycloakSession session, RealmModel realm, UserModel user) {
+    private boolean isUserDisabledOrLockedByBruteForce(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return session.getProvider(BruteForceProtector.class).isPermanentlyLockedOut(session, realm, user) 
         || session.getProvider(BruteForceProtector.class).isTemporarilyDisabled(session, realm, user);
     }

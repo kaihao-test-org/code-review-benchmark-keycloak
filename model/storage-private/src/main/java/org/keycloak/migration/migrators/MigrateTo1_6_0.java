@@ -22,7 +22,7 @@ import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -40,7 +40,7 @@ public class MigrateTo1_6_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         MigrationProvider provider = session.getProvider(MigrationProvider.class);
 
         ProtocolMapperModel localeMapper = provider.getBuiltinMappers("openid-connect").get("locale");
@@ -53,7 +53,7 @@ public class MigrateTo1_6_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         MigrationProvider provider = session.getProvider(MigrationProvider.class);
         ProtocolMapperModel localeMapper = provider.getBuiltinMappers("openid-connect").get("locale");
 
@@ -65,7 +65,7 @@ public class MigrateTo1_6_0 implements Migration {
 
     }
 
-    protected void migrateRealm(KeycloakSession session, ProtocolMapperModel localeMapper, RealmModel realm) {
+    protected void migrateRealm(KeycloakRequestSession session, ProtocolMapperModel localeMapper, RealmModel realm) {
         realm.setOfflineSessionIdleTimeout(Constants.DEFAULT_OFFLINE_SESSION_IDLE_TIMEOUT);
 
         if (realm.getRole(Constants.OFFLINE_ACCESS_ROLE) == null) {

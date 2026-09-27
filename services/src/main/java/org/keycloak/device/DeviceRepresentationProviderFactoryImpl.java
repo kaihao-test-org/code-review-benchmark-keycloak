@@ -1,6 +1,6 @@
 package org.keycloak.device;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import ua_parser.Parser;
 
 public class DeviceRepresentationProviderFactoryImpl implements DeviceRepresentationProviderFactory {
@@ -15,12 +15,12 @@ public class DeviceRepresentationProviderFactoryImpl implements DeviceRepresenta
     }
 
     @Override
-    public DeviceRepresentationProvider create(KeycloakSession session) {
+    public DeviceRepresentationProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new DeviceRepresentationProviderImpl(session, parser);
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if(parser == null) {
             synchronized (this) {
                 parser = new Parser();

@@ -25,7 +25,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.events.Details;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.UserSessionModel;
@@ -48,7 +48,7 @@ public class OAuth2CodeParser {
      * @param codeData
      * @return code parameter to be used in OAuth2 handshake
      */
-    public static String persistCode(KeycloakSession session, AuthenticatedClientSessionModel clientSession, OAuth2Code codeData) {
+    public static String persistCode(KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession, OAuth2Code codeData) {
         SingleUseObjectProvider codeStore = session.singleUseObjects();
 
         String key = codeData.getId();
@@ -73,7 +73,7 @@ public class OAuth2CodeParser {
      * @param event
      * @return
      */
-    public static ParseResult parseCode(KeycloakSession session, String code, RealmModel realm, EventBuilder event) {
+    public static ParseResult parseCode(KeycloakRequestSession session, String code, RealmModel realm, EventBuilder event) {
         ParseResult result = new ParseResult(code);
 
         String[] parsed = DOT.split(code, 3);

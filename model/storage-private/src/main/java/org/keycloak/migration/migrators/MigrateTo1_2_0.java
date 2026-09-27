@@ -20,7 +20,7 @@ package org.keycloak.migration.migrators;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -65,7 +65,7 @@ public class MigrateTo1_2_0 implements Migration {
         if (client != null && client.getName() == null) client.setName("${client_" + client.getClientId() + "}");
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> {
             setupBrokerService(realm);
             setupClientNames(realm);
@@ -73,7 +73,7 @@ public class MigrateTo1_2_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         setupBrokerService(realm);
         setupClientNames(realm);
     }

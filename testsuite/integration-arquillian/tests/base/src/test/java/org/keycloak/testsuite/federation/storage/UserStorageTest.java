@@ -22,7 +22,7 @@ import org.keycloak.credential.CredentialAuthentication;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.CredentialProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -250,7 +250,7 @@ public class UserStorageTest extends AbstractAuthTest {
      */
     @Test
     @ModelTest
-    public void testCast(KeycloakSession session) throws Exception {
+    public void testCast(KeycloakRequestSession session) throws Exception {
         session.getKeycloakSessionFactory().getProviderFactoriesStream(CredentialProvider.class)
                 .filter(f -> Types.supports(CredentialAuthentication.class, f, CredentialProviderFactory.class))
                 .map(f -> (CredentialAuthentication) session.getProvider(CredentialProvider.class, f.getId())).collect(Collectors.toList());
@@ -904,12 +904,12 @@ public class UserStorageTest extends AbstractAuthTest {
 
     @Test
     @ModelTest
-    public void testCredentialCRUD(KeycloakSession session) {
+    public void testCredentialCRUD(KeycloakRequestSession session) {
         AtomicReference<String> passwordId = new AtomicReference<>();
         AtomicReference<String> otp1Id = new AtomicReference<>();
         AtomicReference<String> otp2Id = new AtomicReference<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
 
@@ -934,7 +934,7 @@ public class UserStorageTest extends AbstractAuthTest {
         });
 
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");
@@ -954,7 +954,7 @@ public class UserStorageTest extends AbstractAuthTest {
             assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");
@@ -968,7 +968,7 @@ public class UserStorageTest extends AbstractAuthTest {
             org.keycloak.testsuite.Assert.assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), null));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");
@@ -982,7 +982,7 @@ public class UserStorageTest extends AbstractAuthTest {
             assertTrue(user.credentialManager().moveStoredCredentialTo(passwordId.get(), otp1Id.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");
@@ -996,7 +996,7 @@ public class UserStorageTest extends AbstractAuthTest {
             assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");
@@ -1010,7 +1010,7 @@ public class UserStorageTest extends AbstractAuthTest {
             assertTrue(user.credentialManager().removeStoredCredentialById(passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "thor");

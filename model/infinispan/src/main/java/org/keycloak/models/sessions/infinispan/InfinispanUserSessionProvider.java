@@ -46,7 +46,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -88,7 +88,7 @@ public class InfinispanUserSessionProvider implements UserSessionProvider, Sessi
 
     private static final Logger log = Logger.getLogger(InfinispanUserSessionProvider.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final InfinispanChangelogBasedTransaction<String, UserSessionEntity> sessionTx;
     protected final InfinispanChangelogBasedTransaction<String, UserSessionEntity> offlineSessionTx;
@@ -105,7 +105,7 @@ public class InfinispanUserSessionProvider implements UserSessionProvider, Sessi
 
     protected final SessionFunction<AuthenticatedClientSessionEntity> offlineClientSessionCacheEntryLifespanAdjuster;
 
-    public InfinispanUserSessionProvider(KeycloakSession session,
+    public InfinispanUserSessionProvider(KeycloakRequestSession session,
                                          PersisterLastSessionRefreshStore persisterLastSessionRefreshStore,
                                          InfinispanKeyGenerator keyGenerator,
                                          Cache<String, SessionEntityWrapper<UserSessionEntity>> sessionCache,
@@ -161,7 +161,7 @@ public class InfinispanUserSessionProvider implements UserSessionProvider, Sessi
     }
 
     @Override
-    public KeycloakSession getKeycloakSession() {
+    public KeycloakRequestSession getKeycloakSession() {
         return session;
     }
 

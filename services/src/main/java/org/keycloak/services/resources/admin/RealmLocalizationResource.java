@@ -28,7 +28,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.keycloak.http.FormPartValue;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resources.KeycloakOpenAPI;
@@ -63,9 +63,9 @@ public class RealmLocalizationResource {
     private final RealmModel realm;
     private final AdminPermissionEvaluator auth;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public RealmLocalizationResource(KeycloakSession session, AdminPermissionEvaluator auth) {
+    public RealmLocalizationResource(KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;

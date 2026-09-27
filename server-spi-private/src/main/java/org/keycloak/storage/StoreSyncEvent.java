@@ -16,7 +16,7 @@
  */
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderEvent;
 
@@ -26,21 +26,21 @@ import org.keycloak.provider.ProviderEvent;
  */
 public class StoreSyncEvent implements ProviderEvent {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final boolean removed;
 
-    public StoreSyncEvent(KeycloakSession session, RealmModel realm, boolean removed) {
+    public StoreSyncEvent(KeycloakRequestSession session, RealmModel realm, boolean removed) {
         this.session = session;
         this.realm = realm;
         this.removed = removed;
     }
 
-    public static void fire(KeycloakSession session, RealmModel realm, boolean removed) {
+    public static void fire(KeycloakRequestSession session, RealmModel realm, boolean removed) {
         session.getKeycloakSessionFactory().publish(new StoreSyncEvent(session, realm, removed));
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

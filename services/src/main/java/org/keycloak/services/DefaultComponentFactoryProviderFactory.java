@@ -23,7 +23,7 @@ import org.keycloak.common.util.StackUtil;
 import org.keycloak.component.ComponentFactoryProviderFactory;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentModelScope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.provider.InvalidationHandler;
@@ -156,7 +156,7 @@ public class DefaultComponentFactoryProviderFactory implements ComponentFactoryP
     }
 
     @Override
-    public void invalidate(KeycloakSession session, InvalidableObjectType type, Object... ids) {
+    public void invalidate(KeycloakRequestSession session, InvalidableObjectType type, Object... ids) {
         if (LOG.isDebugEnabled()) {
             LOG.debugf("Invalidating %s: %s", type, Arrays.asList(ids));
         }
@@ -183,7 +183,7 @@ public class DefaultComponentFactoryProviderFactory implements ComponentFactoryP
         }
     }
 
-    private void propagateInvalidation(KeycloakSession session, ConcurrentMap<String, ProviderFactory> componentsMap, InvalidableObjectType type, Object[] ids) {
+    private void propagateInvalidation(KeycloakRequestSession session, ConcurrentMap<String, ProviderFactory> componentsMap, InvalidableObjectType type, Object[] ids) {
         componentsMap.values()
           .stream()
           .filter(InvalidationHandler.class::isInstance)

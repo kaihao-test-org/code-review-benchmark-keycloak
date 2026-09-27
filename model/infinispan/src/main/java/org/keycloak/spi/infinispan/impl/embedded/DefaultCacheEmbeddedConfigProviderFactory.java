@@ -40,7 +40,7 @@ import org.keycloak.config.MetricsOptions;
 import org.keycloak.infinispan.module.configuration.global.KeycloakConfigurationBuilder;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.marshalling.Marshalling;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.provider.Provider;
@@ -84,7 +84,7 @@ public class DefaultCacheEmbeddedConfigProviderFactory implements CacheEmbeddedC
     private volatile Config.Scope keycloakConfig;
 
     @Override
-    public CacheEmbeddedConfigProvider create(KeycloakSession session) {
+    public CacheEmbeddedConfigProvider create(KeycloakRequestSession session) {
         lazyInit(session.getKeycloakSessionFactory());
         return this;
     }

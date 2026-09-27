@@ -33,7 +33,7 @@ import org.keycloak.common.util.MultiSiteUtils;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.RealmModel;
@@ -98,7 +98,7 @@ public class InfinispanUserSessionProviderFactory implements UserSessionProvider
     private boolean useBatches;
 
     @Override
-    public UserSessionProvider create(KeycloakSession session) {
+    public UserSessionProvider create(KeycloakRequestSession session) {
         Cache<String, SessionEntityWrapper<UserSessionEntity>> cache = null;
         Cache<String, SessionEntityWrapper<UserSessionEntity>> offlineSessionsCache = null;
         Cache<UUID, SessionEntityWrapper<AuthenticatedClientSessionEntity>> clientSessionCache = null;
@@ -176,12 +176,12 @@ public class InfinispanUserSessionProviderFactory implements UserSessionProvider
                 if (!useCaches) {
                     keyGenerator = new InfinispanKeyGenerator() {
                         @Override
-                        protected <K> K generateKey(KeycloakSession session, Cache<K, ?> cache, KeyGenerator<K> keyGenerator) {
+                        protected <K> K generateKey(KeycloakRequestSession session, Cache<K, ?> cache, KeyGenerator<K> keyGenerator) {
                             return keyGenerator.getKey();
                         }
                     };
                 } else {
-                    KeycloakModelUtils.runJobInTransaction(factory, (KeycloakSession session) -> {
+                    KeycloakModelUtils.runJobInTransaction(factory, (KeycloakRequestSession session) -> {
 
                         keyGenerator = new InfinispanKeyGenerator();
                         if (!MultiSiteUtils.isPersistentSessionsEnabled()) {
@@ -222,7 +222,7 @@ public class InfinispanUserSessionProviderFactory implements UserSessionProvider
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 // Initialize persister for periodically doing bulk DB updates of lastSessionRefresh timestamps of refreshed sessions
                 persisterLastSessionRefreshStore = new PersisterLastSessionRefreshStoreFactory().createAndInit(session, true);
             }
@@ -230,7 +230,7 @@ public class InfinispanUserSessionProviderFactory implements UserSessionProvider
     }
 
 
-    protected void registerClusterListeners(KeycloakSession session) {
+    protected void registerClusterListeners(KeycloakRequestSession session) {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
         ClusterProvider cluster = session.getProvider(ClusterProvider.class);
 

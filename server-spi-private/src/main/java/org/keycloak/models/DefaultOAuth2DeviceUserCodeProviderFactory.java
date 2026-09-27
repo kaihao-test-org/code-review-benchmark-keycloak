@@ -25,7 +25,7 @@ import org.keycloak.Config;
 public class DefaultOAuth2DeviceUserCodeProviderFactory implements OAuth2DeviceUserCodeProviderFactory {
 
     @Override
-    public OAuth2DeviceUserCodeProvider create(KeycloakSession session) {
+    public OAuth2DeviceUserCodeProvider create(KeycloakRequestSession session) {
         return new DefaultOAuth2DeviceUserCodeProvider();
     }
 

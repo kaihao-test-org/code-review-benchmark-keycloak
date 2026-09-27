@@ -8,7 +8,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSecretConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oidc.OIDCClientSecretConfigWrapper;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -30,10 +30,10 @@ public class ClientSecretRotationExecutor implements
         ClientPolicyExecutorProvider<ClientSecretRotationExecutor.Configuration> {
 
     private static final Logger logger = Logger.getLogger(ClientSecretRotationExecutor.class);
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public ClientSecretRotationExecutor(KeycloakSession session) {
+    public ClientSecretRotationExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

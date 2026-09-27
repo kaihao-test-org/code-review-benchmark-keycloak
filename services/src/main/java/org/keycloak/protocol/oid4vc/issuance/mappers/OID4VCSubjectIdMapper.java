@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oid4vc.issuance.mappers;
 
 import org.apache.commons.collections4.ListUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ProtocolMapper;
@@ -99,7 +99,7 @@ public class OID4VCSubjectIdMapper extends OID4VCMapper {
     }
 
     @Override
-    public ProtocolMapper create(KeycloakSession session) {
+    public ProtocolMapper create(KeycloakRequestSession session) {
         return new OID4VCSubjectIdMapper();
     }
 

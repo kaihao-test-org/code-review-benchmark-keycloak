@@ -32,7 +32,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.utils.RedirectUtils;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -53,7 +53,7 @@ public class SecureRedirectUrisEnforcerExecutor implements ClientPolicyExecutorP
 
     private static final Logger logger = Logger.getLogger(SecureRedirectUrisEnforcerExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
     public static final String ERR_GENERAL = "Invalid Redirect Uri: invalid uri";
@@ -62,7 +62,7 @@ public class SecureRedirectUrisEnforcerExecutor implements ClientPolicyExecutorP
     public static final String ERR_PRIVATESCHEME = "Invalid Redirect Uri: invalid private use scheme";
     public static final String ERR_NORMALURI = "Invalid Redirect Uri: invalid uri";
 
-    public SecureRedirectUrisEnforcerExecutor(KeycloakSession session) {
+    public SecureRedirectUrisEnforcerExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

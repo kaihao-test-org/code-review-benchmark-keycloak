@@ -17,7 +17,7 @@
 package org.keycloak.services;
 
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
 import jakarta.ws.rs.core.Response;
@@ -27,7 +27,7 @@ import jakarta.ws.rs.core.Response;
  */
 public class ErrorPage {
 
-    public static Response error(KeycloakSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
+    public static Response error(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
         return session.getProvider(LoginFormsProvider.class).setAuthenticationSession(authenticationSession).setError(message, parameters).createErrorPage(status);
     }
 

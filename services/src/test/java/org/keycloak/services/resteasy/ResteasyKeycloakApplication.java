@@ -19,7 +19,7 @@ package org.keycloak.services.resteasy;
 
 import org.keycloak.common.Profile;
 import org.keycloak.common.util.MultiSiteUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.error.KcUnrecognizedPropertyExceptionHandler;
 import org.keycloak.services.error.KeycloakErrorHandler;
@@ -80,7 +80,7 @@ public class ResteasyKeycloakApplication extends KeycloakApplication {
     }
 
     @Override
-    protected void createTemporaryAdmin(KeycloakSession session) {
+    protected void createTemporaryAdmin(KeycloakRequestSession session) {
         // do nothing
     }
 

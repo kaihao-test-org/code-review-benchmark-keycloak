@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.executor;
 
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.protocol.oidc.utils.OIDCResponseType;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -35,9 +35,9 @@ public class SecureSessionEnforceExecutor implements ClientPolicyExecutorProvide
 
     private static final Logger logger = Logger.getLogger(SecureSessionEnforceExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public SecureSessionEnforceExecutor(KeycloakSession session) {
+    public SecureSessionEnforceExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

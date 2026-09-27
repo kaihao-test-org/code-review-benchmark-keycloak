@@ -35,7 +35,7 @@ import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -110,7 +110,7 @@ public class RolePolicyProvider implements PolicyProvider, PartialEvaluationPoli
     }
 
     private UserModel getSubject(Identity identity, RealmModel realm, AuthorizationProvider authorizationProvider) {
-        KeycloakSession session = authorizationProvider.getKeycloakSession();
+        KeycloakRequestSession session = authorizationProvider.getKeycloakSession();
         UserProvider users = session.users();
         UserModel user = users.getUserById(realm, identity.getId());
 
@@ -133,7 +133,7 @@ public class RolePolicyProvider implements PolicyProvider, PartialEvaluationPoli
     }
 
     @Override
-    public Stream<Policy> getPermissions(KeycloakSession session, ResourceType resourceType, UserModel subject) {
+    public Stream<Policy> getPermissions(KeycloakRequestSession session, ResourceType resourceType, UserModel subject) {
         AuthorizationProvider provider = session.getProvider(AuthorizationProvider.class);
         RealmModel realm = session.getContext().getRealm();
         ClientModel adminPermissionsClient = realm.getAdminPermissionsClient();
@@ -147,7 +147,7 @@ public class RolePolicyProvider implements PolicyProvider, PartialEvaluationPoli
     }
 
     @Override
-    public boolean evaluate(KeycloakSession session, Policy policy, UserModel adminUser) {
+    public boolean evaluate(KeycloakRequestSession session, Policy policy, UserModel adminUser) {
         RealmModel realm = session.getContext().getRealm();
         AuthorizationProvider authorizationProvider = session.getProvider(AuthorizationProvider.class);
         return isGranted(realm, authorizationProvider, representationFunction.apply(policy, authorizationProvider), new UserModelIdentity(realm, adminUser));

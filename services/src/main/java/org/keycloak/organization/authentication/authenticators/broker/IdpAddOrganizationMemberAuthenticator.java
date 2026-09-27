@@ -25,7 +25,7 @@ import org.keycloak.authentication.authenticators.broker.AbstractIdpAuthenticato
 import org.keycloak.authentication.authenticators.broker.util.SerializedBrokeredIdentityContext;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -42,7 +42,7 @@ public class IdpAddOrganizationMemberAuthenticator extends AbstractIdpAuthentica
 
     @Override
     protected void authenticateImpl(AuthenticationFlowContext context, SerializedBrokeredIdentityContext serializedCtx, BrokeredIdentityContext brokerContext) {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
         UserModel user = context.getUser();
         OrganizationModel organization = Organizations.resolveOrganization(session);
@@ -70,7 +70,7 @@ public class IdpAddOrganizationMemberAuthenticator extends AbstractIdpAuthentica
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
 
         if (!isEnabledAndOrganizationsPresent(provider)) {

@@ -25,7 +25,7 @@ import org.keycloak.exportimport.Strategy;
 import org.keycloak.exportimport.util.ExportImportSessionTask;
 import org.keycloak.exportimport.util.ImportUtils;
 import org.keycloak.exportimport.util.ExportImportSessionTask.Mode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.platform.Platform;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -150,7 +150,7 @@ public class DirImportProvider extends AbstractFileBasedImportProvider {
         new ExportImportSessionTask() {
 
             @Override
-            public void runExportImportTask(KeycloakSession session) {
+            public void runExportImportTask(KeycloakRequestSession session) {
                 ImportUtils.importRealm(session, realmRep, strategy, () -> {
                     importUsers(realmName, userFiles, false);
                     importUsers(realmName, federatedUserFiles, true);
@@ -165,7 +165,7 @@ public class DirImportProvider extends AbstractFileBasedImportProvider {
             try (InputStream fis = parseFile(userFile)) {
                 new ExportImportSessionTask() {
                     @Override
-                    protected void runExportImportTask(KeycloakSession session) throws IOException {
+                    protected void runExportImportTask(KeycloakRequestSession session) throws IOException {
                         session.getContext().setRealm(session.realms().getRealmByName(realmName));
                         ImportUtils.importUsersFromStream(session, realmName, JsonSerialization.mapper, fis, federated, new DefaultExportImportManager.Batcher());
                         logger.infof("Imported %susers from %s", federated?"federated ":"", userFile.getAbsolutePath());

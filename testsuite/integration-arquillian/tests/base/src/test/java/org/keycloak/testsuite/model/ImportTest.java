@@ -30,7 +30,7 @@ import org.keycloak.exportimport.Strategy;
 import org.keycloak.exportimport.util.ImportUtils;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.AcrUtils;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -95,14 +95,14 @@ public class ImportTest extends AbstractTestRealmKeycloakTest {
             // Need a new thread to not get context from thread processing request to run-on-server endpoint
             Thread t = new Thread(() -> {
                 RealmModel realmModel;
-                try (KeycloakSession ses = session.getKeycloakSessionFactory().create()) {
+                try (KeycloakRequestSession ses = session.getKeycloakSessionFactory().create()) {
                     ses.getContext().setRealm(session.getContext().getRealm());
                     ses.getTransactionManager().begin();
 
                     realmModel = new RealmManager(ses).importRealm(testRealm);
                 }
 
-                try (KeycloakSession ses = session.getKeycloakSessionFactory().create()) {
+                try (KeycloakRequestSession ses = session.getKeycloakSessionFactory().create()) {
                     ses.getTransactionManager().begin();
                     session.realms().removeRealm(realmModel.getId());
                 } catch (Throwable th) {

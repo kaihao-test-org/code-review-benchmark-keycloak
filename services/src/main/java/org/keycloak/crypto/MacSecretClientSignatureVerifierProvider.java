@@ -19,13 +19,13 @@ package org.keycloak.crypto;
 import org.keycloak.common.VerificationException;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class MacSecretClientSignatureVerifierProvider implements ClientSignatureVerifierProvider {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String algorithm;
 
-    public MacSecretClientSignatureVerifierProvider(KeycloakSession session, String algorithm) {
+    public MacSecretClientSignatureVerifierProvider(KeycloakRequestSession session, String algorithm) {
         this.session = session;
         this.algorithm = algorithm;
     }

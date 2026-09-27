@@ -20,7 +20,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -54,7 +54,7 @@ public abstract class AbstractInMemoryUserAdapter extends UserModelDefaultMethod
     private String federationLink;
     private String serviceAccountClientLink;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected String id;
     private boolean readonly;
@@ -62,7 +62,7 @@ public abstract class AbstractInMemoryUserAdapter extends UserModelDefaultMethod
     protected AbstractInMemoryUserAdapter() {
     }
 
-    protected AbstractInMemoryUserAdapter(KeycloakSession session, RealmModel realm, String id) {
+    protected AbstractInMemoryUserAdapter(KeycloakRequestSession session, RealmModel realm, String id) {
         this.session = session;
         this.realm = realm;
         this.id = id;

@@ -19,7 +19,7 @@ package org.keycloak.testsuite.util;
 
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -66,7 +66,7 @@ import java.util.stream.Stream;
  */
 public class LDAPTestUtils {
 
-    public static UserModel addLocalUser(KeycloakSession session, RealmModel realm, String username, String email, String password) {
+    public static UserModel addLocalUser(KeycloakRequestSession session, RealmModel realm, String username, String email, String password) {
         UserModel user = UserStoragePrivateUtil.userLocalStorage(session).addUser(realm, username);
         user.setEmail(email);
         user.setEnabled(true);
@@ -77,7 +77,7 @@ public class LDAPTestUtils {
         return user;
     }
 
-    public static void addLdapUser(KeycloakSession session, RealmModel appRealm, LDAPStorageProvider ldapFedProvider, String username, String password, Consumer<UserModel> userCustomizer) {
+    public static void addLdapUser(KeycloakRequestSession session, RealmModel appRealm, LDAPStorageProvider ldapFedProvider, String username, String password, Consumer<UserModel> userCustomizer) {
 
         UserModel user = ldapFedProvider.addUser(appRealm, username);
 
@@ -223,7 +223,7 @@ public class LDAPTestUtils {
                 .orElse(null);
     }
 
-    public static LDAPStorageProvider getLdapProvider(KeycloakSession keycloakSession, ComponentModel ldapFedModel) {
+    public static LDAPStorageProvider getLdapProvider(KeycloakRequestSession keycloakSession, ComponentModel ldapFedModel) {
         return (LDAPStorageProvider)keycloakSession.getProvider(UserStorageProvider.class, ldapFedModel);
     }
 
@@ -402,7 +402,7 @@ public class LDAPTestUtils {
         }
     }
 
-    public static void removeAllLDAPRoles(KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName) {
+    public static void removeAllLDAPRoles(KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName) {
         ComponentModel mapperModel = getSubcomponentByName(appRealm, ldapModel, mapperName);
         LDAPStorageProvider ldapProvider = LDAPTestUtils.getLdapProvider(session, ldapModel);
         try (LDAPQuery roleQuery = getRoleMapper(mapperModel, ldapProvider, appRealm).createRoleQuery(false)) {
@@ -413,7 +413,7 @@ public class LDAPTestUtils {
         }
     }
 
-    public static void removeAllLDAPGroups(KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName) {
+    public static void removeAllLDAPGroups(KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName) {
         ComponentModel mapperModel = getSubcomponentByName(appRealm, ldapModel, mapperName);
         LDAPStorageProvider ldapProvider = LDAPTestUtils.getLdapProvider(session, ldapModel);
         LDAPQuery query = null;
@@ -430,17 +430,17 @@ public class LDAPTestUtils {
         }
     }
 
-    public static void createLDAPRole(KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName, String roleName) {
+    public static void createLDAPRole(KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, String mapperName, String roleName) {
         ComponentModel mapperModel = getSubcomponentByName(appRealm, ldapModel, mapperName);
         LDAPStorageProvider ldapProvider = LDAPTestUtils.getLdapProvider(session, ldapModel);
         getRoleMapper(mapperModel, ldapProvider, appRealm).createLDAPRole(roleName);
     }
 
-    public static LDAPObject createLDAPGroup(KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, String groupName, String... additionalAttrs) {
+    public static LDAPObject createLDAPGroup(KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, String groupName, String... additionalAttrs) {
         return createLDAPGroup("groupsMapper", session, appRealm, ldapModel, groupName, additionalAttrs);
     }
 
-    public static LDAPObject createLDAPGroup(String mapperName, KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, String groupName, String... additionalAttrs) {
+    public static LDAPObject createLDAPGroup(String mapperName, KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, String groupName, String... additionalAttrs) {
         ComponentModel mapperModel = getSubcomponentByName(appRealm, ldapModel, mapperName);
         LDAPStorageProvider ldapProvider = LDAPTestUtils.getLdapProvider(session, ldapModel);
 
@@ -458,7 +458,7 @@ public class LDAPTestUtils {
         }
     }
 
-    public static LDAPObject getLdapGroupByName(KeycloakSession session, RealmModel realm, String mapperName, String groupName) {
+    public static LDAPObject getLdapGroupByName(KeycloakRequestSession session, RealmModel realm, String mapperName, String groupName) {
         ComponentModel ldapModel = LDAPTestUtils.getLdapProviderModel(realm);
         ComponentModel mapperModel = getSubcomponentByName(realm, ldapModel, mapperName);
         LDAPStorageProvider ldapProvider = getLdapProvider(session, ldapModel);
@@ -469,7 +469,7 @@ public class LDAPTestUtils {
         }
     }
 
-    public static LDAPObject updateLDAPGroup(KeycloakSession session, RealmModel appRealm, ComponentModel ldapModel, LDAPObject ldapObject) {
+    public static LDAPObject updateLDAPGroup(KeycloakRequestSession session, RealmModel appRealm, ComponentModel ldapModel, LDAPObject ldapObject) {
         ComponentModel mapperModel = getSubcomponentByName(appRealm, ldapModel, "groupsMapper");
         LDAPStorageProvider ldapProvider = LDAPTestUtils.getLdapProvider(session, ldapModel);
 

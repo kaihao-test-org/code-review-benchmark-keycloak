@@ -28,7 +28,7 @@ import org.keycloak.models.GroupProvider;
 import org.keycloak.models.IdentityProviderStorageProvider;
 import org.keycloak.models.KeyManager;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakTransactionManager;
 import org.keycloak.models.RealmModel;
@@ -70,7 +70,7 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="mailto:sthorger@redhat.com">Stian Thorgersen</a>
  */
-public abstract class DefaultKeycloakSession implements KeycloakSession {
+public abstract class DefaultKeycloakSession implements KeycloakRequestSession {
 
     private final DefaultKeycloakSessionFactory factory;
     private final Map<List<String>, Provider> providers = new HashMap<>();
@@ -403,7 +403,7 @@ public abstract class DefaultKeycloakSession implements KeycloakSession {
         return String.format("session @ %08x", System.identityHashCode(this));
     }
 
-    protected abstract DefaultKeycloakContext createKeycloakContext(KeycloakSession session);
+    protected abstract DefaultKeycloakContext createKeycloakContext(KeycloakRequestSession session);
 
     public boolean isClosed() {
         return closed;

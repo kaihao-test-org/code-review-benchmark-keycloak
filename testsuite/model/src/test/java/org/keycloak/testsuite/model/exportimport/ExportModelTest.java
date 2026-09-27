@@ -28,7 +28,7 @@ import org.keycloak.exportimport.ExportImportManager;
 import org.keycloak.exportimport.ExportProvider;
 import org.keycloak.exportimport.dir.DirExportProviderFactory;
 import org.keycloak.exportimport.singlefile.SingleFileExportProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.testsuite.model.KeycloakModelTest;
@@ -47,7 +47,7 @@ public class ExportModelTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         // initialize a minimal realm with necessary entries to avoid any NPEs
         RealmModel realm = createRealm(s, REALM_NAME);
         realm.setSslRequired(SslRequired.NONE);
@@ -57,7 +57,7 @@ public class ExportModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         s.realms().removeRealm(realmId);
     }
 

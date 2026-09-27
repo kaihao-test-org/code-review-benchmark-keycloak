@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -42,16 +42,16 @@ public class MigrateTo6_0_0 implements Migration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> migrateRealm(session, realm, false));
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealm(session, realm, true);
     }
 
-    protected void migrateRealm(KeycloakSession session, RealmModel realm, boolean jsn) {
+    protected void migrateRealm(KeycloakRequestSession session, RealmModel realm, boolean jsn) {
         MigrationProvider migrationProvider = session.getProvider(MigrationProvider.class);
 
         // create 'microprofile-jwt' optional client scope in the realm.

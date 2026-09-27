@@ -19,7 +19,7 @@
 package org.keycloak.authentication.requiredactions;
 
 import com.webauthn4j.verifier.attestation.trustworthiness.certpath.CertPathTrustworthinessVerifier;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
@@ -29,7 +29,7 @@ public class WebAuthnPasswordlessRegisterFactory extends WebAuthnRegisterFactory
     public static final String PROVIDER_ID = "webauthn-register-passwordless";
 
     @Override
-    protected WebAuthnRegister createProvider(KeycloakSession session, CertPathTrustworthinessVerifier trustVerifier) {
+    protected WebAuthnRegister createProvider(KeycloakRequestSession session, CertPathTrustworthinessVerifier trustVerifier) {
         return new WebAuthnPasswordlessRegister(session, trustVerifier);
     }
 

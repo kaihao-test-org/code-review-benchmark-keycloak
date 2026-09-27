@@ -19,7 +19,7 @@ package org.keycloak.authentication;
 
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
 import org.keycloak.models.RequiredActionProviderModel;
@@ -55,7 +55,7 @@ public interface RequiredActionProvider extends Provider {
      * @param authSession The authentication session.
      *
      */
-    default void initiatedActionCanceled(KeycloakSession session, AuthenticationSessionModel authSession) {
+    default void initiatedActionCanceled(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         return;
     }
     
@@ -87,7 +87,7 @@ public interface RequiredActionProvider extends Provider {
 
 
     /**
-     * @deprecated in favor of {@link #getMaxAuthAge(KeycloakSession)} to support individual configuration of max auth age for all required actions. This method has no effect anymore.
+     * @deprecated in favor of {@link #getMaxAuthAge(KeycloakRequestSession)} to support individual configuration of max auth age for all required actions. This method has no effect anymore.
      *
      * Defines the max time after a user login, after which re-authentication is requested for an AIA. 0 means that re-authentication is always requested.
      * On default uses configured max_auth_age value from the required action config. If not configured, it uses the default max_auth_age value from the KeycloakConstants class.
@@ -101,7 +101,7 @@ public interface RequiredActionProvider extends Provider {
      * Defines the max time after a user login, after which re-authentication is requested for an AIA. 0 means that re-authentication is always requested.
      * On default uses configured max_auth_age value from the required action config. If not configured, it uses the default max_auth_age value from the KeycloakConstants class.
      */
-    default int getMaxAuthAge(KeycloakSession session) {
+    default int getMaxAuthAge(KeycloakRequestSession session) {
         if (session == null) {
             // session is null, support for legacy implementation, fallback to default maxAuthAge
             return Constants.KC_ACTION_MAX_AGE;

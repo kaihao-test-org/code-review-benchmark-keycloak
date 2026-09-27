@@ -2,13 +2,13 @@ package org.keycloak.services.ui.extend;
 
 import org.keycloak.component.ComponentFactory;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public interface UiTabProviderFactory<T> extends ComponentFactory<T, UiTabProvider> {
-    default T create(KeycloakSession session, ComponentModel model) {
+    default T create(KeycloakRequestSession session, ComponentModel model) {
         return null;
     }
 

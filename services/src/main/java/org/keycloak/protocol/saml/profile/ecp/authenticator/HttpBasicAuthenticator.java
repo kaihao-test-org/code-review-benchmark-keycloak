@@ -8,7 +8,7 @@ import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAu
 import org.keycloak.common.util.Base64;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -133,12 +133,12 @@ public class HttpBasicAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean configuredFor(final KeycloakSession session, final RealmModel realm, final UserModel user) {
+    public boolean configuredFor(final KeycloakRequestSession session, final RealmModel realm, final UserModel user) {
         return false;
     }
 
     @Override
-    public void setRequiredActions(final KeycloakSession session, final RealmModel realm, final UserModel user) {
+    public void setRequiredActions(final KeycloakRequestSession session, final RealmModel realm, final UserModel user) {
 
     }
 

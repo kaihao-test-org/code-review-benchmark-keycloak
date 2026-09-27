@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Override explicitly added ExceptionMapper for handling {@link MismatchedInputException} in RestEasy Jackson
@@ -34,7 +34,7 @@ import org.keycloak.models.KeycloakSession;
 public class KeycloakMismatchedInputExceptionHandler implements ExceptionMapper<MismatchedInputException> {
 
     @Context
-    KeycloakSession session;
+    KeycloakRequestSession session;
 
     /**
      * Return escaped original message

@@ -28,7 +28,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderStorageProvider;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -48,12 +48,12 @@ public class InfinispanIdentityProviderStorageProvider implements IdentityProvid
     private static final String IDP_LOGIN_SUFFIX = ".idp.login";
     private static final String IDP_ENABLED_KEY_SUFFIX = ".idp.enabled";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final IdentityProviderStorageProvider idpDelegate;
     private final RealmCacheSession realmCache;
     private final long startupRevision;
 
-    public InfinispanIdentityProviderStorageProvider(KeycloakSession session) {
+    public InfinispanIdentityProviderStorageProvider(KeycloakRequestSession session) {
         this.session = session;
         this.idpDelegate = session.getProvider(IdentityProviderStorageProvider.class, "jpa");
         this.realmCache = (RealmCacheSession) session.getProvider(CacheRealmProvider.class);

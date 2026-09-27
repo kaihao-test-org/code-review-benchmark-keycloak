@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.provider.util.SimpleHttp.Response;
 
@@ -45,9 +45,9 @@ public class Ipatuura {
     String csrf_value;
     Boolean logged_in = false;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public Ipatuura(KeycloakSession session, ComponentModel model) {
+    public Ipatuura(KeycloakRequestSession session, ComponentModel model) {
         this.model = model;
         this.session = session;
     }

@@ -22,7 +22,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.RefreshToken;
 import org.keycloak.services.util.UserSessionUtil;
 import org.keycloak.util.TokenUtil;
@@ -34,7 +34,7 @@ public class RefreshTokenIntrospectionProvider extends AccessTokenIntrospectionP
 
     private static final Logger logger = Logger.getLogger(RefreshTokenIntrospectionProvider.class);
 
-    public RefreshTokenIntrospectionProvider(KeycloakSession session) {
+    public RefreshTokenIntrospectionProvider(KeycloakRequestSession session) {
         super(session);
     }
 

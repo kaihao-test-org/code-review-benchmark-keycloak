@@ -24,7 +24,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.common.Profile;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -55,7 +55,7 @@ public class TokenExchangeTestUtils {
     }
 
 
-    public static void setupRealm(KeycloakSession session) {
+    public static void setupRealm(KeycloakRequestSession session) {
         addDirectExchanger(session);
 
         RealmModel realm = session.realms().getRealmByName(TEST);
@@ -224,7 +224,7 @@ public class TokenExchangeTestUtils {
         bad.credentialManager().updateCredential(UserCredentialModel.password("password"));
     }
 
-    public static void setUpUserImpersonatePermissions(KeycloakSession session) {
+    public static void setUpUserImpersonatePermissions(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
         AdminPermissionManagement management = AdminPermissions.management(session, realm);
         ResourceServer server = management.realmResourceServer();
@@ -237,7 +237,7 @@ public class TokenExchangeTestUtils {
     }
 
 
-    public static void addDirectExchanger(KeycloakSession session) {
+    public static void addDirectExchanger(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
         RoleModel exampleRole = realm.addRole("example");
 
@@ -282,7 +282,7 @@ public class TokenExchangeTestUtils {
         impersonatedUser.grantRole(exampleRole);
     }
 
-    public static void removeDirectExchanger(KeycloakSession session) {
+    public static void removeDirectExchanger(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
         realm.removeClient(realm.getClientByClientId("direct-exchanger").getId());
         realm.removeClient(realm.getClientByClientId("target").getId());

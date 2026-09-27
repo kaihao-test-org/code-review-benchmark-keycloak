@@ -33,7 +33,7 @@ import org.keycloak.authorization.store.PermissionTicketStore;
 import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.authorization.store.ScopeStore;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.ClientRepresentation;
@@ -56,7 +56,7 @@ public abstract class AbstractResourceService {
     protected HttpRequest request;
     protected Auth auth;
 
-    protected AbstractResourceService(KeycloakSession session, UserModel user, Auth auth, HttpRequest request) {
+    protected AbstractResourceService(KeycloakRequestSession session, UserModel user, Auth auth, HttpRequest request) {
         this.user = user;
         this.auth = auth;
         this.request = request;

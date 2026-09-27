@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.jgroups.certificates.CertificateReloadManager;
 import org.keycloak.jgroups.certificates.DatabaseJGroupsCertificateProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.spi.infinispan.JGroupsCertificateProvider;
 
 import static org.junit.Assert.assertEquals;
@@ -184,27 +184,27 @@ public class JGroupsCertificateRotationClusterTest extends AbstractClusterTest {
         }
     }
 
-    private static CertificateReloadManager certificateReloadManager(KeycloakSession session) {
+    private static CertificateReloadManager certificateReloadManager(KeycloakRequestSession session) {
         return GlobalComponentRegistry.componentOf(cacheManager(session), CertificateReloadManager.class);
     }
 
-    private static DatabaseJGroupsCertificateProvider databaseJGroupsCertificateProvider(KeycloakSession session) {
+    private static DatabaseJGroupsCertificateProvider databaseJGroupsCertificateProvider(KeycloakRequestSession session) {
         return (DatabaseJGroupsCertificateProvider) session.getProvider(JGroupsCertificateProvider.class);
     }
 
-    private static EmbeddedCacheManager cacheManager(KeycloakSession session) {
+    private static EmbeddedCacheManager cacheManager(KeycloakRequestSession session) {
         return session.getProvider(InfinispanConnectionProvider.class)
                 .getCache(InfinispanConnectionProvider.USER_CACHE_NAME)
                 .getCacheManager();
     }
 
-    private static String currentCertificateAlias(KeycloakSession session) {
+    private static String currentCertificateAlias(KeycloakRequestSession session) {
         return databaseJGroupsCertificateProvider(session)
                 .getCurrentCertificate()
                 .getAlias();
     }
 
-    private static void rotateCertificate(KeycloakSession session) {
+    private static void rotateCertificate(KeycloakRequestSession session) {
         certificateReloadManager(session).rotateCertificate();
     }
 

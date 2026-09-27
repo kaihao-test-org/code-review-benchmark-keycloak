@@ -26,7 +26,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.common.util.StackUtil;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Provides some info about current HTTP request. Useful for example for logging
@@ -40,12 +40,12 @@ public class RequestContextHelper {
     private static final Set<String> ALLOWED_ATTRIBUTES = Set.of(OAuth2Constants.GRANT_TYPE, OAuth2Constants.CIBA_GRANT_TYPE, OAuth2Constants.SCOPE, OAuth2Constants.TOKEN_EXCHANGE_GRANT_TYPE, OAuth2Constants.ACCESS_TOKEN_TYPE,
                                                                  OAuth2Constants.DEVICE_CODE_GRANT_TYPE, OAuth2Constants.RESPONSE_TYPE);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     // Explicitly set information about context. This is useful when the request is executed outside of HTTP (for example during periodic cleaner tasks)
     private String contextMessage;
 
-    private RequestContextHelper(KeycloakSession session) {
+    private RequestContextHelper(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -53,7 +53,7 @@ public class RequestContextHelper {
         this.contextMessage = message;
     }
 
-    public static RequestContextHelper getContext(KeycloakSession session) {
+    public static RequestContextHelper getContext(KeycloakRequestSession session) {
         RequestContextHelper ctxHelper = (RequestContextHelper) session.getAttribute(SESSION_ATTRIBUTE);
         if (ctxHelper != null) {
             return ctxHelper;

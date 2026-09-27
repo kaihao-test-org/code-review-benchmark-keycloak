@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.Config;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -36,7 +36,7 @@ public class DefaultDeployedConfigurationsProviderFactory implements DeployedCon
     public static final String PROVIDER_ID = "default";
     private final Map<String, AuthenticatorConfigModel> deployedAuthenticatorConfigs = new ConcurrentHashMap<>();
     @Override
-    public DeployedConfigurationsProvider create(KeycloakSession session) {
+    public DeployedConfigurationsProvider create(KeycloakRequestSession session) {
         return new DefaultDeployedConfigurationsProvider(deployedAuthenticatorConfigs);
     }
 

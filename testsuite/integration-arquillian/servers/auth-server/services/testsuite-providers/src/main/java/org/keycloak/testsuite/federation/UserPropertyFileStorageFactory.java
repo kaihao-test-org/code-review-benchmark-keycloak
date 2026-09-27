@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.storage.UserStorageProviderFactory;
@@ -70,7 +70,7 @@ public class UserPropertyFileStorageFactory implements UserStorageProviderFactor
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         String fp = config.getConfig().getFirst(PROPERTY_FILE);
         if (fp == null) {
             throw new ComponentValidationException(VALIDATION_PROP_FILE_NOT_CONFIGURED);
@@ -83,7 +83,7 @@ public class UserPropertyFileStorageFactory implements UserStorageProviderFactor
     }
 
     @Override
-    public UserPropertyFileStorage create(KeycloakSession session, ComponentModel model) {
+    public UserPropertyFileStorage create(KeycloakRequestSession session, ComponentModel model) {
         String path = model.getConfig().getFirst(PROPERTY_FILE);
         path = EnvUtil.replace(path);
 

@@ -20,7 +20,7 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.Metrics;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -55,7 +55,7 @@ public class PasswordCredentialProviderFactory implements CredentialProviderFact
     private Meter.MeterProvider<Counter> meterProvider;
 
     @Override
-    public PasswordCredentialProvider create(KeycloakSession session) {
+    public PasswordCredentialProvider create(KeycloakRequestSession session) {
         return new PasswordCredentialProvider(session, meterProvider, metricsEnabled, withRealmInMetric, withAlgorithmInMetric, withHashingStrengthInMetric, withOutcomeInMetric);
     }
 

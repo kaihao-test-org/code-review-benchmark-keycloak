@@ -26,7 +26,7 @@ import org.keycloak.broker.provider.AbstractIdentityProviderMapper;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -94,7 +94,7 @@ public abstract class AbstractJsonUserAttributeMapper extends AbstractIdentityPr
 	 * @param profile to store into context
 	 * @param provider identification of social provider to be used in log dump
 	 *
-	 * @see #preprocessFederatedIdentity(KeycloakSession, RealmModel, IdentityProviderMapperModel, BrokeredIdentityContext)
+	 * @see #preprocessFederatedIdentity(KeycloakRequestSession, RealmModel, IdentityProviderMapperModel, BrokeredIdentityContext)
 	 * @see BrokeredIdentityContext#getContextData()
 	 */
 	public static void storeUserProfileForMapper(BrokeredIdentityContext user, JsonNode profile, String provider) {
@@ -129,7 +129,7 @@ public abstract class AbstractJsonUserAttributeMapper extends AbstractIdentityPr
 	}
 
 	@Override
-	public void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+	public void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 		String attribute = getAttribute(mapperModel);
 		if (attribute == null) {
 			return;
@@ -146,12 +146,12 @@ public abstract class AbstractJsonUserAttributeMapper extends AbstractIdentityPr
 	}
 
 	@Override
-	public void updateBrokeredUserLegacy(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+	public void updateBrokeredUserLegacy(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 		// we do not update user profile from social provider
 	}
 
 	@Override
-	public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+	public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 		String attribute = getAttribute(mapperModel);
 		if (attribute == null) {
 			return;

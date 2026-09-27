@@ -28,7 +28,7 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.common.VerificationException;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.organization.OrganizationProvider;
@@ -62,7 +62,7 @@ public class RegistrationPage implements FormAuthenticator, FormAuthenticatorFac
                 InviteOrgActionToken token = Organizations.parseInvitationToken(context.getHttpRequest());
 
                 if (token != null) {
-                    KeycloakSession session = context.getSession();
+                    KeycloakRequestSession session = context.getSession();
                     OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
                     OrganizationModel organization = provider.getById(token.getOrgId());
 
@@ -123,7 +123,7 @@ public class RegistrationPage implements FormAuthenticator, FormAuthenticatorFac
     }
 
     @Override
-    public FormAuthenticator create(KeycloakSession session) {
+    public FormAuthenticator create(KeycloakRequestSession session) {
         return this;
     }
 

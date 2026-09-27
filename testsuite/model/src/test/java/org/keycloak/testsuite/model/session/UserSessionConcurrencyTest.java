@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionProvider;
@@ -47,7 +47,7 @@ public class UserSessionConcurrencyTest extends KeycloakModelTest {
     private static final ThreadLocal<Boolean> wasWriting = ThreadLocal.withInitial(() -> false);
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "test");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -65,7 +65,7 @@ public class UserSessionConcurrencyTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -118,7 +118,7 @@ public class UserSessionConcurrencyTest extends KeycloakModelTest {
             return null;
         });
 
-        inComittedTransaction((Consumer<KeycloakSession>) session -> {
+        inComittedTransaction((Consumer<KeycloakRequestSession>) session -> {
             RealmModel realm = session.realms().getRealm(realmId);
             session.getContext().setRealm(realm);
             session.realms().removeRealm(realmId);

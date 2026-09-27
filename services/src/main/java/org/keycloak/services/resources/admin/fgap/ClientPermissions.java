@@ -32,7 +32,7 @@ import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.idm.authorization.Permission;
@@ -61,7 +61,7 @@ import static org.keycloak.services.resources.admin.fgap.AdminPermissionManageme
  */
 class ClientPermissions implements ClientPermissionEvaluator,  ClientPermissionManagement {
     private static final Logger logger = Logger.getLogger(ClientPermissions.class);
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final RealmModel realm;
     protected final AuthorizationProvider authz;
     protected final MgmtPermissions root;
@@ -70,7 +70,7 @@ class ClientPermissions implements ClientPermissionEvaluator,  ClientPermissionM
 
     private static final String RESOURCE_NAME_PREFIX = "client.resource.";
 
-    public ClientPermissions(KeycloakSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
+    public ClientPermissions(KeycloakRequestSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
         this.session = session;
         this.realm = realm;
         this.authz = authz;

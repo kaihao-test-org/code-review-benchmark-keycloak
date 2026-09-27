@@ -23,7 +23,7 @@ import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.jose.jws.JWSBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.JwtCredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.LDCredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.LDCredentialBuilder;
@@ -166,7 +166,7 @@ public class LDCredentialSignerTest extends OID4VCTest {
     }
 
     public static void testSignLdCredential(
-            KeycloakSession session, String signingKeyId, Map<String, Object> claims,
+            KeycloakRequestSession session, String signingKeyId, Map<String, Object> claims,
             String overrideKeyId, String ldpProofType) {
         CredentialBuildConfig credentialBuildConfig = new CredentialBuildConfig()
                 .setCredentialIssuer(TEST_DID.toString())

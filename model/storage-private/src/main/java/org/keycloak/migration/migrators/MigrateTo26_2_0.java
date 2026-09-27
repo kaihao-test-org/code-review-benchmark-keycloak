@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 public class MigrateTo26_2_0 extends RealmMigration {
@@ -34,7 +34,7 @@ public class MigrateTo26_2_0 extends RealmMigration {
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         // Removes _browser_header.xXSSProtection attribute
         var headers = new HashMap<>(realm.getBrowserSecurityHeaders());
         headers.remove("xXSSProtection");

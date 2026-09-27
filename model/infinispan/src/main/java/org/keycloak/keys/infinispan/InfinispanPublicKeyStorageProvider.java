@@ -36,7 +36,7 @@ import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.crypto.PublicKeysWrapper;
 import org.keycloak.keys.PublicKeyLoader;
 import org.keycloak.keys.PublicKeyStorageProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 
 
@@ -47,7 +47,7 @@ public class InfinispanPublicKeyStorageProvider implements PublicKeyStorageProvi
 
     private static final Logger log = Logger.getLogger(InfinispanPublicKeyStorageProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final Cache<String, PublicKeysEntry> keys;
 
@@ -60,7 +60,7 @@ public class InfinispanPublicKeyStorageProvider implements PublicKeyStorageProvi
 
     private boolean transactionEnlisted = false;
 
-    public InfinispanPublicKeyStorageProvider(KeycloakSession session, Cache<String, PublicKeysEntry> keys, Map<String, FutureTask<PublicKeysEntry>> tasksInProgress,
+    public InfinispanPublicKeyStorageProvider(KeycloakRequestSession session, Cache<String, PublicKeysEntry> keys, Map<String, FutureTask<PublicKeysEntry>> tasksInProgress,
             int minTimeBetweenRequests, int maxCacheTime) {
         this.session = session;
         this.keys = keys;

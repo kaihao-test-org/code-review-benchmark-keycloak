@@ -1,7 +1,7 @@
 package org.keycloak.testsuite.model;
 
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.services.managers.RealmManager;
 import org.keycloak.testsuite.AbstractKeycloakTest;
@@ -22,7 +22,7 @@ public class BadRealmTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testBadRealmName(KeycloakSession session) {
+    public void testBadRealmName(KeycloakRequestSession session) {
         RealmManager manager = new RealmManager(session);
         try {
             manager.createRealm(id, name + script);
@@ -32,7 +32,7 @@ public class BadRealmTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testBadRealmId(KeycloakSession session) {
+    public void testBadRealmId(KeycloakRequestSession session) {
         RealmManager manager = new RealmManager(session);
         try {
             manager.createRealm(id + script, name);

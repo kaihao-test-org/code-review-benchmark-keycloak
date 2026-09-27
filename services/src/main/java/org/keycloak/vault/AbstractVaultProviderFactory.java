@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Abstract class that is meant to be extended by implementations of {@link VaultProviderFactory} that want to offer support
@@ -33,7 +33,7 @@ import org.keycloak.models.KeycloakSession;
  * It implements the {@link #init(Config.Scope)} method, where is looks for the {@code keyResolvers} property. The value is
  * a comma-separated list of key resolver names. It then verifies if the resolver names match one of the available key resolver
  * implementations and then creates a list of {@link VaultKeyResolver} instances that subclasses can pass to {@link VaultProvider}
- * instances on {@link #create(KeycloakSession)}.
+ * instances on {@link #create(KeycloakRequestSession)}.
  * <p/>
  * The list of currently available resolvers follows:
  * <ul>
@@ -103,12 +103,12 @@ public abstract class AbstractVaultProviderFactory implements VaultProviderFacto
     }
 
     /**
-     * Obtains the name of realm from the {@link KeycloakSession}.
+     * Obtains the name of realm from the {@link KeycloakRequestSession}.
      *
-     * @param session a reference to the {@link KeycloakSession}.
+     * @param session a reference to the {@link KeycloakRequestSession}.
      * @return the name of the realm.
      */
-    protected String getRealmName(KeycloakSession session) {
+    protected String getRealmName(KeycloakRequestSession session) {
         return session.getContext().getRealm().getName();
     }
 

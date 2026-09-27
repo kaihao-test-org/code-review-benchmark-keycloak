@@ -70,7 +70,7 @@ public class AmrProtocolMapper extends AbstractOIDCProtocolMapper implements OID
     }
 
     @Override
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession,
+    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession,
                             ClientSessionContext clientSessionCtx) {
         AuthenticatedClientSessionModel clientSession = clientSessionCtx.getClientSession();
         List<String> amr = getAmr(clientSession, userSession.getRealm());

@@ -62,10 +62,10 @@ public class SSSDFederationProvider implements UserStorageProvider,
 
     protected static final Set<String> supportedCredentialTypes = new HashSet<>();
     private final SSSDFederationProviderFactory factory;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected UserStorageProviderModel model;
 
-    public SSSDFederationProvider(KeycloakSession session, UserStorageProviderModel model, SSSDFederationProviderFactory sssdFederationProviderFactory) {
+    public SSSDFederationProvider(KeycloakRequestSession session, UserStorageProviderModel model, SSSDFederationProviderFactory sssdFederationProviderFactory) {
         this.session = session;
         this.model = model;
         this.factory = sssdFederationProviderFactory;

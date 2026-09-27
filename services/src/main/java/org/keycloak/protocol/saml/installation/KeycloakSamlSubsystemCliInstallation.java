@@ -20,7 +20,7 @@ package org.keycloak.protocol.saml.installation;
 import static org.keycloak.protocol.util.ClientCliInstallationUtil.quote;
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -36,7 +36,7 @@ import org.keycloak.services.resources.RealmsResource;
 public class KeycloakSamlSubsystemCliInstallation implements ClientInstallationProvider {
 
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI baseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI baseUri) {
         SamlClient samlClient = new SamlClient(client);
         StringBuilder builder = new StringBuilder();
         String entityId = client.getBaseUrl() == null ? "SPECIFY YOUR entityID!" : client.getBaseUrl();
@@ -146,7 +146,7 @@ public class KeycloakSamlSubsystemCliInstallation implements ClientInstallationP
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

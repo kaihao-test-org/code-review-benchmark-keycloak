@@ -41,7 +41,7 @@ import org.keycloak.Config;
 import org.keycloak.config.CachingOptions;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.marshalling.Marshalling;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -95,7 +95,7 @@ public class DefaultCacheRemoteConfigProviderFactory implements CacheRemoteConfi
     }
 
     @Override
-    public CacheRemoteConfigProvider create(KeycloakSession session) {
+    public CacheRemoteConfigProvider create(KeycloakRequestSession session) {
         lazyInit();
         return this;
     }

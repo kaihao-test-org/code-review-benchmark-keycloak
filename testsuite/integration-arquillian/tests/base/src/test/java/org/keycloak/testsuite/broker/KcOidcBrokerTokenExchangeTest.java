@@ -54,7 +54,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderMapperSyncMode;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserProvider;
@@ -378,7 +378,7 @@ public class KcOidcBrokerTokenExchangeTest extends AbstractInitializedBaseBroker
         }
     }
 
-    private static void setupRealm(KeycloakSession session) {
+    private static void setupRealm(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         IdentityProviderModel idp = session.identityProviders().getByAlias(IDP_OIDC_ALIAS);
         org.junit.Assert.assertNotNull(idp);

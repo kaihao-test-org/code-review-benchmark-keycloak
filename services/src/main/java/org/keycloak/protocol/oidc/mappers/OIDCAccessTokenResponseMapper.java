@@ -1,7 +1,7 @@
 package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.representations.AccessTokenResponse;
@@ -13,6 +13,6 @@ import org.keycloak.representations.AccessTokenResponse;
 public interface OIDCAccessTokenResponseMapper {
 
     AccessTokenResponse transformAccessTokenResponse(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel,
-                                                     KeycloakSession session, UserSessionModel userSession,
+                                                     KeycloakRequestSession session, UserSessionModel userSession,
                                                      ClientSessionContext clientSessionCtx);
 }

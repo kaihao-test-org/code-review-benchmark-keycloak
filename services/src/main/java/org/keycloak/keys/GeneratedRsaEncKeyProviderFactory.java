@@ -24,7 +24,7 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.jose.jwe.JWEConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 /**
@@ -39,7 +39,7 @@ public class GeneratedRsaEncKeyProviderFactory extends AbstractGeneratedRsaKeyPr
     private static final String HELP_TEXT = "Generates RSA keys for key encryption and creates a self-signed certificate";
 
     @Override
-    public KeyProvider create(KeycloakSession session, ComponentModel model) {
+    public KeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         model.put(Attributes.KEY_USE, KeyUse.ENC.name());
         return new ImportedRsaKeyProvider(session.getContext().getRealm(), model);
     }

@@ -26,7 +26,7 @@ import org.keycloak.exportimport.ImportProvider;
 import org.keycloak.exportimport.dir.DirExportProviderFactory;
 import org.keycloak.exportimport.dir.DirImportProviderFactory;
 import org.keycloak.exportimport.singlefile.SingleFileImportProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.managers.ApplianceBootstrap;
 import org.keycloak.testsuite.model.KeycloakModelTest;
@@ -41,7 +41,7 @@ public class ImportModelTest extends KeycloakModelTest {
     public static final String SPI_NAME = "import";
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         // Master realm is needed for importing a realm
         if (s.realms().getRealmByName("master") == null) {
             new ApplianceBootstrap(s).createMasterRealm();
@@ -54,7 +54,7 @@ public class ImportModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel master = s.realms().getRealmByName("master");
         if (master != null) {
             s.realms().removeRealm(master.getId());

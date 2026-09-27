@@ -35,7 +35,7 @@ import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
@@ -52,7 +52,7 @@ public final class UserResourceTypePolicyEvaluator implements ResourceTypePolicy
 
     private UserModel resolveUser(ResourcePermission permission, AuthorizationProvider authorization) {
         RealmModel realm = authorization.getRealm();
-        KeycloakSession session = authorization.getKeycloakSession();
+        KeycloakRequestSession session = authorization.getKeycloakSession();
         String resourceType = permission.getResourceType();
 
         if (resourceType == null) {
@@ -92,7 +92,7 @@ public final class UserResourceTypePolicyEvaluator implements ResourceTypePolicy
         Stream<GroupModel> groups = user.getGroupsStream();
 
         if (groups.findAny().isPresent()) {
-            KeycloakSession session = authorization.getKeycloakSession();
+            KeycloakRequestSession session = authorization.getKeycloakSession();
             Resource resourceTypeResource = AdminPermissionsSchema.SCHEMA.getResourceTypeResource(session, resourceServer, GROUPS_RESOURCE_TYPE);
             policyStore.findByResource(resourceServer, resourceTypeResource, policyConsumer);
         }

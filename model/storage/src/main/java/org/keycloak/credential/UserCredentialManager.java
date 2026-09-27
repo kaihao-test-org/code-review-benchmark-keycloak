@@ -19,7 +19,7 @@ package org.keycloak.credential;
 
 import io.opentelemetry.api.trace.StatusCode;
 import org.keycloak.common.util.reflections.Types;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SubjectCredentialManager;
 import org.keycloak.models.UserModel;
@@ -45,10 +45,10 @@ import java.util.stream.Stream;
 public class UserCredentialManager extends AbstractStorageManager<UserStorageProvider, UserStorageProviderModel> implements SubjectCredentialManager {
 
     private final UserModel user;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
 
-    public UserCredentialManager(KeycloakSession session, RealmModel realm, UserModel user) {
+    public UserCredentialManager(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         super(session, UserStorageProviderFactory.class, UserStorageProvider.class, UserStorageProviderModel::new, "user");
         this.user = user;
         this.session = session;
@@ -282,7 +282,7 @@ public class UserCredentialManager extends AbstractStorageManager<UserStoragePro
         });
     }
 
-    private static <T> Stream<T> getCredentialProviders(KeycloakSession session, Class<T> type) {
+    private static <T> Stream<T> getCredentialProviders(KeycloakRequestSession session, Class<T> type) {
         //noinspection unchecked
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(CredentialProvider.class)
                 .filter(f -> Types.supports(type, f, CredentialProviderFactory.class))

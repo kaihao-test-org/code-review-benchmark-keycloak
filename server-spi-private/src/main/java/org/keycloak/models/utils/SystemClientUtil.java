@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
@@ -65,7 +65,7 @@ public class SystemClientUtil {
     /**
      * Cleanup system client URL to avoid links to account management
      */
-    public static void checkSkipLink(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public static void checkSkipLink(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         String usedClientId = Optional.ofNullable(authSession)
                 .map(it -> it.getClient().getClientId())
                 .orElseGet(() -> session.getContext().getUri().getQueryParameters().getFirst(Constants.CLIENT_ID));

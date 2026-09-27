@@ -32,7 +32,7 @@ import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.CredentialTypeMetadata;
 import org.keycloak.credential.CredentialTypeMetadataContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
@@ -57,7 +57,7 @@ public class CredentialDeleteHelper {
      * @param currentLoAProvider supplier of current authenticated level. Can be retrieved for instance from session or from the token
      * @return removed credential. It can return null if credential was not found or if it was legacy format of federated credential ID
      */
-    public static CredentialModel removeCredential(KeycloakSession session, UserModel user, String credentialId, Supplier<Integer> currentLoAProvider) {
+    public static CredentialModel removeCredential(KeycloakRequestSession session, UserModel user, String credentialId, Supplier<Integer> currentLoAProvider) {
         CredentialModel credential = user.credentialManager().getStoredCredentialById(credentialId);
         if (credential == null) {
             if (user.isFederated()) {
@@ -85,7 +85,7 @@ public class CredentialDeleteHelper {
         return credential;
     }
 
-    private static void checkIfCanBeRemoved(KeycloakSession session, UserModel user, String credentialType, Supplier<Integer> currentLoAProvider) {
+    private static void checkIfCanBeRemoved(KeycloakRequestSession session, UserModel user, String credentialType, Supplier<Integer> currentLoAProvider) {
         CredentialProvider credentialProvider = AuthenticatorUtil.getCredentialProviders(session)
                 .filter(credentialProvider1 -> credentialProvider1.supportsCredentialType(credentialType))
                 .findAny().orElse(null);
@@ -104,7 +104,7 @@ public class CredentialDeleteHelper {
         checkAuthenticatedLoASufficientForCredentialRemove(session, credentialType, currentLoAProvider);
     }
 
-    private static void checkAuthenticatedLoASufficientForCredentialRemove(KeycloakSession session, String credentialType, Supplier<Integer> currentLoAProvider) {
+    private static void checkAuthenticatedLoASufficientForCredentialRemove(KeycloakRequestSession session, String credentialType, Supplier<Integer> currentLoAProvider) {
         int requestedLoaForCredentialRemove = getRequestedLoaForCredential(session, session.getContext().getRealm(), credentialType);
 
         int currentAuthenticatedLevel = currentLoAProvider.get();
@@ -113,7 +113,7 @@ public class CredentialDeleteHelper {
         }
     }
 
-    private static int getRequestedLoaForCredential(KeycloakSession session, RealmModel realm, String credentialType) {
+    private static int getRequestedLoaForCredential(KeycloakRequestSession session, RealmModel realm, String credentialType) {
         Map<String, Integer> credentialTypesToLoa = LoAUtil.getCredentialTypesToLoAMap(session, realm, realm.getBrowserFlow());
         return credentialTypesToLoa.getOrDefault(credentialType, NO_LOA);
     }

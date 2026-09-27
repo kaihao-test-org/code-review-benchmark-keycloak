@@ -21,7 +21,7 @@ import static org.keycloak.authorization.fgap.AdminPermissionsSchema.runWithoutA
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Default implementation of {@link DefaultLazyLoader} that only fetches data once. This implementation is thread-safe
@@ -42,7 +42,7 @@ public class DefaultLazyLoader<S, D> implements LazyLoader<S, D> {
     }
 
     @Override
-    public D get(KeycloakSession session, Supplier<S> sourceSupplier) {
+    public D get(KeycloakRequestSession session, Supplier<S> sourceSupplier) {
         if (data == null) {
             synchronized (this) {
                 if (data == null) {

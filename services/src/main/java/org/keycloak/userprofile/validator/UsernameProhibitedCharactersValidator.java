@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -66,7 +66,7 @@ public class UsernameProhibitedCharactersValidator extends AbstractStringValidat
 
     @Override
     protected void doValidate(String value, String inputHint, ValidationContext context, ValidatorConfig config) {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
 
         if (session != null) {
             RealmModel realm = session.getContext().getRealm();

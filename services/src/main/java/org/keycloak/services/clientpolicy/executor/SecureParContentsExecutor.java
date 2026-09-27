@@ -27,7 +27,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.constants.AdapterConstants;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -50,10 +50,10 @@ import jakarta.ws.rs.core.MultivaluedMap;
  */
 public class SecureParContentsExecutor implements ClientPolicyExecutorProvider<ClientPolicyExecutorConfigurationRepresentation> {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private static final Logger logger = Logger.getLogger(SecureParContentsExecutor.class);
 
-    public SecureParContentsExecutor(KeycloakSession session) {
+    public SecureParContentsExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

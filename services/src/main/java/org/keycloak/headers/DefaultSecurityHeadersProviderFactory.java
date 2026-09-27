@@ -16,12 +16,12 @@
  */
 package org.keycloak.headers;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class DefaultSecurityHeadersProviderFactory implements SecurityHeadersProviderFactory {
 
     @Override
-    public SecurityHeadersProvider create(KeycloakSession session) {
+    public SecurityHeadersProvider create(KeycloakRequestSession session) {
         return new DefaultSecurityHeadersProvider(session);
     }
 

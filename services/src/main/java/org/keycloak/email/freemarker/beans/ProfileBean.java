@@ -18,7 +18,7 @@ package org.keycloak.email.freemarker.beans;
 
 import org.jboss.logging.Logger;
 import org.keycloak.forms.login.freemarker.model.OrganizationBean;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.organization.OrganizationProvider;
 import org.keycloak.representations.userprofile.config.UPAttribute;
@@ -39,11 +39,11 @@ public class ProfileBean {
     private static final Logger logger = Logger.getLogger(ProfileBean.class);
 
     private final UserModel user;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Map<String, String> attributes = new HashMap<>();
     private List<OrganizationBean> organizations;
 
-    public ProfileBean(UserModel user, KeycloakSession session) {
+    public ProfileBean(UserModel user, KeycloakRequestSession session) {
         this.user = user;
         this.session = session;
 

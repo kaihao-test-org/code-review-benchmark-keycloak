@@ -17,14 +17,14 @@
 
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
  */
 public class ServerEdDSASignatureSignerContext extends AsymmetricSignatureSignerContext {
 
-    public ServerEdDSASignatureSignerContext(KeycloakSession session, String algorithm) throws SignatureException {
+    public ServerEdDSASignatureSignerContext(KeycloakRequestSession session, String algorithm) throws SignatureException {
         super(ServerAsymmetricSignatureSignerContext.getKey(session, algorithm));
     }
 

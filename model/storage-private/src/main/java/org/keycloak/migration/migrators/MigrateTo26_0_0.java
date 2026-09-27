@@ -21,7 +21,7 @@ package org.keycloak.migration.migrators;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionProvider;
 
@@ -35,7 +35,7 @@ public class MigrateTo26_0_0 extends RealmMigration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         // migrate jboss-marshalling to infinispan protostream - do this only on upgrade, not on import
         UserSessionProvider userSessions = session.sessions();
         if (userSessions != null) { // can be null in the test suite.
@@ -46,7 +46,7 @@ public class MigrateTo26_0_0 extends RealmMigration {
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         ClientModel adminConsoleClient = realm.getClientByClientId(Constants.ADMIN_CONSOLE_CLIENT_ID);
         if (adminConsoleClient != null) {
             adminConsoleClient.setFullScopeAllowed(true);

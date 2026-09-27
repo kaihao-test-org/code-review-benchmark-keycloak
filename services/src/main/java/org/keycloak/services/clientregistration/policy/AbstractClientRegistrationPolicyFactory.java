@@ -22,7 +22,7 @@ import java.util.List;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -48,11 +48,11 @@ public abstract class AbstractClientRegistrationPolicyFactory implements ClientR
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
     }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties(KeycloakSession session) {
+    public List<ProviderConfigProperty> getConfigProperties(KeycloakRequestSession session) {
         return getConfigProperties();
     }
 }

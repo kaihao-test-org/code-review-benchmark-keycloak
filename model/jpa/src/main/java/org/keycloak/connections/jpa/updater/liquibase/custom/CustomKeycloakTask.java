@@ -31,7 +31,7 @@ import liquibase.structure.core.Table;
 import org.jboss.logging.Logger;
 import org.keycloak.connections.jpa.updater.liquibase.LiquibaseJpaUpdaterProvider;
 import org.keycloak.connections.jpa.updater.liquibase.ThreadLocalSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,7 +46,7 @@ import java.util.List;
  */
 public abstract class CustomKeycloakTask implements CustomSqlChange {
 
-    protected KeycloakSession kcSession;
+    protected KeycloakRequestSession kcSession;
 
     protected Database database;
     protected JdbcConnection jdbcConnection;

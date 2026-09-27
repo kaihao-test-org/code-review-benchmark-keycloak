@@ -1,7 +1,7 @@
 package org.keycloak.testsuite.authentication;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.saml.ArtifactResolver;
 import org.keycloak.protocol.saml.ArtifactResolverFactory;
@@ -16,7 +16,7 @@ public class CustomTestingSamlArtifactResolverFactory implements ArtifactResolve
     public static final CustomTestingSamlArtifactResolver resolver = new CustomTestingSamlArtifactResolver();
     
     @Override
-    public ArtifactResolver create(KeycloakSession session) {
+    public ArtifactResolver create(KeycloakRequestSession session) {
         return resolver;
     }
 

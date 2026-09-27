@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.clientregistration.ClientRegistrationContext;
 import org.keycloak.services.clientregistration.ClientRegistrationProvider;
@@ -40,11 +40,11 @@ public class ClientScopesClientRegistrationPolicy implements ClientRegistrationP
 
     private static final Logger logger = Logger.getLogger(ClientScopesClientRegistrationPolicy.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final ComponentModel componentModel;
 
-    public ClientScopesClientRegistrationPolicy(KeycloakSession session, ComponentModel componentModel) {
+    public ClientScopesClientRegistrationPolicy(KeycloakRequestSession session, ComponentModel componentModel) {
         this.session = session;
         this.componentModel = componentModel;
         this.realm = session.realms().getRealm(componentModel.getParentId());

@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -61,7 +61,7 @@ public class DuplicateEmailValidator implements SimpleValidator {
         if (Validation.isBlank(value))
             return context;
 
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = session.getContext().getRealm();
         UserModel user = UserProfileAttributeValidationContext.from(context).getAttributeContext().getUser();
 

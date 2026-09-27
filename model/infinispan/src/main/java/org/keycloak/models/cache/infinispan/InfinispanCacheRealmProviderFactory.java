@@ -23,7 +23,7 @@ import org.keycloak.Config;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.CacheRealmProvider;
 import org.keycloak.models.cache.CacheRealmProviderFactory;
@@ -43,12 +43,12 @@ public class InfinispanCacheRealmProviderFactory implements CacheRealmProviderFa
     protected volatile RealmCacheManager realmCache;
 
     @Override
-    public CacheRealmProvider create(KeycloakSession session) {
+    public CacheRealmProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new RealmCacheSession(realmCache, session);
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (realmCache == null) {
             synchronized (this) {
                 if (realmCache == null) {

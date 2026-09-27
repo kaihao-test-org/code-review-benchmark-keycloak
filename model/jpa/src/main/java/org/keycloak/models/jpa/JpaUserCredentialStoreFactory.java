@@ -20,7 +20,7 @@ package org.keycloak.models.jpa;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.credential.UserCredentialStore;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderFactory;
 
@@ -49,7 +49,7 @@ public class JpaUserCredentialStoreFactory implements ProviderFactory<UserCreden
     }
 
     @Override
-    public UserCredentialStore create(KeycloakSession session) {
+    public UserCredentialStore create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaUserCredentialStore(session, em);
     }

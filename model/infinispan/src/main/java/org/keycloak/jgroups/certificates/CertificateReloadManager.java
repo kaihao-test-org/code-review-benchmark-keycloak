@@ -41,7 +41,7 @@ import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
 import org.infinispan.remoting.transport.Address;
 import org.infinispan.util.concurrent.BlockingManager;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.spi.infinispan.JGroupsCertificateProvider;
@@ -215,15 +215,15 @@ public class CertificateReloadManager implements Lifecycle {
         }
     }
 
-    private static void replaceCertificateInTransaction(KeycloakSession session) {
+    private static void replaceCertificateInTransaction(KeycloakRequestSession session) {
         session.getProvider(JGroupsCertificateProvider.class).rotateCertificate();
     }
 
-    private static void loadCertificateInTransaction(KeycloakSession session) {
+    private static void loadCertificateInTransaction(KeycloakRequestSession session) {
         session.getProvider(JGroupsCertificateProvider.class).reloadCertificate();
     }
 
-    private static Duration nextRotationDelay(KeycloakSession session) {
+    private static Duration nextRotationDelay(KeycloakRequestSession session) {
         return session.getProvider(JGroupsCertificateProvider.class).nextRotation();
     }
 

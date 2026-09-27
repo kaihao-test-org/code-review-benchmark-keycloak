@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterListener;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.sessions.infinispan.InfinispanAuthenticationSessionProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -43,7 +43,7 @@ public abstract class AbstractAuthSessionClusterListener <SE extends SessionClus
 
     @Override
     public void eventReceived(ClusterEvent event) {
-        KeycloakModelUtils.runJobInTransaction(sessionFactory, (KeycloakSession session) -> {
+        KeycloakModelUtils.runJobInTransaction(sessionFactory, (KeycloakRequestSession session) -> {
             InfinispanAuthenticationSessionProvider provider = (InfinispanAuthenticationSessionProvider) session.getProvider(AuthenticationSessionProvider.class,
                     InfinispanUtils.EMBEDDED_PROVIDER_ID);
             SE sessionEvent = (SE) event;

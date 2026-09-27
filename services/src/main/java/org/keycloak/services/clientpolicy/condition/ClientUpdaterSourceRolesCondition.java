@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -52,7 +52,7 @@ public class ClientUpdaterSourceRolesCondition extends AbstractClientPolicyCondi
 
     private static final Logger logger = Logger.getLogger(ClientUpdaterSourceRolesCondition.class);
 
-    public ClientUpdaterSourceRolesCondition(KeycloakSession session) {
+    public ClientUpdaterSourceRolesCondition(KeycloakRequestSession session) {
         super(session);
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.executor;
 import java.net.URI;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.saml.SamlClient;
 import org.keycloak.protocol.saml.SamlProtocol;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -38,7 +38,7 @@ import org.keycloak.services.clientpolicy.context.SamlLogoutRequestContext;
  */
 public class SamlAvoidRedirectBindingExecutor implements ClientPolicyExecutorProvider<ClientPolicyExecutorConfigurationRepresentation> {
 
-    public SamlAvoidRedirectBindingExecutor(KeycloakSession session) {
+    public SamlAvoidRedirectBindingExecutor(KeycloakRequestSession session) {
     }
 
     @Override

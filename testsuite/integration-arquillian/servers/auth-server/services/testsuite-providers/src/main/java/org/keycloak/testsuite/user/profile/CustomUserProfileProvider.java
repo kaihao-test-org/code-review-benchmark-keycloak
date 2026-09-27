@@ -1,6 +1,6 @@
 package org.keycloak.testsuite.user.profile;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.userprofile.DeclarativeUserProfileProvider;
 import org.keycloak.userprofile.UserProfile;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CustomUserProfileProvider extends DeclarativeUserProfileProvider {
 
-    public CustomUserProfileProvider(KeycloakSession session, CustomUserProfileProviderFactory factory) {
+    public CustomUserProfileProvider(KeycloakRequestSession session, CustomUserProfileProviderFactory factory) {
         super(session, factory);
     }
 

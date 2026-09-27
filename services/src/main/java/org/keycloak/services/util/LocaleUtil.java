@@ -20,7 +20,7 @@ package org.keycloak.services.util;
 
 import org.keycloak.locale.LocaleSelectorProvider;
 import org.keycloak.locale.LocaleUpdaterProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
@@ -42,7 +42,7 @@ public class LocaleUtil {
         // noop
     }
 
-    public static void processLocaleParam(KeycloakSession session, RealmModel realm, AuthenticationSessionModel authSession) {
+    public static void processLocaleParam(KeycloakRequestSession session, RealmModel realm, AuthenticationSessionModel authSession) {
         if (realm.isInternationalizationEnabled()) {
             String locale = session.getContext().getUri().getQueryParameters().getFirst(LocaleSelectorProvider.KC_LOCALE_PARAM);
             if (locale != null) {

@@ -22,7 +22,7 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputUpdater;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -65,7 +65,7 @@ public class UserMapStorage implements UserLookupProvider, UserStorageProvider, 
     protected final Map<String, String> userPasswords;
     protected final ConcurrentMap<String, Set<String>> userGroups;
     protected ComponentModel model;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected EditMode editMode;
     private transient Boolean importEnabled;
 
@@ -75,7 +75,7 @@ public class UserMapStorage implements UserLookupProvider, UserStorageProvider, 
     public static final AtomicInteger groupRemovals = new AtomicInteger(0);
     public static final AtomicInteger roleRemovals = new AtomicInteger(0);
 
-    public UserMapStorage(KeycloakSession session, ComponentModel model, Map<String, String> userPasswords, ConcurrentMap<String, Set<String>> userGroups) {
+    public UserMapStorage(KeycloakRequestSession session, ComponentModel model, Map<String, String> userPasswords, ConcurrentMap<String, Set<String>> userGroups) {
         this.session = session;
         this.model = model;
         this.userPasswords = userPasswords;

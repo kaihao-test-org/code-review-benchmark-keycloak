@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -50,7 +50,7 @@ public class EventBuilder {
 
     private static final Logger log = Logger.getLogger(EventBuilder.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private EventStoreProvider store;
     private List<EventListenerProvider> listeners;
     private RealmModel realm;
@@ -58,12 +58,12 @@ public class EventBuilder {
     private Boolean storeImmediately;
     private final boolean isEventsEnabled;
 
-    public EventBuilder(RealmModel realm, KeycloakSession session, ClientConnection clientConnection) {
+    public EventBuilder(RealmModel realm, KeycloakRequestSession session, ClientConnection clientConnection) {
         this(realm, session);
         ipAddress(clientConnection.getRemoteHost());
     }
 
-    public EventBuilder(RealmModel realm, KeycloakSession session) {
+    public EventBuilder(RealmModel realm, KeycloakRequestSession session) {
         this.session = session;
         this.realm = realm;
         this.isEventsEnabled = realm.isEventsEnabled();
@@ -76,7 +76,7 @@ public class EventBuilder {
         realm(realm);
     }
 
-    private static EventStoreProvider getEventStoreProvider(KeycloakSession session) {
+    private static EventStoreProvider getEventStoreProvider(KeycloakRequestSession session) {
         EventStoreProvider store = session.getProvider(EventStoreProvider.class);
         if (store == null) {
             log.error("Events enabled, but no event store provider configured");
@@ -85,7 +85,7 @@ public class EventBuilder {
         return store;
     }
 
-    private static List<EventListenerProvider> getEventListeners(KeycloakSession session, RealmModel realm) {
+    private static List<EventListenerProvider> getEventListeners(KeycloakRequestSession session, RealmModel realm) {
         HashSet<String> realmListeners = new HashSet<>(realm.getEventsListenersStream().toList());
         List<EventListenerProvider> result = session.getKeycloakSessionFactory().getProviderFactoriesStream(EventListenerProvider.class)
                 .filter(providerFactory -> realmListeners.contains(providerFactory.getId()) || ((EventListenerProviderFactory) providerFactory).isGlobal())
@@ -100,7 +100,7 @@ public class EventBuilder {
         return result;
     }
 
-    private EventBuilder(KeycloakSession session, EventStoreProvider store, List<EventListenerProvider> listeners, RealmModel realm, Event event) {
+    private EventBuilder(KeycloakRequestSession session, EventStoreProvider store, List<EventListenerProvider> listeners, RealmModel realm, Event event) {
         this.listeners = listeners;
         this.realm = realm;
         this.event = event;

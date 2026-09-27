@@ -17,7 +17,7 @@
 package org.keycloak.transaction;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.provider.ExceptionConverter;
 
@@ -37,10 +37,10 @@ public class JtaTransactionWrapper implements KeycloakTransaction {
     protected Transaction ut;
     protected Transaction suspended;
     protected Exception ended;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     private final RequestContextHelper requestContextHelper;
 
-    public JtaTransactionWrapper(KeycloakSession session, TransactionManager tm) {
+    public JtaTransactionWrapper(KeycloakRequestSession session, TransactionManager tm) {
         this.tm = tm;
         this.session = session;
         this.requestContextHelper = RequestContextHelper.getContext(session);

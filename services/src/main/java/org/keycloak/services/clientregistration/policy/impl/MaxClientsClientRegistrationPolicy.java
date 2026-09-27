@@ -19,7 +19,7 @@ package org.keycloak.services.clientregistration.policy.impl;
 
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.clientregistration.ClientRegistrationContext;
 import org.keycloak.services.clientregistration.ClientRegistrationProvider;
@@ -31,10 +31,10 @@ import org.keycloak.services.clientregistration.policy.ClientRegistrationPolicyE
  */
 public class MaxClientsClientRegistrationPolicy implements ClientRegistrationPolicy {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ComponentModel componentModel;
 
-    public MaxClientsClientRegistrationPolicy(KeycloakSession session, ComponentModel componentModel) {
+    public MaxClientsClientRegistrationPolicy(KeycloakRequestSession session, ComponentModel componentModel) {
         this.session = session;
         this.componentModel = componentModel;
     }

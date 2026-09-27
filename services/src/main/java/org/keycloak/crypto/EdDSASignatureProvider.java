@@ -18,16 +18,16 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
  */
 public class EdDSASignatureProvider implements SignatureProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public EdDSASignatureProvider(KeycloakSession session) {
+    public EdDSASignatureProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

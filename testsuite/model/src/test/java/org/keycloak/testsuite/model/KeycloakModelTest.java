@@ -36,7 +36,7 @@ import org.keycloak.models.AbstractKeycloakTransaction;
 import org.keycloak.models.ClientScopeSpi;
 import org.keycloak.models.ClientSpi;
 import org.keycloak.models.GroupSpi;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmSpi;
@@ -528,10 +528,10 @@ public abstract class KeycloakModelTest {
         Assume.assumeTrue("keycloak.model.parameters property must be set", MODEL_PARAMETERS.size() > 1);   // Additional parameters have to be set
     }
 
-    protected void createEnvironment(KeycloakSession s) {
+    protected void createEnvironment(KeycloakRequestSession s) {
     }
 
-    protected void cleanEnvironment(KeycloakSession s) {
+    protected void cleanEnvironment(KeycloakRequestSession s) {
     }
 
     @Before
@@ -554,8 +554,8 @@ public abstract class KeycloakModelTest {
         return MODEL_PARAMETERS.stream().flatMap(mp -> mp.getParameters(clazz)).filter(Objects::nonNull);
     }
 
-    protected <T> void inRolledBackTransaction(T parameter, BiConsumer<KeycloakSession, T> what) {
-        try (KeycloakSession session = getFactory().create()) {
+    protected <T> void inRolledBackTransaction(T parameter, BiConsumer<KeycloakRequestSession, T> what) {
+        try (KeycloakRequestSession session = getFactory().create()) {
             session.getTransactionManager().begin();
 
             what.accept(session, parameter);
@@ -564,19 +564,19 @@ public abstract class KeycloakModelTest {
         }
     }
 
-    protected <T, R> R inComittedTransaction(T parameter, BiFunction<KeycloakSession, T, R> what) {
+    protected <T, R> R inComittedTransaction(T parameter, BiFunction<KeycloakRequestSession, T, R> what) {
         return inComittedTransaction(parameter, what, null, null);
     }
 
-    protected void inComittedTransaction(Consumer<KeycloakSession> what) {
+    protected void inComittedTransaction(Consumer<KeycloakRequestSession> what) {
         inComittedTransaction(a -> { what.accept(a); return null; });
     }
 
-    protected <R> R inComittedTransaction(Function<KeycloakSession, R> what) {
+    protected <R> R inComittedTransaction(Function<KeycloakRequestSession, R> what) {
         return inComittedTransaction(1, (a,b) -> what.apply(a), null, null);
     }
 
-    protected <T, R> R inComittedTransaction(T parameter, BiFunction<KeycloakSession, T, R> what, BiConsumer<KeycloakSession, T> onCommit, BiConsumer<KeycloakSession, T> onRollback) {
+    protected <T, R> R inComittedTransaction(T parameter, BiFunction<KeycloakRequestSession, T, R> what, BiConsumer<KeycloakRequestSession, T> onCommit, BiConsumer<KeycloakRequestSession, T> onRollback) {
         return KeycloakModelUtils.runJobInTransactionWithResult(getFactory(), session -> {
             session.getTransactionManager().enlistAfterCompletion(new AbstractKeycloakTransaction() {
                 @Override
@@ -598,7 +598,7 @@ public abstract class KeycloakModelTest {
      * obtains realm model from the session and puts it into session context before
      * running the {@code what} task.
      */
-    protected <R> R withRealm(String realmId, BiFunction<KeycloakSession, RealmModel, R> what) {
+    protected <R> R withRealm(String realmId, BiFunction<KeycloakRequestSession, RealmModel, R> what) {
         return inComittedTransaction(session -> {
             final RealmModel realm = session.realms().getRealm(realmId);
             session.getContext().setRealm(realm);
@@ -606,7 +606,7 @@ public abstract class KeycloakModelTest {
         });
     }
 
-   protected void withRealmConsumer(String realmId, BiConsumer<KeycloakSession, RealmModel> what) {
+   protected void withRealmConsumer(String realmId, BiConsumer<KeycloakRequestSession, RealmModel> what) {
        withRealm(realmId, (session, realm) -> {
           what.accept(session, realm);
           return null;
@@ -626,7 +626,7 @@ public abstract class KeycloakModelTest {
         }
     }
 
-    protected static RealmModel createRealm(KeycloakSession s, String name) {
+    protected static RealmModel createRealm(KeycloakRequestSession s, String name) {
         RealmModel realm = s.realms().getRealmByName(name);
         if (realm != null) {
             RealmModel current = s.getContext().getRealm();

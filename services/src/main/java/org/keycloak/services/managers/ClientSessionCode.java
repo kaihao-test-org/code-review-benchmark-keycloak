@@ -20,7 +20,7 @@ package org.keycloak.services.managers;
 import org.keycloak.common.util.Time;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.sessions.CommonClientSessionModel;
 
@@ -31,7 +31,7 @@ import org.keycloak.sessions.CommonClientSessionModel;
  */
 public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private final RealmModel realm;
     private final CLIENT_SESSION commonLoginSession;
 
@@ -41,7 +41,7 @@ public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> 
         USER
     }
 
-    public ClientSessionCode(KeycloakSession session, RealmModel realm, CLIENT_SESSION commonLoginSession) {
+    public ClientSessionCode(KeycloakRequestSession session, RealmModel realm, CLIENT_SESSION commonLoginSession) {
         this.session = session;
         this.realm = realm;
         this.commonLoginSession = commonLoginSession;
@@ -76,7 +76,7 @@ public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> 
     }
 
     public static <CLIENT_SESSION extends CommonClientSessionModel> ParseResult<CLIENT_SESSION> parseResult(String code, String tabId,
-                                                                                                            KeycloakSession session, RealmModel realm, ClientModel client,
+                                                                                                            KeycloakRequestSession session, RealmModel realm, ClientModel client,
                                                                                                             EventBuilder event, Class<CLIENT_SESSION> sessionClass) {
         ParseResult<CLIENT_SESSION> result = new ParseResult<>();
         if (code == null) {
@@ -94,7 +94,7 @@ public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> 
     }
 
     public static <CLIENT_SESSION extends CommonClientSessionModel> ParseResult<CLIENT_SESSION> parseResult(String code, String tabId,
-                                                                                                            KeycloakSession session, RealmModel realm, ClientModel client,
+                                                                                                            KeycloakRequestSession session, RealmModel realm, ClientModel client,
                                                                                                             EventBuilder event, CLIENT_SESSION clientSession) {
         ParseResult<CLIENT_SESSION> result = new ParseResult<>();
         result.clientSession = clientSession;
@@ -111,7 +111,7 @@ public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> 
         }
     }
 
-    private static <CLIENT_SESSION extends CommonClientSessionModel> ParseResult<CLIENT_SESSION> parseResult(String code, KeycloakSession session, RealmModel realm, ParseResult<CLIENT_SESSION> result, CodeGenerateUtil.ClientSessionParser<CLIENT_SESSION> clientSessionParser) {
+    private static <CLIENT_SESSION extends CommonClientSessionModel> ParseResult<CLIENT_SESSION> parseResult(String code, KeycloakRequestSession session, RealmModel realm, ParseResult<CLIENT_SESSION> result, CodeGenerateUtil.ClientSessionParser<CLIENT_SESSION> clientSessionParser) {
         if (result.clientSession == null) {
             result.authSessionNotFound = true;
             return result;
@@ -132,14 +132,14 @@ public class ClientSessionCode<CLIENT_SESSION extends CommonClientSessionModel> 
     }
 
 
-    public static <CLIENT_SESSION extends CommonClientSessionModel> CLIENT_SESSION getClientSession(String code, String tabId, KeycloakSession session, RealmModel realm, ClientModel client,
+    public static <CLIENT_SESSION extends CommonClientSessionModel> CLIENT_SESSION getClientSession(String code, String tabId, KeycloakRequestSession session, RealmModel realm, ClientModel client,
                                                                                                     EventBuilder event, Class<CLIENT_SESSION> sessionClass) {
         CodeGenerateUtil.ClientSessionParser<CLIENT_SESSION> clientSessionParser = CodeGenerateUtil.getParser(sessionClass);
         return getClientSession(code, tabId, session, realm, client, event, clientSessionParser);
     }
 
 
-    private static <CLIENT_SESSION extends CommonClientSessionModel> CLIENT_SESSION getClientSession(String code, String tabId, KeycloakSession session, RealmModel realm, ClientModel client, EventBuilder event,
+    private static <CLIENT_SESSION extends CommonClientSessionModel> CLIENT_SESSION getClientSession(String code, String tabId, KeycloakRequestSession session, RealmModel realm, ClientModel client, EventBuilder event,
                                                                                                      CodeGenerateUtil.ClientSessionParser<CLIENT_SESSION> clientSessionParser) {
         return clientSessionParser.parseSession(code, tabId, session, realm, client, event);
     }

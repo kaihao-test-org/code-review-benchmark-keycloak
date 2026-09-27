@@ -22,7 +22,7 @@ import org.keycloak.models.ClientProvider;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientScopeProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.RoleProvider;
@@ -51,7 +51,7 @@ public class ClientScopeModelTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -59,7 +59,7 @@ public class ClientScopeModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -123,7 +123,7 @@ public class ClientScopeModelTest extends KeycloakModelTest {
 
     }
 
-    private static void assertionsForClientScopesCaching(List<String> clientScopes, KeycloakSession session, RealmModel realm) {
+    private static void assertionsForClientScopesCaching(List<String> clientScopes, KeycloakRequestSession session, RealmModel realm) {
         assertThat(clientScopes, Matchers.containsInAnyOrder(realm.getClientScopesStream()
                 .map(ClientScopeModel::getId).toArray(String[]::new)));
 

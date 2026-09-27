@@ -18,7 +18,7 @@
 package org.keycloak.migration.migrators;
 
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -27,7 +27,7 @@ import org.keycloak.representations.idm.RealmRepresentation;
  */
 public interface Migration {
 
-    void migrate(KeycloakSession session);
+    void migrate(KeycloakRequestSession session);
 
     /**
      * Called after full import of representation.
@@ -41,7 +41,7 @@ public interface Migration {
      * @param skipUserDependent
      */
     default
-    void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
 
     }
 

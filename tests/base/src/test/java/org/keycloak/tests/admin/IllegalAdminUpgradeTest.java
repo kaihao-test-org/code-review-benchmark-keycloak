@@ -23,7 +23,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -74,7 +74,7 @@ public class IllegalAdminUpgradeTest {
     private static final String MASTER_REALM_NAME = "master";
 
 
-    public static void setupUsers(KeycloakSession session) {
+    public static void setupUsers(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         RealmModel master = session.realms().getRealmByName(MASTER_REALM_NAME);
         ClientModel realmAdminClient = realm.getClientByClientId(Constants.REALM_MANAGEMENT_CLIENT_ID);

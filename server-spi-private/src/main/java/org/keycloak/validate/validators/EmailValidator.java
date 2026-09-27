@@ -20,7 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -82,7 +82,7 @@ public class EmailValidator extends AbstractStringValidator implements Configure
     }
 
     @Override
-    public ValidationResult validateConfig(KeycloakSession session, ValidatorConfig config) {
+    public ValidationResult validateConfig(KeycloakRequestSession session, ValidatorConfig config) {
         Set<ValidationError> errors = new LinkedHashSet<>();
         if (config != null && config.containsKey(MAX_LOCAL_PART_LENGTH_PROPERTY)) {
             Integer maxLocalPartLength = config.getInt(MAX_LOCAL_PART_LENGTH_PROPERTY);

@@ -17,7 +17,7 @@
 
 package org.keycloak.testsuite.domainextension.rest;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager;
 
@@ -27,10 +27,10 @@ import jakarta.ws.rs.Path;
 
 public class ExampleRestResource {
 
-	private final KeycloakSession session;
+	private final KeycloakRequestSession session;
     private final AuthenticationManager.AuthResult auth;
 	
-	public ExampleRestResource(KeycloakSession session) {
+	public ExampleRestResource(KeycloakRequestSession session) {
 		this.session = session;
         this.auth = new AppAuthManager.BearerTokenAuthenticator(session).authenticate();
 	}

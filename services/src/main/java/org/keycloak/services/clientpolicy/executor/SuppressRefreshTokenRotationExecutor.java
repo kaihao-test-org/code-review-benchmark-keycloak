@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -33,9 +33,9 @@ public class SuppressRefreshTokenRotationExecutor implements ClientPolicyExecuto
 
     private static final Logger logger = Logger.getLogger(SuppressRefreshTokenRotationExecutor.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public SuppressRefreshTokenRotationExecutor(KeycloakSession session) {
+    public SuppressRefreshTokenRotationExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

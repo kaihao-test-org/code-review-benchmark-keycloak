@@ -3,7 +3,7 @@ package org.keycloak.protocol.docker;
 import org.keycloak.common.Profile;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resources.RealmsResource;
 import org.keycloak.utils.ProfileHelper;
 
@@ -15,9 +15,9 @@ public class DockerV2LoginProtocolService {
 
     private final EventBuilder event;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DockerV2LoginProtocolService(final KeycloakSession session, final EventBuilder event) {
+    public DockerV2LoginProtocolService(final KeycloakRequestSession session, final EventBuilder event) {
         this.session = session;
         this.event = event;
     }

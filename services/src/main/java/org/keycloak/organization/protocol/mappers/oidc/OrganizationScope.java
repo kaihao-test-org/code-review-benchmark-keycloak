@@ -37,7 +37,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeDecorator;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserModel;
@@ -165,7 +165,7 @@ public enum OrganizationScope {
     /**
      * Resolves the organizations of the user based on the values of the scope.
      */
-    private final TriFunction<UserModel, String, KeycloakSession, Stream<OrganizationModel>> valueResolver;
+    private final TriFunction<UserModel, String, KeycloakRequestSession, Stream<OrganizationModel>> valueResolver;
 
     /**
      * Validate the value of the scope based on how they map to existing organizations.
@@ -175,9 +175,9 @@ public enum OrganizationScope {
     /**
      * Resolves the name of the scope when requesting a scope using a different format.
      */
-    private final TriFunction<KeycloakSession, String, String, String> nameResolver;
+    private final TriFunction<KeycloakRequestSession, String, String, String> nameResolver;
 
-    OrganizationScope(Predicate<String> valueMatcher, TriFunction<UserModel, String, KeycloakSession, Stream<OrganizationModel>> valueResolver, Predicate<Stream<OrganizationModel>> valueValidator, TriFunction<KeycloakSession, String, String, String> nameResolver) {
+    OrganizationScope(Predicate<String> valueMatcher, TriFunction<UserModel, String, KeycloakRequestSession, Stream<OrganizationModel>> valueResolver, Predicate<Stream<OrganizationModel>> valueValidator, TriFunction<KeycloakRequestSession, String, String, String> nameResolver) {
         this.valueMatcher = valueMatcher;
         this.valueResolver = valueResolver;
         this.valueValidator = valueValidator;
@@ -192,7 +192,7 @@ public enum OrganizationScope {
      * @param session the session
      * @return the organizations mapped from the {@code scope} parameter. Or an empty stream if no organizations were mapped from the parameter.
      */
-    public Stream<OrganizationModel> resolveOrganizations(UserModel user, String scope, KeycloakSession session) {
+    public Stream<OrganizationModel> resolveOrganizations(UserModel user, String scope, KeycloakRequestSession session) {
         return valueResolver.apply(user, Optional.ofNullable(scope).orElse(EMPTY_SCOPE), session).filter(OrganizationModel::isEnabled);
     }
 
@@ -204,7 +204,7 @@ public enum OrganizationScope {
      * @param session the session
      * @return the organizations mapped from the {@code scope} parameter. Or an empty stream if no organizations were mapped from the parameter.
      */
-    public Stream<OrganizationModel> resolveOrganizations(UserModel user, KeycloakSession session) {
+    public Stream<OrganizationModel> resolveOrganizations(UserModel user, KeycloakRequestSession session) {
         return resolveOrganizations(user, getRequestedScopes(session), session);
     }
 
@@ -215,7 +215,7 @@ public enum OrganizationScope {
      * @param session the session
      * @return the organizations mapped from the {@code scope} parameter. Or an empty stream if no organizations were mapped from the parameter.
      */
-    public Stream<OrganizationModel> resolveOrganizations(KeycloakSession session) {
+    public Stream<OrganizationModel> resolveOrganizations(KeycloakRequestSession session) {
         return resolveOrganizations(null, session);
     }
 
@@ -227,7 +227,7 @@ public enum OrganizationScope {
      * @param session the session
      * @return the {@link ClientScopeModel}
      */
-    public ClientScopeModel toClientScope(String name, UserModel user, KeycloakSession session) {
+    public ClientScopeModel toClientScope(String name, UserModel user, KeycloakRequestSession session) {
         OrganizationScope scope = valueOfScope(session, name);
 
         if (scope == null) {
@@ -254,7 +254,7 @@ public enum OrganizationScope {
      * @param previous the previous name of this scope
      * @return the name of the scope
      */
-    public String resolveName(KeycloakSession session, Set<String> scopes, String previous) {
+    public String resolveName(KeycloakRequestSession session, Set<String> scopes, String previous) {
         for (String scope : scopes) {
             String resolved = nameResolver.apply(session, scope, previous);
 
@@ -274,7 +274,7 @@ public enum OrganizationScope {
      * @param rawScope the string referencing the scope
      * @return the organization scope that maps the given {@code rawScope}
      */
-    public static OrganizationScope valueOfScope(KeycloakSession session, String rawScope) {
+    public static OrganizationScope valueOfScope(KeycloakRequestSession session, String rawScope) {
         return parseScopeParameter(session, Optional.ofNullable(rawScope).orElse(EMPTY_SCOPE))
                 .map(s -> {
                     for (OrganizationScope scope : values()) {
@@ -295,7 +295,7 @@ public enum OrganizationScope {
      * @param session the session
      * @return the organization scope that maps the given {@code rawScope}
      */
-    public static OrganizationScope valueOfScope(KeycloakSession session) {
+    public static OrganizationScope valueOfScope(KeycloakRequestSession session) {
         OrganizationScope value = session.getAttribute(OrganizationScope.class.getName(), OrganizationScope.class);
 
         if (value != null) {
@@ -311,7 +311,7 @@ public enum OrganizationScope {
         return value;
     }
 
-    private static String getRequestedScopes(KeycloakSession session) {
+    private static String getRequestedScopes(KeycloakRequestSession session) {
         AuthenticationSessionModel authSession = session.getContext().getAuthenticationSession();
 
         if (authSession == null) {
@@ -323,7 +323,7 @@ public enum OrganizationScope {
         return Optional.ofNullable(requestedScopes).orElse(EMPTY_SCOPE);
     }
 
-    private static String parseScopeValue(KeycloakSession session, String scope) {
+    private static String parseScopeValue(KeycloakRequestSession session, String scope) {
         ClientScopeModel clientScope = resolveClientScope(session, scope);
 
         if (clientScope != null) {
@@ -341,12 +341,12 @@ public enum OrganizationScope {
         return null;
     }
 
-    private static Stream<String> parseScopeParameter(KeycloakSession session, String rawScope) {
+    private static Stream<String> parseScopeParameter(KeycloakRequestSession session, String rawScope) {
         return TokenManager.parseScopeParameter(rawScope)
                 .filter(scope -> resolveClientScope(session, scope) != null);
     }
 
-    private static ClientScopeModel resolveClientScope(KeycloakSession session, String scope) {
+    private static ClientScopeModel resolveClientScope(KeycloakRequestSession session, String scope) {
         if (isBlank(scope)) {
             return null;
         }

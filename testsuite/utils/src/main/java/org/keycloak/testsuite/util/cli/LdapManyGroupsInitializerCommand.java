@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.storage.UserStorageProvider;
@@ -54,7 +54,7 @@ public class LdapManyGroupsInitializerCommand extends AbstractCommand  {
     }
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         String realmName = getArg(0);
         String groupsDn = getArg(1);
         int startOffsetTopGroups = getIntArg(2);
@@ -77,7 +77,7 @@ public class LdapManyGroupsInitializerCommand extends AbstractCommand  {
         // Create groups
         for (int i=startOffsetTopGroups ; i<startOffsetTopGroups+topGroupsCount ; i++) {
             final int iFinal = i;
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession kcSession) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession kcSession) -> {
 
                 LDAPStorageProvider ldapProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, ldapModel);
                 RealmModel appRealm = session.realms().getRealmByName(realmName);

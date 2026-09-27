@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.keycloak.authentication.requiredactions.util.UpdateProfileContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.userprofile.UserProfile;
 import org.keycloak.userprofile.UserProfileContext;
 import org.keycloak.userprofile.UserProfileProvider;
@@ -33,7 +33,7 @@ public class IdpReviewProfileBean extends AbstractUserProfileBean {
 
     private UpdateProfileContext idpCtx;
     
-    public IdpReviewProfileBean(UpdateProfileContext idpCtx, MultivaluedMap<String, String> formData, KeycloakSession session) {
+    public IdpReviewProfileBean(UpdateProfileContext idpCtx, MultivaluedMap<String, String> formData, KeycloakRequestSession session) {
         super(formData);
         this.idpCtx = idpCtx;
         init(session, true);

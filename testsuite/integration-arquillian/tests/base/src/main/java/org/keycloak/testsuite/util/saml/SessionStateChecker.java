@@ -3,7 +3,7 @@ package org.keycloak.testsuite.util.saml;
 import org.infinispan.util.function.SerializableConsumer;
 import org.infinispan.util.function.SerializableFunction;
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.sessions.CommonClientSessionModel;
@@ -29,8 +29,8 @@ public class SessionStateChecker implements Runnable {
     private SerializableConsumer<UserSessionModel> consumeUserSession;
     private final Map<String, SerializableConsumer<AuthenticatedClientSessionModel>> consumeClientSession = new HashMap<>();
 
-    private SerializableFunction<KeycloakSession, String> userSessionIdProvider;
-    private SerializableFunction<KeycloakSession, String> clientSessionIdProvider;
+    private SerializableFunction<KeycloakRequestSession, String> userSessionIdProvider;
+    private SerializableFunction<KeycloakRequestSession, String> clientSessionIdProvider;
     private final KeycloakTestingClient.Server server;
 
 
@@ -43,12 +43,12 @@ public class SessionStateChecker implements Runnable {
         return this;
     }
 
-    public SessionStateChecker setUserSessionProvider(SerializableFunction<KeycloakSession, String> sessionProvider) {
+    public SessionStateChecker setUserSessionProvider(SerializableFunction<KeycloakRequestSession, String> sessionProvider) {
         this.userSessionIdProvider = sessionProvider;
         return this;
     }
 
-    public SessionStateChecker setClientSessionProvider(SerializableFunction<KeycloakSession, String> sessionProvider) {
+    public SessionStateChecker setClientSessionProvider(SerializableFunction<KeycloakRequestSession, String> sessionProvider) {
         this.clientSessionIdProvider = sessionProvider;
         return this;
     }
@@ -135,8 +135,8 @@ public class SessionStateChecker implements Runnable {
                            String expectedClientSession,
                            SerializableConsumer<UserSessionModel> consumeUserSession,
                            Map<String, SerializableConsumer<AuthenticatedClientSessionModel>> consumeClientSession,
-                           SerializableFunction<KeycloakSession, String> userSessionIdProvider,
-                           SerializableFunction<KeycloakSession, String> clientSessionIdProvider) {
+                           SerializableFunction<KeycloakRequestSession, String> userSessionIdProvider,
+                           SerializableFunction<KeycloakRequestSession, String> clientSessionIdProvider) {
         if (server == null || userSessionIdProvider == null)
             throw new RuntimeException("Wrongly configured session checker");
 

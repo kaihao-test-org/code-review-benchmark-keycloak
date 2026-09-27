@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
@@ -39,7 +39,7 @@ public class ClientUpdaterSourceHostsCondition extends AbstractClientPolicyCondi
 
     private static final Logger logger = Logger.getLogger(ClientUpdaterSourceHostsCondition.class);
 
-    public ClientUpdaterSourceHostsCondition(KeycloakSession session) {
+    public ClientUpdaterSourceHostsCondition(KeycloakRequestSession session) {
         super(session);
     }
 

@@ -27,7 +27,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.ScopeContainerModel;
@@ -64,11 +64,11 @@ public class ScopeMappedClientResource {
     protected AdminPermissionEvaluator.RequirePermissionCheck managePermission;
     protected AdminPermissionEvaluator.RequirePermissionCheck viewPermission;
     protected ScopeContainerModel scopeContainer;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected ClientModel scopedClient;
     protected AdminEventBuilder adminEvent;
     
-    public ScopeMappedClientResource(RealmModel realm, AdminPermissionEvaluator auth, ScopeContainerModel scopeContainer, KeycloakSession session, ClientModel scopedClient, AdminEventBuilder adminEvent,
+    public ScopeMappedClientResource(RealmModel realm, AdminPermissionEvaluator auth, ScopeContainerModel scopeContainer, KeycloakRequestSession session, ClientModel scopedClient, AdminEventBuilder adminEvent,
                                      AdminPermissionEvaluator.RequirePermissionCheck managePermission,
                                      AdminPermissionEvaluator.RequirePermissionCheck viewPermission) {
         this.realm = realm;

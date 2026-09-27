@@ -20,7 +20,7 @@ package org.keycloak.testsuite.rest;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.adapters.action.LogoutAction;
 import org.keycloak.representations.adapters.action.PushNotBeforeAction;
 import org.keycloak.representations.adapters.action.TestAvailabilityAction;
@@ -47,13 +47,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestSamlApplicationResourceProvider implements RealmResourceProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final BlockingQueue<LogoutAction> adminLogoutActions;
     private final BlockingQueue<PushNotBeforeAction> adminPushNotBeforeActions;
     private final BlockingQueue<TestAvailabilityAction> adminTestAvailabilityAction;
 
-    public TestSamlApplicationResourceProvider(KeycloakSession session, BlockingQueue<LogoutAction> adminLogoutActions,
+    public TestSamlApplicationResourceProvider(KeycloakRequestSession session, BlockingQueue<LogoutAction> adminLogoutActions,
             BlockingQueue<PushNotBeforeAction> adminPushNotBeforeActions,
             BlockingQueue<TestAvailabilityAction> adminTestAvailabilityAction) {
         this.session = session;

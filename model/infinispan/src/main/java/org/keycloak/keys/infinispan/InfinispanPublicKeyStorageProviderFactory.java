@@ -32,7 +32,7 @@ import org.keycloak.keys.PublicKeyStorageProvider;
 import org.keycloak.keys.PublicKeyStorageProviderFactory;
 import org.keycloak.keys.PublicKeyStorageUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -57,7 +57,7 @@ public class InfinispanPublicKeyStorageProviderFactory implements PublicKeyStora
     private int maxCacheTime;
 
     @Override
-    public PublicKeyStorageProvider create(KeycloakSession session) {
+    public PublicKeyStorageProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new InfinispanPublicKeyStorageProvider(session, keysCache, tasksInProgress, minTimeBetweenRequests, maxCacheTime);
     }
@@ -86,7 +86,7 @@ public class InfinispanPublicKeyStorageProviderFactory implements PublicKeyStora
                 .build();
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (keysCache == null) {
             synchronized (this) {
                 if (keysCache == null) {
@@ -163,10 +163,10 @@ public class InfinispanPublicKeyStorageProviderFactory implements PublicKeyStora
     }
 
     private static class SessionAndKeyHolder {
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
         private final ArrayList<String> cacheKeys;
 
-        public SessionAndKeyHolder(KeycloakSession session, ArrayList<String> cacheKeys) {
+        public SessionAndKeyHolder(KeycloakRequestSession session, ArrayList<String> cacheKeys) {
             this.session = session;
             this.cacheKeys = cacheKeys;
         }

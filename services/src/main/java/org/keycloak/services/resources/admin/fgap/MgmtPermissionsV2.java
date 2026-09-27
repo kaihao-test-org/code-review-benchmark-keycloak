@@ -17,7 +17,7 @@
 package org.keycloak.services.resources.admin.fgap;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.resources.admin.AdminAuth;
@@ -34,19 +34,19 @@ class MgmtPermissionsV2 extends MgmtPermissions {
 
     private RealmPermissionsV2 realmPermissions;
 
-    public MgmtPermissionsV2(KeycloakSession session, RealmModel realm) {
+    public MgmtPermissionsV2(KeycloakRequestSession session, RealmModel realm) {
         super(session, realm);
     }
 
-    public MgmtPermissionsV2(KeycloakSession session, RealmModel realm, AdminAuth auth) {
+    public MgmtPermissionsV2(KeycloakRequestSession session, RealmModel realm, AdminAuth auth) {
         super(session, realm, auth);
     }
 
-    public MgmtPermissionsV2(KeycloakSession session, AdminAuth auth) {
+    public MgmtPermissionsV2(KeycloakRequestSession session, AdminAuth auth) {
         super(session, auth);
     }
 
-    public MgmtPermissionsV2(KeycloakSession session, RealmModel adminsRealm, UserModel admin) {
+    public MgmtPermissionsV2(KeycloakRequestSession session, RealmModel adminsRealm, UserModel admin) {
         super(session, adminsRealm, admin);
     }
 

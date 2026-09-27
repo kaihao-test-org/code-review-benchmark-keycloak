@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
@@ -46,14 +46,14 @@ import org.keycloak.utils.StringUtil;
 
 public final class OrganizationAdapter implements OrganizationModel, JpaModel<OrganizationEntity> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final OrganizationEntity entity;
     private final OrganizationProvider provider;
     private GroupModel group;
     private Map<String, List<String>> attributes;
 
-    public OrganizationAdapter(KeycloakSession session, RealmModel realm, OrganizationEntity entity, OrganizationProvider provider) {
+    public OrganizationAdapter(KeycloakRequestSession session, RealmModel realm, OrganizationEntity entity, OrganizationProvider provider) {
         this.session = session;
         this.realm = realm;
         this.entity = entity;

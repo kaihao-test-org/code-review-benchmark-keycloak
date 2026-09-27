@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 
 import org.keycloak.common.util.Base64;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.representations.account.DeviceRepresentation;
 import org.keycloak.util.JsonSerialization;
@@ -60,7 +60,7 @@ public class DeviceActivityManager {
      * @param userSession the user session
      * @param session the keycloak session
      */
-    public static void attachDevice(UserSessionModel userSession, KeycloakSession session) {
+    public static void attachDevice(UserSessionModel userSession, KeycloakRequestSession session) {
         DeviceRepresentation current = session.getProvider(DeviceRepresentationProvider.class).deviceRepresentation();
 
         if (current != null) {

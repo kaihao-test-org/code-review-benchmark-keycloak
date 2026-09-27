@@ -47,7 +47,7 @@ import org.keycloak.connections.jpa.updater.liquibase.conn.CustomChangeLogHistor
 import org.keycloak.connections.jpa.updater.liquibase.conn.KeycloakLiquibase;
 import org.keycloak.connections.jpa.updater.liquibase.conn.LiquibaseConnectionProvider;
 import org.keycloak.connections.jpa.util.JpaUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -70,9 +70,9 @@ public class LiquibaseJpaUpdaterProvider implements JpaUpdaterProvider {
 
     public static final String DEPLOYMENT_ID_COLUMN = "DEPLOYMENT_ID";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public LiquibaseJpaUpdaterProvider(KeycloakSession session) {
+    public LiquibaseJpaUpdaterProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

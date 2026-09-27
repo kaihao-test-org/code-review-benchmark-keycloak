@@ -18,7 +18,7 @@
 package org.keycloak.policy;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ public class SpecialCharsPasswordPolicyProviderFactory implements PasswordPolicy
     public static final String ID = "specialChars";
 
     @Override
-    public PasswordPolicyProvider create(KeycloakSession session) {
+    public PasswordPolicyProvider create(KeycloakRequestSession session) {
         return new SpecialCharsPasswordPolicyProvider(session.getContext());
     }
 

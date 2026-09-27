@@ -18,7 +18,7 @@
 
 package org.keycloak.services.x509;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:brat000012001@gmail.com">Peter Nalyvayko</a>
@@ -31,7 +31,7 @@ public class ApacheProxySslClientCertificateLookupFactory extends AbstractClient
     private final static String PROVIDER = "apache";
 
     @Override
-    public X509ClientCertificateLookup create(KeycloakSession session) {
+    public X509ClientCertificateLookup create(KeycloakRequestSession session) {
         return new ApacheProxySslClientCertificateLookup(sslClientCertHttpHeader,
                 sslChainHttpHeaderPrefix, certificateChainLength);
     }

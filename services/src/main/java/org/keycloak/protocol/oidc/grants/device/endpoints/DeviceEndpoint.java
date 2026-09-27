@@ -30,7 +30,7 @@ import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OAuth2DeviceCodeModel;
 import org.keycloak.models.OAuth2DeviceUserCodeModel;
 import org.keycloak.models.OAuth2DeviceUserCodeProvider;
@@ -86,7 +86,7 @@ public class DeviceEndpoint extends AuthorizationEndpointBase implements RealmRe
 
     private Cors cors;
 
-    public DeviceEndpoint(KeycloakSession session, EventBuilder event) {
+    public DeviceEndpoint(KeycloakRequestSession session, EventBuilder event) {
         super(session, event);
         this.request = session.getContext().getHttpRequest();
     }
@@ -300,7 +300,7 @@ public class DeviceEndpoint extends AuthorizationEndpointBase implements RealmRe
         }
     }
 
-    public static OAuth2DeviceCodeModel getDeviceByUserCode(KeycloakSession session, RealmModel realm, String userCode) {
+    public static OAuth2DeviceCodeModel getDeviceByUserCode(KeycloakRequestSession session, RealmModel realm, String userCode) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         Map<String, String> notes = singleUseStore.get(OAuth2DeviceUserCodeModel.createKey(realm, userCode));
 

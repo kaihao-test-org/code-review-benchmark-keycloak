@@ -36,7 +36,7 @@ import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -108,7 +108,7 @@ public class AuthenticationProcessor {
     protected AuthenticationSessionModel authenticationSession;
     protected ClientConnection connection;
     protected UriInfo uriInfo;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected EventBuilder event;
     protected HttpRequest request;
     protected String flowId;
@@ -184,7 +184,7 @@ public class AuthenticationProcessor {
         return uriInfo;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 
@@ -212,7 +212,7 @@ public class AuthenticationProcessor {
         return this;
     }
 
-    public AuthenticationProcessor setSession(KeycloakSession session) {
+    public AuthenticationProcessor setSession(KeycloakRequestSession session) {
         this.session = session;
         return this;
     }
@@ -304,7 +304,7 @@ public class AuthenticationProcessor {
         return getClientData(getSession(), getAuthenticationSession());
     }
 
-    public static String getClientData(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public static String getClientData(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         LoginProtocol protocol = session.getProvider(LoginProtocol.class, authSession.getProtocol());
         ClientData clientData = protocol.getClientData(authSession);
         return clientData.encode();
@@ -538,7 +538,7 @@ public class AuthenticationProcessor {
         }
 
         @Override
-        public KeycloakSession getSession() {
+        public KeycloakRequestSession getSession() {
             return AuthenticationProcessor.this.getSession();
         }
 
@@ -996,7 +996,7 @@ public class AuthenticationProcessor {
     }
 
     // Recreate new root auth session and new auth session from the given auth session.
-    public static AuthenticationSessionModel recreate(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public static AuthenticationSessionModel recreate(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         AuthenticationSessionManager authenticationSessionManager =  new AuthenticationSessionManager(session);
         RootAuthenticationSessionModel rootAuthenticationSession = authenticationSessionManager.createAuthenticationSession(authSession.getRealm(), true);
         AuthenticationSessionModel newAuthSession = rootAuthenticationSession.createAuthenticationSession(authSession.getClient());
@@ -1013,7 +1013,7 @@ public class AuthenticationProcessor {
     }
 
     // Clone new authentication session from the given authSession. New authenticationSession will have same parent (rootSession) and will use same client
-    public static AuthenticationSessionModel clone(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public static AuthenticationSessionModel clone(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         AuthenticationSessionModel clone = authSession.getParentSession().createAuthenticationSession(authSession.getClient());
 
         clone.setRedirectUri(authSession.getRedirectUri());
@@ -1129,7 +1129,7 @@ public class AuthenticationProcessor {
     }
 
     // May create new userSession too (if userSession argument is null)
-    public static ClientSessionContext attachSession(AuthenticationSessionModel authSession, UserSessionModel userSession, KeycloakSession session, RealmModel realm, ClientConnection connection, EventBuilder event) {
+    public static ClientSessionContext attachSession(AuthenticationSessionModel authSession, UserSessionModel userSession, KeycloakRequestSession session, RealmModel realm, ClientConnection connection, EventBuilder event) {
         String username = authSession.getAuthenticatedUser().getUsername();
         String attemptedUsername = authSession.getAuthNote(AbstractUsernameFormAuthenticator.ATTEMPTED_USERNAME);
         if (attemptedUsername != null) username = attemptedUsername;

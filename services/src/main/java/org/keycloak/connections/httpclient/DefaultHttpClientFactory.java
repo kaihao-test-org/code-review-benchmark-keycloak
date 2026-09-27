@@ -30,7 +30,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.util.EnvUtil;
 import org.keycloak.common.util.KeystoreUtil;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -87,7 +87,7 @@ public class DefaultHttpClientFactory implements HttpClientFactory {
     }
 
     @Override
-    public HttpClientProvider create(KeycloakSession session) {
+    public HttpClientProvider create(KeycloakRequestSession session) {
         lazyInit(session);
 
         return new HttpClientProvider() {
@@ -167,7 +167,7 @@ public class DefaultHttpClientFactory implements HttpClientFactory {
         this.config = config;
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (httpClient == null) {
             synchronized(this) {
                 if (httpClient == null) {

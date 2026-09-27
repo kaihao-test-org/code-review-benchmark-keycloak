@@ -19,7 +19,7 @@ package org.keycloak.models.jpa.session;
 
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.session.UserSessionPersisterProvider;
 import org.keycloak.models.session.UserSessionPersisterProviderFactory;
@@ -34,7 +34,7 @@ public class JpaUserSessionPersisterProviderFactory implements UserSessionPersis
     public static final String ID = "jpa";
 
     @Override
-    public UserSessionPersisterProvider create(KeycloakSession session) {
+    public UserSessionPersisterProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaUserSessionPersisterProvider(session, em);
     }

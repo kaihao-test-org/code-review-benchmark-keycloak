@@ -28,7 +28,7 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import org.keycloak.common.util.UriUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.quarkus.runtime.Environment;
 import org.keycloak.quarkus.runtime.configuration.Configuration;
@@ -64,7 +64,7 @@ public class DebugHostnameSettingsResource {
 
 
     @Context
-    private KeycloakSession keycloakSession;
+    private KeycloakRequestSession keycloakSession;
 
     private final Map<String, String> allConfigPropertiesMap;
 

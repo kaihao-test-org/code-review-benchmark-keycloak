@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantType;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantTypeFactory;
@@ -42,7 +42,7 @@ public class DefaultTokenContextEncoderProviderFactory implements TokenContextEn
     Map<String, String> grantsToShortcuts;
 
     @Override
-    public TokenContextEncoderProvider create(KeycloakSession session) {
+    public TokenContextEncoderProvider create(KeycloakRequestSession session) {
         return new DefaultTokenContextEncoderProvider(session, this);
     }
 

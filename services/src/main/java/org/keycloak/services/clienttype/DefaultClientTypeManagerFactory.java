@@ -28,7 +28,7 @@ import org.keycloak.client.clienttype.ClientTypeException;
 import org.keycloak.client.clienttype.ClientTypeManager;
 import org.keycloak.client.clienttype.ClientTypeManagerFactory;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.idm.ClientTypeRepresentation;
 import org.keycloak.representations.idm.ClientTypesRepresentation;
@@ -44,7 +44,7 @@ public class DefaultClientTypeManagerFactory implements ClientTypeManagerFactory
     private volatile List<ClientTypeRepresentation> globalClientTypes;
 
     @Override
-    public ClientTypeManager create(KeycloakSession session) {
+    public ClientTypeManager create(KeycloakRequestSession session) {
         return new DefaultClientTypeManager(session, getGlobalClientTypes(session));
     }
 
@@ -73,7 +73,7 @@ public class DefaultClientTypeManagerFactory implements ClientTypeManagerFactory
         return Profile.isFeatureEnabled(Profile.Feature.CLIENT_TYPES);
     }
 
-    protected List<ClientTypeRepresentation> getGlobalClientTypes(KeycloakSession session) {
+    protected List<ClientTypeRepresentation> getGlobalClientTypes(KeycloakRequestSession session) {
         if (globalClientTypes == null) {
             synchronized (this) {
                 if (globalClientTypes == null) {

@@ -19,7 +19,7 @@ package org.keycloak.exportimport;
 
 import java.util.Map;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderFactory;
 
 /**
@@ -27,10 +27,10 @@ import org.keycloak.provider.ProviderFactory;
  */
 public interface ImportProviderFactory extends ProviderFactory<ImportProvider> {
 
-    ImportProvider create(KeycloakSession session, Map<String, String> overrides);
+    ImportProvider create(KeycloakRequestSession session, Map<String, String> overrides);
 
     @Override
-    default ImportProvider create(KeycloakSession session) {
+    default ImportProvider create(KeycloakRequestSession session) {
         return create(session, Map.of());
     }
 

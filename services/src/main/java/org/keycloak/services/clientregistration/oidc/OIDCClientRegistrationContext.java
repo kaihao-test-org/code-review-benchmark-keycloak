@@ -17,7 +17,7 @@
 
 package org.keycloak.services.clientregistration.oidc;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.oidc.OIDCClientRepresentation;
 import org.keycloak.services.clientregistration.AbstractClientRegistrationContext;
@@ -30,7 +30,7 @@ public class OIDCClientRegistrationContext extends AbstractClientRegistrationCon
 
     private final OIDCClientRepresentation oidcRep;
 
-    public OIDCClientRegistrationContext(KeycloakSession session, ClientRepresentation client, ClientRegistrationProvider provider, OIDCClientRepresentation oidcRep) {
+    public OIDCClientRegistrationContext(KeycloakRequestSession session, ClientRepresentation client, ClientRegistrationProvider provider, OIDCClientRepresentation oidcRep) {
         super(session, client, provider);
         this.oidcRep = oidcRep;
     }

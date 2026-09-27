@@ -3,7 +3,7 @@ package org.keycloak.userprofile;
 import java.util.List;
 import java.util.Map;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 
 /**
@@ -21,7 +21,7 @@ import org.keycloak.models.UserModel;
 public class ServiceAccountAttributes extends DefaultAttributes {
 
     public ServiceAccountAttributes(UserProfileContext context, Map<String, ?> attributes, UserModel user,
-                                    UserProfileMetadata profileMetadata, KeycloakSession session) {
+                                    UserProfileMetadata profileMetadata, KeycloakRequestSession session) {
         super(context, attributes, user, profileMetadata, session);
     }
 

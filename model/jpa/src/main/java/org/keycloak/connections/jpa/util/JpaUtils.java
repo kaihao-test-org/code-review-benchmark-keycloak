@@ -29,7 +29,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.jpa.boot.internal.ParsedPersistenceXmlDescriptor;
 import org.hibernate.jpa.boot.spi.Bootstrap;
 import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -68,7 +68,7 @@ public class JpaUtils {
         return descriptors.stream().map(descriptor -> (ParsedPersistenceXmlDescriptor) descriptor).collect(Collectors.toList());
     }
 
-    public static EntityManagerFactory createEntityManagerFactory(KeycloakSession session, String unitName, Map<String, Object> properties, boolean jta) {
+    public static EntityManagerFactory createEntityManagerFactory(KeycloakRequestSession session, String unitName, Map<String, Object> properties, boolean jta) {
         PersistenceUnitTransactionType txType = jta ? PersistenceUnitTransactionType.JTA : PersistenceUnitTransactionType.RESOURCE_LOCAL;
         PersistenceXmlParser parser = PersistenceXmlParser.create(properties);
         List<URL> urls = parser.getClassLoaderService().locateResources("META-INF/persistence.xml");
@@ -104,7 +104,7 @@ public class JpaUtils {
      * @param session the keycloak session
      * @return a list of all provided entities (can be an empty list)
      */
-    public static List<Class<?>> getProvidedEntities(KeycloakSession session) {
+    public static List<Class<?>> getProvidedEntities(KeycloakRequestSession session) {
         List<Class<?>> providedEntityClasses = new ArrayList<>();
         // Get all configured entity providers.
         Set<JpaEntityProvider> entityProviders = session.getAllProviders(JpaEntityProvider.class);

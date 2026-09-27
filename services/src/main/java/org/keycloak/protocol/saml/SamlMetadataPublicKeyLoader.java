@@ -18,7 +18,7 @@ package org.keycloak.protocol.saml;
 
 import org.jboss.logging.Logger;
 import org.keycloak.connections.httpclient.HttpClientProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * <p>PublicKeyLoader to retrieve keys from a SAML metadata entity endpoint.
@@ -29,14 +29,14 @@ import org.keycloak.models.KeycloakSession;
 public class SamlMetadataPublicKeyLoader extends SamlAbstractMetadataPublicKeyLoader {
 
     private static final Logger logger = Logger.getLogger(SamlMetadataPublicKeyLoader.class);
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String metadataUrl;
 
-    public SamlMetadataPublicKeyLoader(KeycloakSession session, String metadataUrl) {
+    public SamlMetadataPublicKeyLoader(KeycloakRequestSession session, String metadataUrl) {
         this(session, metadataUrl, true);
     }
 
-    public SamlMetadataPublicKeyLoader(KeycloakSession session, String metadataUrl, boolean forIdP) {
+    public SamlMetadataPublicKeyLoader(KeycloakRequestSession session, String metadataUrl, boolean forIdP) {
         super(forIdP);
         this.session = session;
         this.metadataUrl = metadataUrl;

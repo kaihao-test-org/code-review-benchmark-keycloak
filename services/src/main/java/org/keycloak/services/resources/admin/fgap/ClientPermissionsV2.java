@@ -25,7 +25,7 @@ import org.keycloak.authorization.model.Resource;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.resources.admin.fgap.ModelRecord.ClientModelRecord;
@@ -37,7 +37,7 @@ class ClientPermissionsV2 extends ClientPermissions {
 
     private final FineGrainedAdminPermissionEvaluator eval;
 
-    ClientPermissionsV2(KeycloakSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissionsV2 root) {
+    ClientPermissionsV2(KeycloakRequestSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissionsV2 root) {
         super(session, realm, authz, root);
         this.eval = new FineGrainedAdminPermissionEvaluator(session, root, resourceStore, policyStore);
     }

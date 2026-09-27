@@ -19,7 +19,7 @@ package org.keycloak.migration.migrators;
 
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 /**
@@ -35,7 +35,7 @@ public static final ModelVersion VERSION = new ModelVersion("26.1.0");
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         // add the new service_account scope to the realm
         MigrationProvider migrationProvider = session.getProvider(MigrationProvider.class);
         migrationProvider.addOIDCServiceAccountClientScope(realm);

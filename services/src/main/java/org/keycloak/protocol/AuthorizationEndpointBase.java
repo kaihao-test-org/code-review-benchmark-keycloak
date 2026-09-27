@@ -29,7 +29,7 @@ import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -62,11 +62,11 @@ public abstract class AuthorizationEndpointBase {
 
     protected final HttpRequest httpRequest;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final ClientConnection clientConnection;
 
-    public AuthorizationEndpointBase(KeycloakSession session, EventBuilder event) {
+    public AuthorizationEndpointBase(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

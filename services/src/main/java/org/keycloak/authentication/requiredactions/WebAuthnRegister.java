@@ -53,7 +53,7 @@ import org.keycloak.crypto.Algorithm;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.WebAuthnPolicy;
 import org.keycloak.models.credential.WebAuthnCredentialModel;
@@ -93,10 +93,10 @@ public class WebAuthnRegister implements RequiredActionProvider, CredentialRegis
     private static final String WEB_AUTHN_TITLE_ATTR = "webAuthnTitle";
     private static final Logger logger = Logger.getLogger(WebAuthnRegister.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final CertPathTrustworthinessVerifier certPathtrustVerifier;
 
-    public WebAuthnRegister(KeycloakSession session, CertPathTrustworthinessVerifier certPathtrustVerifier) {
+    public WebAuthnRegister(KeycloakRequestSession session, CertPathTrustworthinessVerifier certPathtrustVerifier) {
         this.session = session;
         this.certPathtrustVerifier = certPathtrustVerifier;
     }
@@ -182,7 +182,7 @@ public class WebAuthnRegister implements RequiredActionProvider, CredentialRegis
     }
 
     @Override
-    public String getCredentialType(KeycloakSession session, AuthenticationSessionModel authenticationSession) {
+    public String getCredentialType(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession) {
         return getCredentialType();
     }
 

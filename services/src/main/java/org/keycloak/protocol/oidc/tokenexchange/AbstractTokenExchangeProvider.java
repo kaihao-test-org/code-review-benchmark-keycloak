@@ -39,7 +39,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -86,7 +86,7 @@ public abstract class AbstractTokenExchangeProvider implements TokenExchangeProv
 
     protected TokenExchangeContext.Params params;
     protected MultivaluedMap<String, String> formParams;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected Cors cors;
     protected RealmModel realm;
     protected ClientModel client;
@@ -125,7 +125,7 @@ public abstract class AbstractTokenExchangeProvider implements TokenExchangeProv
      */
     protected boolean isExternalInternalTokenExchangeRequest(TokenExchangeContext context) {
         String subjectToken = context.getParams().getSubjectToken();
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
         EventBuilder event = context.getEvent();
 

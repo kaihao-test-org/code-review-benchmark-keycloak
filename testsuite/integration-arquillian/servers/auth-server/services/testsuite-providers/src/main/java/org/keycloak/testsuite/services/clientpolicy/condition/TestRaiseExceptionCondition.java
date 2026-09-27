@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.services.clientpolicy.condition;
 
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
 import org.keycloak.services.clientpolicy.ClientPolicyVote;
@@ -30,7 +30,7 @@ import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepres
  */
 public class TestRaiseExceptionCondition extends AbstractClientPolicyConditionProvider<TestRaiseExceptionCondition.Configuration> {
 
-    public TestRaiseExceptionCondition(KeycloakSession session) {
+    public TestRaiseExceptionCondition(KeycloakRequestSession session) {
         super(session);
     }
 

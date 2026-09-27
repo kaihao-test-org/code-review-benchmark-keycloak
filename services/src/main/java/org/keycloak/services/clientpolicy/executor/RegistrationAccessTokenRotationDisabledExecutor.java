@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.models.ClientRegistrationAccessTokenConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
@@ -26,9 +26,9 @@ import org.keycloak.services.clientpolicy.ClientPolicyException;
 public class RegistrationAccessTokenRotationDisabledExecutor implements ClientPolicyExecutorProvider<ClientPolicyExecutorConfigurationRepresentation> {
 
 	private final String providerId;
-	private final KeycloakSession session;
+	private final KeycloakRequestSession session;
 
-	public RegistrationAccessTokenRotationDisabledExecutor(String providerId, KeycloakSession session) {
+	public RegistrationAccessTokenRotationDisabledExecutor(String providerId, KeycloakRequestSession session) {
 		this.providerId = providerId;
 		this.session = session;
 	}

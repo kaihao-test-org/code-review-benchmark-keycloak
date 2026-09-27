@@ -20,7 +20,7 @@ package org.keycloak.testsuite.components;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
@@ -46,12 +46,12 @@ public class TestComponentImplProviderFactory implements TestComponentProviderFa
             .build();
 
     @Override
-    public Object create(KeycloakSession session, ComponentModel model) {
+    public Object create(KeycloakRequestSession session, ComponentModel model) {
         return new TestComponentImplProvider(model);
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
         ConfigurationValidationHelper.check(model)
                 .checkRequired("required", "Required")
                 .checkInt("number", "Number", false);

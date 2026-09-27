@@ -20,7 +20,7 @@ package org.keycloak.services.migration;
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.models.ClaimMask;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.LoginProtocol;
@@ -42,9 +42,9 @@ import java.util.Map;
  */
 public class DefaultMigrationProvider implements MigrationProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultMigrationProvider(KeycloakSession session) {
+    public DefaultMigrationProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -124,7 +124,7 @@ public class DefaultMigrationProvider implements MigrationProvider {
 
     // With change to client scopes, there are not default protocolMappers dedicated to single client anymore. Instead, there are default client scopes
     // and mappers dedicated to those scopes. So returning empty map for now
-    private static Map<String, ProtocolMapperRepresentation> getAllDefaultMappers(KeycloakSession session) {
+    private static Map<String, ProtocolMapperRepresentation> getAllDefaultMappers(KeycloakRequestSession session) {
         return Collections.emptyMap();
     }
 }

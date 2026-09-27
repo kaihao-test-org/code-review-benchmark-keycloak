@@ -21,7 +21,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.dblock.DBLockProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -54,7 +54,7 @@ public class LiquibaseDBLockProviderFactory implements DBLockProviderFactory {
     }
 
     @Override
-    public LiquibaseDBLockProvider create(KeycloakSession session) {
+    public LiquibaseDBLockProvider create(KeycloakRequestSession session) {
         return new LiquibaseDBLockProvider(this, session);
     }
 

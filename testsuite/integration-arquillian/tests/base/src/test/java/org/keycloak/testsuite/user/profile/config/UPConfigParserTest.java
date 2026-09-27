@@ -30,7 +30,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.testsuite.AbstractTestRealmKeycloakTest;
 import org.keycloak.testsuite.runonserver.RunOnServer;
@@ -184,7 +184,7 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_OK);
     }
 
-    public static void validateConfiguration_OK(KeycloakSession session) throws IOException {
+    public static void validateConfiguration_OK(KeycloakRequestSession session) throws IOException {
         List<String> errors = validate(session, loadValidConfig());
         Assert.assertTrue(errors.isEmpty());
     }
@@ -194,9 +194,9 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeNameErrors);
     }
 
-    public static void validateConfiguration_attributeNameErrors(KeycloakSession session) throws IOException {
+    public static void validateConfiguration_attributeNameErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
-        //we run this test without KeycloakSession so validator configs are not validated here
+        //we run this test without KeycloakRequestSession so validator configs are not validated here
 
         UPAttribute attConfig = config.getAttributes().get(2);
 
@@ -224,9 +224,9 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributePermissionsErrors);
     }
 
-    public static void validateConfiguration_attributePermissionsErrors(KeycloakSession session) throws IOException {
+    public static void validateConfiguration_attributePermissionsErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
-        //we run this test without KeycloakSession so validator configs are not validated here
+        //we run this test without KeycloakRequestSession so validator configs are not validated here
         
         UPAttribute attConfig = config.getAttributes().get(1);
 
@@ -266,9 +266,9 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeRequirementsErrors);
     }
 
-    public static void validateConfiguration_attributeRequirementsErrors(KeycloakSession session) throws IOException {
+    public static void validateConfiguration_attributeRequirementsErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
-        //we run this test without KeycloakSession so validator configs are not validated here
+        //we run this test without KeycloakRequestSession so validator configs are not validated here
         
         UPAttribute attConfig = config.getAttributes().get(1);
 
@@ -297,7 +297,7 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
 		getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeValidationsErrors);
 	}
     
-    private static void validateConfiguration_attributeValidationsErrors(KeycloakSession session) throws IOException {
+    private static void validateConfiguration_attributeValidationsErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
 
         //reset all validations not to affect our test as they may be invalid  
@@ -329,7 +329,7 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeGroupConfigurationErrors);
     }
 
-    private static void validateConfiguration_attributeGroupConfigurationErrors(KeycloakSession session) throws IOException {
+    private static void validateConfiguration_attributeGroupConfigurationErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
         
         // add a group without name
@@ -345,7 +345,7 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeGroupReferenceErrors);
     }
 
-    private static void validateConfiguration_attributeGroupReferenceErrors(KeycloakSession session) throws IOException {
+    private static void validateConfiguration_attributeGroupReferenceErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
 
         // attribute references group that is not configured
@@ -361,7 +361,7 @@ public class UPConfigParserTest extends AbstractTestRealmKeycloakTest {
         getTestingClient().server(TEST_REALM_NAME).run((RunOnServer) UPConfigParserTest::validateConfiguration_attributeAnnotationsErrors);
     }
 
-    private static void validateConfiguration_attributeAnnotationsErrors(KeycloakSession session) throws IOException {
+    private static void validateConfiguration_attributeAnnotationsErrors(KeycloakRequestSession session) throws IOException {
         UPConfig config = loadValidConfig();
 
         // attribute references group that is not configured

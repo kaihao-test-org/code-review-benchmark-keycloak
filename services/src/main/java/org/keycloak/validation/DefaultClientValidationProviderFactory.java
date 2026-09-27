@@ -16,14 +16,14 @@
  */
 package org.keycloak.validation;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class DefaultClientValidationProviderFactory implements ClientValidationProviderFactory {
 
     private final DefaultClientValidationProvider provider = new DefaultClientValidationProvider();
 
     @Override
-    public ClientValidationProvider create(KeycloakSession session) {
+    public ClientValidationProvider create(KeycloakRequestSession session) {
         return provider;
     }
 

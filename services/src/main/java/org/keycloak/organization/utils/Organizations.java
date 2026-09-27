@@ -42,7 +42,7 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -54,7 +54,7 @@ import org.keycloak.sessions.AuthenticationSessionModel;
 
 public class Organizations {
 
-    public static boolean canManageOrganizationGroup(KeycloakSession session, GroupModel group) {
+    public static boolean canManageOrganizationGroup(KeycloakRequestSession session, GroupModel group) {
         if (!Type.ORGANIZATION.equals(group.getType())) {
             return true;
         }
@@ -68,7 +68,7 @@ public class Organizations {
         return true;
     }
 
-    public static List<IdentityProviderModel> resolveHomeBroker(KeycloakSession session, UserModel user) {
+    public static List<IdentityProviderModel> resolveHomeBroker(KeycloakRequestSession session, UserModel user) {
         OrganizationProvider provider = getProvider(session);
         RealmModel realm = session.getContext().getRealm();
         List<OrganizationModel> organizations = Optional.ofNullable(user).stream().flatMap(provider::getByMember)
@@ -107,7 +107,7 @@ public class Organizations {
         return brokers;
     }
 
-    public static Consumer<GroupModel> removeGroup(KeycloakSession session, RealmModel realm) {
+    public static Consumer<GroupModel> removeGroup(KeycloakRequestSession session, RealmModel realm) {
         return group -> {
             if (!Type.ORGANIZATION.equals(group.getType())) {
                 realm.removeGroup(group);
@@ -132,7 +132,7 @@ public class Organizations {
         return orgProvider != null && orgProvider.isEnabled() && orgProvider.count() != 0;
     }
 
-    public static boolean isEnabledAndOrganizationsPresent(KeycloakSession session) {
+    public static boolean isEnabledAndOrganizationsPresent(KeycloakRequestSession session) {
         if (!Profile.isFeatureEnabled(Feature.ORGANIZATION)) {
             return false;
         }
@@ -180,15 +180,15 @@ public class Organizations {
         return getEmailDomain(user.getEmail());
     }
 
-    public static OrganizationModel resolveOrganization(KeycloakSession session) {
+    public static OrganizationModel resolveOrganization(KeycloakRequestSession session) {
         return resolveOrganization(session, null, null);
     }
 
-    public static OrganizationModel resolveOrganization(KeycloakSession session, UserModel user) {
+    public static OrganizationModel resolveOrganization(KeycloakRequestSession session, UserModel user) {
         return resolveOrganization(session, user, null);
     }
 
-    public static OrganizationModel resolveOrganization(KeycloakSession session, UserModel user, String domain) {
+    public static OrganizationModel resolveOrganization(KeycloakRequestSession session, UserModel user, String domain) {
         KeycloakContext context = session.getContext();
         RealmModel realm = context.getRealm();
 
@@ -249,16 +249,16 @@ public class Organizations {
                 .orElseGet(() -> resolveOrganizationByDomain(user, domain, provider));
     }
 
-    public static OrganizationProvider getProvider(KeycloakSession session) {
+    public static OrganizationProvider getProvider(KeycloakRequestSession session) {
         return session.getProvider(OrganizationProvider.class);
     }
 
-    public static boolean isRegistrationAllowed(KeycloakSession session, RealmModel realm) {
+    public static boolean isRegistrationAllowed(KeycloakRequestSession session, RealmModel realm) {
         if (session.getContext().getOrganization() != null) return true;
         return realm.isRegistrationAllowed();
     }
 
-    public static boolean isReadOnlyOrganizationMember(KeycloakSession session, UserModel delegate) {
+    public static boolean isReadOnlyOrganizationMember(KeycloakRequestSession session, UserModel delegate) {
         if (delegate == null) {
             return false;
         }

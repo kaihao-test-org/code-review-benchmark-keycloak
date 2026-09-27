@@ -39,7 +39,7 @@ import org.keycloak.models.ClientScopeProvider;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
 import org.keycloak.models.GroupProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
@@ -150,7 +150,7 @@ public class RealmCacheSession implements CacheRealmProvider {
     private static final String SCOPE_KEY_DEFAULT = "default";
     private static final String SCOPE_KEY_OPTIONAL = "optional";
     protected RealmCacheManager cache;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmProvider realmDelegate;
     protected ClientProvider clientDelegate;
     protected ClientScopeProvider clientScopeDelegate;
@@ -171,7 +171,7 @@ public class RealmCacheSession implements CacheRealmProvider {
     protected final long startupRevision;
     private final StoreManagers datastoreProvider;
 
-    public RealmCacheSession(RealmCacheManager cache, KeycloakSession session) {
+    public RealmCacheSession(RealmCacheManager cache, KeycloakRequestSession session) {
         this.cache = cache;
         this.session = session;
         this.startupRevision = cache.getCurrentCounter();
@@ -481,7 +481,7 @@ public class RealmCacheSession implements CacheRealmProvider {
         return adapter;
     }
 
-    private RealmAdapter prepareCachedRealm(String id, KeycloakSession session) {
+    private RealmAdapter prepareCachedRealm(String id, KeycloakRequestSession session) {
         CachedRealm cached = cache.get(id, CachedRealm.class);
         RealmAdapter adapter;
         if (cached == null) {
@@ -500,7 +500,7 @@ public class RealmCacheSession implements CacheRealmProvider {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             };

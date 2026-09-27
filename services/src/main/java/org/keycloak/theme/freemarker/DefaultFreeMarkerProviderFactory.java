@@ -2,7 +2,7 @@ package org.keycloak.theme.freemarker;
 
 import freemarker.template.Template;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.theme.KeycloakSanitizerMethod;
 
@@ -15,7 +15,7 @@ public class DefaultFreeMarkerProviderFactory implements FreeMarkerProviderFacto
     private KeycloakSanitizerMethod kcSanitizeMethod;
 
     @Override
-    public DefaultFreeMarkerProvider create(KeycloakSession session) {
+    public DefaultFreeMarkerProvider create(KeycloakRequestSession session) {
         if (provider == null) {
             synchronized (this) {
                 if (provider == null) {

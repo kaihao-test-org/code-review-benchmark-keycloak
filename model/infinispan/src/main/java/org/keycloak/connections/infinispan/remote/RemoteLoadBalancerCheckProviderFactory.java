@@ -41,7 +41,7 @@ import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.health.LoadBalancerCheckProvider;
 import org.keycloak.health.LoadBalancerCheckProviderFactory;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.Provider;
@@ -70,7 +70,7 @@ public class RemoteLoadBalancerCheckProviderFactory implements LoadBalancerCheck
     }
 
     @Override
-    public LoadBalancerCheckProvider create(KeycloakSession session) {
+    public LoadBalancerCheckProvider create(KeycloakRequestSession session) {
         return provider;
     }
 

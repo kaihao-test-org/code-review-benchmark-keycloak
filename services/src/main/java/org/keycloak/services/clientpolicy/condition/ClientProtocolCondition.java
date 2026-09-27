@@ -17,7 +17,7 @@
 package org.keycloak.services.clientpolicy.condition;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -52,7 +52,7 @@ public class ClientProtocolCondition extends AbstractClientPolicyConditionProvid
         }
     }
 
-    public ClientProtocolCondition(KeycloakSession session) {
+    public ClientProtocolCondition(KeycloakRequestSession session) {
         super(session);
     }
 

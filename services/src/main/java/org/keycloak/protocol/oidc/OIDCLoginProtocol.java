@@ -36,7 +36,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ClientData;
@@ -141,7 +141,7 @@ public class OIDCLoginProtocol implements LoginProtocol {
 
     private static final Logger logger = Logger.getLogger(OIDCLoginProtocol.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     protected RealmModel realm;
 
@@ -156,7 +156,7 @@ public class OIDCLoginProtocol implements LoginProtocol {
 
     protected OIDCProviderConfig providerConfig;
 
-    public OIDCLoginProtocol(KeycloakSession session, RealmModel realm, UriInfo uriInfo, HttpHeaders headers, EventBuilder event) {
+    public OIDCLoginProtocol(KeycloakRequestSession session, RealmModel realm, UriInfo uriInfo, HttpHeaders headers, EventBuilder event) {
         this.session = session;
         this.realm = realm;
         this.uriInfo = uriInfo;
@@ -176,7 +176,7 @@ public class OIDCLoginProtocol implements LoginProtocol {
     }
 
     @Override
-    public OIDCLoginProtocol setSession(KeycloakSession session) {
+    public OIDCLoginProtocol setSession(KeycloakRequestSession session) {
         this.session = session;
         return this;
     }

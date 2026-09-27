@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.representations.idm.ProtocolMapperRepresentation;
 import org.keycloak.services.ServicesLogger;
@@ -41,10 +41,10 @@ public class ProtocolMappersClientRegistrationPolicy implements ClientRegistrati
 
     private static final Logger logger = Logger.getLogger(ProtocolMappersClientRegistrationPolicy.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ComponentModel componentModel;
 
-    public ProtocolMappersClientRegistrationPolicy(KeycloakSession session, ComponentModel componentModel) {
+    public ProtocolMappersClientRegistrationPolicy(KeycloakRequestSession session, ComponentModel componentModel) {
         this.session = session;
         this.componentModel = componentModel;
     }

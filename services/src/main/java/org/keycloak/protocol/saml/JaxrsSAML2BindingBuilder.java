@@ -18,7 +18,7 @@
 package org.keycloak.protocol.saml;
 
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.saml.profile.util.Soap;
 import org.keycloak.saml.BaseSAML2BindingBuilder;
 import org.keycloak.saml.common.constants.GeneralConstants;
@@ -39,9 +39,9 @@ import java.net.URI;
  */
 public class JaxrsSAML2BindingBuilder extends BaseSAML2BindingBuilder<JaxrsSAML2BindingBuilder> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public JaxrsSAML2BindingBuilder(KeycloakSession session) {
+    public JaxrsSAML2BindingBuilder(KeycloakRequestSession session) {
         this.session = session;
     }
 

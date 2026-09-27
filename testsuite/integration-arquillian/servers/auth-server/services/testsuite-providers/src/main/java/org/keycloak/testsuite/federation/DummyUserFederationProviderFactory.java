@@ -20,7 +20,7 @@ package org.keycloak.testsuite.federation;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -51,7 +51,7 @@ public class DummyUserFederationProviderFactory implements UserStorageProviderFa
     private Map<String, UserModel> users = new HashMap<String, UserModel>();
 
     @Override
-    public DummyUserFederationProvider create(KeycloakSession session, ComponentModel model) {
+    public DummyUserFederationProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new DummyUserFederationProvider(session, model, users);
     }
 

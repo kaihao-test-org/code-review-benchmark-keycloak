@@ -17,7 +17,7 @@
 package org.keycloak.services.resources.admin;
 
 import org.jboss.resteasy.reactive.NoCache;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.TestLdapConnectionRepresentation;
@@ -41,9 +41,9 @@ public class TestLdapConnectionResource {
 
     protected final AdminPermissionEvaluator auth;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public TestLdapConnectionResource(KeycloakSession session, AdminPermissionEvaluator auth) {
+    public TestLdapConnectionResource(KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();

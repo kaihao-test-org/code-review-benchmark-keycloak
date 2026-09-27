@@ -10,7 +10,7 @@ import org.keycloak.Config;
 import org.keycloak.common.util.MultiSiteUtils;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionProvider;
@@ -48,7 +48,7 @@ public class RemoteUserSessionProviderFactory implements UserSessionProviderFact
     private volatile int backOffBaseTimeMillis = InfinispanUtils.DEFAULT_RETRIES_BASE_TIME_MILLIS;
 
     @Override
-    public RemoteUserSessionProvider create(KeycloakSession session) {
+    public RemoteUserSessionProvider create(KeycloakRequestSession session) {
         var tx = createTransaction(session);
         session.getTransactionManager().enlistAfterCompletion(tx);
         return new RemoteUserSessionProvider(session, tx, batchSize);
@@ -125,7 +125,7 @@ public class RemoteUserSessionProviderFactory implements UserSessionProviderFact
         event.getKeycloakSession().getProvider(UserSessionPersisterProvider.class).onUserRemoved(event.getRealm(), event.getUser());
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (blockingManager != null) {
             return;
         }
@@ -137,7 +137,7 @@ public class RemoteUserSessionProviderFactory implements UserSessionProviderFact
         blockingManager = connections.getBlockingManager();
     }
 
-    private UserSessionTransaction createTransaction(KeycloakSession session) {
+    private UserSessionTransaction createTransaction(KeycloakRequestSession session) {
         lazyInit(session);
         return new UserSessionTransaction(
                 new UserSessionChangeLogTransaction(UserSessionUpdater.onlineFactory(), userSessionState),

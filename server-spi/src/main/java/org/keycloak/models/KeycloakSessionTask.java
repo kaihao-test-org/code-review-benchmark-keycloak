@@ -24,7 +24,7 @@ package org.keycloak.models;
  */
 public interface KeycloakSessionTask {
 
-    void run(KeycloakSession session);
+    void run(KeycloakRequestSession session);
 
     /**
      * @return Details about the task. Can be useful for logging purposes

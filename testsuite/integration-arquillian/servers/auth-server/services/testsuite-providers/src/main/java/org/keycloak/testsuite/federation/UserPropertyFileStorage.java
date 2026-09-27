@@ -21,7 +21,7 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.credential.UserCredentialManager;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.SubjectCredentialManager;
@@ -60,7 +60,7 @@ public class UserPropertyFileStorage implements UserLookupProvider, UserStorageP
 
     protected Properties userPasswords;
     protected ComponentModel model;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected boolean federatedStorageEnabled;
 
     public static Map<String, List<UserPropertyFileStorageCall>> storageCalls = new HashMap<>();
@@ -89,7 +89,7 @@ public class UserPropertyFileStorage implements UserLookupProvider, UserStorageP
         }
     }
 
-    public UserPropertyFileStorage(KeycloakSession session, ComponentModel model, Properties userPasswords) {
+    public UserPropertyFileStorage(KeycloakRequestSession session, ComponentModel model, Properties userPasswords) {
         this.session = session;
         this.model = model;
         this.userPasswords = userPasswords;

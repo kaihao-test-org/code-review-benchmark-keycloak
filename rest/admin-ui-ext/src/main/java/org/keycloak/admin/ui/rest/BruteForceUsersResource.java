@@ -21,7 +21,7 @@ import org.keycloak.authorization.fgap.AdminPermissionsSchema;
 import org.keycloak.common.Profile;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserLoginFailureModel;
 import org.keycloak.models.UserModel;
@@ -37,11 +37,11 @@ import org.keycloak.utils.SearchQueryUtils;
 public class BruteForceUsersResource {
     private static final Logger logger = Logger.getLogger(BruteForceUsersResource.class);
     private static final String SEARCH_ID_PARAMETER = "id:";
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final AdminPermissionEvaluator auth;
 
-    public BruteForceUsersResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth) {
+    public BruteForceUsersResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth) {
         this.realm = realm;
         this.auth = auth;
         this.session = session;
@@ -212,7 +212,7 @@ public class BruteForceUsersResource {
         return bruteUser;
     }
 
-    public boolean isTemporarilyDisabled(KeycloakSession session, RealmModel realm, UserRepresentation user) {
+    public boolean isTemporarilyDisabled(KeycloakRequestSession session, RealmModel realm, UserRepresentation user) {
         UserLoginFailureModel failure = session.loginFailures().getUserLoginFailure(realm, user.getId());
         if (failure != null) {
             int currTime = (int)(Time.currentTimeMillis() / 1000L);

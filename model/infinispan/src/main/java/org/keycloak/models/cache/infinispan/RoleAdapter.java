@@ -17,7 +17,7 @@
 
 package org.keycloak.models.cache.infinispan;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 public class RoleAdapter implements RoleModel {
 
     protected RoleModel updated;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected CachedRole cached;
     protected RealmCacheSession cacheSession;
     protected RealmModel realm;

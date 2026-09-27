@@ -22,7 +22,7 @@ import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -50,7 +50,7 @@ public class EmailEventListenerProviderFactory implements EventListenerProviderF
     private Set<EventType> includedEvents = new HashSet<>();
 
     @Override
-    public EventListenerProvider create(KeycloakSession session) {
+    public EventListenerProvider create(KeycloakRequestSession session) {
         return new EmailEventListenerProvider(session, includedEvents);
     }
 

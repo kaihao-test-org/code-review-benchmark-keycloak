@@ -55,7 +55,7 @@ import org.bouncycastle.operator.jcajce.JcaContentVerifierProviderBuilder;
 import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 import org.keycloak.jose.jwe.JWEUtils;
 import org.keycloak.common.util.BouncyIntegration;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.OCSPProvider;
 
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class BCOCSPProvider extends OCSPProvider {
 
     private final static Logger logger = Logger.getLogger(BCOCSPProvider.class.getName());
 
-    protected OCSPResp getResponse(KeycloakSession session, OCSPReq ocspReq, URI responderUri) throws IOException {
+    protected OCSPResp getResponse(KeycloakRequestSession session, OCSPReq ocspReq, URI responderUri) throws IOException {
         byte[] data = getEncodedOCSPResponse(session, ocspReq.getEncoded(), responderUri);
         return new OCSPResp(data);
     }
@@ -108,7 +108,7 @@ public class BCOCSPProvider extends OCSPProvider {
      * @throws CertPathValidatorException
      */
     @Override
-    protected OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert, X509Certificate issuerCertificate, List<URI> responderURIs, X509Certificate responderCert, Date date) throws CertPathValidatorException {
+    protected OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert, X509Certificate issuerCertificate, List<URI> responderURIs, X509Certificate responderCert, Date date) throws CertPathValidatorException {
         if (responderURIs == null || responderURIs.size() == 0)
             throw new IllegalArgumentException("Need at least one responder");
         try {

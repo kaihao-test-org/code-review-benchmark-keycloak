@@ -24,7 +24,7 @@ import org.keycloak.utils.SecureContextResolver;
 import org.keycloak.models.AccountRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -71,7 +71,7 @@ public class AccountConsole implements AccountResourceProvider {
 
     private final Pattern bundleParamPattern = Pattern.compile("(\\{\\s*(\\d+)\\s*\\})");
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     private final AppAuthManager authManager;
     private final RealmModel realm;
@@ -80,7 +80,7 @@ public class AccountConsole implements AccountResourceProvider {
 
     private Auth auth;
 
-    public AccountConsole(KeycloakSession session, ClientModel client, Theme theme) {
+    public AccountConsole(KeycloakRequestSession session, ClientModel client, Theme theme) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.client = client;

@@ -20,7 +20,7 @@
 package org.keycloak.migration.migrators;
 
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultRequiredActions;
 
@@ -38,7 +38,7 @@ public class MigrateTo26_3_0 extends RealmMigration {
 
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         DefaultRequiredActions.addIdpLink(realm);
     }
 }

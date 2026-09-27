@@ -25,7 +25,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserManager;
 import org.keycloak.models.UserModel;
@@ -55,7 +55,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTest {
 
-    private static KeycloakSession currentSession;
+    private static KeycloakRequestSession currentSession;
     private static RealmModel realm;
     private static UserSessionManager sessionManager;
 
@@ -86,16 +86,16 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
 
     @Test
     @ModelTest(realmName = "test")
-    public void testOfflineSessionsCrud(KeycloakSession session) {
+    public void testOfflineSessionsCrud(KeycloakRequestSession session) {
         Map<String, Set<String>> offlineSessions = new HashMap<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCrud) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCrud) -> {
             // Create some online sessions in infinispan
             reloadState(sessionCrud);
             createSessions(sessionCrud);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCrud2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCrud2) -> {
             currentSession = sessionCrud2;
             realm = currentSession.realms().getRealmByName("test");
             sessionManager = new UserSessionManager(currentSession);
@@ -107,7 +107,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
                     .forEach(userSession -> offlineSessions.put(userSession.getId(), createOfflineSessionIncludeClientSessions(currentSession, userSession)));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCrud3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCrud3) -> {
             currentSession = sessionCrud3;
             realm = currentSession.realms().getRealmByName("test");
             sessionManager = new UserSessionManager(currentSession);
@@ -143,7 +143,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
             sessionManager.revokeOfflineToken(user1, testApp);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCrud4) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCrud4) -> {
             currentSession = sessionCrud4;
             realm = currentSession.realms().getRealmByName("test");
             sessionManager = new UserSessionManager(currentSession);
@@ -172,7 +172,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
 
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCrud5) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCrud5) -> {
             currentSession = sessionCrud5;
             realm = currentSession.realms().getRealmByName("test");
             sessionManager = new UserSessionManager(currentSession);
@@ -200,10 +200,10 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
 
     @Test
     @ModelTest
-    public void testOnRealmRemoved(KeycloakSession session) {
+    public void testOnRealmRemoved(KeycloakRequestSession session) {
         AtomicReference<String> userSessionID = new AtomicReference<>();
 
-        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakSession sessionRR1) -> {
+        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRR1) -> {
             currentSession = sessionRR1;
             RealmModel fooRealm = currentSession.realms().createRealm("foo");
             currentSession.getContext().setRealm(fooRealm);
@@ -223,7 +223,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
             return fooRealm.getId();
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionRR2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRR2) -> {
             currentSession = sessionRR2;
             sessionManager = new UserSessionManager(currentSession);
 
@@ -244,7 +244,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
             realmMgr.removeRealm(realmMgr.getRealm(realmId));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionRR3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRR3) -> {
             currentSession = sessionRR3;
             RealmModel fooRealm = currentSession.realms().createRealm(realmId, "foo");
             currentSession.getContext().setRealm(fooRealm);
@@ -254,7 +254,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
             currentSession.users().addUser(fooRealm, "user3");
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionRR4) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRR4) -> {
             currentSession = sessionRR4;
             RealmModel fooRealm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(fooRealm);
@@ -268,9 +268,9 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
 
     @Test
     @ModelTest
-    public void testOnClientRemoved(KeycloakSession session) {
+    public void testOnClientRemoved(KeycloakRequestSession session) {
         AtomicReference<String> userSessionID = new AtomicReference<>();
-        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakSession sessionCR1) -> {
+        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCR1) -> {
             currentSession = sessionCR1;
             sessionManager = new UserSessionManager(currentSession);
             RealmModel fooRealm = currentSession.realms().createRealm("foo");
@@ -297,7 +297,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         try {
             int started = Time.currentTime();
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCR2) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCR2) -> {
                 currentSession = sessionCR2;
                 // Create offline currentSession
                 RealmModel fooRealm = currentSession.realms().getRealm(realmId);
@@ -306,7 +306,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
                 createOfflineSessionIncludeClientSessions(currentSession, userSession);
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCR3) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCR3) -> {
                 currentSession = sessionCR3;
                 RealmManager realmMgr = new RealmManager(currentSession);
                 ClientManager clientMgr = new ClientManager(realmMgr);
@@ -322,7 +322,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
                 clientMgr.removeClient(fooRealm, client);
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCR4) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCR4) -> {
                 currentSession = sessionCR4;
                 RealmManager realmMgr = new RealmManager(currentSession);
                 ClientManager clientMgr = new ClientManager(realmMgr);
@@ -339,7 +339,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
                 clientMgr.removeClient(fooRealm, client);
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCR5) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCR5) -> {
                 currentSession = sessionCR5;
                 // Assert nothing loaded - userSession was removed as well because it was last userSession
                 RealmManager realmMgr = new RealmManager(currentSession);
@@ -352,7 +352,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionTearDown) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTearDown) -> {
                 currentSession = sessionTearDown;
                 RealmManager realmMgr = new RealmManager(currentSession);
                 RealmModel fooRealm = realmMgr.getRealm(realmId);
@@ -371,9 +371,9 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
 
     @Test
     @ModelTest
-    public void testOnUserRemoved(KeycloakSession session) {
+    public void testOnUserRemoved(KeycloakRequestSession session) {
         AtomicReference<String> userSessionID = new AtomicReference<>();
-        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakSession sessionUR1) -> {
+        String realmId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionUR1) -> {
             currentSession = sessionUR1;
             RealmModel fooRealm = currentSession.realms().createRealm("foo");
             currentSession.getContext().setRealm(fooRealm);
@@ -396,7 +396,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
             int started = Time.currentTime();
 
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionUR2) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionUR2) -> {
                 currentSession = sessionUR2;
 
                 // Create offline session
@@ -406,7 +406,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
                 createOfflineSessionIncludeClientSessions(currentSession, userSession);
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionUR3) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionUR3) -> {
                 currentSession = sessionUR3;
 
                 RealmManager realmMgr = new RealmManager(currentSession);
@@ -422,7 +422,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionTearDown) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTearDown) -> {
                 currentSession = sessionTearDown;
 
                 RealmManager realmMgr = new RealmManager(currentSession);
@@ -440,7 +440,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         }
     }
 
-    private static Set<String> createOfflineSessionIncludeClientSessions(KeycloakSession session, UserSessionModel
+    private static Set<String> createOfflineSessionIncludeClientSessions(KeycloakRequestSession session, UserSessionModel
             userSession) {
         Set<String> offlineSessions = new HashSet<>();
         UserSessionManager localManager = new UserSessionManager(session);
@@ -473,7 +473,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         }
     }
 
-    private static AuthenticatedClientSessionModel createClientSession(KeycloakSession sessionParam, ClientModel
+    private static AuthenticatedClientSessionModel createClientSession(KeycloakRequestSession sessionParam, ClientModel
             client, UserSessionModel userSession, String redirect, String state) {
         AuthenticatedClientSessionModel clientSession = sessionParam.sessions().createClientSession(client.getRealm(), client, userSession);
         clientSession.setRedirectUri(redirect);
@@ -481,7 +481,7 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         return clientSession;
     }
 
-    private static UserSessionModel[] createSessions(KeycloakSession session) {
+    private static UserSessionModel[] createSessions(KeycloakRequestSession session) {
         UserSessionModel[] sessions = new UserSessionModel[3];
         sessions[0] = session.sessions().createUserSession(null, realm, currentSession.users().getUserByUsername(realm, "user1"), "user1", "127.0.0.1", "form", true, null, null, UserSessionModel.SessionPersistenceState.PERSISTENT);
 
@@ -505,11 +505,11 @@ public class UserSessionProviderOfflineTest extends AbstractTestRealmKeycloakTes
         return sessions;
     }
 
-    public static void reloadState(KeycloakSession session) {
+    public static void reloadState(KeycloakRequestSession session) {
         reloadState(session, false);
     }
 
-    public static void reloadState(KeycloakSession session, Boolean initialConfig) {
+    public static void reloadState(KeycloakRequestSession session, Boolean initialConfig) {
         currentSession = session;
         realm = currentSession.realms().getRealmByName("test");
         if (initialConfig) {

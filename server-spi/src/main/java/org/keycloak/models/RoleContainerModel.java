@@ -37,7 +37,7 @@ public interface RoleContainerModel {
 
     interface RoleRemovedEvent extends ProviderEvent {
         RoleModel getRole();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     String getId();

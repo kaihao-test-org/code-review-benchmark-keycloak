@@ -38,7 +38,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -51,7 +51,7 @@ public final class PartialEvaluator {
     private static final String ID_FIELD = "id";
     private static final String PARTIAL_EVALUATION_CONTEXT_CACHE = "kc.authz.fgap.partial.evaluation.cache";
 
-    public List<Predicate> getPredicates(KeycloakSession session, ResourceType resourceType, PartialEvaluationStorageProvider storage, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
+    public List<Predicate> getPredicates(KeycloakRequestSession session, ResourceType resourceType, PartialEvaluationStorageProvider storage, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ)) {
             // feature not enabled, if a storage evaluator is provided try to resolve any filter from there
             return storage == null ? List.of() : storage.getFilters(new PartialEvaluationContext(storage, builder, queryBuilder, path));
@@ -70,7 +70,7 @@ public final class PartialEvaluator {
         return buildPredicates(context);
     }
 
-    private PartialEvaluationContext runEvaluation(KeycloakSession session, UserModel adminUser, ResourceType resourceType, PartialEvaluationStorageProvider storage, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
+    private PartialEvaluationContext runEvaluation(KeycloakRequestSession session, UserModel adminUser, ResourceType resourceType, PartialEvaluationStorageProvider storage, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
         Map<String, Map<String, PartialEvaluationContext>> cache = session.getAttributeOrDefault(PARTIAL_EVALUATION_CONTEXT_CACHE, Map.of());
 
         if (cache.getOrDefault(adminUser.getId(), Map.of()).containsKey(resourceType.getType())) {
@@ -186,7 +186,7 @@ public final class PartialEvaluator {
         return predicates;
     }
 
-    private PartialEvaluationContext createEvaluationContext(KeycloakSession session, ResourceType resourceType, Set<String> allowedResources, Set<String> deniedResources, PartialEvaluationStorageProvider storage, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path, UserModel adminUser) {
+    private PartialEvaluationContext createEvaluationContext(KeycloakRequestSession session, ResourceType resourceType, Set<String> allowedResources, Set<String> deniedResources, PartialEvaluationStorageProvider storage, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path, UserModel adminUser) {
         PartialEvaluationContext context = new PartialEvaluationContext(resourceType, allowedResources, deniedResources, storage, builder, queryBuilder, path);
         String groupType = resourceType.getGroupType();
 
@@ -220,7 +220,7 @@ public final class PartialEvaluator {
         return context.getAllowedResources().isEmpty() && storageFilters.isEmpty();
     }
 
-    private List<PartialEvaluationPolicyProvider> getPartialEvaluationPolicyProviders(KeycloakSession session) {
+    private List<PartialEvaluationPolicyProvider> getPartialEvaluationPolicyProviders(KeycloakRequestSession session) {
         return session.getAllProviders(PolicyProvider.class).stream()
                 .filter(provider -> provider instanceof PartialEvaluationPolicyProvider)
                 .map(PartialEvaluationPolicyProvider.class::cast)
@@ -234,7 +234,7 @@ public final class PartialEvaluator {
                 .orElse(null);
     }
 
-    private boolean shouldSkipPartialEvaluation(KeycloakSession session, UserModel user, ResourceType resourceType) {
+    private boolean shouldSkipPartialEvaluation(KeycloakRequestSession session, UserModel user, ResourceType resourceType) {
         if (user == null) {
             return true;
         }
@@ -258,7 +258,7 @@ public final class PartialEvaluator {
         return false;
     }
 
-    private ClientModel getRealmManagementClient(KeycloakSession session) {
+    private ClientModel getRealmManagementClient(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
 
         if (realm == null) {

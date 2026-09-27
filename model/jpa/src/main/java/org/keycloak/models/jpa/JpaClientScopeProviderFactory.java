@@ -21,7 +21,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.ClientScopeProvider;
 import org.keycloak.models.ClientScopeProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import jakarta.persistence.EntityManager;
@@ -44,7 +44,7 @@ public class JpaClientScopeProviderFactory implements ClientScopeProviderFactory
     }
 
     @Override
-    public ClientScopeProvider create(KeycloakSession session) {
+    public ClientScopeProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaRealmProvider(session, em, null, null);
     }

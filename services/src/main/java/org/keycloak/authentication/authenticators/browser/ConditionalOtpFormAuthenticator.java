@@ -19,7 +19,7 @@ package org.keycloak.authentication.authenticators.browser;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -287,7 +287,7 @@ public class ConditionalOtpFormAuthenticator extends OTPFormAuthenticator {
         return false;
     }
 
-    private boolean isOTPRequired(KeycloakSession session, RealmModel realm, UserModel user) {
+    private boolean isOTPRequired(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         MultivaluedMap<String, String> requestHeaders = session.getContext().getRequestHeaders().getRequestHeaders();
         List<Map<String,String>> configs = realm.getAuthenticatorConfigsStream().map(AuthenticatorConfigModel::getConfig)
                 .filter(this::containsConditionalOtpConfig)
@@ -328,7 +328,7 @@ public class ConditionalOtpFormAuthenticator extends OTPFormAuthenticator {
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         AuthenticationSessionModel authenticationSession = session.getContext().getAuthenticationSession();
         if (isOTPRequired(session, realm, user) && !authenticationSession.getRequiredActions().contains(UserModel.RequiredAction.CONFIGURE_TOTP.name())) {
             authenticationSession.addRequiredAction(UserModel.RequiredAction.CONFIGURE_TOTP);

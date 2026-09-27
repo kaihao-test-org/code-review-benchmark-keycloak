@@ -33,7 +33,7 @@ import org.keycloak.models.BrowserSecurityHeaders;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.ImpersonationConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OTPPolicy;
@@ -81,15 +81,15 @@ import org.keycloak.utils.StringUtil;
  */
 public class RealmManager {
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmProvider model;
 
-    public RealmManager(KeycloakSession session) {
+    public RealmManager(KeycloakRequestSession session) {
         this.session = session;
         this.model = session.realms();
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 
@@ -801,7 +801,7 @@ public class RealmManager {
                 return realm;
             }
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });

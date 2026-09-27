@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
@@ -81,7 +81,7 @@ public class AllowedWebOriginsProtocolMapper extends AbstractOIDCProtocolMapper 
     }
 
     @Override
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         boolean shouldUseLightweightToken = getShouldUseLightweightToken(session);
         boolean includeInAccessToken = shouldUseLightweightToken ?  OIDCAttributeMapperHelper.includeInLightweightAccessToken(mappingModel) : includeInAccessToken(mappingModel);
@@ -104,7 +104,7 @@ public class AllowedWebOriginsProtocolMapper extends AbstractOIDCProtocolMapper 
     }
 
     @Override
-    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                                    UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         if (!includeInIntrospection(mappingModel)) {
             return token;
@@ -125,7 +125,7 @@ public class AllowedWebOriginsProtocolMapper extends AbstractOIDCProtocolMapper 
     }
 
     @Override
-    public ProtocolMapperModel getEffectiveModel(KeycloakSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
+    public ProtocolMapperModel getEffectiveModel(KeycloakRequestSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
         // Effectively clone
         ProtocolMapperModel copy = RepresentationToModel.toModel(ModelToRepresentation.toRepresentation(protocolMapperModel));
 
@@ -135,7 +135,7 @@ public class AllowedWebOriginsProtocolMapper extends AbstractOIDCProtocolMapper 
         return copy;
     }
 
-    private void setWebOrigin(AccessToken token, KeycloakSession session, ClientSessionContext clientSessionCtx) {
+    private void setWebOrigin(AccessToken token, KeycloakRequestSession session, ClientSessionContext clientSessionCtx) {
         ClientModel client = clientSessionCtx.getClientSession().getClient();
 
         Set<String> allowedOrigins = client.getWebOrigins();

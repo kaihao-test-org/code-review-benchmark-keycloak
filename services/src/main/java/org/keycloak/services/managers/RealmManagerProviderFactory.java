@@ -18,7 +18,7 @@
 package org.keycloak.services.managers;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -38,7 +38,7 @@ import org.keycloak.storage.SetDefaultsForNewRealm;
 @Deprecated
 public class RealmManagerProviderFactory implements ProviderFactory<RealmManagerProviderFactory>, Provider {
     @Override
-    public RealmManagerProviderFactory create(KeycloakSession session) {
+    public RealmManagerProviderFactory create(KeycloakRequestSession session) {
         throw new ModelException("This shouldn't be instantiated, this should only listen to events");
     }
 

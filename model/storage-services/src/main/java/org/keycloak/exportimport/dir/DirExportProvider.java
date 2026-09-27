@@ -19,7 +19,7 @@ package org.keycloak.exportimport.dir;
 
 import org.keycloak.exportimport.util.ExportUtils;
 import org.keycloak.exportimport.util.MultipleStepsExportProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -85,14 +85,14 @@ public class DirExportProvider extends MultipleStepsExportProvider<DirExportProv
     }
 
     @Override
-    protected void writeUsers(String fileName, KeycloakSession session, RealmModel realm, List<UserModel> users) throws IOException {
+    protected void writeUsers(String fileName, KeycloakRequestSession session, RealmModel realm, List<UserModel> users) throws IOException {
         File file = new File(getRootDirectory(), fileName);
         FileOutputStream os = new FileOutputStream(file);
         ExportUtils.exportUsersToStream(session, realm, users, JsonSerialization.prettyMapper, os);
     }
 
     @Override
-    protected void writeFederatedUsers(String fileName, KeycloakSession session, RealmModel realm, List<String> users) throws IOException {
+    protected void writeFederatedUsers(String fileName, KeycloakRequestSession session, RealmModel realm, List<String> users) throws IOException {
         File file = new File(getRootDirectory(), fileName);
         FileOutputStream os = new FileOutputStream(file);
         ExportUtils.exportFederatedUsersToStream(session, realm, users, JsonSerialization.prettyMapper, os);

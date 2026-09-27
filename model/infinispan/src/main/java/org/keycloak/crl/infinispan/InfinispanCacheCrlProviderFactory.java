@@ -22,7 +22,7 @@ import org.keycloak.Config;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.CacheCrlProvider;
 import org.keycloak.models.cache.CacheCrlProviderFactory;
@@ -36,12 +36,12 @@ public class InfinispanCacheCrlProviderFactory implements CacheCrlProviderFactor
     private volatile Cache<String, X509CRLEntry> crlCache;
 
     @Override
-    public CacheCrlProvider create(KeycloakSession session) {
+    public CacheCrlProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new InfinispanCacheCrlProvider(session, crlCache);
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (crlCache == null) {
             synchronized (this) {
                 if (crlCache == null) {

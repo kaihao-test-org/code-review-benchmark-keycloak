@@ -28,7 +28,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.marshalling.Marshalling;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserLoginFailureProvider;
 import org.keycloak.models.UserLoginFailureProviderFactory;
@@ -58,7 +58,7 @@ public class RemoteUserLoginFailureProviderFactory implements UserLoginFailurePr
     private volatile int backOffBaseTimeMillis = InfinispanUtils.DEFAULT_RETRIES_BASE_TIME_MILLIS;
 
     @Override
-    public RemoteUserLoginFailureProvider create(KeycloakSession session) {
+    public RemoteUserLoginFailureProvider create(KeycloakRequestSession session) {
         return new RemoteUserLoginFailureProvider(createAndEnlistTransaction(session));
     }
 
@@ -159,7 +159,7 @@ public class RemoteUserLoginFailureProviderFactory implements UserLoginFailurePr
         this.maxRetries = Math.max(0, maxRetries);
     }
 
-    private LoginFailureChangeLogTransaction createAndEnlistTransaction(KeycloakSession session) {
+    private LoginFailureChangeLogTransaction createAndEnlistTransaction(KeycloakRequestSession session) {
         var tx = new LoginFailureChangeLogTransaction(this, this, new ByRealmIdQueryConditionalRemover<>(PROTO_ENTITY));
         session.getTransactionManager().enlistAfterCompletion(tx);
         return tx;

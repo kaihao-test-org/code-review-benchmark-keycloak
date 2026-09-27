@@ -25,7 +25,7 @@ import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.cluster.ExecutionResult;
 import org.keycloak.common.util.Time;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.RealmModel;
@@ -62,7 +62,7 @@ public class UserStorageSyncManager {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 Stream<RealmModel> realms = session.realms().getRealmsWithProviderTypeStream(UserStorageProvider.class);
                 realms.forEach(realm -> {
                     Stream<UserStorageProviderModel> providers = ((StorageProviderRealmModel) realm).getUserStorageProvidersStream();
@@ -97,7 +97,7 @@ public class UserStorageSyncManager {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 ClusterProvider clusterProvider = session.getProvider(ClusterProvider.class);
                 // shared key for "full" and "changed" . Improve if needed
                 String taskKey = provider.getId() + "::sync";
@@ -141,7 +141,7 @@ public class UserStorageSyncManager {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 ClusterProvider clusterProvider = session.getProvider(ClusterProvider.class);
                 // shared key for "full" and "changed" . Improve if needed
                 String taskKey = provider.getId() + "::sync";
@@ -176,17 +176,17 @@ public class UserStorageSyncManager {
     }
 
 
-    public static void notifyToRefreshPeriodicSyncAll(KeycloakSession session, RealmModel realm, boolean removed) {
+    public static void notifyToRefreshPeriodicSyncAll(KeycloakRequestSession session, RealmModel realm, boolean removed) {
         ((StorageProviderRealmModel) realm).getUserStorageProvidersStream().forEachOrdered(fedProvider ->
                 notifyToRefreshPeriodicSync(session, realm, fedProvider, removed));
     }
 
-    public static void notifyToRefreshPeriodicSyncSingle(KeycloakSession session, RealmModel realm, ComponentModel component, boolean removed) {
+    public static void notifyToRefreshPeriodicSyncSingle(KeycloakRequestSession session, RealmModel realm, ComponentModel component, boolean removed) {
         notifyToRefreshPeriodicSync(session, realm, new UserStorageProviderModel(component), removed);
     }
 
     // Ensure all cluster nodes are notified
-    public static void notifyToRefreshPeriodicSync(KeycloakSession session, RealmModel realm, UserStorageProviderModel provider, boolean removed) {
+    public static void notifyToRefreshPeriodicSync(KeycloakRequestSession session, RealmModel realm, UserStorageProviderModel provider, boolean removed) {
         UserStorageProviderFactory factory = (UserStorageProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(UserStorageProvider.class, provider.getProviderId());
         if (!(factory instanceof ImportSynchronization) || !provider.isImportEnabled()) {
             return;
@@ -310,7 +310,7 @@ public class UserStorageSyncManager {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 RealmModel persistentRealm = session.realms().getRealm(realmId);
                 ((StorageProviderRealmModel) persistentRealm).getUserStorageProvidersStream()
                         .filter(persistentFedProvider -> Objects.equals(provider.getId(), persistentFedProvider.getId()))
@@ -341,7 +341,7 @@ public class UserStorageSyncManager {
             KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
                 @Override
-                public void run(KeycloakSession session) {
+                public void run(KeycloakRequestSession session) {
                     TimerProvider timer = session.getProvider(TimerProvider.class);
                     if (fedEvent.isRemoved()) {
                         removePeriodicSyncForProvider(timer, fedEvent.getStorageProvider());

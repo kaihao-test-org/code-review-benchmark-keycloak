@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -229,7 +229,7 @@ public class LDAPGroupMapper2WaySyncTest extends AbstractLDAPTest {
         appRealm.getTopLevelGroupsStream().forEach(appRealm::removeGroup);
     }
 
-    private static void testDropNonExisting(KeycloakSession session, LDAPTestContext ctx, ComponentModel mapperModel) {
+    private static void testDropNonExisting(KeycloakRequestSession session, LDAPTestContext ctx, ComponentModel mapperModel) {
         RealmModel realm = ctx.getRealm();
 
         // Put some group directly to LDAP

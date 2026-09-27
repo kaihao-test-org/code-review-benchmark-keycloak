@@ -6,7 +6,7 @@ import org.keycloak.models.AuthenticationExecutionModel.Requirement;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resources.admin.AuthenticationManagementResource;
 
@@ -29,7 +29,7 @@ import static org.keycloak.models.utils.DefaultAuthenticationFlows.REGISTRATION_
 import static org.keycloak.models.utils.DefaultAuthenticationFlows.RESET_CREDENTIALS_FLOW;
 
 public class FlowUtil {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private AuthenticationFlowModel currentFlow;
     private String flowAlias;
@@ -45,7 +45,7 @@ public class FlowUtil {
         }
     }
 
-    private FlowUtil(KeycloakSession session, RealmModel realm) {
+    private FlowUtil(KeycloakRequestSession session, RealmModel realm) {
         this.session = session;
         this.realm = realm;
     }
@@ -58,7 +58,7 @@ public class FlowUtil {
         return currentFlow;
     }
 
-    public static FlowUtil inCurrentRealm(KeycloakSession session) {
+    public static FlowUtil inCurrentRealm(KeycloakRequestSession session) {
         return new FlowUtil(session, session.getContext().getRealm());
     }
 
@@ -343,7 +343,7 @@ public class FlowUtil {
      * @param key the key
      * @param value the value
      */
-    public static void setAuthenticatorConfig(KeycloakSession session, String flowId, String authenticatorId, String key, String value) {
+    public static void setAuthenticatorConfig(KeycloakRequestSession session, String flowId, String authenticatorId, String key, String value) {
         RealmModel realm = session.getContext().getRealm();
 
         for (AuthenticationExecutionModel execution : Optional.ofNullable(realm.getAuthenticationExecutionsStream(flowId)).orElse(Stream.empty()).toList()) {

@@ -38,7 +38,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -89,7 +89,7 @@ public class V1TokenExchangeProvider extends AbstractTokenExchangeProvider {
     }
 
     protected Response tokenExchange() {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
         ClientConnection clientConnection = context.getClientConnection();
         Cors cors = context.getCors();

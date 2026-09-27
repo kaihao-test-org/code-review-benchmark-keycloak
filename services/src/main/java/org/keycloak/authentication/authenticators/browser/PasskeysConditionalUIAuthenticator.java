@@ -22,14 +22,14 @@
 package org.keycloak.authentication.authenticators.browser;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import jakarta.ws.rs.core.Response;
 
 @Deprecated(since = "26.3", forRemoval = true)
 public class PasskeysConditionalUIAuthenticator extends WebAuthnPasswordlessAuthenticator {
 
-    public PasskeysConditionalUIAuthenticator(KeycloakSession session) {
+    public PasskeysConditionalUIAuthenticator(KeycloakRequestSession session) {
         super(session);
     }
 

@@ -45,7 +45,7 @@ import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.authorization.store.ScopeStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.cache.authorization.CachedStoreFactoryProvider;
@@ -102,14 +102,14 @@ public class StoreFactoryCacheSession implements CachedStoreFactoryProvider {
 
     protected final long startupRevision;
     protected StoreFactory delegate;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected ResourceServerCache resourceServerCache;
     protected ScopeCache scopeCache;
     protected ResourceCache resourceCache;
     protected PolicyCache policyCache;
     protected PermissionTicketCache permissionTicketCache;
 
-    public StoreFactoryCacheSession(StoreFactoryCacheManager cache, KeycloakSession session) {
+    public StoreFactoryCacheSession(StoreFactoryCacheManager cache, KeycloakRequestSession session) {
         this.cache = cache;
         this.startupRevision = cache.getCurrentCounter();
         this.session = session;

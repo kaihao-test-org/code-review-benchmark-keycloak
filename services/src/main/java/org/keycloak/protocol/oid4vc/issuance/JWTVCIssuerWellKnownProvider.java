@@ -18,7 +18,7 @@ package org.keycloak.protocol.oid4vc.issuance;
 
 import jakarta.ws.rs.core.UriInfo;
 import org.keycloak.jose.jwk.JSONWebKeySet;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oid4vc.model.JWTVCIssuerMetadata;
 import org.keycloak.protocol.oidc.utils.JWKSServerUtils;
@@ -34,9 +34,9 @@ import org.keycloak.wellknown.WellKnownProvider;
  * @author <a href="mailto:francis.pouatcha@adorsys.com">Francis Pouatcha</a>
  */
 public class JWTVCIssuerWellKnownProvider implements WellKnownProvider {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public JWTVCIssuerWellKnownProvider(KeycloakSession session) {
+    public JWTVCIssuerWellKnownProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -17,7 +17,7 @@
 
 package org.keycloak.protocol.oid4vc.issuance.signing;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.OffsetTimeProvider;
 import org.keycloak.protocol.oid4vc.model.Format;
 import org.keycloak.protocol.oid4vc.model.VerifiableCredential;
@@ -30,7 +30,7 @@ public class LDCredentialSignerFactory implements CredentialSignerFactory {
     }
 
     @Override
-    public CredentialSigner<VerifiableCredential> create(KeycloakSession session) {
+    public CredentialSigner<VerifiableCredential> create(KeycloakRequestSession session) {
         return new LDCredentialSigner(session, new OffsetTimeProvider());
     }
 }

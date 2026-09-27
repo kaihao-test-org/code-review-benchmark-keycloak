@@ -31,7 +31,7 @@ import org.keycloak.jose.jws.JWSHeader;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Parse the parameters from OIDC "request" object
@@ -42,7 +42,7 @@ class BackchannelAuthenticationEndpointSignedRequestParser extends BackchannelAu
 
     private final JsonNode requestParams;
 
-    public BackchannelAuthenticationEndpointSignedRequestParser(KeycloakSession session, String signedAuthReq, ClientModel client, CibaConfig config) throws Exception {
+    public BackchannelAuthenticationEndpointSignedRequestParser(KeycloakRequestSession session, String signedAuthReq, ClientModel client, CibaConfig config) throws Exception {
         JOSE jwt = JOSEParser.parse(signedAuthReq);
 
         if (jwt instanceof JWE) {

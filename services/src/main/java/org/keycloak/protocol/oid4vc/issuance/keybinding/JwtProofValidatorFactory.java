@@ -17,7 +17,7 @@
 
 package org.keycloak.protocol.oid4vc.issuance.keybinding;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.model.ProofType;
 
 public class JwtProofValidatorFactory implements ProofValidatorFactory {
@@ -28,7 +28,7 @@ public class JwtProofValidatorFactory implements ProofValidatorFactory {
     }
 
     @Override
-    public ProofValidator create(KeycloakSession session) {
+    public ProofValidator create(KeycloakRequestSession session) {
         return new JwtProofValidator(session);
     }
 }

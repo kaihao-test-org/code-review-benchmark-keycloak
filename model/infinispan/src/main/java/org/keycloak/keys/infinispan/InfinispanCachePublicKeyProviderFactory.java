@@ -22,7 +22,7 @@ import org.keycloak.Config;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.CachePublicKeyProvider;
 import org.keycloak.models.cache.CachePublicKeyProviderFactory;
@@ -38,12 +38,12 @@ public class InfinispanCachePublicKeyProviderFactory implements CachePublicKeyPr
     private volatile Cache<String, PublicKeysEntry> keysCache;
 
     @Override
-    public CachePublicKeyProvider create(KeycloakSession session) {
+    public CachePublicKeyProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new InfinispanCachePublicKeyProvider(session, keysCache);
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (keysCache == null) {
             synchronized (this) {
                 if (keysCache == null) {

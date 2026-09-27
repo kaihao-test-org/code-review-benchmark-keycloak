@@ -17,7 +17,7 @@
 package org.keycloak.models;
 
 /**
- * Interface for tasks that compute a result and need access to the {@link KeycloakSession}.
+ * Interface for tasks that compute a result and need access to the {@link KeycloakRequestSession}.
  *
  * @param <V> the type of the computed result.
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
@@ -28,8 +28,8 @@ public interface KeycloakSessionTaskWithResult<V> {
     /**
      * Computes a result.
      *
-     * @param session a reference to the {@link KeycloakSession}.
+     * @param session a reference to the {@link KeycloakRequestSession}.
      * @return the computed result.
      */
-    V run(final KeycloakSession session);
+    V run(final KeycloakRequestSession session);
 }

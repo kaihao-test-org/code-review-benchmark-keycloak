@@ -28,7 +28,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.VerificationException;
 import org.keycloak.cookie.CookieProvider;
 import org.keycloak.cookie.CookieType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 
@@ -41,10 +41,10 @@ public class DetachedInfoStateChecker {
 
     public static final String STATE_CHECKER_PARAM = "kc_state_checker";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
 
-    public DetachedInfoStateChecker(KeycloakSession session, RealmModel realm) {
+    public DetachedInfoStateChecker(KeycloakRequestSession session, RealmModel realm) {
         this.session = session;
         this.realm = realm;
     }

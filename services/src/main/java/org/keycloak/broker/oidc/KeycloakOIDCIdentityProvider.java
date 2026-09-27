@@ -28,7 +28,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.headers.SecurityHeadersProvider;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.representations.adapters.action.AdminAction;
@@ -49,7 +49,7 @@ import java.io.IOException;
  */
 public class KeycloakOIDCIdentityProvider extends OIDCIdentityProvider {
 
-    public KeycloakOIDCIdentityProvider(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public KeycloakOIDCIdentityProvider(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         super(session, config);
         config.setAccessTokenJwt(true); // force access token JWT
     }

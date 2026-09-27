@@ -26,7 +26,7 @@ import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.OTPCredentialProvider;
 import org.keycloak.credential.OTPCredentialProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -43,7 +43,7 @@ public class TotpLoginBean {
     private final List<OTPCredential> userOtpCredentials;
     private OTPPolicy policy;
 
-    public TotpLoginBean(KeycloakSession session, RealmModel realm, UserModel user, String selectedCredentialId) {
+    public TotpLoginBean(KeycloakRequestSession session, RealmModel realm, UserModel user, String selectedCredentialId) {
 
         this.userOtpCredentials = user.credentialManager().getStoredCredentialsByTypeStream(OTPCredentialModel.TYPE)
                 .map(OTPCredential::new)

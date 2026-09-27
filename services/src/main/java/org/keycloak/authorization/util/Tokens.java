@@ -18,7 +18,7 @@
 
 package org.keycloak.authorization.util;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.managers.AuthenticationManager.AuthResult;
@@ -28,7 +28,7 @@ import org.keycloak.services.managers.AuthenticationManager.AuthResult;
  */
 public class Tokens {
 
-    public static AccessToken getAccessToken(KeycloakSession keycloakSession) {
+    public static AccessToken getAccessToken(KeycloakRequestSession keycloakSession) {
         AuthResult authResult = new AppAuthManager.BearerTokenAuthenticator(keycloakSession).authenticate();
 
         if (authResult != null) {
@@ -38,7 +38,7 @@ public class Tokens {
         return null;
     }
 
-    public static AccessToken getAccessToken(String accessToken, KeycloakSession keycloakSession) {
+    public static AccessToken getAccessToken(String accessToken, KeycloakRequestSession keycloakSession) {
         AuthResult authResult = new AppAuthManager.BearerTokenAuthenticator(keycloakSession)
                 .setTokenString(accessToken)
                 .authenticate();

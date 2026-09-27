@@ -16,7 +16,7 @@
  */
 package org.keycloak.credential;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.Provider;
@@ -40,7 +40,7 @@ public interface CredentialProvider<T extends CredentialModel> extends Provider 
 
     T getCredentialFromModel(CredentialModel model);
 
-    default T getDefaultCredential(KeycloakSession session, RealmModel realm, UserModel user) {
+    default T getDefaultCredential(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         CredentialModel model = user.credentialManager().getStoredCredentialsByTypeStream(getType())
                 .findFirst().orElse(null);
         return model != null ? getCredentialFromModel(model) : null;

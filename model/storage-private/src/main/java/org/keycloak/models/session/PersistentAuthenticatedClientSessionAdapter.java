@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class PersistentAuthenticatedClientSessionAdapter implements AuthenticatedClientSessionModel {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final PersistentClientSessionModel model;
     private final RealmModel realm;
     private final ClientModel client;
@@ -46,7 +46,7 @@ public class PersistentAuthenticatedClientSessionAdapter implements Authenticate
 
     private PersistentClientSessionData data;
 
-    public PersistentAuthenticatedClientSessionAdapter(KeycloakSession session, AuthenticatedClientSessionModel clientSession) {
+    public PersistentAuthenticatedClientSessionAdapter(KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession) {
         data = new PersistentClientSessionData();
         data.setAction(clientSession.getAction());
         data.setAuthMethod(clientSession.getProtocol());
@@ -101,7 +101,7 @@ public class PersistentAuthenticatedClientSessionAdapter implements Authenticate
         userSession = clientSession.getUserSession();
     }
 
-    public PersistentAuthenticatedClientSessionAdapter(KeycloakSession session, PersistentClientSessionModel model, RealmModel realm, ClientModel client, UserSessionModel userSession) {
+    public PersistentAuthenticatedClientSessionAdapter(KeycloakRequestSession session, PersistentClientSessionModel model, RealmModel realm, ClientModel client, UserSessionModel userSession) {
         this.session = session;
         this.model = model;
         this.realm = realm;

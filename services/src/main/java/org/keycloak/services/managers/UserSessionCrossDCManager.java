@@ -17,7 +17,7 @@
 
 package org.keycloak.services.managers;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionProvider;
@@ -31,9 +31,9 @@ import org.keycloak.services.util.UserSessionUtil;
 @Deprecated(since = "26", forRemoval = true)
 public class UserSessionCrossDCManager {
 
-    private final KeycloakSession kcSession;
+    private final KeycloakRequestSession kcSession;
 
-    public UserSessionCrossDCManager(KeycloakSession session) {
+    public UserSessionCrossDCManager(KeycloakRequestSession session) {
         this.kcSession = session;
     }
 
@@ -51,7 +51,7 @@ public class UserSessionCrossDCManager {
 
     /**
      * @deprecated To be removed in Keycloak 27+. Use
-     * {@link UserSessionUtil#getUserSessionWithImpersonatorClient(KeycloakSession, RealmModel, String, boolean, String)}
+     * {@link UserSessionUtil#getUserSessionWithImpersonatorClient(KeycloakRequestSession, RealmModel, String, boolean, String)}
      */
     @Deprecated(since = "26", forRemoval = true)
     public UserSessionModel getUserSessionWithImpersonatorClient(RealmModel realm, String id, boolean offline, String clientUUID) {

@@ -22,7 +22,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -49,7 +49,7 @@ public class RealmModelTest extends KeycloakModelTest {
     private String realm2Id;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -57,13 +57,13 @@ public class RealmModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         this.removeRealm(s, realmId);
         if (realm1Id != null) this.removeRealm(s, realm1Id);
         if (realm2Id != null) this.removeRealm(s, realm2Id);
     }
 
-    private void removeRealm(KeycloakSession s, String realmId) {
+    private void removeRealm(KeycloakRequestSession s, String realmId) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -141,7 +141,7 @@ public class RealmModelTest extends KeycloakModelTest {
         });
 
         // Remove realm 2
-        inComittedTransaction( (Consumer<KeycloakSession>)  keycloakSession -> this.removeRealm(keycloakSession, realm2Id));
+        inComittedTransaction( (Consumer<KeycloakRequestSession>)  keycloakSession -> this.removeRealm(keycloakSession, realm2Id));
 
         // ResourceServer in realm1 must still exist
         ResourceServer resourceServer = withRealm(realm1Id, (keycloakSession, realmModel) -> {

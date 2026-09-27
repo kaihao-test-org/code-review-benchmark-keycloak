@@ -20,7 +20,7 @@ package org.keycloak.connections.jpa.updater.liquibase;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.updater.JpaUpdaterProvider;
 import org.keycloak.connections.jpa.updater.JpaUpdaterProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -31,7 +31,7 @@ public class LiquibaseJpaUpdaterProviderFactory implements JpaUpdaterProviderFac
     public static final String PROVIDER_ID = "liquibase";
 
     @Override
-    public JpaUpdaterProvider create(KeycloakSession session) {
+    public JpaUpdaterProvider create(KeycloakRequestSession session) {
         return new LiquibaseJpaUpdaterProvider(session);
     }
 

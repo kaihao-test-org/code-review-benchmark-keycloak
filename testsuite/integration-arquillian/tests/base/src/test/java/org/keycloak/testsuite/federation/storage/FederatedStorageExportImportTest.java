@@ -30,7 +30,7 @@ import org.keycloak.exportimport.ExportImportManager;
 import org.keycloak.exportimport.dir.DirExportProviderFactory;
 import org.keycloak.exportimport.singlefile.SingleFileExportProviderFactory;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
@@ -88,7 +88,7 @@ public class FederatedStorageExportImportTest extends AbstractAuthTest {
         }
     }
 
-    public static PasswordHashProvider getHashProvider(KeycloakSession session, PasswordPolicy policy) {
+    public static PasswordHashProvider getHashProvider(KeycloakRequestSession session, PasswordPolicy policy) {
         if (policy != null && policy.getHashAlgorithm() != null) {
             return session.getProvider(PasswordHashProvider.class, policy.getHashAlgorithm());
         } else {

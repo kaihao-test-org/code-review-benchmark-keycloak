@@ -28,7 +28,7 @@ import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -50,7 +50,7 @@ import jakarta.ws.rs.ForbiddenException;
  */
 class RolePermissions implements RolePermissionEvaluator, RolePermissionManagement {
     private static final Logger logger = Logger.getLogger(RolePermissions.class);
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final RealmModel realm;
     protected final AuthorizationProvider authz;
     protected final MgmtPermissions root;
@@ -58,7 +58,7 @@ class RolePermissions implements RolePermissionEvaluator, RolePermissionManageme
     protected final PolicyStore policyStore;
     private static final String RESOURCE_NAME_PREFIX = "role.resource.";
 
-    public RolePermissions(KeycloakSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
+    public RolePermissions(KeycloakRequestSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
         this.session = session;
         this.realm = realm;
         this.authz = authz;

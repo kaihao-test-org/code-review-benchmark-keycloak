@@ -22,7 +22,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
@@ -104,7 +104,7 @@ public interface FormContext {
      *
      * @return
      */
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
 
     HttpRequest getHttpRequest();
 

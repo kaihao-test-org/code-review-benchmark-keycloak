@@ -20,7 +20,7 @@ package org.keycloak.testsuite.model;
 import org.junit.Test;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -50,7 +50,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
     private ClientModel client;
     private String roleId;
     private String realmName="original";
-    private KeycloakSession currentSession;
+    private KeycloakRequestSession currentSession;
 
     @Override
     protected boolean isImportAfterEachMethod() {
@@ -100,11 +100,11 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testClientRoleRemovalAndClientScope(KeycloakSession session) {
+    public void testClientRoleRemovalAndClientScope(KeycloakRequestSession session) {
         // Client "from" has a role.  Assign this role to a scope to client "scoped".  Delete the role and make sure
         // cache gets cleared
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientRoleRemove1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientRoleRemove1) -> {
             currentSession = sessionClientRoleRemove1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -120,7 +120,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientRoleRemove2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientRoleRemove2) -> {
             currentSession = sessionClientRoleRemove2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -133,7 +133,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientRoleRemove3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientRoleRemove3) -> {
             currentSession = sessionClientRoleRemove3;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -149,11 +149,11 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testClientRoleRemovalAndClientScopeSameTx(KeycloakSession session) {
+    public void testClientRoleRemovalAndClientScopeSameTx(KeycloakRequestSession session) {
         // Client "from" has a role.  Assign this role to a scope to client "scoped".  Delete the role and make sure
         // cache gets cleared
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientRoleRemoveTx1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientRoleRemoveTx1) -> {
             currentSession = sessionClientRoleRemoveTx1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -166,7 +166,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             scoped.addScopeMapping(role);
 
         });
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientRoleRemoveTx2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientRoleRemoveTx2) -> {
             currentSession = sessionClientRoleRemoveTx2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -186,11 +186,11 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testRealmRoleRemovalAndClientScope(KeycloakSession session) {
+    public void testRealmRoleRemovalAndClientScope(KeycloakRequestSession session) {
         // Client "from" has a role.  Assign this role to a scope to client "scoped".  Delete the role and make sure
         // cache gets cleared
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionRealmRoleRemove1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionRealmRoleRemove1) -> {
             currentSession = sessionRealmRoleRemove1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             RoleModel role = realm.addRole("clientRole");
@@ -200,14 +200,14 @@ public class ClientModelTest extends AbstractKeycloakTest {
             scoped.addScopeMapping(role);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionRealmRoleRemove2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionRealmRoleRemove2) -> {
             currentSession = sessionRealmRoleRemove2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             RoleModel role = currentSession.roles().getRoleById(realm, roleId);
             realm.removeRole(role);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionRealmRoleRemove3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionRealmRoleRemove3) -> {
             currentSession = sessionRealmRoleRemove3;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             ClientModel scoped = realm.getClientByClientId("scoped");
@@ -219,9 +219,9 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testCircularClientScopes(KeycloakSession session) {
+    public void testCircularClientScopes(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCircuilarClient1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCircuilarClient1) -> {
             currentSession = sessionCircuilarClient1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             ClientModel scoped1 = realm.addClient("scoped1");
@@ -232,7 +232,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             scoped2.addScopeMapping(role1);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionCircuilarClient2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionCircuilarClient2) -> {
             currentSession = sessionCircuilarClient2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -244,8 +244,8 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void persist(KeycloakSession session) {
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionPersist) -> {
+    public void persist(KeycloakRequestSession session) {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionPersist) -> {
             currentSession = sessionPersist;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = setUpClient(realm);
@@ -262,8 +262,8 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void json(KeycloakSession session) {
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionJson) -> {
+    public void json(KeycloakRequestSession session) {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionJson) -> {
             currentSession = sessionJson;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -291,9 +291,9 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testAddApplicationWithId(KeycloakSession session) {
+    public void testAddApplicationWithId(KeycloakRequestSession session) {
         final String id = KeycloakModelUtils.generateId();
-        String newClientId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionAppWithId1) -> {
+        String newClientId = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionAppWithId1) -> {
             currentSession = sessionAppWithId1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -301,7 +301,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             return client.getId();
         }, "ClientModel task");
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionAppWithId2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionAppWithId2) -> {
             currentSession = sessionAppWithId2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -314,12 +314,12 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testClientScopesBinding(KeycloakSession session) {
+    public void testClientScopesBinding(KeycloakRequestSession session) {
         AtomicReference<ClientScopeModel> scope1Atomic = new AtomicReference<>();
         AtomicReference<ClientScopeModel> scope2Atomic = new AtomicReference<>();
         AtomicReference<ClientScopeModel> scope3Atomic = new AtomicReference<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientScopeBind1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientScopeBind1) -> {
             currentSession = sessionClientScopeBind1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.addClient("templatized");
@@ -339,7 +339,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientScopeBind2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientScopeBind2) -> {
             currentSession = sessionClientScopeBind2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.getClientByClientId("templatized");
@@ -357,7 +357,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             client.addClientScope(scope3, false);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientScopeBind3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientScopeBind3) -> {
             currentSession = sessionClientScopeBind3;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.getClientByClientId("templatized");
@@ -380,7 +380,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             client.removeClientScope(scope2);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionClientScopeBind3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionClientScopeBind3) -> {
             currentSession = sessionClientScopeBind3;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.getClientByClientId("templatized");
@@ -406,12 +406,12 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testDefaultDefaultClientScopes(KeycloakSession session) {
+    public void testDefaultDefaultClientScopes(KeycloakRequestSession session) {
         AtomicReference<ClientScopeModel> scope1Atomic = new AtomicReference<>();
         AtomicReference<ClientScopeModel> scope2Atomic = new AtomicReference<>();
         AtomicReference<ClientScopeModel> scope3Atomic = new AtomicReference<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope1) -> {
             currentSession = sessionDefaultClientScope1;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -428,7 +428,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             scope3Atomic.set(scope3);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope2) -> {
             currentSession = sessionDefaultClientScope2;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
 
@@ -445,7 +445,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
             realm.addDefaultClientScope(scope3, false);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope3) -> {
             currentSession = sessionDefaultClientScope3;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.addClient("foo");
@@ -453,7 +453,7 @@ public class ClientModelTest extends AbstractKeycloakTest {
 
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope4) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope4) -> {
             currentSession = sessionDefaultClientScope4;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.getClientByClientId("foo");
@@ -479,14 +479,14 @@ public class ClientModelTest extends AbstractKeycloakTest {
             realm.removeDefaultClientScope(scope2);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope5) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope5) -> {
             currentSession = sessionDefaultClientScope5;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.addClient("foo2");
             client.setProtocol(OIDCLoginProtocol.LOGIN_PROTOCOL);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionDefaultClientScope5) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionDefaultClientScope5) -> {
             currentSession = sessionDefaultClientScope5;
             RealmModel realm = currentSession.realms().getRealmByName(realmName);
             client = realm.getClientByClientId("foo2");

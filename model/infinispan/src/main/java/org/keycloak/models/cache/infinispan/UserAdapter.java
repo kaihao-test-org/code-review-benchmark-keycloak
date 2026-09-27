@@ -22,7 +22,7 @@ import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.SubjectCredentialManager;
@@ -53,11 +53,11 @@ public class UserAdapter implements CachedUserModel {
     private final Supplier<UserModel> modelSupplier;
     protected final CachedUser cached;
     protected final UserCacheSession userProviderCache;
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
     protected final RealmModel realm;
     protected volatile UserModel updated;
 
-    public UserAdapter(CachedUser cached, UserCacheSession userProvider, KeycloakSession keycloakSession, RealmModel realm) {
+    public UserAdapter(CachedUser cached, UserCacheSession userProvider, KeycloakRequestSession keycloakSession, RealmModel realm) {
         this.cached = cached;
         this.userProviderCache = userProvider;
         this.keycloakSession = keycloakSession;

@@ -40,7 +40,7 @@ import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.models.utils.RepresentationToModel;
 import org.keycloak.representations.idm.authorization.AbstractPolicyRepresentation;
@@ -208,7 +208,7 @@ public class PolicyResourceService {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        KeycloakSession session = authorization.getKeycloakSession();
+        KeycloakRequestSession session = authorization.getKeycloakSession();
 
         return Response.ok(policy.getResources().stream().map(resource -> {
             ResourceRepresentation representation = new ResourceRepresentation();

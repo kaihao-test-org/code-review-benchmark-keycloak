@@ -33,7 +33,7 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
@@ -87,9 +87,9 @@ public class RoleContainerResource extends RoleResource {
     protected RoleContainerModel roleContainer;
     private AdminEventBuilder adminEvent;
     private UriInfo uriInfo;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public RoleContainerResource(KeycloakSession session, UriInfo uriInfo, RealmModel realm,
+    public RoleContainerResource(KeycloakRequestSession session, UriInfo uriInfo, RealmModel realm,
                                  AdminPermissionEvaluator auth, RoleContainerModel roleContainer, AdminEventBuilder adminEvent) {
         super(realm);
         this.uriInfo = uriInfo;

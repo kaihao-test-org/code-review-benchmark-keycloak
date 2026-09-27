@@ -23,7 +23,7 @@ import org.infinispan.context.Flag;
 import org.keycloak.common.util.Time;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -50,7 +50,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
     ));
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         InfinispanConnectionProvider provider = session.getProvider(InfinispanConnectionProvider.class);
         String cacheName = getArg(0);
         if (! SUPPORTED_CACHE_NAMES.contains(cacheName)) {
@@ -93,7 +93,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         return getName() + " <cache-name>";
     }
 
-    protected abstract void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache);
+    protected abstract void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache);
 
 
     // IMPLS
@@ -106,7 +106,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             UserSessionEntity userSession = new UserSessionEntity(getArg(1));
             userSession.setRealmId(getArg(2));
 
@@ -129,7 +129,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String id = getArg(1);
             UserSessionEntity userSession = (UserSessionEntity) cache.get(id).getEntity();
             printSession(id, userSession);
@@ -150,7 +150,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String id = getArg(1);
             int count = getIntArg(2);
 
@@ -178,7 +178,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String id = getArg(1);
             cache.remove(id);
         }
@@ -198,7 +198,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             cache.clear();
         }
     }
@@ -212,7 +212,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             log.info("Size: " + cache.size());
         }
     }
@@ -226,7 +226,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             for (String id : cache.keySet()) {
                 SessionEntity entity = cache.get(id).getEntity();
                 if (!(entity instanceof UserSessionEntity)) {
@@ -248,7 +248,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
 
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String id = getArg(1);
             cache = ((AdvancedCache) cache).withFlags(Flag.CACHE_MODE_LOCAL);
             UserSessionEntity userSession = (UserSessionEntity) cache.get(id).getEntity();
@@ -270,7 +270,7 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             log.info("Size local: " + cache.getAdvancedCache().withFlags(Flag.CACHE_MODE_LOCAL).size());
         }
     }
@@ -284,12 +284,12 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String realmName = getArg(1);
             int count = getIntArg(2);
             int batchCount = getIntArg(3);
 
-            BatchTaskRunner.runInBatches(0, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakSession batchSession, int firstInIteration, int countInIteration) -> {
+            BatchTaskRunner.runInBatches(0, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakRequestSession batchSession, int firstInIteration, int countInIteration) -> {
                 for (int i=0 ; i<countInIteration ; i++) {
                     UserSessionEntity userSession = new UserSessionEntity(KeycloakModelUtils.generateId());
                     userSession.setRealmId(realmName);
@@ -321,14 +321,14 @@ public abstract class AbstractSessionCacheCommand extends AbstractCommand {
         }
 
         @Override
-        protected void doRunCacheCommand(KeycloakSession session, Cache<String, SessionEntityWrapper> cache) {
+        protected void doRunCacheCommand(KeycloakRequestSession session, Cache<String, SessionEntityWrapper> cache) {
             String realmName = getArg(1);
             String clientId = getArg(2);
             String username = getArg(3);
             int count = getIntArg(4);
             int batchCount = getIntArg(5);
 
-            BatchTaskRunner.runInBatches(0, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakSession batchSession, int firstInIteration, int countInIteration) -> {
+            BatchTaskRunner.runInBatches(0, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakRequestSession batchSession, int firstInIteration, int countInIteration) -> {
                 RealmModel realm = batchSession.realms().getRealmByName(realmName);
                 ClientModel client = realm.getClientByClientId(clientId);
                 UserModel user = batchSession.users().getUserByUsername(realm, username);

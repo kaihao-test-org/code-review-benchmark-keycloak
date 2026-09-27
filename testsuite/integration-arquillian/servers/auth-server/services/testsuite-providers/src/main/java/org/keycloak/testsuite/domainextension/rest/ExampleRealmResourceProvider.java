@@ -17,14 +17,14 @@
 
 package org.keycloak.testsuite.domainextension.rest;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 public class ExampleRealmResourceProvider implements RealmResourceProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public ExampleRealmResourceProvider(KeycloakSession session) {
+    public ExampleRealmResourceProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

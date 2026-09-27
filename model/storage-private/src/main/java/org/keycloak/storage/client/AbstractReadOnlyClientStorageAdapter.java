@@ -17,7 +17,7 @@
 package org.keycloak.storage.client;
 
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @version $Revision: 1 $
  */
 public abstract class AbstractReadOnlyClientStorageAdapter extends AbstractClientStorageAdapter {
-    public AbstractReadOnlyClientStorageAdapter(KeycloakSession session, RealmModel realm, ClientStorageProviderModel component) {
+    public AbstractReadOnlyClientStorageAdapter(KeycloakRequestSession session, RealmModel realm, ClientStorageProviderModel component) {
         super(session, realm, component);
     }
 

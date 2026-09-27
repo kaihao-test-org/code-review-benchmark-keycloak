@@ -21,7 +21,7 @@ package org.keycloak.examples.providersoverride;
 
 import org.keycloak.email.DefaultEmailSenderProvider;
 import org.keycloak.email.EmailAuthenticator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class CustomDefaultEmailSenderProvider1 extends DefaultEmailSenderProvider {
 
-    public CustomDefaultEmailSenderProvider1(KeycloakSession session, Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> authenticators) {
+    public CustomDefaultEmailSenderProvider1(KeycloakRequestSession session, Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> authenticators) {
         super(session, authenticators);
     }
 }

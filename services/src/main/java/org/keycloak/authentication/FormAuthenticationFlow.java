@@ -26,7 +26,7 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.FormMessage;
@@ -126,7 +126,7 @@ public class FormAuthenticationFlow implements AuthenticationFlow {
         }
 
         @Override
-        public KeycloakSession getSession() {
+        public KeycloakRequestSession getSession() {
             return processor.getSession();
         }
 

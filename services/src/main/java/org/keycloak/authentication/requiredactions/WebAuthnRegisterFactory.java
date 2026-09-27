@@ -26,7 +26,7 @@ import org.keycloak.Config.Scope;
 import org.keycloak.authentication.RequiredActionFactory;
 import org.keycloak.authentication.RequiredActionProvider;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.truststore.TruststoreProvider;
@@ -36,7 +36,7 @@ public class WebAuthnRegisterFactory implements RequiredActionFactory, Environme
     public static final String PROVIDER_ID = "webauthn-register";
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         WebAuthnRegister webAuthnRegister = null;
         TruststoreProvider truststoreProvider = session.getProvider(TruststoreProvider.class);
         if (truststoreProvider == null || truststoreProvider.getTruststore() == null) {
@@ -49,7 +49,7 @@ public class WebAuthnRegisterFactory implements RequiredActionFactory, Environme
         return webAuthnRegister;
     }
 
-    protected WebAuthnRegister createProvider(KeycloakSession session, CertPathTrustworthinessVerifier trustVerifier) {
+    protected WebAuthnRegister createProvider(KeycloakRequestSession session, CertPathTrustworthinessVerifier trustVerifier) {
          return new WebAuthnRegister(session, trustVerifier);
     }
 

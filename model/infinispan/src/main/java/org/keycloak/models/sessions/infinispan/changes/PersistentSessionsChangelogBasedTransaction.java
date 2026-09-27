@@ -20,7 +20,7 @@ package org.keycloak.models.sessions.infinispan.changes;
 import org.infinispan.Cache;
 import org.jboss.logging.Logger;
 import org.keycloak.models.AbstractKeycloakTransaction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.sessions.infinispan.SessionFunction;
@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 abstract public class PersistentSessionsChangelogBasedTransaction<K, V extends SessionEntity> extends AbstractKeycloakTransaction implements SessionsChangelogBasedTransaction<K, V> {
 
     private static final Logger LOG = Logger.getLogger(PersistentSessionsChangelogBasedTransaction.class);
-    protected final KeycloakSession kcSession;
+    protected final KeycloakRequestSession kcSession;
     protected final Map<K, SessionUpdatesList<V>> updates = new HashMap<>();
     protected final Map<K, SessionUpdatesList<V>> offlineUpdates = new HashMap<>();
     private final String cacheName;
@@ -51,7 +51,7 @@ abstract public class PersistentSessionsChangelogBasedTransaction<K, V extends S
     private final SerializeExecutionsByKey<K> serializerOnline;
     private final SerializeExecutionsByKey<K> serializerOffline;
 
-    public PersistentSessionsChangelogBasedTransaction(KeycloakSession session,
+    public PersistentSessionsChangelogBasedTransaction(KeycloakRequestSession session,
                                                        String cacheName,
                                                        Cache<K, SessionEntityWrapper<V>> cache,
                                                        Cache<K, SessionEntityWrapper<V>> offlineCache,

@@ -20,7 +20,7 @@ package org.keycloak.storage.ldap;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.ldap.idm.store.ldap.LDAPIdentityStore;
 import org.keycloak.storage.ldap.mappers.LDAPConfigDecorator;
@@ -37,7 +37,7 @@ public class LDAPIdentityStoreRegistry {
 
     private final Map<String, LDAPConfig> ldapStores = new ConcurrentHashMap<>();
 
-    public LDAPIdentityStore getLdapStore(KeycloakSession session, ComponentModel ldapModel, Map<ComponentModel, LDAPConfigDecorator> configDecorators) {
+    public LDAPIdentityStore getLdapStore(KeycloakRequestSession session, ComponentModel ldapModel, Map<ComponentModel, LDAPConfigDecorator> configDecorators) {
         // Ldap config might have changed for the realm. In this case, we must re-initialize
         MultivaluedHashMap<String, String> configModel = ldapModel.getConfig();
         LDAPConfig ldapConfig = new LDAPConfig(configModel);
@@ -58,7 +58,7 @@ public class LDAPIdentityStoreRegistry {
     }
 
     // Don't log LDAP password
-    private void logLDAPConfig(KeycloakSession session, ComponentModel ldapModel, LDAPConfig ldapConfig) {
+    private void logLDAPConfig(KeycloakRequestSession session, ComponentModel ldapModel, LDAPConfig ldapConfig) {
         logger.infof("Creating new LDAP Store for the LDAP storage provider: '%s', LDAP Configuration: %s", ldapModel.getName(), ldapConfig.toString());
 
         if (logger.isDebugEnabled()) {

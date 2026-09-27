@@ -21,7 +21,7 @@ package org.keycloak.authorization;
 import org.keycloak.Config;
 import org.keycloak.authorization.policy.evaluation.DefaultPolicyEvaluator;
 import org.keycloak.authorization.policy.evaluation.PolicyEvaluator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 
@@ -33,7 +33,7 @@ public class DefaultAuthorizationProviderFactory implements AuthorizationProvide
     private PolicyEvaluator policyEvaluator = new DefaultPolicyEvaluator();
 
     @Override
-    public AuthorizationProvider create(KeycloakSession session) {
+    public AuthorizationProvider create(KeycloakRequestSession session) {
         return create(session, session.getContext().getRealm());
     }
 
@@ -56,7 +56,7 @@ public class DefaultAuthorizationProviderFactory implements AuthorizationProvide
     }
 
     @Override
-    public AuthorizationProvider create(KeycloakSession session, RealmModel realm) {
+    public AuthorizationProvider create(KeycloakRequestSession session, RealmModel realm) {
         return new AuthorizationProvider(session, realm, policyEvaluator);
     }
 }

@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc;
 
 import org.keycloak.exportimport.ClientDescriptionConverter;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.oidc.OIDCClientRepresentation;
 import org.keycloak.services.clientregistration.oidc.DescriptionConverter;
@@ -31,9 +31,9 @@ import java.io.IOException;
  */
 public class OIDCClientDescriptionConverter implements ClientDescriptionConverter {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public OIDCClientDescriptionConverter(KeycloakSession session) {
+    public OIDCClientDescriptionConverter(KeycloakRequestSession session) {
         this.session = session;
     }
 

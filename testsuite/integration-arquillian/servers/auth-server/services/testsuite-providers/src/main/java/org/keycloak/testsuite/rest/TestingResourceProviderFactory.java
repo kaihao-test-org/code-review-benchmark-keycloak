@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
@@ -38,7 +38,7 @@ public class TestingResourceProviderFactory implements RealmResourceProviderFact
     protected TruststoreProvider truststoreProvider;
 
     @Override
-    public RealmResourceProvider create(KeycloakSession session) {
+    public RealmResourceProvider create(KeycloakRequestSession session) {
         return new TestingResourceProvider(session, this, suspendedTimerTasks);
     }
 

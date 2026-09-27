@@ -17,7 +17,7 @@
 
 package org.keycloak.partialimport;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.PartialImportRepresentation;
 
@@ -34,13 +34,13 @@ public interface PartialImport<T> {
      *
      * @param rep Everything in the PartialImport request.
      * @param realm Realm to be imported into.
-     * @param session The KeycloakSession.
+     * @param session The KeycloakRequestSession.
      * @ If the PartialImport can not be performed,
      *                                throw this exception.
      */
     void prepare(PartialImportRepresentation rep,
                  RealmModel realm,
-                 KeycloakSession session);
+                 KeycloakRequestSession session);
 
     /**
      * Delete resources that will be overwritten.  This is done separately so
@@ -50,20 +50,20 @@ public interface PartialImport<T> {
      * cascading deletes.
      *
      * @param realm Realm to be imported into.
-     * @param session The KeycloakSession
+     * @param session The KeycloakRequestSession
      */
-    void removeOverwrites(RealmModel realm, KeycloakSession session);
+    void removeOverwrites(RealmModel realm, KeycloakRequestSession session);
 
     /**
      * Create (or re-create) all the imported resources.
      *
      * @param rep Everything in the PartialImport request.
      * @param realm Realm to be imported into.
-     * @param session The KeycloakSession.
+     * @param session The KeycloakRequestSession.
      * @return The final results of the PartialImport request.
      * @ if an error was detected trying to doImport a resource.
      */
     PartialImportResults doImport(PartialImportRepresentation rep,
                                   RealmModel realm,
-                                  KeycloakSession session);
+                                  KeycloakRequestSession session);
 }

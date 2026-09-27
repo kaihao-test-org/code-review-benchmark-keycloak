@@ -22,7 +22,7 @@ import java.util.Optional;
 import org.infinispan.client.hotrod.configuration.Configuration;
 import org.keycloak.Config;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.spi.infinispan.CacheRemoteConfigProvider;
@@ -41,7 +41,7 @@ public class DisabledCacheRemoteConfigProviderFactory implements CacheRemoteConf
     }
 
     @Override
-    public CacheRemoteConfigProvider create(KeycloakSession session) {
+    public CacheRemoteConfigProvider create(KeycloakRequestSession session) {
         return this;
     }
 

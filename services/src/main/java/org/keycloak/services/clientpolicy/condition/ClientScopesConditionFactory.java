@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.keycloak.OAuth2Constants;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.idm.ClientPolicyConditionRepresentation;
@@ -60,7 +60,7 @@ public class ClientScopesConditionFactory extends AbstractClientPolicyConditionP
     }
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new ClientScopesCondition(session);
     }
 
@@ -80,7 +80,7 @@ public class ClientScopesConditionFactory extends AbstractClientPolicyConditionP
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ClientPolicyConditionRepresentation conditionRepresentation) throws ClientPolicyException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ClientPolicyConditionRepresentation conditionRepresentation) throws ClientPolicyException {
         ClientScopesCondition.Configuration configuration = JsonSerialization.mapper.convertValue(conditionRepresentation.getConfiguration(), ClientScopesCondition.Configuration.class);
 
         if (configuration.getScopes() != null && !realm.getClientScopesStream().map(ClientScopeModel::getName).toList().containsAll(configuration.getScopes())) {

@@ -20,7 +20,7 @@ package org.keycloak.testsuite.wellknown;
 
 import java.util.Map;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCWellKnownProvider;
 import org.keycloak.protocol.oidc.representations.MTLSEndpointAliases;
 import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentation;
@@ -30,7 +30,7 @@ import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentatio
  */
 public class CustomOIDCWellKnownProvider extends OIDCWellKnownProvider {
 
-    public CustomOIDCWellKnownProvider(KeycloakSession session, Map<String, Object> openidConfigOverride, boolean includeClientScopes) {
+    public CustomOIDCWellKnownProvider(KeycloakRequestSession session, Map<String, Object> openidConfigOverride, boolean includeClientScopes) {
         super(session, openidConfigOverride, includeClientScopes);
     }
 

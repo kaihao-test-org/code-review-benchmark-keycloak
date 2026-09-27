@@ -23,7 +23,7 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.authenticators.util.AuthenticatorUtils;
 import org.keycloak.common.Profile;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  *
@@ -33,7 +33,7 @@ public class WebAuthnConditionalUIAuthenticator extends WebAuthnPasswordlessAuth
 
     private final Function<AuthenticationFlowContext, Response> errorChallenge;
 
-    public WebAuthnConditionalUIAuthenticator(KeycloakSession session, Function<AuthenticationFlowContext, Response> errorChallenge) {
+    public WebAuthnConditionalUIAuthenticator(KeycloakRequestSession session, Function<AuthenticationFlowContext, Response> errorChallenge) {
         super(session);
         this.errorChallenge = errorChallenge;
     }

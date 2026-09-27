@@ -19,7 +19,7 @@ package org.keycloak.models.jpa;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -48,12 +48,12 @@ import java.util.stream.Stream;
  */
 public class ClientAdapter implements ClientModel, JpaModel<ClientEntity> {
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected EntityManager em;
     protected ClientEntity entity;
 
-    public ClientAdapter(RealmModel realm, EntityManager em, KeycloakSession session, ClientEntity entity) {
+    public ClientAdapter(RealmModel realm, EntityManager em, KeycloakRequestSession session, ClientEntity entity) {
         this.session = session;
         this.realm = realm;
         this.em = em;
@@ -494,7 +494,7 @@ public class ClientAdapter implements ClientModel, JpaModel<ClientEntity> {
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });

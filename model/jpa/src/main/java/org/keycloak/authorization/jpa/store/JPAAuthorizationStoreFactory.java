@@ -25,7 +25,7 @@ import org.keycloak.authorization.AuthorizationProvider;
 import org.keycloak.authorization.store.AuthorizationStoreFactory;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import static org.keycloak.models.jpa.JpaRealmProviderFactory.PROVIDER_PRIORITY;
@@ -36,7 +36,7 @@ import static org.keycloak.models.jpa.JpaRealmProviderFactory.PROVIDER_PRIORITY;
 public class JPAAuthorizationStoreFactory implements AuthorizationStoreFactory {
 
     @Override
-    public StoreFactory create(KeycloakSession session) {
+    public StoreFactory create(KeycloakRequestSession session) {
         AuthorizationProvider provider = session.getProvider(AuthorizationProvider.class);
         return new JPAStoreFactory(getEntityManager(session), provider);
     }
@@ -56,7 +56,7 @@ public class JPAAuthorizationStoreFactory implements AuthorizationStoreFactory {
         return "jpa";
     }
 
-    private EntityManager getEntityManager(KeycloakSession session) {
+    private EntityManager getEntityManager(KeycloakRequestSession session) {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
     }
 

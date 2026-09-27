@@ -18,7 +18,7 @@
 package org.keycloak.policy;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -34,7 +34,7 @@ public class NotEmailPasswordPolicyProviderFactory implements PasswordPolicyProv
     }
 
     @Override
-    public PasswordPolicyProvider create(KeycloakSession session) {
+    public PasswordPolicyProvider create(KeycloakRequestSession session) {
         return new NotEmailPasswordPolicyProvider(session.getContext());
     }
 

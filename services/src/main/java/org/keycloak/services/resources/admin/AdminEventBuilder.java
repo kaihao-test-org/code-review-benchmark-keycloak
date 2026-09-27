@@ -29,7 +29,7 @@ import org.keycloak.events.admin.AuthDetails;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.ServicesLogger;
@@ -52,15 +52,15 @@ public class AdminEventBuilder {
     private final RealmModel realm;
     private final AdminEvent adminEvent;
     private final Map<String, EventListenerProvider> listeners;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private EventStoreProvider store;
 
-    public AdminEventBuilder(RealmModel realm, AdminAuth auth, KeycloakSession session, ClientConnection clientConnection) {
+    public AdminEventBuilder(RealmModel realm, AdminAuth auth, KeycloakRequestSession session, ClientConnection clientConnection) {
         this(realm, auth, session, clientConnection.getRemoteHost(), null);
     }
 
-    private AdminEventBuilder(RealmModel realm, AdminAuth auth, KeycloakSession session, String ipAddress, AdminEvent adminEvent) {
+    private AdminEventBuilder(RealmModel realm, AdminAuth auth, KeycloakRequestSession session, String ipAddress, AdminEvent adminEvent) {
         this.realm = realm;
         this.listeners = new HashMap<>();
         updateStore(session);
@@ -87,7 +87,7 @@ public class AdminEventBuilder {
      * @param session new session where the {@link AdminEventBuilder} should be bound to.
      * @return a new instance of {@link AdminEventBuilder}
      */
-    public AdminEventBuilder clone(KeycloakSession session) {
+    public AdminEventBuilder clone(KeycloakRequestSession session) {
         RealmModel newEventRealm = session.realms().getRealm(realm.getId());
         RealmModel newAuthRealm = session.realms().getRealm(this.auth.getRealm().getId());
         UserModel newAuthUser = session.users().getUserById(newAuthRealm, this.auth.getUser().getId());
@@ -116,11 +116,11 @@ public class AdminEventBuilder {
      * @param session The session
      * @return The same builder
      */
-    public AdminEventBuilder refreshRealmEventsConfig(KeycloakSession session) {
+    public AdminEventBuilder refreshRealmEventsConfig(KeycloakRequestSession session) {
         return this.updateStore(session).addListeners(session);
     }
 
-    private AdminEventBuilder updateStore(KeycloakSession session) {
+    private AdminEventBuilder updateStore(KeycloakRequestSession session) {
         if (realm.isAdminEventsEnabled() && store == null) {
             this.store = session.getProvider(EventStoreProvider.class);
             if (store == null) {
@@ -130,7 +130,7 @@ public class AdminEventBuilder {
         return this;
     }
 
-    private AdminEventBuilder addListeners(KeycloakSession session) {
+    private AdminEventBuilder addListeners(KeycloakRequestSession session) {
         HashSet<String> realmListeners = new HashSet<>(realm.getEventsListenersStream().toList());
         session.getKeycloakSessionFactory().getProviderFactoriesStream(EventListenerProvider.class)
                 .filter(providerFactory -> realmListeners.contains(providerFactory.getId()) || ((EventListenerProviderFactory) providerFactory).isGlobal())

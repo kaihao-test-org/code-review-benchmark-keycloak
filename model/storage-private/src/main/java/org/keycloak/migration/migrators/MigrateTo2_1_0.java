@@ -22,7 +22,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.UserModel;
@@ -46,7 +46,7 @@ public class MigrateTo2_1_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> {
             migrateDefaultRequiredAction(realm);
             migrateRolePolicies(realm, session);
@@ -54,7 +54,7 @@ public class MigrateTo2_1_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateDefaultRequiredAction(realm);
         migrateRolePolicies(realm, session);
 
@@ -70,7 +70,7 @@ public class MigrateTo2_1_0 implements Migration {
     }
 
     // KEYCLOAK-3338: Changes to how role policy config is stored"
-    private void migrateRolePolicies(RealmModel realm, KeycloakSession session) {
+    private void migrateRolePolicies(RealmModel realm, KeycloakRequestSession session) {
         AuthorizationProvider authorizationProvider = session.getProvider(AuthorizationProvider.class);
         StoreFactory storeFactory = authorizationProvider.getStoreFactory();
         PolicyStore policyStore = storeFactory.getPolicyStore();

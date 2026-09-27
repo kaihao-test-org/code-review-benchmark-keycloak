@@ -33,7 +33,7 @@ import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.common.Profile;
 import org.keycloak.common.Profile.Feature;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.UserModel;
@@ -59,7 +59,7 @@ public class OrganizationMemberValidator extends AbstractSimpleValidator impleme
 
     @Override
     protected void doValidate(Object value, String inputHint, ValidationContext context, ValidatorConfig config) {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         UserProfileAttributeValidationContext upContext = (UserProfileAttributeValidationContext) context;
         AttributeContext attributeContext = upContext.getAttributeContext();
         UserModel user = attributeContext.getUser();
@@ -149,7 +149,7 @@ public class OrganizationMemberValidator extends AbstractSimpleValidator impleme
 
     private static Set<String> resolveExpectedDomainsWhenReviewingFederatedUserProfile(OrganizationModel organization, AttributeContext attributeContext) {
         // validating in the context of the brokering flow
-        KeycloakSession session = attributeContext.getSession();
+        KeycloakRequestSession session = attributeContext.getSession();
         BrokeredIdentityContext brokerContext = (BrokeredIdentityContext) session.getAttribute(BrokeredIdentityContext.class.getName());
 
         if (brokerContext == null) {

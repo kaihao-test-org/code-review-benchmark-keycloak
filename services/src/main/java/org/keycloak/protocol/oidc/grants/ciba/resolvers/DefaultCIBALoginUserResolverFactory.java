@@ -17,7 +17,7 @@
 package org.keycloak.protocol.oidc.grants.ciba.resolvers;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -28,7 +28,7 @@ public class DefaultCIBALoginUserResolverFactory implements CIBALoginUserResolve
     public static final String PROVIDER_ID = "default-ciba-login-user-resolver";
 
     @Override
-    public CIBALoginUserResolver create(KeycloakSession session) {
+    public CIBALoginUserResolver create(KeycloakRequestSession session) {
         return new DefaultCIBALoginUserResolver(session);
     }
 

@@ -26,7 +26,7 @@ import org.keycloak.authentication.authenticators.util.AcrStore;
 import org.keycloak.authentication.authenticators.util.LoAUtil;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -43,9 +43,9 @@ public class ConditionalLoaAuthenticator implements ConditionalAuthenticator, Au
 
     private static final Logger logger = Logger.getLogger(ConditionalLoaAuthenticator.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ConditionalLoaAuthenticator(KeycloakSession session) {
+    public ConditionalLoaAuthenticator(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -134,7 +134,7 @@ public class ConditionalLoaAuthenticator implements ConditionalAuthenticator, Au
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) { }
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) { }
 
     @Override
     public void close() { }

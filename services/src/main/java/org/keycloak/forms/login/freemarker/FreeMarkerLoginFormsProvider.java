@@ -66,7 +66,7 @@ import org.keycloak.forms.login.freemarker.model.X509ConfirmBean;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -129,7 +129,7 @@ public class FreeMarkerLoginFormsProvider implements LoginFormsProvider {
     protected MultivaluedMap<String, String> formData;
     protected boolean detachedAuthSession = false;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     /**
      * authenticationSession can be null for some renderings, mainly error pages
      */
@@ -147,7 +147,7 @@ public class FreeMarkerLoginFormsProvider implements LoginFormsProvider {
     protected final Map<String, Object> attributes = new HashMap<>();
     private Function<Map<String, Object>, Map<String, Object>> attributeMapper;
 
-    public FreeMarkerLoginFormsProvider(KeycloakSession session) {
+    public FreeMarkerLoginFormsProvider(KeycloakRequestSession session) {
         this.session = session;
         this.freeMarker = session.getProvider(FreeMarkerProvider.class);
         this.attributes.put("scripts", new LinkedList<>());

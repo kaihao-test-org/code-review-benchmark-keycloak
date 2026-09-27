@@ -19,7 +19,7 @@ package org.keycloak.models.sessions.infinispan.changes;
 
 import org.infinispan.Cache;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionProvider;
@@ -37,7 +37,7 @@ public class UserSessionPersistentChangelogBasedTransaction extends PersistentSe
 
     private static final Logger LOG = Logger.getLogger(UserSessionPersistentChangelogBasedTransaction.class);
 
-    public UserSessionPersistentChangelogBasedTransaction(KeycloakSession session,
+    public UserSessionPersistentChangelogBasedTransaction(KeycloakRequestSession session,
                                                           Cache<String, SessionEntityWrapper<UserSessionEntity>> cache,
                                                           Cache<String, SessionEntityWrapper<UserSessionEntity>> offlineCache,
                                                           SessionFunction<UserSessionEntity> lifespanMsLoader,

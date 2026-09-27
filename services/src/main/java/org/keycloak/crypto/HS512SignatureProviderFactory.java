@@ -16,7 +16,7 @@
  */
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class HS512SignatureProviderFactory implements SignatureProviderFactory {
 
@@ -28,7 +28,7 @@ public class HS512SignatureProviderFactory implements SignatureProviderFactory {
     }
 
     @Override
-    public SignatureProvider create(KeycloakSession session) {
+    public SignatureProvider create(KeycloakRequestSession session) {
         return new MacSecretSignatureProvider(session, Algorithm.HS512);
     }
 

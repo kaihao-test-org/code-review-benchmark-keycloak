@@ -20,7 +20,7 @@ package org.keycloak.authentication.requiredactions;
 import org.keycloak.Config;
 import org.keycloak.authentication.*;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -37,7 +37,7 @@ public class TermsAndConditions implements RequiredActionProvider, RequiredActio
     public static final String USER_ATTRIBUTE = "terms_and_conditions";
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return this;
     }
 

@@ -41,7 +41,7 @@ import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserModel;
@@ -75,7 +75,7 @@ public class OfflineSessionPersistenceTest extends KeycloakModelTest {
     private List<String> userIds;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = prepareRealm(s, "realm");
         s.getContext().setRealm(realm);
         this.realmId = realm.getId();
@@ -86,7 +86,7 @@ public class OfflineSessionPersistenceTest extends KeycloakModelTest {
           .collect(Collectors.toList());
     }
 
-    private static RealmModel prepareRealm(KeycloakSession s, String name) {
+    private static RealmModel prepareRealm(KeycloakRequestSession s, String name) {
         RealmModel realm = createRealm(s, name);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
         realm.setSsoSessionMaxLifespan(10 * 60 * 60);
@@ -97,7 +97,7 @@ public class OfflineSessionPersistenceTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         new RealmManager(s).removeRealm(realm);  // See https://issues.redhat.com/browse/KEYCLOAK-17876
@@ -400,13 +400,13 @@ public class OfflineSessionPersistenceTest extends KeycloakModelTest {
     /**
      * Creates {@link #OFFLINE_SESSION_COUNT_PER_USER} offline sessions for {@code userId} user.
      */
-    private Stream<UserSessionModel> createOfflineSessions(KeycloakSession session, RealmModel realm, String userId, Consumer<? super UserSessionModel> alterUserSession) {
+    private Stream<UserSessionModel> createOfflineSessions(KeycloakRequestSession session, RealmModel realm, String userId, Consumer<? super UserSessionModel> alterUserSession) {
         return IntStream.range(0, OFFLINE_SESSION_COUNT_PER_USER)
           .mapToObj(sess -> createOfflineSession(session, realm, userId, sess))
           .peek(alterUserSession == null ? us -> {} : us -> alterUserSession.accept(us));
     }
 
-    private UserSessionModel createOfflineSession(KeycloakSession session, RealmModel realm, String userId, int sessionIndex) {
+    private UserSessionModel createOfflineSession(KeycloakRequestSession session, RealmModel realm, String userId, int sessionIndex) {
         final UserModel user = session.users().getUserById(realm, userId);
         UserSessionModel us = session.sessions().createUserSession(null, realm, user, "un" + sessionIndex, "ip1", "auth", false, null, null, UserSessionModel.SessionPersistenceState.PERSISTENT);
         return session.sessions().createOfflineUserSession(us);

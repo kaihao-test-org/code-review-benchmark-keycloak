@@ -19,14 +19,14 @@ package org.keycloak.authentication.authenticators.conditional;
 
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public interface ConditionalAuthenticatorFactory extends AuthenticatorFactory {
 
     String REFERENCE_CATEGORY = "condition";
 
     @Override
-    default Authenticator create(KeycloakSession session) {
+    default Authenticator create(KeycloakRequestSession session) {
         return getSingleton();
     }
 

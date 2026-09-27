@@ -18,7 +18,7 @@
 package org.keycloak.services.clientregistration;
 
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.ErrorResponseException;
 
 import jakarta.ws.rs.NotFoundException;
@@ -33,9 +33,9 @@ public class ClientRegistrationService {
 
     private final EventBuilder event;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ClientRegistrationService(KeycloakSession session, EventBuilder event) {
+    public ClientRegistrationService(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.event = event;
     }

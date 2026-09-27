@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
@@ -39,7 +39,7 @@ public class DefaultKeycloakSessionFactoryTest {
         DefaultKeycloakSessionFactory factory = new DefaultKeycloakSessionFactory() {
 
             @Override
-            public KeycloakSession create() {
+            public KeycloakRequestSession create() {
                 return null;
             }
         };
@@ -156,7 +156,7 @@ public class DefaultKeycloakSessionFactoryTest {
         }
 
         @Override
-        public T create(KeycloakSession session) {
+        public T create(KeycloakRequestSession session) {
             return null;
         }
 

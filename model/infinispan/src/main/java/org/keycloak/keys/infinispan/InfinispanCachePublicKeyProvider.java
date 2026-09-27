@@ -19,17 +19,17 @@ package org.keycloak.keys.infinispan;
 
 import org.infinispan.Cache;
 import org.keycloak.cluster.ClusterProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.CachePublicKeyProvider;
 import org.keycloak.models.cache.infinispan.ClearCacheEvent;
 
 public class InfinispanCachePublicKeyProvider implements CachePublicKeyProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final Cache<String, PublicKeysEntry> keys;
 
-    public InfinispanCachePublicKeyProvider(KeycloakSession session, Cache<String, PublicKeysEntry> keys) {
+    public InfinispanCachePublicKeyProvider(KeycloakRequestSession session, Cache<String, PublicKeysEntry> keys) {
         this.session = session;
         this.keys = keys;
     }

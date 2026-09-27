@@ -19,7 +19,7 @@ package org.keycloak.theme;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ThemeManager;
 
@@ -41,7 +41,7 @@ public class DefaultThemeManagerFactory implements ThemeManagerFactory {
     }
 
     @Override
-    public ThemeManager create(KeycloakSession session) {
+    public ThemeManager create(KeycloakRequestSession session) {
         return new DefaultThemeManager(this, session);
     }
 

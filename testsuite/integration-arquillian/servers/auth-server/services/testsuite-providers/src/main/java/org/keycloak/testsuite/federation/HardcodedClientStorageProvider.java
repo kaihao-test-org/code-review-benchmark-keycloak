@@ -18,7 +18,7 @@ package org.keycloak.testsuite.federation;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -46,13 +46,13 @@ import org.jboss.logging.Logger;
  * @version $Revision: 1 $
  */
 public class HardcodedClientStorageProvider implements ClientStorageProvider, ClientLookupProvider {
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected ClientStorageProviderModel component;
     protected String clientId;
     protected String redirectUri;
     protected boolean consent;
 
-    public HardcodedClientStorageProvider(KeycloakSession session, ClientStorageProviderModel component) {
+    public HardcodedClientStorageProvider(KeycloakRequestSession session, ClientStorageProviderModel component) {
         this.session = session;
         this.component = component;
         this.clientId = component.getConfig().getFirst(HardcodedClientStorageProviderFactory.CLIENT_ID);

@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.hibernate.Session;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import jakarta.persistence.EntityManager;
 
@@ -51,7 +51,7 @@ public class EntityManagers {
         return Boolean.TRUE.equals(batchMode.get());
     }
 
-    static void forEachEntityManager(KeycloakSession session, Consumer<EntityManager> op) {
+    static void forEachEntityManager(KeycloakRequestSession session, Consumer<EntityManager> op) {
         try {
             getEntityManagerProxies(session).map(EntityManagerProxy::getEntityManager)
                     .filter(EntityManager::isOpen).forEach(op);
@@ -61,7 +61,7 @@ public class EntityManagers {
         }
     }
 
-    static Stream<EntityManagerProxy> getEntityManagerProxies(KeycloakSession session) {
+    static Stream<EntityManagerProxy> getEntityManagerProxies(KeycloakRequestSession session) {
         return Optional.ofNullable((Set<EntityManagerProxy>) session.getAttribute(ENTITY_MANAGER_PROXIES, Set.class))
                 .map(Set::stream).orElse(Stream.of());
     }
@@ -69,7 +69,7 @@ public class EntityManagers {
     /**
      * Flush and optionally clear all the currently in use {@link EntityManager}s
      */
-    public static void flush(KeycloakSession session, boolean clear) {
+    public static void flush(KeycloakRequestSession session, boolean clear) {
         forEachEntityManager(session, em -> {
             em.flush(); // TODO: avoid if read-only
             if (clear) {
@@ -94,7 +94,7 @@ public class EntityManagers {
      * @param nestedEntityManagers - if true run with isolated EntityManagers WARNING: Any entities passed into the task that
      *   that will get persisted must not already be associated with an open EntityManager.
      */
-    public static void runInBatch(KeycloakSession session, Runnable runnable, boolean nestedEntityManagers) {
+    public static void runInBatch(KeycloakRequestSession session, Runnable runnable, boolean nestedEntityManagers) {
         Map<EntityManagerProxy, Session> previous = new HashMap<EntityManagerProxy, Session>();
 
         flush(session, false); // make sure the state entering the batch processing is committed

@@ -23,7 +23,7 @@ import java.util.Optional;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -38,7 +38,7 @@ public class ClientAccessTypeCondition extends AbstractClientPolicyConditionProv
 
     private static final Logger logger = Logger.getLogger(ClientAccessTypeCondition.class);
 
-    public ClientAccessTypeCondition(KeycloakSession session) {
+    public ClientAccessTypeCondition(KeycloakRequestSession session) {
         super(session);
     }
 

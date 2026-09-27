@@ -26,7 +26,7 @@ import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.authorization.model.Scope;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -61,7 +61,7 @@ public class PolicyEvaluationCompositeRoleTest extends AbstractAuthzTest {
         testRealms.add(testRealmRep);
     }
 
-    public static void setup(KeycloakSession session) {
+    public static void setup(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
 
         session.getContext().setRealm(realm);

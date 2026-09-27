@@ -20,7 +20,7 @@ package org.keycloak.authentication.authenticators.x509;
 
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:pnalyvayko@agi.com">Peter Nalyvayko</a>
@@ -52,7 +52,7 @@ public class ValidateX509CertificateUsernameFactory extends AbstractX509ClientCe
     }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return SINGLETON;
     }
 

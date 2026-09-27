@@ -31,7 +31,7 @@ import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientInitialAccessModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.AuthorizeClientUtil;
 import org.keycloak.representations.AccessToken;
@@ -58,7 +58,7 @@ import java.util.Set;
  */
 public class ClientRegistrationAuth {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ClientRegistrationProvider provider;
     private final EventBuilder event;
 
@@ -69,7 +69,7 @@ public class ClientRegistrationAuth {
     private String token;
     private String endpoint;
 
-    public ClientRegistrationAuth(KeycloakSession session, ClientRegistrationProvider provider, EventBuilder event, String endpoint) {
+    public ClientRegistrationAuth(KeycloakRequestSession session, ClientRegistrationProvider provider, EventBuilder event, String endpoint) {
         this.session = session;
         this.provider = provider;
         this.event = event;

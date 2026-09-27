@@ -21,7 +21,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.provider.Provider;
@@ -72,7 +72,7 @@ public interface LoginProtocol extends Provider {
         PASSIVE_INTERACTION_REQUIRED;
     }
 
-    LoginProtocol setSession(KeycloakSession session);
+    LoginProtocol setSession(KeycloakRequestSession session);
 
     LoginProtocol setRealm(RealmModel realm);
 

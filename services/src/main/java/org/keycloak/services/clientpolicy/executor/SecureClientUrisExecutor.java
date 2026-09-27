@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -46,9 +46,9 @@ public class SecureClientUrisExecutor implements ClientPolicyExecutorProvider<Cl
 
     private static final Logger logger = Logger.getLogger(SecureClientUrisExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public SecureClientUrisExecutor(KeycloakSession session) {
+    public SecureClientUrisExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -18,7 +18,7 @@
 package org.keycloak.services.cors;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ public class DefaultCorsFactory implements CorsFactory {
     private static final String PROVIDER_ID = "default";
 
     @Override
-    public Cors create(KeycloakSession session) {
+    public Cors create(KeycloakRequestSession session) {
         return new DefaultCors(session);
     }
 

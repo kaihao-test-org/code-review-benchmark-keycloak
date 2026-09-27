@@ -17,7 +17,7 @@
 
 package org.keycloak.validation;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,11 +28,11 @@ import java.util.Set;
 public abstract class DefaultValidationContext<T> implements ValidationContext<T> {
 
     private final Event event;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final T objectToValidate;
     private final Set<ValidationError> errors;
 
-    public DefaultValidationContext(Event event, KeycloakSession session, T objectToValidate) {
+    public DefaultValidationContext(Event event, KeycloakRequestSession session, T objectToValidate) {
         this.event = event;
         this.session = session;
         this.objectToValidate = objectToValidate;
@@ -45,7 +45,7 @@ public abstract class DefaultValidationContext<T> implements ValidationContext<T
     }
 
     @Override
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

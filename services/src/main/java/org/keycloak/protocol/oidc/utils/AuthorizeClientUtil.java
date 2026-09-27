@@ -25,7 +25,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.services.CorsErrorResponseException;
@@ -43,7 +43,7 @@ public class AuthorizeClientUtil {
 
     private static final Logger logger = Logger.getLogger(AuthorizeClientUtil.class);
 
-    public static ClientAuthResult authorizeClient(KeycloakSession session, EventBuilder event, Cors cors) {
+    public static ClientAuthResult authorizeClient(KeycloakRequestSession session, EventBuilder event, Cors cors) {
         AuthenticationProcessor processor = getAuthenticationProcessor(session, event);
 
         Response response = processor.authenticateClient();
@@ -85,7 +85,7 @@ public class AuthorizeClientUtil {
         return new ClientAuthResult(client, processor.getClientAuthAttributes());
     }
 
-    public static AuthenticationProcessor getAuthenticationProcessor(KeycloakSession session, EventBuilder event) {
+    public static AuthenticationProcessor getAuthenticationProcessor(KeycloakRequestSession session, EventBuilder event) {
         RealmModel realm = session.getContext().getRealm();
 
         AuthenticationFlowModel clientAuthFlow = realm.getClientAuthenticationFlow();
@@ -103,7 +103,7 @@ public class AuthorizeClientUtil {
         return processor;
     }
 
-    public static ClientAuthenticatorFactory findClientAuthenticatorForOIDCAuthMethod(KeycloakSession session, String oidcAuthMethod) {
+    public static ClientAuthenticatorFactory findClientAuthenticatorForOIDCAuthMethod(KeycloakRequestSession session, String oidcAuthMethod) {
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(ClientAuthenticator.class)
                 .map(ClientAuthenticatorFactory.class::cast)
                 .filter(caf -> caf.getProtocolAuthenticatorMethods(OIDCLoginProtocol.LOGIN_PROTOCOL).contains(oidcAuthMethod))

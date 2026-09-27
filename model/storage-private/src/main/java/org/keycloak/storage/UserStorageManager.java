@@ -52,7 +52,7 @@ import org.keycloak.models.CredentialValidationOutput;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -95,7 +95,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
     private static final Logger logger = Logger.getLogger(UserStorageManager.class);
 
 
-    public UserStorageManager(KeycloakSession session) {
+    public UserStorageManager(KeycloakRequestSession session) {
         super(session, UserStorageProviderFactory.class, UserStorageProvider.class,
                 UserStorageProviderModel::new, "user");
     }
@@ -210,7 +210,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
         return null;
     }
 
-    private static <T> Stream<T> getCredentialProviders(KeycloakSession session, Class<T> type) {
+    private static <T> Stream<T> getCredentialProviders(KeycloakRequestSession session, Class<T> type) {
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(CredentialProvider.class)
                 .filter(f -> Types.supports(type, f, CredentialProviderFactory.class))
                 .map(f -> (T) session.getProvider(CredentialProvider.class, f.getId()));
@@ -695,7 +695,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
 
         session.getKeycloakSessionFactory().publish(new FederatedIdentityModel.FederatedIdentityCreatedEvent() {
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
 
@@ -744,7 +744,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
 
         session.getKeycloakSessionFactory().publish(new FederatedIdentityModel.FederatedIdentityRemovedEvent() {
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
 
@@ -927,7 +927,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
     }
 
     @Override
-    public void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         ComponentFactory factory = ComponentUtil.getComponentFactory(session, model);
         if (!(factory instanceof UserStorageProviderFactory)) return;
 
@@ -946,7 +946,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
     }
 
     @Override
-    public void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    public void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         ComponentFactory factory = ComponentUtil.getComponentFactory(session, newModel);
         if (!(factory instanceof UserStorageProviderFactory)) return;
         UserStorageProviderModel old = new UserStorageProviderModel(oldModel);
@@ -1022,7 +1022,7 @@ public class UserStorageManager extends AbstractStorageManager<UserStorageProvid
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });

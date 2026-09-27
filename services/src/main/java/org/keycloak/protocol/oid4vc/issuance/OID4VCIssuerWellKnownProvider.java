@@ -23,7 +23,7 @@ import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeyManager;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
 import org.keycloak.protocol.oid4vc.OID4VCLoginProtocolFactory;
@@ -54,9 +54,9 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
 
     private static final Logger LOGGER = Logger.getLogger(OID4VCIssuerWellKnownProvider.class);
 
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
 
-    public OID4VCIssuerWellKnownProvider(KeycloakSession keycloakSession) {
+    public OID4VCIssuerWellKnownProvider(KeycloakRequestSession keycloakSession) {
         this.keycloakSession = keycloakSession;
     }
 
@@ -85,7 +85,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
         return getIssuer(context) + "/protocol/" + OID4VCLoginProtocolFactory.PROTOCOL_ID + "/deferred_credential";
     }
 
-    private CredentialIssuer.CredentialResponseEncryption getCredentialResponseEncryption(KeycloakSession session) {
+    private CredentialIssuer.CredentialResponseEncryption getCredentialResponseEncryption(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         String algs = realm.getAttribute("credential_response_encryption.alg_values_supported");
         String encs = realm.getAttribute("credential_response_encryption.enc_values_supported");
@@ -106,7 +106,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
         return null;
     }
 
-    private CredentialIssuer.BatchCredentialIssuance getBatchCredentialIssuance(KeycloakSession session) {
+    private CredentialIssuer.BatchCredentialIssuance getBatchCredentialIssuance(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         String batchSize = realm.getAttribute("batch_credential_issuance.batch_size");
         if (batchSize != null) {
@@ -120,7 +120,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
         return null;
     }
 
-    private String getSignedMetadata(KeycloakSession session) {
+    private String getSignedMetadata(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         return realm.getAttribute("signed_metadata");
     }
@@ -130,7 +130,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
      * It will take into account the configured {@link CredentialBuilder}'s and there supported format
      * and the credentials supported by the clients available in the session.
      */
-    public static Map<String, SupportedCredentialConfiguration> getSupportedCredentials(KeycloakSession keycloakSession) {
+    public static Map<String, SupportedCredentialConfiguration> getSupportedCredentials(KeycloakRequestSession keycloakSession) {
         List<String> globalSupportedSigningAlgorithms = getSupportedSignatureAlgorithms(keycloakSession);
 
         RealmModel realm = keycloakSession.getContext().getRealm();
@@ -150,7 +150,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
         return supportedCredentialConfigurations;
     }
 
-    public static SupportedCredentialConfiguration toSupportedCredentialConfiguration(KeycloakSession keycloakSession,
+    public static SupportedCredentialConfiguration toSupportedCredentialConfiguration(KeycloakRequestSession keycloakSession,
                                                                                       CredentialScopeModel credentialModel) {
         List<String> globalSupportedSigningAlgorithms = getSupportedSignatureAlgorithms(keycloakSession);
         return SupportedCredentialConfiguration.parse(keycloakSession,
@@ -183,7 +183,7 @@ public class OID4VCIssuerWellKnownProvider implements WellKnownProvider {
         return getIssuer(context) + "/protocol/" + OID4VCLoginProtocolFactory.PROTOCOL_ID + "/" + OID4VCIssuerEndpoint.CREDENTIAL_PATH;
     }
 
-    public static List<String> getSupportedSignatureAlgorithms(KeycloakSession session) {
+    public static List<String> getSupportedSignatureAlgorithms(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         KeyManager keyManager = session.keys();
 

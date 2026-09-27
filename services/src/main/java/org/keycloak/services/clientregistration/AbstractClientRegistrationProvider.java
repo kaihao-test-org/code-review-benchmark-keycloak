@@ -33,7 +33,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.ClientInitialAccessModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientRegistrationAccessTokenConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -60,11 +60,11 @@ import jakarta.ws.rs.core.Response;
  */
 public abstract class AbstractClientRegistrationProvider implements ClientRegistrationProvider {
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected EventBuilder event;
     protected ClientRegistrationAuth auth;
 
-    public AbstractClientRegistrationProvider(KeycloakSession session) {
+    public AbstractClientRegistrationProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

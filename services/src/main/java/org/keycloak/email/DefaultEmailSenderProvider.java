@@ -20,7 +20,7 @@ package org.keycloak.email;
 import jakarta.mail.internet.MimeUtility;
 import org.jboss.logging.Logger;
 import org.keycloak.common.enums.HostnameVerificationPolicy;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.truststore.JSSETruststoreConfigurator;
@@ -56,9 +56,9 @@ public class DefaultEmailSenderProvider implements EmailSenderProvider {
 
     private final Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> authenticators;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultEmailSenderProvider(KeycloakSession session, Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> authenticators) {
+    public DefaultEmailSenderProvider(KeycloakRequestSession session, Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> authenticators) {
         this.authenticators = authenticators;
         this.session = session;
     }

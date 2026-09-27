@@ -4,7 +4,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderMapperSyncMode;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
@@ -12,7 +12,7 @@ public final class IdentityProviderMapperSyncModeDelegate {
 
     protected static final Logger logger = Logger.getLogger(IdentityProviderMapperSyncModeDelegate.class);
 
-    public static void delegateUpdateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context, IdentityProviderMapper mapper) {
+    public static void delegateUpdateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context, IdentityProviderMapper mapper) {
         IdentityProviderSyncMode effectiveSyncMode = combineIdpAndMapperSyncMode(context.getIdpConfig().getSyncMode(), mapperModel.getSyncMode());
 
         if (!mapper.supportsSyncMode(effectiveSyncMode)) {

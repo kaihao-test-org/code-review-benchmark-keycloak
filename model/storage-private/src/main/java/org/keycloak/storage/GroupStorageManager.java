@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
 import org.keycloak.models.GroupProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.storage.group.GroupLookupProvider;
@@ -32,7 +32,7 @@ import org.keycloak.storage.group.GroupStorageProviderModel;
 
 public class GroupStorageManager extends AbstractStorageManager<GroupStorageProvider, GroupStorageProviderModel> implements GroupProvider {
 
-    public GroupStorageManager(KeycloakSession session) {
+    public GroupStorageManager(KeycloakRequestSession session) {
         super(session, GroupStorageProviderFactory.class, GroupStorageProvider.class,
                 GroupStorageProviderModel::new, "group");
     }

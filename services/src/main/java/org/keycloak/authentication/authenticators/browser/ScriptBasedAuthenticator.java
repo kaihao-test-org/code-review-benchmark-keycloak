@@ -21,7 +21,7 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.ScriptModel;
 import org.keycloak.models.UserModel;
@@ -47,7 +47,7 @@ import java.util.Map;
  * <li>{@code script} the {@link ScriptModel} to access script metadata</li>
  * <li>{@code realm} the {@link RealmModel}</li>
  * <li>{@code user} the current {@link UserModel}</li>
- * <li>{@code session} the active {@link KeycloakSession}</li>
+ * <li>{@code session} the active {@link KeycloakRequestSession}</li>
  * <li>{@code authenticationSession} the current {@link org.keycloak.sessions.AuthenticationSessionModel}</li>
  * <li>{@code httpRequest} the current {@link org.keycloak.http.HttpRequest}</li>
  * <li>{@code LOG} a {@link org.jboss.logging.Logger} scoped to {@link ScriptBasedAuthenticator}</li>
@@ -178,12 +178,12 @@ public class ScriptBasedAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return true;
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         //TODO make RequiredActions configurable in the script
         //NOOP
     }

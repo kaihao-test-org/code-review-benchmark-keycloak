@@ -20,7 +20,7 @@ package org.keycloak.services.scheduled;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.events.EventStoreProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.timer.ScheduledTask;
 
 /**
@@ -31,7 +31,7 @@ public class ClearExpiredEvents implements ScheduledTask {
     protected static final Logger logger = Logger.getLogger(ClearExpiredEvents.class);
 
     @Override
-    public void run(KeycloakSession session) {
+    public void run(KeycloakRequestSession session) {
         long currentTimeMillis = Time.currentTimeMillis();
 
         EventStoreProvider eventStore = session.getProvider(EventStoreProvider.class);

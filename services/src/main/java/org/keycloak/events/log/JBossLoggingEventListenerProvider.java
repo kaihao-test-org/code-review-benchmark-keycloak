@@ -24,7 +24,7 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerTransaction;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.sessions.AuthenticationSessionModel;
 import org.keycloak.utils.StringUtil;
 
@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class JBossLoggingEventListenerProvider implements EventListenerProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Logger logger;
     private final Logger.Level successLevel;
     private final Logger.Level errorLevel;
@@ -47,7 +47,7 @@ public class JBossLoggingEventListenerProvider implements EventListenerProvider 
     private final boolean includeRepresentation;
     private final EventListenerTransaction tx = new EventListenerTransaction(this::logAdminEvent, this::logEvent);
 
-    public JBossLoggingEventListenerProvider(KeycloakSession session, Logger logger,
+    public JBossLoggingEventListenerProvider(KeycloakRequestSession session, Logger logger,
             Logger.Level successLevel, Logger.Level errorLevel, Character quotes,
             boolean sanitize, boolean includeRepresentation) {
         this.session = session;

@@ -22,7 +22,7 @@ package org.keycloak.userprofile;
 import java.util.List;
 import java.util.Map;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 
 /**
@@ -30,14 +30,14 @@ import org.keycloak.models.UserModel;
  */
 public final class AttributeContext {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Map.Entry<String, List<String>> attribute;
     private final UserModel user;
     private final AttributeMetadata metadata;
     private final Attributes attributes;
     private UserProfileContext context;
 
-    public AttributeContext(UserProfileContext context, KeycloakSession session, Map.Entry<String, List<String>> attribute,
+    public AttributeContext(UserProfileContext context, KeycloakRequestSession session, Map.Entry<String, List<String>> attribute,
             UserModel user, AttributeMetadata metadata, Attributes attributes) {
         this.context = context;
         this.session = session;
@@ -47,7 +47,7 @@ public final class AttributeContext {
         this.attributes = attributes;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

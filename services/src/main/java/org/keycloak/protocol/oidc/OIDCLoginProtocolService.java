@@ -25,7 +25,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.endpoints.AuthorizationEndpoint;
 import org.keycloak.protocol.oidc.endpoints.LoginStatusIframeEndpoint;
@@ -68,7 +68,7 @@ public class OIDCLoginProtocolService {
     private final TokenManager tokenManager;
     private final EventBuilder event;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final HttpHeaders headers;
 
@@ -76,7 +76,7 @@ public class OIDCLoginProtocolService {
 
     private final ClientConnection clientConnection;
 
-    public OIDCLoginProtocolService(KeycloakSession session, EventBuilder event) {
+    public OIDCLoginProtocolService(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

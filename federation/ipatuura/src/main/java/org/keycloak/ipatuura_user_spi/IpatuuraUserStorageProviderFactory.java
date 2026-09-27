@@ -22,7 +22,7 @@ import org.keycloak.Config;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.common.Profile;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
@@ -71,7 +71,7 @@ public class IpatuuraUserStorageProviderFactory implements UserStorageProviderFa
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config)
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config)
             throws ComponentValidationException {
         Ipatuura ipatuura = new Ipatuura(session, config);
 
@@ -91,7 +91,7 @@ public class IpatuuraUserStorageProviderFactory implements UserStorageProviderFa
     }
 
     @Override
-    public IpatuuraUserStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public IpatuuraUserStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         Ipatuura ipatuura = new Ipatuura(session, model);
         return new IpatuuraUserStorageProvider(session, model, ipatuura, this);
     }

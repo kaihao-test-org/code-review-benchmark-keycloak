@@ -29,7 +29,7 @@ import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.ErrorResponseException;
 
 import jakarta.ws.rs.core.Response;
@@ -48,7 +48,7 @@ public class BitbucketIdentityProvider extends AbstractOAuth2IdentityProvider im
 	public static final String ACCOUNT_SCOPE = "account";
 	public static final String DEFAULT_SCOPE = ACCOUNT_SCOPE;
 
-	public BitbucketIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
+	public BitbucketIdentityProvider(KeycloakRequestSession session, OAuth2IdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(AUTH_URL);
 		config.setTokenUrl(TOKEN_URL);

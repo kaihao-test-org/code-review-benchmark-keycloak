@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserManager;
@@ -54,14 +54,14 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest(realmName = "test")
-    public void persistClient(KeycloakSession session) {
+    public void persistClient(KeycloakRequestSession session) {
 
         final ClientModel[] client = {null};
         AtomicReference<String> clientDBIdAtomic = new AtomicReference<>();
         AtomicReference<Exception> exceptionHolder = new AtomicReference<>();
 
         try {
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakSession sessionSetup) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(), (KeycloakRequestSession sessionSetup) -> {
 
                 RealmModel realm = sessionSetup.realms().getRealmByName("test");
                 sessionSetup.users().addUser(realm, "user1").setEmail("user1@localhost");
@@ -75,7 +75,7 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
                 client[0].setSecret("old");
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session1) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session1) -> {
                 String clientDBId = client[0].getId();
                 clientDBIdAtomic.set(clientDBId);
 
@@ -88,7 +88,7 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
                 Thread thread1 = new Thread(() -> {
                     KeycloakModelUtils.runJobInTransaction(sessionFactory, session11 -> {
                         try {
-                            KeycloakSession currentSession = session11;
+                            KeycloakRequestSession currentSession = session11;
                             // Wait until transaction in both threads started
                             transactionsCounter.countDown();
                             logger.info("transaction1 started");
@@ -126,7 +126,7 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
                 Thread thread2 = new Thread(() -> {
                     KeycloakModelUtils.runJobInTransaction(sessionFactory, session22 -> {
                         try {
-                            KeycloakSession currentSession = session22;
+                            KeycloakRequestSession currentSession = session22;
                             // Wait until transaction in both threads started
                             transactionsCounter.countDown();
                             logger.info("transaction2 started");
@@ -170,7 +170,7 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
                 logger.info("after thread join");
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session2) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session2) -> {
                 RealmModel realm = session2.realms().getRealmByName("original");
                 String clientDBId = clientDBIdAtomic.get();
 
@@ -195,10 +195,10 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
     // KEYCLOAK-3296 , KEYCLOAK-3494
     @Test
     @ModelTest
-    public void removeUserAttribute(KeycloakSession session) throws Exception {
+    public void removeUserAttribute(KeycloakRequestSession session) throws Exception {
 
         try {
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionSet) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionSet) -> {
 
                 RealmModel realm = sessionSet.realms().createRealm("original");
                 sessionSet.getContext().setRealm(realm);
@@ -211,7 +211,7 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
                 john2.setAttribute("foo", Arrays.asList("val1", "val2"));
             });
 
-            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session2) -> {
+            KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session2) -> {
 
                 final KeycloakSessionFactory sessionFactory = session2.getKeycloakSessionFactory();
 
@@ -276,8 +276,8 @@ public class ConcurrentTransactionsTest extends AbstractTestRealmKeycloakTest {
         }
     }
 
-    private void tearDownRealm(KeycloakSession session, String user1, String user2) {
-        KeycloakSession currentSession = session;
+    private void tearDownRealm(KeycloakRequestSession session, String user1, String user2) {
+        KeycloakRequestSession currentSession = session;
 
         RealmModel realm = currentSession.realms().getRealmByName("original");
 

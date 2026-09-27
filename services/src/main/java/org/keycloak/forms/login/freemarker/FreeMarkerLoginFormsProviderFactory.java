@@ -20,7 +20,7 @@ package org.keycloak.forms.login.freemarker;
 import org.keycloak.Config;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.forms.login.LoginFormsProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class FreeMarkerLoginFormsProviderFactory implements LoginFormsProviderFactory {
 
     @Override
-    public LoginFormsProvider create(KeycloakSession session) {
+    public LoginFormsProvider create(KeycloakRequestSession session) {
         return new FreeMarkerLoginFormsProvider(session);
     }
 

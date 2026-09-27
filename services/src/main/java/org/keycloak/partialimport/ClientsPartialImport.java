@@ -20,7 +20,7 @@ package org.keycloak.partialimport;
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -73,12 +73,12 @@ public class ClientsPartialImport extends AbstractPartialImport<ClientRepresenta
     }
 
     @Override
-    public String getModelId(RealmModel realm, KeycloakSession session, ClientRepresentation clientRep) {
+    public String getModelId(RealmModel realm, KeycloakRequestSession session, ClientRepresentation clientRep) {
         return realm.getClientByClientId(getName(clientRep)).getId();
     }
 
     @Override
-    public boolean exists(RealmModel realm, KeycloakSession session, ClientRepresentation clientRep) {
+    public boolean exists(RealmModel realm, KeycloakRequestSession session, ClientRepresentation clientRep) {
         return realm.getClientByClientId(getName(clientRep)) != null;
     }
 
@@ -93,7 +93,7 @@ public class ClientsPartialImport extends AbstractPartialImport<ClientRepresenta
     }
 
     @Override
-    public void remove(RealmModel realm, KeycloakSession session, ClientRepresentation clientRep) {
+    public void remove(RealmModel realm, KeycloakRequestSession session, ClientRepresentation clientRep) {
         ClientModel clientModel = realm.getClientByClientId(getName(clientRep));
         // remove the associated service account if the account exists
         if (clientModel.isServiceAccountsEnabled()) {
@@ -108,7 +108,7 @@ public class ClientsPartialImport extends AbstractPartialImport<ClientRepresenta
     }
 
     @Override
-    public void create(RealmModel realm, KeycloakSession session, ClientRepresentation clientRep) {
+    public void create(RealmModel realm, KeycloakRequestSession session, ClientRepresentation clientRep) {
         clientRep.setId(KeycloakModelUtils.generateId());
 
         List<ProtocolMapperRepresentation> mappers = clientRep.getProtocolMappers();

@@ -38,7 +38,7 @@ import org.keycloak.connections.jpa.updater.liquibase.conn.CustomChangeLogHistor
 import org.keycloak.connections.jpa.updater.liquibase.conn.KeycloakLiquibase;
 import org.keycloak.connections.jpa.updater.liquibase.conn.LiquibaseConnectionProvider;
 import org.keycloak.connections.jpa.util.JpaUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import liquibase.Contexts;
 import liquibase.LabelExpression;
@@ -71,10 +71,10 @@ public class QuarkusJpaUpdaterProvider implements JpaUpdaterProvider {
     private static final String DEPLOYMENT_ID_COLUMN = "DEPLOYMENT_ID";
     public static final String VERIFY_AND_RUN_MASTER_CHANGELOG = "VERIFY_AND_RUN_MASTER_CHANGELOG";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Map<String, List<ChangeSet>> changeSets = new HashMap<>();
 
-    public QuarkusJpaUpdaterProvider(KeycloakSession session) {
+    public QuarkusJpaUpdaterProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

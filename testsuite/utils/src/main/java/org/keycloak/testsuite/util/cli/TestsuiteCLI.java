@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.util.cli;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.testsuite.KeycloakServer;
 
@@ -148,7 +148,7 @@ public class TestsuiteCLI {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             // no need to implement
         }
 
@@ -180,7 +180,7 @@ public class TestsuiteCLI {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             // no need to implement
         }
     }

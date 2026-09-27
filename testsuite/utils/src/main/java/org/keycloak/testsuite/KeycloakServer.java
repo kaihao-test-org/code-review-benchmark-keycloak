@@ -34,7 +34,7 @@ import org.keycloak.authorization.policy.provider.js.DeployedScriptPolicyFactory
 import org.keycloak.common.Version;
 import org.keycloak.common.util.StreamUtil;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.platform.Platform;
@@ -373,7 +373,7 @@ public class KeycloakServer {
 
     public void importRealm(RealmRepresentation rep) {
 
-        try (KeycloakSession session = sessionFactory.create()) {
+        try (KeycloakRequestSession session = sessionFactory.create()) {
             session.getTransactionManager().begin();
             RealmManager manager = new RealmManager(session);
 
@@ -394,7 +394,7 @@ public class KeycloakServer {
 
     protected void setupDevConfig() {
         if (System.getProperty("keycloak.createAdminUser", "true").equals("true")) {
-            try (KeycloakSession session = sessionFactory.create()) {
+            try (KeycloakRequestSession session = sessionFactory.create()) {
                 session.getTransactionManager().begin();
                 if (new ApplianceBootstrap(session).isNoMasterUser()) {
                     new ApplianceBootstrap(session).createMasterRealmUser("admin", "admin");

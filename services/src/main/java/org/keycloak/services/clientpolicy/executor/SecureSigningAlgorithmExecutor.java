@@ -29,7 +29,7 @@ import org.jboss.logging.Logger;
 
 import org.keycloak.OAuthErrorException;
 import org.keycloak.crypto.Algorithm;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
@@ -49,7 +49,7 @@ public class SecureSigningAlgorithmExecutor implements ClientPolicyExecutorProvi
 
     private static final Logger logger = Logger.getLogger(SecureSigningAlgorithmExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
     private static final List<String> sigTargets = Arrays.asList(
@@ -63,7 +63,7 @@ public class SecureSigningAlgorithmExecutor implements ClientPolicyExecutorProvi
 
     private static final String DEFAULT_ALGORITHM_VALUE = Algorithm.PS256;
 
-    public SecureSigningAlgorithmExecutor(KeycloakSession session) {
+    public SecureSigningAlgorithmExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

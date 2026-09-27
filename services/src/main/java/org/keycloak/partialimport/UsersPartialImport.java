@@ -17,7 +17,7 @@
 
 package org.keycloak.partialimport;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -54,7 +54,7 @@ public class UsersPartialImport extends AbstractPartialImport<UserRepresentation
     }
 
     @Override
-    public String getModelId(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    public String getModelId(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         if (createdIds.containsKey(getName(user))) return createdIds.get(getName(user));
 
         String userName = user.getUsername();
@@ -69,15 +69,15 @@ public class UsersPartialImport extends AbstractPartialImport<UserRepresentation
     }
 
     @Override
-    public boolean exists(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    public boolean exists(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         return userNameExists(realm, session, user) || userEmailExists(realm, session, user);
     }
 
-    private boolean userNameExists(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    private boolean userNameExists(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         return session.users().getUserByUsername(realm, user.getUsername()) != null;
     }
 
-    private boolean userEmailExists(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    private boolean userEmailExists(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         return (user.getEmail() != null) && !realm.isDuplicateEmailsAllowed() &&
                (session.users().getUserByEmail(realm, user.getEmail()) != null);
     }
@@ -97,7 +97,7 @@ public class UsersPartialImport extends AbstractPartialImport<UserRepresentation
     }
 
     @Override
-    public void remove(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    public void remove(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         UserModel userModel = session.users().getUserByUsername(realm, user.getUsername());
         if (userModel == null && !realm.isDuplicateEmailsAllowed()) {
             userModel = session.users().getUserByEmail(realm, user.getEmail());
@@ -109,7 +109,7 @@ public class UsersPartialImport extends AbstractPartialImport<UserRepresentation
     }
 
     @Override
-    public void create(RealmModel realm, KeycloakSession session, UserRepresentation user) {
+    public void create(RealmModel realm, KeycloakRequestSession session, UserRepresentation user) {
         if (user.getId() == null) {
             user.setId(KeycloakModelUtils.generateId());
         }

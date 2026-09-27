@@ -22,7 +22,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -54,7 +54,7 @@ public abstract class AbstractGeneratedEcKeyProviderFactory<T extends KeyProvide
     abstract protected boolean isValidKeyUse(KeyUse keyUse);
 
     @Override
-    public boolean createFallbackKeys(KeycloakSession session, KeyUse keyUse, String algorithm) {
+    public boolean createFallbackKeys(KeycloakRequestSession session, KeyUse keyUse, String algorithm) {
         if (isValidKeyUse(keyUse) && isSupportedEcAlgorithm(algorithm)) {
             RealmModel realm = session.getContext().getRealm();
 
@@ -78,7 +78,7 @@ public abstract class AbstractGeneratedEcKeyProviderFactory<T extends KeyProvide
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
         super.validateConfiguration(session, realm, model);
 
         ConfigurationValidationHelper.check(model).checkList(getEcEllipticCurveProperty(), false);

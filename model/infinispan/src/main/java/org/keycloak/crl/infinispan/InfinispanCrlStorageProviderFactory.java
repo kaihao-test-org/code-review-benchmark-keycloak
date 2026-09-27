@@ -27,7 +27,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.crl.CrlStorageProvider;
 import org.keycloak.crl.CrlStorageProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -46,7 +46,7 @@ public class InfinispanCrlStorageProviderFactory implements CrlStorageProviderFa
     private volatile long minTimeBetweenRequests;
 
     @Override
-    public CrlStorageProvider create(KeycloakSession session) {
+    public CrlStorageProvider create(KeycloakRequestSession session) {
         lazyInit(session);
         return new InfinispanCrlStorageProvider(this);
     }
@@ -106,7 +106,7 @@ public class InfinispanCrlStorageProviderFactory implements CrlStorageProviderFa
         return PROVIDER_ID;
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (crlCache == null) {
             synchronized (this) {
                 if (crlCache == null) {

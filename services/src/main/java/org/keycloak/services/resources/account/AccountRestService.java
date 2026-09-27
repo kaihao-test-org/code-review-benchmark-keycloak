@@ -59,7 +59,7 @@ import org.keycloak.models.AccountRoles;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserConsentModel;
 import org.keycloak.models.UserModel;
@@ -98,7 +98,7 @@ public class AccountRestService {
 
     protected final ClientConnection clientConnection;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final EventBuilder event;
     private final Auth auth;
 
@@ -107,7 +107,7 @@ public class AccountRestService {
     private final Locale locale;
     private final AccountRestApiVersion version;
 
-    public AccountRestService(KeycloakSession session, Auth auth, EventBuilder event, AccountRestApiVersion version) {
+    public AccountRestService(KeycloakRequestSession session, Auth auth, EventBuilder event, AccountRestApiVersion version) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.auth = auth;

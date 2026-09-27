@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.condition;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
@@ -45,6 +45,6 @@ public interface ClientPolicyConditionProviderFactory extends ProviderFactory<Cl
      * @param conditionRepresentation
      * @throws ClientPolicyException
      */
-    default void validateConfiguration(KeycloakSession session, RealmModel realm, ClientPolicyConditionRepresentation conditionRepresentation) throws ClientPolicyException {
+    default void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ClientPolicyConditionRepresentation conditionRepresentation) throws ClientPolicyException {
     }
 }

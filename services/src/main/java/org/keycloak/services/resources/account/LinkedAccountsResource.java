@@ -48,7 +48,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.AccountRoles;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.PasswordCredentialModel;
@@ -77,7 +77,7 @@ import static org.keycloak.models.Constants.ACCOUNT_CONSOLE_CLIENT_ID;
 public class LinkedAccountsResource {
     private static final Logger logger = Logger.getLogger(LinkedAccountsResource.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final HttpRequest request;
     private final EventBuilder event;
     private final UserModel user;
@@ -85,7 +85,7 @@ public class LinkedAccountsResource {
     private final Auth auth;
     private final Set<String> socialIds;
 
-    public LinkedAccountsResource(KeycloakSession session,
+    public LinkedAccountsResource(KeycloakRequestSession session,
                                   HttpRequest request,
                                   Auth auth,
                                   EventBuilder event,
@@ -192,7 +192,7 @@ public class LinkedAccountsResource {
     }
 
     @Deprecated
-    public List<LinkedAccountRepresentation> getLinkedAccounts(KeycloakSession session, RealmModel realm, UserModel user) {
+    public List<LinkedAccountRepresentation> getLinkedAccounts(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return session.identityProviders().getAllStream(Map.of(IdentityProviderModel.ENABLED, "true"), null, null)
                 .map(provider -> toLinkedAccountRepresentation(provider, session.users().getFederatedIdentitiesStream(realm, user)))
                 .filter(Objects::nonNull)

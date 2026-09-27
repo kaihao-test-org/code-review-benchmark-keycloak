@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -57,7 +57,7 @@ public abstract class UserIdentityToModelMapper {
 
         @Override
         public UserModel find(AuthenticationFlowContext context, Object userIdentity) throws Exception {
-            KeycloakSession session = context.getSession();
+            KeycloakRequestSession session = context.getSession();
             List<String> userIdentityValues = Arrays.asList(Constants.CFG_DELIMITER_PATTERN.split(userIdentity.toString()));
 
             if (_customAttributes.isEmpty() || userIdentityValues.isEmpty() || (_customAttributes.size() != userIdentityValues.size())) {

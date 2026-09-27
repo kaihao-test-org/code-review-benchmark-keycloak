@@ -29,7 +29,7 @@ import org.keycloak.authentication.requiredactions.UpdateEmail;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.FormMessage;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -61,7 +61,7 @@ public class UpdateEmailActionTokenHandler extends AbstractActionTokenHandler<Up
         AuthenticationSessionModel authenticationSession = tokenContext.getAuthenticationSession();
         UserModel user = authenticationSession.getAuthenticatedUser();
 
-        KeycloakSession session = tokenContext.getSession();
+        KeycloakRequestSession session = tokenContext.getSession();
 
         LoginFormsProvider forms = session.getProvider(LoginFormsProvider.class).setAuthenticationSession(authenticationSession)
                 .setUser(user);

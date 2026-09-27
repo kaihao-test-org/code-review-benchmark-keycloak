@@ -27,7 +27,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.authentication.AuthenticationProcessor;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.AuthorizationEndpointBase;
 import org.keycloak.services.resources.LoginActionsService;
@@ -40,11 +40,11 @@ public class AuthenticationFlowURLHelper {
 
     protected static final Logger logger = Logger.getLogger(AuthenticationFlowURLHelper.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final UriInfo uriInfo;
 
-    public AuthenticationFlowURLHelper(KeycloakSession session, RealmModel realm, UriInfo uriInfo) {
+    public AuthenticationFlowURLHelper(KeycloakRequestSession session, RealmModel realm, UriInfo uriInfo) {
         this.session = session;
         this.realm = realm;
         this.uriInfo = uriInfo;

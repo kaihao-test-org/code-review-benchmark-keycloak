@@ -22,7 +22,7 @@ import jakarta.ws.rs.Path;
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.ext.OIDCExtProvider;
 import org.keycloak.protocol.oidc.ext.OIDCExtProviderFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
@@ -31,7 +31,7 @@ public class ParRootEndpoint implements OIDCExtProvider, OIDCExtProviderFactory,
 
     public static final String PROVIDER_ID = "par";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private EventBuilder event;
 
     public ParRootEndpoint() {
@@ -39,7 +39,7 @@ public class ParRootEndpoint implements OIDCExtProvider, OIDCExtProviderFactory,
         this(null);
     }
 
-    public ParRootEndpoint(KeycloakSession session) {
+    public ParRootEndpoint(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -49,7 +49,7 @@ public class ParRootEndpoint implements OIDCExtProvider, OIDCExtProviderFactory,
     }
 
     @Override
-    public OIDCExtProvider create(KeycloakSession session) {
+    public OIDCExtProvider create(KeycloakRequestSession session) {
         return new ParRootEndpoint(session);
     }
 

@@ -25,7 +25,7 @@ import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -49,7 +49,7 @@ public class AuthorizationEndpointRequestParserProcessor {
 
     private static final Logger logger = Logger.getLogger(AuthorizationEndpointRequestParserProcessor.class);
 
-    public static AuthorizationEndpointRequest parseRequest(EventBuilder event, KeycloakSession session, ClientModel client, MultivaluedMap<String, String> requestParams, EndpointType endpointType) {
+    public static AuthorizationEndpointRequest parseRequest(EventBuilder event, KeycloakRequestSession session, ClientModel client, MultivaluedMap<String, String> requestParams, EndpointType endpointType) {
         try {
             AuthorizationEndpointRequest request = new AuthorizationEndpointRequest();
             boolean isResponseTypeParameterRequired = isResponseTypeParameterRequired(requestParams, endpointType);
@@ -115,7 +115,7 @@ public class AuthorizationEndpointRequestParserProcessor {
         }
     }
 
-    public static String getClientId(EventBuilder event, KeycloakSession session, MultivaluedMap<String, String> requestParams) {
+    public static String getClientId(EventBuilder event, KeycloakRequestSession session, MultivaluedMap<String, String> requestParams) {
         List<String> clientParam = requestParams.get(OIDCLoginProtocol.CLIENT_ID_PARAM);
         if (clientParam != null && clientParam.size() == 1) {
             return clientParam.get(0);

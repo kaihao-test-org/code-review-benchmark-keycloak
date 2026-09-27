@@ -17,7 +17,7 @@
 
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
@@ -32,7 +32,7 @@ public class SHA384HashProviderFactory implements HashProviderFactory {
     }
 
     @Override
-    public HashProvider create(KeycloakSession session) {
+    public HashProvider create(KeycloakRequestSession session) {
         return new JavaAlgorithmHashProvider(ID);
     }
 }

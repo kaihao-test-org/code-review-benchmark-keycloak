@@ -1,12 +1,12 @@
 package org.keycloak.authentication.otp;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 
 public class GoogleAuthenticatorProvider implements OTPApplicationProviderFactory, OTPApplicationProvider {
 
     @Override
-    public OTPApplicationProvider create(KeycloakSession session) {
+    public OTPApplicationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

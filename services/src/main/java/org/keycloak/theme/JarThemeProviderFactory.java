@@ -18,7 +18,7 @@
 package org.keycloak.theme;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.util.JsonSerialization;
 
@@ -39,7 +39,7 @@ public class JarThemeProviderFactory extends ClasspathThemeProviderFactory {
     }
 
     @Override
-    public ThemeProvider create(KeycloakSession session) {
+    public ThemeProvider create(KeycloakRequestSession session) {
         return new ClasspathThemeProvider(themes);
     }
 

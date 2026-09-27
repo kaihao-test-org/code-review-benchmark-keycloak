@@ -18,7 +18,7 @@
 package org.keycloak.protocol.saml.mappers;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.protocol.saml.SamlProtocol;
@@ -41,7 +41,7 @@ public abstract class AbstractSAMLProtocolMapper implements ProtocolMapper {
     }
 
     @Override
-    public final ProtocolMapper create(KeycloakSession session) {
+    public final ProtocolMapper create(KeycloakRequestSession session) {
         throw new RuntimeException("UNSUPPORTED METHOD");
     }
 

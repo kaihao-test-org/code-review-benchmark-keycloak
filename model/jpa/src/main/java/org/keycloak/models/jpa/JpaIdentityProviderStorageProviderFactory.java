@@ -18,7 +18,7 @@ package org.keycloak.models.jpa;
 
 import org.keycloak.Config;
 import org.keycloak.models.IdentityProviderStorageProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -31,7 +31,7 @@ public class JpaIdentityProviderStorageProviderFactory implements IdentityProvid
     public static final String ID = "jpa";
 
     @Override
-    public JpaIdentityProviderStorageProvider create(KeycloakSession session) {
+    public JpaIdentityProviderStorageProvider create(KeycloakRequestSession session) {
         return new JpaIdentityProviderStorageProvider(session);
     }
 

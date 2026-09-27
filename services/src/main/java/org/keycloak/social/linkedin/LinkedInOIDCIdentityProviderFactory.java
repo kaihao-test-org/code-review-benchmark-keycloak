@@ -26,7 +26,7 @@ import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentation;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -64,7 +64,7 @@ public class LinkedInOIDCIdentityProviderFactory extends AbstractIdentityProvide
     }
 
     @Override
-    public LinkedInOIDCIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public LinkedInOIDCIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         OIDCConfigurationRepresentation local = metadata;
         if (local == null) {
             local = getWellKnownMetadata(session);
@@ -92,7 +92,7 @@ public class LinkedInOIDCIdentityProviderFactory extends AbstractIdentityProvide
         return new OIDCIdentityProviderConfig();
     }
 
-    private static OIDCConfigurationRepresentation getWellKnownMetadata(KeycloakSession session) {
+    private static OIDCConfigurationRepresentation getWellKnownMetadata(KeycloakRequestSession session) {
         try (SimpleHttp.Response response = SimpleHttp.doGet(WELL_KNOWN_URL, session)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .asResponse()) {

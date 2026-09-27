@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.grants.device;
 
 import org.keycloak.OAuth2Constants;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantType;
 import org.keycloak.Config;
@@ -47,7 +47,7 @@ public class DeviceGrantTypeFactory implements OAuth2GrantTypeFactory, Environme
     }
 
     @Override
-    public OAuth2GrantType create(KeycloakSession session) {
+    public OAuth2GrantType create(KeycloakRequestSession session) {
         return new DeviceGrantType();
     }
 

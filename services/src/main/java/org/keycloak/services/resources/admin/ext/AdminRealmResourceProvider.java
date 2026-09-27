@@ -18,7 +18,7 @@
 
 package org.keycloak.services.resources.admin.ext;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.Provider;
 import org.keycloak.services.resources.admin.AdminEventBuilder;
@@ -35,7 +35,7 @@ public interface AdminRealmResourceProvider extends Provider {
      *
      * @return a JAX-RS sub-resource instance
      */
-    Object getResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth,
+    Object getResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth,
             AdminEventBuilder adminEvent);
 
 }

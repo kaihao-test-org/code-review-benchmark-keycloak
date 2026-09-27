@@ -38,7 +38,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.OTPCredentialModel;
@@ -53,7 +53,7 @@ public class DeleteCredentialAction implements RequiredActionProvider, RequiredA
     public static final String PROVIDER_ID = "delete_credential";
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -84,7 +84,7 @@ public class DeleteCredentialAction implements RequiredActionProvider, RequiredA
     }
 
     @Override
-    public String getCredentialType(KeycloakSession session, AuthenticationSessionModel authenticationSession) {
+    public String getCredentialType(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession) {
         String credentialId = authenticationSession.getClientNote(Constants.KC_ACTION_PARAMETER);
         if (credentialId == null) {
             return null;
@@ -185,7 +185,7 @@ public class DeleteCredentialAction implements RequiredActionProvider, RequiredA
         }
     }
 
-    private int getCurrentLoa(KeycloakSession session, AuthenticationSessionModel authSession) {
+    private int getCurrentLoa(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         return new AcrStore(session, authSession).getLevelOfAuthenticationFromCurrentAuthentication();
     }
 

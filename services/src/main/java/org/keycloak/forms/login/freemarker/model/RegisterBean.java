@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.userprofile.UserProfile;
 import org.keycloak.userprofile.UserProfileContext;
@@ -36,7 +36,7 @@ public class RegisterBean extends AbstractUserProfileBean {
 
     private Map<String, String> formDataLegacy = new HashMap<>();
 
-    public RegisterBean(MultivaluedMap<String, String> formData, KeycloakSession session) {
+    public RegisterBean(MultivaluedMap<String, String> formData, KeycloakRequestSession session) {
         
         super(formData);
         init(session, true);

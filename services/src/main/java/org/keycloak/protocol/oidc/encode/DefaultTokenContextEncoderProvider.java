@@ -21,7 +21,7 @@ package org.keycloak.protocol.oidc.encode;
 
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oidc.mappers.AbstractOIDCProtocolMapper;
 
@@ -32,10 +32,10 @@ public class DefaultTokenContextEncoderProvider implements TokenContextEncoderPr
 
     public static final String UNKNOWN = "na";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final DefaultTokenContextEncoderProviderFactory factory;
 
-    public DefaultTokenContextEncoderProvider(KeycloakSession session,
+    public DefaultTokenContextEncoderProvider(KeycloakRequestSession session,
                                               DefaultTokenContextEncoderProviderFactory factory) {
         this.session = session;
         this.factory = factory;

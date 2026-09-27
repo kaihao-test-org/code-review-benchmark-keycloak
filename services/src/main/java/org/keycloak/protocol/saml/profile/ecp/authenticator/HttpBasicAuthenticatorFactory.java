@@ -22,7 +22,7 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationExecutionModel.Requirement;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -78,7 +78,7 @@ public class HttpBasicAuthenticatorFactory implements AuthenticatorFactory {
     }
 
     @Override
-    public Authenticator create(final KeycloakSession session) {
+    public Authenticator create(final KeycloakRequestSession session) {
         return new HttpBasicAuthenticator();
     }
 

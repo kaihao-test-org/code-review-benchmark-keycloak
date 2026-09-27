@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
@@ -86,7 +86,7 @@ public class AudienceResolveProtocolMapper extends AbstractOIDCProtocolMapper im
     }
 
     @Override
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         boolean shouldUseLightweightToken = getShouldUseLightweightToken(session);
         boolean includeInAccessToken = shouldUseLightweightToken ?  OIDCAttributeMapperHelper.includeInLightweightAccessToken(mappingModel) : includeInAccessToken(mappingModel);
@@ -109,7 +109,7 @@ public class AudienceResolveProtocolMapper extends AbstractOIDCProtocolMapper im
     }
 
     @Override
-    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                                    UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         if (!includeInIntrospection(mappingModel)) {
             return token;
@@ -130,7 +130,7 @@ public class AudienceResolveProtocolMapper extends AbstractOIDCProtocolMapper im
     }
 
     @Override
-    public ProtocolMapperModel getEffectiveModel(KeycloakSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
+    public ProtocolMapperModel getEffectiveModel(KeycloakRequestSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
         // Effectively clone
         ProtocolMapperModel copy = RepresentationToModel.toModel(ModelToRepresentation.toRepresentation(protocolMapperModel));
 
@@ -140,7 +140,7 @@ public class AudienceResolveProtocolMapper extends AbstractOIDCProtocolMapper im
         return copy;
     }
 
-    private void setAudience(AccessToken token, ClientSessionContext clientSessionCtx, KeycloakSession session) {
+    private void setAudience(AccessToken token, ClientSessionContext clientSessionCtx, KeycloakRequestSession session) {
         String clientId = clientSessionCtx.getClientSession().getClient().getClientId();
 
         for (Map.Entry<String, AccessToken.Access> entry : RoleResolveUtil.getAllResolvedClientRoles(session, clientSessionCtx).entrySet()) {

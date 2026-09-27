@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.clientpolicy.executor.ClientPolicyExecutorProvider;
@@ -35,7 +35,7 @@ public class TestEnhancedPluggableTokenManagerExecutorFactory implements ClientP
     public static final String PROVIDER_ID = "test-enhanced-token-mgr";
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new TestEnhancedPluggableTokenManagerExecutor(session);
     }
 

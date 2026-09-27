@@ -27,7 +27,7 @@ import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -44,7 +44,7 @@ import org.keycloak.services.util.AuthorizationContextUtil;
  */
 public class ParEndpointRequestParserProcessor {
 
-    public static AuthorizationEndpointRequest parseRequest(EventBuilder event, KeycloakSession session, ClientModel client, MultivaluedMap<String, String> requestParams) {
+    public static AuthorizationEndpointRequest parseRequest(EventBuilder event, KeycloakRequestSession session, ClientModel client, MultivaluedMap<String, String> requestParams) {
         try {
             AuthorizationEndpointRequest request = new AuthorizationEndpointRequest();
 

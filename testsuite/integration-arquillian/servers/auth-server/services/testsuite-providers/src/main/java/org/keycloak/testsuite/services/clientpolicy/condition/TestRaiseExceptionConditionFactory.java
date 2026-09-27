@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.keycloak.Config;
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.clientpolicy.condition.ClientPolicyConditionProvider;
@@ -36,7 +36,7 @@ public class TestRaiseExceptionConditionFactory implements ClientPolicyCondition
     public static final String PROVIDER_ID = "test-raise-exception";
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new TestRaiseExceptionCondition(session);
     }
 

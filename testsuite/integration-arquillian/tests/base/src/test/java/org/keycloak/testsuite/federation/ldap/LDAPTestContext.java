@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.federation.ldap;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.UserStorageProviderModel;
 import org.keycloak.storage.ldap.LDAPStorageProvider;
@@ -33,11 +33,11 @@ public class LDAPTestContext {
     private final UserStorageProviderModel ldapModel;
     private final LDAPStorageProvider ldapProvider;
 
-    public static LDAPTestContext init(KeycloakSession session) {
+    public static LDAPTestContext init(KeycloakRequestSession session) {
         return init(session, null);
     }
 
-    public static LDAPTestContext init(KeycloakSession session, String providerName) {
+    public static LDAPTestContext init(KeycloakRequestSession session, String providerName) {
         RealmModel testRealm = session.realms().getRealmByName(AbstractLDAPTest.TEST_REALM_NAME);
         ComponentModel ldapCompModel = LDAPTestUtils.getLdapProviderModel(testRealm, providerName);
         UserStorageProviderModel ldapModel = new UserStorageProviderModel(ldapCompModel);

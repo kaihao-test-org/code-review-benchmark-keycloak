@@ -81,7 +81,7 @@ import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
@@ -142,7 +142,7 @@ public class RepresentationToModel {
     public static final String OIDC = "openid-connect";
 
 
-    public static void importRealm(KeycloakSession session, RealmRepresentation rep, RealmModel newRealm, Runnable userImport) {
+    public static void importRealm(KeycloakRequestSession session, RealmRepresentation rep, RealmModel newRealm, Runnable userImport) {
         session.getProvider(DatastoreProvider.class).getExportImportManager().importRealm(rep, newRealm, userImport);
     }
 
@@ -268,7 +268,7 @@ public class RepresentationToModel {
 
 
 
-    public static void updateRealm(RealmRepresentation rep, RealmModel realm, KeycloakSession session) {
+    public static void updateRealm(RealmRepresentation rep, RealmModel realm, KeycloakRequestSession session) {
         session.getProvider(DatastoreProvider.class).getExportImportManager().updateRealm(rep, realm);
 
     }
@@ -324,11 +324,11 @@ public class RepresentationToModel {
      * @param resourceRep
      * @return
      */
-    public static ClientModel createClient(KeycloakSession session, RealmModel realm, ClientRepresentation resourceRep) {
+    public static ClientModel createClient(KeycloakRequestSession session, RealmModel realm, ClientRepresentation resourceRep) {
         return createClient(session, realm, resourceRep, null);
     }
 
-    public static ClientModel createClient(KeycloakSession session, RealmModel realm, ClientRepresentation resourceRep, Map<String, String> mappedFlows) {
+    public static ClientModel createClient(KeycloakRequestSession session, RealmModel realm, ClientRepresentation resourceRep, Map<String, String> mappedFlows) {
         logger.debugv("Create client: {0}", resourceRep.getClientId());
 
         ClientModel client = resourceRep.getId() != null ? realm.addClient(resourceRep.getId(), resourceRep.getClientId()) : realm.addClient(resourceRep.getClientId());
@@ -411,7 +411,7 @@ public class RepresentationToModel {
         }
     }
 
-    public static void updateClient(ClientRepresentation rep, ClientModel resource, KeycloakSession session) {
+    public static void updateClient(ClientRepresentation rep, ClientModel resource, KeycloakRequestSession session) {
 
         if (Profile.isFeatureEnabled(Profile.Feature.CLIENT_TYPES)) {
             if (!ObjectUtil.isEqualOrBothNull(resource.getType(), rep.getType())) {
@@ -479,7 +479,7 @@ public class RepresentationToModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             };
@@ -750,11 +750,11 @@ public class RepresentationToModel {
 
     // Users
 
-    public static UserModel createUser(KeycloakSession session, RealmModel newRealm, UserRepresentation userRep) {
+    public static UserModel createUser(KeycloakRequestSession session, RealmModel newRealm, UserRepresentation userRep) {
         return session.getProvider(DatastoreProvider.class).getExportImportManager().createUser(newRealm, userRep);
     }
 
-    public static void createGroups(KeycloakSession session, UserRepresentation userRep, RealmModel newRealm, UserModel user) {
+    public static void createGroups(KeycloakRequestSession session, UserRepresentation userRep, RealmModel newRealm, UserModel user) {
         if (userRep.getGroups() != null) {
             for (String path : userRep.getGroups()) {
                 GroupModel group = KeycloakModelUtils.findGroupByPath(session, newRealm, path);
@@ -767,7 +767,7 @@ public class RepresentationToModel {
         }
     }
 
-    public static void createFederatedIdentities(UserRepresentation userRep, KeycloakSession session, RealmModel realm, UserModel user) {
+    public static void createFederatedIdentities(UserRepresentation userRep, KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (userRep.getFederatedIdentities() != null) {
             for (FederatedIdentityRepresentation identity : userRep.getFederatedIdentities()) {
                 FederatedIdentityModel mappingModel = new FederatedIdentityModel(identity.getIdentityProvider(), identity.getUserId(), identity.getUserName());
@@ -776,7 +776,7 @@ public class RepresentationToModel {
         }
     }
 
-    public static void createCredentials(UserRepresentation userRep, KeycloakSession session, RealmModel realm, UserModel user, boolean adminRequest) {
+    public static void createCredentials(UserRepresentation userRep, KeycloakRequestSession session, RealmModel realm, UserModel user, boolean adminRequest) {
         convertDeprecatedCredentialsFormat(userRep);
         if (userRep.getCredentials() != null) {
             for (CredentialRepresentation cred : userRep.getCredentials()) {
@@ -851,7 +851,7 @@ public class RepresentationToModel {
         }
     }
 
-    public static IdentityProviderModel toModel(RealmModel realm, IdentityProviderRepresentation representation, KeycloakSession session) {
+    public static IdentityProviderModel toModel(RealmModel realm, IdentityProviderRepresentation representation, KeycloakRequestSession session) {
         IdentityProviderFactory providerFactory = (IdentityProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(
                 IdentityProvider.class, representation.getProviderId());
 
@@ -978,7 +978,7 @@ public class RepresentationToModel {
     }
 
 
-    public static AuthenticationExecutionModel toModel(KeycloakSession session, RealmModel realm, AuthenticationExecutionRepresentation rep) {
+    public static AuthenticationExecutionModel toModel(KeycloakRequestSession session, RealmModel realm, AuthenticationExecutionRepresentation rep) {
         AuthenticationExecutionModel model = new AuthenticationExecutionModel();
         model.setId(rep.getId());
         model.setFlowId(rep.getFlowId());
@@ -1006,7 +1006,7 @@ public class RepresentationToModel {
         return model;
     }
 
-    public static ComponentModel toModel(KeycloakSession session, ComponentRepresentation rep) {
+    public static ComponentModel toModel(KeycloakRequestSession session, ComponentRepresentation rep) {
         ComponentModel model = new ComponentModel();
         model.setId(rep.getId());
         model.setParentId(rep.getParentId());
@@ -1039,7 +1039,7 @@ public class RepresentationToModel {
         return model;
     }
 
-    public static void updateComponent(KeycloakSession session, ComponentRepresentation rep, ComponentModel component, boolean internal) {
+    public static void updateComponent(KeycloakRequestSession session, ComponentRepresentation rep, ComponentModel component, boolean internal) {
         if (rep.getName() != null) {
             component.setName(rep.getName());
         }
@@ -1092,7 +1092,7 @@ public class RepresentationToModel {
         }
     }
 
-    public static void importAuthorizationSettings(ClientRepresentation clientRepresentation, ClientModel client, KeycloakSession session) {
+    public static void importAuthorizationSettings(ClientRepresentation clientRepresentation, ClientModel client, KeycloakRequestSession session) {
         if (Profile.isFeatureEnabled(Profile.Feature.AUTHORIZATION) && Boolean.TRUE.equals(clientRepresentation.getAuthorizationServicesEnabled())) {
             AuthorizationProviderFactory authorizationFactory = (AuthorizationProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(AuthorizationProvider.class);
             AuthorizationProvider authorization = authorizationFactory.create(session, client.getRealm());
@@ -1141,7 +1141,7 @@ public class RepresentationToModel {
             toModel(scope, resourceServer, authorization);
         }
 
-        KeycloakSession session = authorization.getKeycloakSession();
+        KeycloakRequestSession session = authorization.getKeycloakSession();
         RealmModel realm = authorization.getRealm();
 
         for (ResourceRepresentation resource : rep.getResources()) {
@@ -1429,7 +1429,7 @@ public class RepresentationToModel {
         }
 
         StoreFactory storeFactory = authorization.getStoreFactory();
-        KeycloakSession session = authorization.getKeycloakSession();
+        KeycloakRequestSession session = authorization.getKeycloakSession();
         ResourceServer resourceServer = policy.getResourceServer();
 
         if (resourceIds.isEmpty()) {
@@ -1505,7 +1505,7 @@ public class RepresentationToModel {
         }
 
         if (!resourceServer.getClientId().equals(ownerId)) {
-            KeycloakSession keycloakSession = authorization.getKeycloakSession();
+            KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
             UserProvider users = keycloakSession.users();
             UserModel ownerModel = users.getUserById(realm, ownerId);
 
@@ -1650,7 +1650,7 @@ public class RepresentationToModel {
         return m;
     }
 
-    public static ResourceServer createResourceServer(ClientModel client, KeycloakSession session, boolean addDefaultRoles) {
+    public static ResourceServer createResourceServer(ClientModel client, KeycloakRequestSession session, boolean addDefaultRoles) {
         if ((client.isBearerOnly() || client.isPublicClient())
                 && !(client.getClientId().equals(Config.getAdminRealm() + "-realm") || client.getClientId().equals(Constants.REALM_MANAGEMENT_CLIENT_ID))) {
             throw new RuntimeException("Only confidential clients are allowed to set authorization settings");
@@ -1682,7 +1682,7 @@ public class RepresentationToModel {
         return toModel(representation, authorization, client);
     }
 
-    private static void updateOrganizationBroker(IdentityProviderRepresentation representation, KeycloakSession session) {
+    private static void updateOrganizationBroker(IdentityProviderRepresentation representation, KeycloakRequestSession session) {
         if (!Profile.isFeatureEnabled(Feature.ORGANIZATION)) {
             return;
         }

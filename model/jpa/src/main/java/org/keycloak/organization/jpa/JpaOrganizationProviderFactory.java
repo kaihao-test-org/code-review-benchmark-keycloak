@@ -21,7 +21,7 @@ import org.keycloak.Config.Scope;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.GroupEvent;
 import org.keycloak.models.ModelValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.organization.OrganizationProvider;
 import org.keycloak.organization.OrganizationProviderFactory;
@@ -33,7 +33,7 @@ public class JpaOrganizationProviderFactory implements OrganizationProviderFacto
     public static final String ID = "jpa";
 
     @Override
-    public OrganizationProvider create(KeycloakSession session) {
+    public OrganizationProvider create(KeycloakRequestSession session) {
         return new JpaOrganizationProvider(session);
     }
 
@@ -59,7 +59,7 @@ public class JpaOrganizationProviderFactory implements OrganizationProviderFacto
 
     private void handleEvents(ProviderEvent e) {
         if (e instanceof GroupEvent event) {
-            KeycloakSession session = event.getKeycloakSession();
+            KeycloakRequestSession session = event.getKeycloakSession();
             GroupModel group = event.getGroup();
             if (!Organizations.canManageOrganizationGroup(session, group)) {
                 throw new ModelValidationException("Can not update organization group");

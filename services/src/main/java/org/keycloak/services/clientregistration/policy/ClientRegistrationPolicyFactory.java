@@ -20,7 +20,7 @@ package org.keycloak.services.clientregistration.policy;
 import java.util.List;
 
 import org.keycloak.component.ComponentFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 /**
@@ -34,5 +34,5 @@ public interface ClientRegistrationPolicyFactory extends ComponentFactory<Client
      * @param session
      * @return
      */
-    List<ProviderConfigProperty> getConfigProperties(KeycloakSession session);
+    List<ProviderConfigProperty> getConfigProperties(KeycloakRequestSession session);
 }

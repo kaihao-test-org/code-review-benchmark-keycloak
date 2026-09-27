@@ -16,7 +16,7 @@
  */
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class HS384ClientSignatureVerifierProviderFactory implements ClientSignatureVerifierProviderFactory {
 
@@ -28,7 +28,7 @@ public class HS384ClientSignatureVerifierProviderFactory implements ClientSignat
     }
 
     @Override
-    public ClientSignatureVerifierProvider create(KeycloakSession session) {
+    public ClientSignatureVerifierProvider create(KeycloakRequestSession session) {
         return new MacSecretClientSignatureVerifierProvider(session, Algorithm.HS384);
     }
 }

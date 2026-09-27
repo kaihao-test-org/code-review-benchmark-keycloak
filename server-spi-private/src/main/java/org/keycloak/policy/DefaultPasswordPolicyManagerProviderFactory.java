@@ -18,7 +18,7 @@
 package org.keycloak.policy;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -27,7 +27,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class DefaultPasswordPolicyManagerProviderFactory implements PasswordPolicyManagerProviderFactory {
 
     @Override
-    public PasswordPolicyManagerProvider create(KeycloakSession session) {
+    public PasswordPolicyManagerProvider create(KeycloakRequestSession session) {
         return new DefaultPasswordPolicyManagerProvider(session);
     }
 

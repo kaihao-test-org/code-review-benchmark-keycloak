@@ -10,7 +10,7 @@ import org.keycloak.credential.CredentialModel;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -32,7 +32,7 @@ public class RecoveryAuthnCodesFormAuthenticator implements Authenticator {
     public static final String GENERATED_RECOVERY_AUTHN_CODES_NOTE = "RecoveryAuthnCodes.generatedRecoveryAuthnCodes";
     public static final String GENERATED_AT_NOTE = "RecoveryAuthnCodes.generatedAt";
 
-    public RecoveryAuthnCodesFormAuthenticator(KeycloakSession keycloakSession) {
+    public RecoveryAuthnCodesFormAuthenticator(KeycloakRequestSession keycloakSession) {
     }
 
     @Override
@@ -156,12 +156,12 @@ public class RecoveryAuthnCodesFormAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return user.credentialManager().isConfiguredFor(RecoveryAuthnCodesCredentialModel.TYPE);
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         AuthenticationSessionModel authenticationSession = session.getContext().getAuthenticationSession();
         if (!authenticationSession.getRequiredActions().contains(UserModel.RequiredAction.CONFIGURE_RECOVERY_AUTHN_CODES.name())) {
             authenticationSession.addRequiredAction(UserModel.RequiredAction.CONFIGURE_RECOVERY_AUTHN_CODES.name());

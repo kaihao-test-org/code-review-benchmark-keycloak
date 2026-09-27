@@ -17,11 +17,11 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ServerAsymmetricSignatureVerifierContext extends AsymmetricSignatureVerifierContext {
 
-    public ServerAsymmetricSignatureVerifierContext(KeycloakSession session, String kid, String algorithm) throws VerificationException {
+    public ServerAsymmetricSignatureVerifierContext(KeycloakRequestSession session, String kid, String algorithm) throws VerificationException {
         super(getKey(session, kid, algorithm));
     }
 
@@ -29,7 +29,7 @@ public class ServerAsymmetricSignatureVerifierContext extends AsymmetricSignatur
         super(key);
     }
 
-    static KeyWrapper getKey(KeycloakSession session, String kid, String algorithm) throws VerificationException {
+    static KeyWrapper getKey(KeycloakRequestSession session, String kid, String algorithm) throws VerificationException {
         KeyWrapper key = session.keys().getKey(session.getContext().getRealm(), kid, KeyUse.SIG, algorithm);
         if (key == null) {
             throw new VerificationException("Key not found");

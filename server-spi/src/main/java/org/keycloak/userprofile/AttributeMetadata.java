@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.keycloak.models.ClientScopeProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
@@ -69,7 +69,7 @@ public class AttributeMetadata {
 
     AttributeMetadata(String attributeName, int guiOrder, List<String> scopes, Predicate<AttributeContext> writeAllowed, Predicate<AttributeContext> required) {
         this(attributeName, guiOrder, context -> {
-            KeycloakSession session = context.getSession();
+            KeycloakRequestSession session = context.getSession();
             AuthenticationSessionModel authSession = session.getContext().getAuthenticationSession();
 
             if (authSession == null) {

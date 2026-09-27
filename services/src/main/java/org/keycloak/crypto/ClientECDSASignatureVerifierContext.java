@@ -21,17 +21,17 @@ import org.keycloak.common.VerificationException;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.keys.loader.PublicKeyStorageManager;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
  */
 public class ClientECDSASignatureVerifierContext extends AsymmetricSignatureVerifierContext {
-    public ClientECDSASignatureVerifierContext(KeycloakSession session, ClientModel client, JWSInput input) throws VerificationException {
+    public ClientECDSASignatureVerifierContext(KeycloakRequestSession session, ClientModel client, JWSInput input) throws VerificationException {
         super(getKey(session, client, input));
     }
 
-    private static KeyWrapper getKey(KeycloakSession session, ClientModel client, JWSInput input) throws VerificationException {
+    private static KeyWrapper getKey(KeycloakRequestSession session, ClientModel client, JWSInput input) throws VerificationException {
         KeyWrapper key = PublicKeyStorageManager.getClientPublicKeyWrapper(session, client, input);
         if (key == null) {
             throw new VerificationException("Key not found");

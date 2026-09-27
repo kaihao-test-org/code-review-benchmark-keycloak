@@ -17,7 +17,7 @@
 
 package org.keycloak.quarkus.runtime.transaction;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.quarkus.runtime.integration.QuarkusKeycloakSessionFactory;
 
@@ -29,11 +29,11 @@ import org.keycloak.quarkus.runtime.integration.QuarkusKeycloakSessionFactory;
 public interface TransactionalSessionHandler {
 
     /**
-     * Creates a {@link KeycloakSession}.
+     * Creates a {@link KeycloakRequestSession}.
      *
      * @return a keycloak session
      */
-    default KeycloakSession create() {
+    default KeycloakRequestSession create() {
         KeycloakSessionFactory sessionFactory = QuarkusKeycloakSessionFactory.getInstance();
         return sessionFactory.create();
     }
@@ -43,16 +43,16 @@ public interface TransactionalSessionHandler {
      *
      * @param session a session
      */
-    default void beginTransaction(KeycloakSession session) {
+    default void beginTransaction(KeycloakRequestSession session) {
         session.getTransactionManager().begin();
     }
 
     /**
-     * Closes a {@link KeycloakSession}.
+     * Closes a {@link KeycloakRequestSession}.
      *
      * @param session a session
      */
-    default void close(KeycloakSession session) {
+    default void close(KeycloakRequestSession session) {
         if (session == null || session.isClosed()) {
             return;
         }

@@ -18,7 +18,7 @@
 package org.keycloak.models.sessions.infinispan.changes;
 
 import io.opentelemetry.api.trace.Span;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -30,16 +30,16 @@ import java.util.function.Consumer;
  */
 public class PersistentUpdate {
 
-    private final Consumer<KeycloakSession> task;
+    private final Consumer<KeycloakRequestSession> task;
     private final CompletableFuture<Void> future = new CompletableFuture<>();
     private final Span span;
 
-    public PersistentUpdate(Consumer<KeycloakSession> task) {
+    public PersistentUpdate(Consumer<KeycloakRequestSession> task) {
         this.task = task;
         this.span = Span.current();
     }
 
-    public void perform(KeycloakSession session) {
+    public void perform(KeycloakRequestSession session) {
         task.accept(session);
     }
 

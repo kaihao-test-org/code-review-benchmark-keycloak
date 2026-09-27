@@ -89,14 +89,14 @@ public class FederatedIdentityModel {
     }
 
     public interface FederatedIdentityCreatedEvent extends ProviderEvent {
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
         RealmModel getRealm();
         UserModel getUser();
         FederatedIdentityModel getFederatedIdentity();
     }
 
     public interface FederatedIdentityRemovedEvent extends ProviderEvent {
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
         RealmModel getRealm();
         UserModel getUser();
         FederatedIdentityModel getFederatedIdentity();

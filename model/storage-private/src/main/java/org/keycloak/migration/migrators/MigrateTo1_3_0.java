@@ -20,7 +20,7 @@ package org.keycloak.migration.migrators;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentFactory;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.models.RealmModel;
@@ -43,16 +43,16 @@ public class MigrateTo1_3_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> migrateLDAPProviders(session, realm));
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateLDAPProviders(session, realm);
     }
 
-    private void migrateLDAPProviders(KeycloakSession session, RealmModel realm) {
+    private void migrateLDAPProviders(KeycloakRequestSession session, RealmModel realm) {
         ((StorageProviderRealmModel) realm).getUserStorageProvidersStream().forEachOrdered(fedProvider -> {
             if (fedProvider.getProviderId().equals(LDAPConstants.LDAP_PROVIDER)) {
                 fedProvider = new UserStorageProviderModel(fedProvider);  // copy don't want to muck with cache

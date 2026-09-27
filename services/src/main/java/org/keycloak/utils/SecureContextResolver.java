@@ -1,7 +1,7 @@
 package org.keycloak.utils;
 
 import org.keycloak.device.DeviceRepresentationProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.account.DeviceRepresentation;
 
 import io.netty.util.NetUtil;
@@ -21,7 +21,7 @@ public class SecureContextResolver {
      * @param session The session to check for trustworthiness.
      * @return Whether the session can be considered potentially trustworthy by user-agents.
      */
-    public static boolean isSecureContext(KeycloakSession session) {
+    public static boolean isSecureContext(KeycloakRequestSession session) {
         URI uri = session.getContext().getUri().getRequestUri();
 
         // Use a Supplier so the user-agent is evaluated lazily, avoiding unnecessary parsing in production deployments.

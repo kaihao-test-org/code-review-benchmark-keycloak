@@ -28,7 +28,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.keycloak.models.LDAPConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.testsuite.admin.ApiUtil;
@@ -219,7 +219,7 @@ public class LDAPSearchForUsersPaginationNoImportTest extends AbstractLDAPTest {
     }
 
     private void setLDAPEnabled(final boolean enabled) {
-        testingClient.server().run((KeycloakSession session) -> {
+        testingClient.server().run((KeycloakRequestSession session) -> {
             LDAPTestContext ctx = LDAPTestContext.init(session);
             RealmModel appRealm = ctx.getRealm();
 

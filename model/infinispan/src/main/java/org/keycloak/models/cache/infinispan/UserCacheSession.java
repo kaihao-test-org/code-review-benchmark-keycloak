@@ -34,7 +34,7 @@ import org.keycloak.connections.jpa.support.EntityManagers;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -90,7 +90,7 @@ import java.util.stream.Stream;
 public class UserCacheSession implements UserCache, OnCreateComponent, OnUpdateComponent, UserProfileDecorator {
     protected static final Logger logger = Logger.getLogger(UserCacheSession.class);
     protected UserCacheManager cache;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected UserProvider delegate;
     protected boolean transactionActive;
     protected boolean setRollbackOnly;
@@ -103,7 +103,7 @@ public class UserCacheSession implements UserCache, OnCreateComponent, OnUpdateC
     protected Map<String, UserModel> managedUsers = new HashMap<>();
     private StoreManagers datastoreProvider;
 
-    public UserCacheSession(UserCacheManager cache, KeycloakSession session) {
+    public UserCacheSession(UserCacheManager cache, KeycloakRequestSession session) {
         this.cache = cache;
         this.session = session;
         this.startupRevision = cache.getCurrentCounter();
@@ -1017,14 +1017,14 @@ public class UserCacheSession implements UserCache, OnCreateComponent, OnUpdateC
     }
 
     @Override
-    public void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    public void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         if (getDelegate() instanceof OnUpdateComponent) {
             ((OnUpdateComponent) getDelegate()).onUpdate(session, realm, oldModel, newModel);
         }
     }
 
     @Override
-    public void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         if (getDelegate() instanceof OnCreateComponent) {
             ((OnCreateComponent) getDelegate()).onCreate(session, realm, model);
         }

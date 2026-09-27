@@ -18,7 +18,7 @@
 package org.keycloak.timer.basic;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.scheduled.ScheduledTaskRunner;
 import org.keycloak.timer.ScheduledTask;
 import org.keycloak.timer.TimerProvider;
@@ -33,12 +33,12 @@ public class BasicTimerProvider implements TimerProvider {
 
     private static final Logger logger = Logger.getLogger(BasicTimerProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Timer timer;
     private final int transactionTimeout;
     private final BasicTimerProviderFactory factory;
 
-    public BasicTimerProvider(KeycloakSession session, Timer timer, int transactionTimeout, BasicTimerProviderFactory factory) {
+    public BasicTimerProvider(KeycloakRequestSession session, Timer timer, int transactionTimeout, BasicTimerProviderFactory factory) {
         this.session = session;
         this.timer = timer;
         this.transactionTimeout = transactionTimeout;

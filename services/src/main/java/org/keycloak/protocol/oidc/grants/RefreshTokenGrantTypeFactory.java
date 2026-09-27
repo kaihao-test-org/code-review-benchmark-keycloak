@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.grants;
 
 import org.keycloak.Config;
 import org.keycloak.OAuth2Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -43,7 +43,7 @@ public class RefreshTokenGrantTypeFactory implements OAuth2GrantTypeFactory {
     }
 
     @Override
-    public OAuth2GrantType create(KeycloakSession session) {
+    public OAuth2GrantType create(KeycloakRequestSession session) {
         return new RefreshTokenGrantType();
     }
 

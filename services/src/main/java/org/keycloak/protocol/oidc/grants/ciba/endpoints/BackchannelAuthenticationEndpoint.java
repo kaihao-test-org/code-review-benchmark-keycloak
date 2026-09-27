@@ -27,7 +27,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OAuth2DeviceCodeModel;
 import org.keycloak.models.OAuth2DeviceUserCodeModel;
 import org.keycloak.models.RealmModel;
@@ -69,7 +69,7 @@ public class BackchannelAuthenticationEndpoint extends AbstractCibaEndpoint {
 
     private static final Pattern BINDING_MESSAGE_VALIDATION = Pattern.compile("^[a-zA-Z0-9-._+/!?#]{1,50}$");
 
-    public BackchannelAuthenticationEndpoint(KeycloakSession session, EventBuilder event) {
+    public BackchannelAuthenticationEndpoint(KeycloakRequestSession session, EventBuilder event) {
         super(session, event);
         this.realm = session.getContext().getRealm();
         event.event(EventType.LOGIN);

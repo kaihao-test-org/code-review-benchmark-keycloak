@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.util.cli;
 
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.managers.UserStorageSyncManager;
@@ -32,7 +32,7 @@ import java.util.Objects;
 public class SyncDummyFederationProviderCommand extends AbstractCommand {
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         int waitTime = getIntArg(0);
         int changedSyncPeriod = getIntArg(1);
 
@@ -66,7 +66,7 @@ public class SyncDummyFederationProviderCommand extends AbstractCommand {
         cfg.putSingle("wait-time", String.valueOf(waitTime));
     }
 
-    public static UserStorageProviderModel findUserStorageProviderByName(KeycloakSession session, String displayName, RealmModel realm) {
+    public static UserStorageProviderModel findUserStorageProviderByName(KeycloakRequestSession session, String displayName, RealmModel realm) {
         if (displayName == null) {
             return null;
         }

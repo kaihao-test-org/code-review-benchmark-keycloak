@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.AccountResourceProvider;
 import org.keycloak.services.resource.AccountResourceProviderFactory;
@@ -20,7 +20,7 @@ public class CustomAccountResourceProviderFactory implements AccountResourceProv
   }
 
   @Override
-  public AccountResourceProvider create(KeycloakSession session) {
+  public AccountResourceProvider create(KeycloakRequestSession session) {
     return this;
   }
 

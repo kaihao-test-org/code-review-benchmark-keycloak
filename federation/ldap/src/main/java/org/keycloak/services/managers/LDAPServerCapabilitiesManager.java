@@ -25,7 +25,7 @@ import javax.naming.ldap.LdapContext;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.RealmModel;
@@ -117,7 +117,7 @@ public class LDAPServerCapabilitiesManager {
         return urlsMatch;
     }
 
-    public static Set<LDAPCapabilityRepresentation> queryServerCapabilities(TestLdapConnectionRepresentation config, KeycloakSession session,
+    public static Set<LDAPCapabilityRepresentation> queryServerCapabilities(TestLdapConnectionRepresentation config, KeycloakRequestSession session,
                                                                             RealmModel realm) {
 
         if (! QUERY_SERVER_CAPABILITIES.equals(config.getAction())) {
@@ -175,7 +175,7 @@ public class LDAPServerCapabilitiesManager {
         return errorMsg;
     }
 
-    public static void testLDAP(TestLdapConnectionRepresentation config, KeycloakSession session, RealmModel realm) throws javax.naming.NamingException {
+    public static void testLDAP(TestLdapConnectionRepresentation config, KeycloakRequestSession session, RealmModel realm) throws javax.naming.NamingException {
 
         if (!TEST_CONNECTION.equals(config.getAction()) && !TEST_AUTHENTICATION.equals(config.getAction())) {
             ServicesLogger.LOGGER.unknownAction(config.getAction());

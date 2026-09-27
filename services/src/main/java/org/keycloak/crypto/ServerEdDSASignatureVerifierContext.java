@@ -18,13 +18,13 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
  */
 public class ServerEdDSASignatureVerifierContext extends  AsymmetricSignatureVerifierContext {
-    public ServerEdDSASignatureVerifierContext(KeycloakSession session, String kid, String algorithm) throws VerificationException {
+    public ServerEdDSASignatureVerifierContext(KeycloakRequestSession session, String kid, String algorithm) throws VerificationException {
         super(ServerAsymmetricSignatureVerifierContext.getKey(session, kid, algorithm));
     }
 

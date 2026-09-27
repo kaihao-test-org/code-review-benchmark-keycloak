@@ -17,7 +17,7 @@
 
 package org.keycloak.services;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.sessions.AuthenticationSessionModel;
 
 import jakarta.ws.rs.WebApplicationException;
@@ -28,11 +28,11 @@ import jakarta.ws.rs.core.Response;
  */
 public class ErrorPageException extends WebApplicationException {
 
-    public ErrorPageException(KeycloakSession session, Response.Status status, String errorMessage, Object... parameters) {
+    public ErrorPageException(KeycloakRequestSession session, Response.Status status, String errorMessage, Object... parameters) {
         super(errorMessage, ErrorPage.error(session, null, status, errorMessage, parameters));
     }
 
-    public ErrorPageException(KeycloakSession session, AuthenticationSessionModel authSession, Response.Status status, String errorMessage, Object... parameters) {
+    public ErrorPageException(KeycloakRequestSession session, AuthenticationSessionModel authSession, Response.Status status, String errorMessage, Object... parameters) {
         super(errorMessage, ErrorPage.error(session, authSession, status, errorMessage, parameters));
     }
 

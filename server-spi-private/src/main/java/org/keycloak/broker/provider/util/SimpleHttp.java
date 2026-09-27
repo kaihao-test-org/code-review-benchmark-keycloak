@@ -44,7 +44,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.keycloak.common.util.Base64;
 import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.connections.httpclient.SafeInputStream;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.util.JsonSerialization;
 
 import java.io.IOException;
@@ -98,7 +98,7 @@ public class SimpleHttp {
         this.maxConsumedResponseSize = maxConsumedResponseSize;
     }
 
-    public static SimpleHttp doDelete(String url, KeycloakSession session) {
+    public static SimpleHttp doDelete(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doDelete(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }
@@ -107,7 +107,7 @@ public class SimpleHttp {
         return new SimpleHttp(url, "DELETE", client, maxConsumedResponseSize);
     }
 
-    public static SimpleHttp doGet(String url, KeycloakSession session) {
+    public static SimpleHttp doGet(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doGet(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }
@@ -116,7 +116,7 @@ public class SimpleHttp {
         return new SimpleHttp(url, "GET", client, maxConsumedResponseSize);
     }
 
-    public static SimpleHttp doPost(String url, KeycloakSession session) {
+    public static SimpleHttp doPost(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doPost(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }
@@ -125,7 +125,7 @@ public class SimpleHttp {
         return new SimpleHttp(url, "POST", client, maxConsumedResponseSize);
     }
 
-    public static SimpleHttp doPut(String url, KeycloakSession session) {
+    public static SimpleHttp doPut(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doPut(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }
@@ -134,7 +134,7 @@ public class SimpleHttp {
         return new SimpleHttp(url, "PUT", client, maxConsumedResponseSize);
     }
 
-    public static SimpleHttp doHead(String url, KeycloakSession session) {
+    public static SimpleHttp doHead(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doHead(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }
@@ -143,7 +143,7 @@ public class SimpleHttp {
         return new SimpleHttp(url, "HEAD", client, maxConsumedResponseSize);
     }
 
-    public static SimpleHttp doPatch(String url, KeycloakSession session) {
+    public static SimpleHttp doPatch(String url, KeycloakRequestSession session) {
         HttpClientProvider provider = session.getProvider(HttpClientProvider.class);
         return doPatch(url, provider.getHttpClient(), provider.getMaxConsumedResponseSize());
     }

@@ -20,7 +20,7 @@ package org.keycloak.testsuite.components.amphibian;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
@@ -54,12 +54,12 @@ public class TestAmphibianProviderFactoryImpl implements TestAmphibianProviderFa
     private String val3;
 
     @Override
-    public TestImplProvider create(KeycloakSession session) {
+    public TestImplProvider create(KeycloakRequestSession session) {
         return new TestImplProvider();
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
         ConfigurationValidationHelper.check(model)
                 .checkRequired("required", "Required")
                 .checkInt("number", "Number", false);

@@ -20,7 +20,7 @@ import org.keycloak.Config.Scope;
 import org.keycloak.TokenVerifier;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.services.managers.AuthenticationManager;
@@ -48,7 +48,7 @@ public abstract class AbstractActionTokenHandler<T extends JsonWebToken> impleme
     }
 
     @Override
-    public ActionTokenHandler<T> create(KeycloakSession session) {
+    public ActionTokenHandler<T> create(KeycloakRequestSession session) {
         return this;
     }
 

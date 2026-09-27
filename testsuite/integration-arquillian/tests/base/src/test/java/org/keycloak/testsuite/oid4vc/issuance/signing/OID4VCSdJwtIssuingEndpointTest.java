@@ -37,7 +37,7 @@ import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.constants.Oid4VciConstants;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerEndpoint;
@@ -249,11 +249,11 @@ public class OID4VCSdJwtIssuingEndpointTest extends OID4VCIssuerEndpointTest {
         }
     }
 
-    private static String getCredentialIssuer(KeycloakSession session) {
+    private static String getCredentialIssuer(KeycloakRequestSession session) {
         return OID4VCIssuerWellKnownProvider.getIssuer(session.getContext());
     }
 
-    private static SdJwtVP testRequestTestCredential(KeycloakSession session, ClientScopeRepresentation clientScope,
+    private static SdJwtVP testRequestTestCredential(KeycloakRequestSession session, ClientScopeRepresentation clientScope,
                                                      String token, Proof proof)
             throws VerificationException {
 
@@ -492,7 +492,7 @@ public class OID4VCSdJwtIssuingEndpointTest extends OID4VCIssuerEndpointTest {
                 }));
     }
 
-    protected static OID4VCIssuerEndpoint prepareIssuerEndpoint(KeycloakSession session,
+    protected static OID4VCIssuerEndpoint prepareIssuerEndpoint(KeycloakRequestSession session,
                                                                 AppAuthManager.BearerTokenAuthenticator authenticator) {
         JwtCredentialBuilder testJwtCredentialBuilder = new JwtCredentialBuilder(new StaticTimeProvider(5));
         SdJwtCredentialBuilder testSdJwtCredentialBuilder = new SdJwtCredentialBuilder();
@@ -522,7 +522,7 @@ public class OID4VCSdJwtIssuingEndpointTest extends OID4VCIssuerEndpointTest {
         return protocolMapperRepresentation;
     }
 
-    public static ClientScopeModel createCredentialScope(KeycloakSession session) {
+    public static ClientScopeModel createCredentialScope(KeycloakRequestSession session) {
         RealmModel realmModel = session.getContext().getRealm();
         ClientScopeModel credentialScope = session.clientScopes()
                                                   .addClientScope(realmModel, jwtTypeCredentialScopeName);

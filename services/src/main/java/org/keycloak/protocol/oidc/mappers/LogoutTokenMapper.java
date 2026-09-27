@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.representations.LogoutToken;
@@ -28,6 +28,6 @@ import org.keycloak.representations.LogoutToken;
  */
 public interface LogoutTokenMapper {
 
-    LogoutToken transformLogoutToken(LogoutToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx);
+    LogoutToken transformLogoutToken(LogoutToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx);
 
 }

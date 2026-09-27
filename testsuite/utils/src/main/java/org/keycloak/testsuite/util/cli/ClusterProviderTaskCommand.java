@@ -19,7 +19,7 @@ package org.keycloak.testsuite.util.cli;
 
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +33,7 @@ public class ClusterProviderTaskCommand extends AbstractCommand {
     private static final ExecutorService executors = Executors.newCachedThreadPool();
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         String taskName = getArg(0);
         int taskTimeout = getIntArg(1);
         int sleepTime = getIntArg(2);

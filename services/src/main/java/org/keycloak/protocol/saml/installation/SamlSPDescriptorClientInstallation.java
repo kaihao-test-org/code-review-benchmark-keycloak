@@ -23,7 +23,7 @@ import org.keycloak.dom.saml.v2.metadata.EntityDescriptorType;
 import org.keycloak.dom.saml.v2.metadata.KeyDescriptorType;
 import org.keycloak.dom.saml.v2.metadata.KeyTypes;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -121,7 +121,7 @@ public class SamlSPDescriptorClientInstallation implements ClientInstallationPro
     }
 
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI serverBaseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI serverBaseUri) {
         String descriptor = getSPDescriptorForClient(client);
         return Response.ok(descriptor, MediaType.TEXT_PLAIN_TYPE).build();
     }
@@ -161,7 +161,7 @@ public class SamlSPDescriptorClientInstallation implements ClientInstallationPro
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

@@ -17,7 +17,7 @@
 
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.partialimport.PartialImportResults;
 import org.keycloak.provider.ProviderEvent;
@@ -36,25 +36,25 @@ import org.keycloak.representations.idm.PartialImportRepresentation;
  */
 @Deprecated
 public class PartialImportRealmFromRepresentationEvent implements ProviderEvent {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final PartialImportRepresentation rep;
     private final RealmModel realm;
 
     private PartialImportResults partialImportResults;
 
-    public PartialImportRealmFromRepresentationEvent(KeycloakSession session, PartialImportRepresentation rep, RealmModel realm) {
+    public PartialImportRealmFromRepresentationEvent(KeycloakRequestSession session, PartialImportRepresentation rep, RealmModel realm) {
         this.session = session;
         this.rep = rep;
         this.realm = realm;
     }
 
-    public static PartialImportResults fire(KeycloakSession session, PartialImportRepresentation rep, RealmModel realm) {
+    public static PartialImportResults fire(KeycloakRequestSession session, PartialImportRepresentation rep, RealmModel realm) {
         PartialImportRealmFromRepresentationEvent event = new PartialImportRealmFromRepresentationEvent(session, rep, realm);
         session.getKeycloakSessionFactory().publish(event);
         return event.getPartialImportResults();
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

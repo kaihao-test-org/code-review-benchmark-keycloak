@@ -19,7 +19,7 @@ package org.keycloak.testsuite.events;
 import java.util.HashMap;
 import java.util.Map;
 import org.keycloak.events.Event;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * <p>Just an extension of TestEventsListenerProvider that includes the realm and
@@ -29,9 +29,9 @@ import org.keycloak.models.KeycloakSession;
  */
 public class TestEventsListenerContextDetailsProvider extends TestEventsListenerProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public TestEventsListenerContextDetailsProvider(KeycloakSession session) {
+    public TestEventsListenerContextDetailsProvider(KeycloakRequestSession session) {
         super(session);
         this.session = session;
     }

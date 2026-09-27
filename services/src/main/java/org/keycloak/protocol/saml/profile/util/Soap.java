@@ -23,7 +23,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.keycloak.broker.provider.util.SimpleHttp;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.saml.processing.core.saml.v2.util.DocumentUtil;
 import org.keycloak.saml.processing.web.util.PostBindingUtil;
 import org.w3c.dom.Document;
@@ -229,7 +229,7 @@ public final class Soap {
          * @param url a SOAP endpoint url
          * @return the SOAPMessage returned by the contacted SOAP server
          * @throws SOAPException Raised if there's a problem performing the SOAP call
-         * @deprecated Use {@link #call(String,KeycloakSession)} to use SimpleHttp configuration
+         * @deprecated Use {@link #call(String,KeycloakRequestSession)} to use SimpleHttp configuration
          */
         @Deprecated
         public SOAPMessage call(String url) throws SOAPException {
@@ -255,7 +255,7 @@ public final class Soap {
          * @return the SOAPMessage returned by the contacted SOAP server
          * @throws SOAPException Raised if there's a problem performing the SOAP call
          */
-        public SOAPMessage call(String url, KeycloakSession session) throws SOAPException {
+        public SOAPMessage call(String url, KeycloakRequestSession session) throws SOAPException {
             // https://github.com/eclipse-ee4j/metro-saaj/blob/master/saaj-ri/src/main/java/com/sun/xml/messaging/saaj/client/p2p/HttpSOAPConnection.java
             // save changes of the message, this adds content-type and content-length headers
             if (message.saveRequired()) {

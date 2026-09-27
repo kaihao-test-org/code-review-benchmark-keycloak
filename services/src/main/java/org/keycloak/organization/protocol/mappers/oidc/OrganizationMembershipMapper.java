@@ -32,7 +32,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.common.Profile;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -110,7 +110,7 @@ public class OrganizationMembershipMapper extends AbstractOIDCProtocolMapper imp
     }
 
     @Override
-    protected void setClaim(IDToken token, ProtocolMapperModel model, UserSessionModel userSession, KeycloakSession session, ClientSessionContext clientSessionCtx) {
+    protected void setClaim(IDToken token, ProtocolMapperModel model, UserSessionModel userSession, KeycloakRequestSession session, ClientSessionContext clientSessionCtx) {
         String orgId = clientSessionCtx.getClientSession().getNote(OrganizationModel.ORGANIZATION_ATTRIBUTE);
         Stream<OrganizationModel> organizations;
 
@@ -133,7 +133,7 @@ public class OrganizationMembershipMapper extends AbstractOIDCProtocolMapper imp
         OIDCAttributeMapperHelper.mapClaim(token, effectiveModel, claim);
     }
 
-    private Stream<OrganizationModel> resolveFromRequestedScopes(KeycloakSession session, UserSessionModel userSession, ClientSessionContext context) {
+    private Stream<OrganizationModel> resolveFromRequestedScopes(KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext context) {
         String rawScopes = context.getScopeString(true);
         OrganizationScope scope = OrganizationScope.valueOfScope(session, rawScopes);
 
@@ -188,7 +188,7 @@ public class OrganizationMembershipMapper extends AbstractOIDCProtocolMapper imp
     }
 
     @Override
-    public ProtocolMapperModel getEffectiveModel(KeycloakSession session, RealmModel realm, ProtocolMapperModel model) {
+    public ProtocolMapperModel getEffectiveModel(KeycloakRequestSession session, RealmModel realm, ProtocolMapperModel model) {
         // Effectively clone
         ProtocolMapperModel copy = RepresentationToModel.toModel(ModelToRepresentation.toRepresentation(model));
         Map<String, String> config = Optional.ofNullable(copy.getConfig()).orElseGet(HashMap::new);

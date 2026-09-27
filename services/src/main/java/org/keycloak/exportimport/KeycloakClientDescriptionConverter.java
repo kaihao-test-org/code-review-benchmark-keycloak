@@ -18,7 +18,7 @@
 package org.keycloak.exportimport;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.util.JsonSerialization;
@@ -48,7 +48,7 @@ public class KeycloakClientDescriptionConverter implements ClientDescriptionConv
     }
 
     @Override
-    public ClientDescriptionConverter create(KeycloakSession session) {
+    public ClientDescriptionConverter create(KeycloakRequestSession session) {
         return this;
     }
 

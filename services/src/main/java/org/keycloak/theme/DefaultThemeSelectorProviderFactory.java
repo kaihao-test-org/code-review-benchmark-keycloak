@@ -1,13 +1,13 @@
 package org.keycloak.theme;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class DefaultThemeSelectorProviderFactory implements ThemeSelectorProviderFactory {
 
     @Override
-    public ThemeSelectorProvider create(KeycloakSession session) {
+    public ThemeSelectorProvider create(KeycloakRequestSession session) {
         return new DefaultThemeSelectorProvider(session);
     }
 

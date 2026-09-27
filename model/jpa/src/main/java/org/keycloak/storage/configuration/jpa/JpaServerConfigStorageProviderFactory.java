@@ -22,7 +22,7 @@ import java.util.Set;
 import jakarta.persistence.EntityManager;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.Provider;
 import org.keycloak.storage.configuration.ServerConfigStorageProviderFactory;
@@ -33,7 +33,7 @@ import org.keycloak.storage.configuration.ServerConfigStorageProviderFactory;
 public class JpaServerConfigStorageProviderFactory implements ServerConfigStorageProviderFactory {
 
     @Override
-    public JpaServerConfigStorageProvider create(KeycloakSession session) {
+    public JpaServerConfigStorageProvider create(KeycloakRequestSession session) {
         return new JpaServerConfigStorageProvider(getEntityManager(session));
     }
 
@@ -62,7 +62,7 @@ public class JpaServerConfigStorageProviderFactory implements ServerConfigStorag
         return Set.of(JpaConnectionProvider.class);
     }
 
-    private static EntityManager getEntityManager(KeycloakSession session) {
+    private static EntityManager getEntityManager(KeycloakRequestSession session) {
         return session.getProvider(JpaConnectionProvider.class).getEntityManager();
     }
 }

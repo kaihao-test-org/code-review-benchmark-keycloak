@@ -24,7 +24,7 @@ import org.keycloak.dom.saml.v2.assertion.AudienceRestrictionType;
 import org.keycloak.dom.saml.v2.protocol.ResponseType;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserSessionModel;
@@ -74,7 +74,7 @@ public class SAMLAudienceResolveProtocolMapper extends AbstractSAMLProtocolMappe
 
     @Override
     public ResponseType transformLoginResponse(ResponseType response,
-            ProtocolMapperModel mappingModel, KeycloakSession session,
+            ProtocolMapperModel mappingModel, KeycloakRequestSession session,
             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         // get the audience restriction
         AudienceRestrictionType aud = SAMLAudienceProtocolMapper.locateAudienceRestriction(response);

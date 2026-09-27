@@ -21,7 +21,7 @@ import org.keycloak.models.ClientProvider;
 import org.keycloak.models.ClientScopeProvider;
 import org.keycloak.models.GroupProvider;
 import org.keycloak.models.IdentityProviderStorageProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.RoleProvider;
 import org.keycloak.models.SingleUseObjectProvider;
@@ -44,7 +44,7 @@ import org.keycloak.storage.federated.UserFederatedStorageProvider;
 
 public class DefaultDatastoreProvider implements DatastoreProvider, StoreManagers {
     private final DefaultDatastoreProviderFactory factory;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private AuthenticationSessionProvider authenticationSessionProvider;
     private ClientProvider clientProvider;
@@ -65,7 +65,7 @@ public class DefaultDatastoreProvider implements DatastoreProvider, StoreManager
     private UserProvider userStorageManager;
     private UserFederatedStorageProvider userFederatedStorageProvider;
 
-    public DefaultDatastoreProvider(DefaultDatastoreProviderFactory factory, KeycloakSession session) {
+    public DefaultDatastoreProvider(DefaultDatastoreProviderFactory factory, KeycloakRequestSession session) {
         this.factory = factory;
         this.session = session;
     }

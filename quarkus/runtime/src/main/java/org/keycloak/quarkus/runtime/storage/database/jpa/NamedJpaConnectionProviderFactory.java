@@ -21,14 +21,14 @@ import java.util.function.Supplier;
 import jakarta.persistence.EntityManagerFactory;
 import org.keycloak.connections.jpa.DefaultJpaConnectionProvider;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public final class NamedJpaConnectionProviderFactory extends AbstractJpaConnectionProviderFactory {
 
     private String unitName;
 
     @Override
-    public JpaConnectionProvider create(KeycloakSession session) {
+    public JpaConnectionProvider create(KeycloakRequestSession session) {
         return new DefaultJpaConnectionProvider(createEntityManager(entityManagerFactory, session));
     }
 

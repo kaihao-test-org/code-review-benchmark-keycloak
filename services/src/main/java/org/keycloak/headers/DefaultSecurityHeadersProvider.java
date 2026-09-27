@@ -19,7 +19,7 @@ package org.keycloak.headers;
 import org.jboss.logging.Logger;
 import org.keycloak.models.BrowserSecurityHeaders;
 import org.keycloak.models.ContentSecurityPolicyBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import jakarta.ws.rs.InternalServerErrorException;
@@ -37,11 +37,11 @@ public class DefaultSecurityHeadersProvider implements SecurityHeadersProvider {
     private static final Logger LOGGER = Logger.getLogger(DefaultSecurityHeadersProvider.class);
 
     private final Map<String, String> headerValues;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private DefaultSecurityHeadersOptions options;
 
-    public DefaultSecurityHeadersProvider(KeycloakSession session) {
+    public DefaultSecurityHeadersProvider(KeycloakRequestSession session) {
         this.session = session;
 
         RealmModel realm = session.getContext().getRealm();

@@ -27,7 +27,7 @@ import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import org.keycloak.services.validation.Validation;
 
@@ -49,7 +49,7 @@ public class MicrosoftIdentityProvider extends AbstractOAuth2IdentityProvider im
     private static final String PROFILE_URL = "https://graph.microsoft.com/v1.0/me/"; // user profile service endpoint
     private static final String DEFAULT_SCOPE = "User.read"; // the User.read scope should be sufficient to obtain all necessary user info
 
-    public MicrosoftIdentityProvider(KeycloakSession session, MicrosoftIdentityProviderConfig config) {
+    public MicrosoftIdentityProvider(KeycloakRequestSession session, MicrosoftIdentityProviderConfig config) {
         super(session, config);
 
         // Use multi-tenant 'common' endpoints if not specified.

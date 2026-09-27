@@ -27,7 +27,7 @@ import org.keycloak.federation.kerberos.impl.KerberosServerSubjectAuthenticator;
 import org.keycloak.federation.kerberos.impl.KerberosUsernamePasswordAuthenticator;
 import org.keycloak.federation.kerberos.impl.SPNEGOAuthenticator;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.LDAPConstants;
@@ -227,7 +227,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
     }
 
     @Override
-    public LDAPStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public LDAPStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         Map<ComponentModel, LDAPConfigDecorator> configDecorators = getLDAPConfigDecorators(session, model);
 
         LDAPIdentityStore ldapIdentityStore = this.ldapStoreRegistry.getLdapStore(session, model, configDecorators);
@@ -236,7 +236,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
 
 
     // Check if it's some performance overhead to create this map in every request. But probably not...
-    protected Map<ComponentModel, LDAPConfigDecorator> getLDAPConfigDecorators(KeycloakSession session, ComponentModel ldapModel) {
+    protected Map<ComponentModel, LDAPConfigDecorator> getLDAPConfigDecorators(KeycloakRequestSession session, ComponentModel ldapModel) {
         RealmModel realm = session.realms().getRealm(ldapModel.getParentId());
         return realm.getComponentsStream(ldapModel.getId(), LDAPStorageMapper.class.getName())
                 .filter(mapperModel -> session.getKeycloakSessionFactory()
@@ -248,7 +248,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
 
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         LDAPConfig cfg = new LDAPConfig(config.getConfig());
         UserStorageProviderModel userStorageModel = new UserStorageProviderModel(config);
         String customFilter = cfg.getCustomUserSearchFilter();
@@ -320,7 +320,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
 
     // Best effort to create appropriate mappers according to our LDAP config
     @Override
-    public void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         LDAPConfig ldapConfig = new LDAPConfig(model.getConfig());
 
         boolean activeDirectory = ldapConfig.isActiveDirectory();
@@ -465,7 +465,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
     }
 
     @Override
-    public void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    public void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         boolean allowKerberosCfgOld = Boolean.valueOf(oldModel.getConfig().getFirst(KerberosConstants.ALLOW_KERBEROS_AUTHENTICATION));
         boolean allowKerberosCfgNew = Boolean.valueOf(newModel.getConfig().getFirst(KerberosConstants.ALLOW_KERBEROS_AUTHENTICATION));
         if (!allowKerberosCfgOld && allowKerberosCfgNew) {
@@ -491,7 +491,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
     }
 
     @Override
-    public void preRemove(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void preRemove(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         String allowKerberosCfg = model.getConfig().getFirst(KerberosConstants.ALLOW_KERBEROS_AUTHENTICATION);
         if (Boolean.valueOf(allowKerberosCfg)) {
             CredentialHelper.setOrReplaceAuthenticationRequirement(session, realm, CredentialRepresentation.KERBEROS,
@@ -540,7 +540,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 RealmModel realm = session.realms().getRealm(realmId);
                 session.getContext().setRealm(realm);
                 session.getProvider(UserStorageProvider.class, model);
@@ -601,7 +601,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 session.getContext().setRealm(session.realms().getRealm(realmId));
 
                 LDAPStorageProvider ldapFedProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, model);
@@ -629,7 +629,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
                 KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
                     @Override
-                    public void run(KeycloakSession session) {
+                    public void run(KeycloakRequestSession session) {
                         LDAPStorageProvider ldapFedProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, fedModel);
                         RealmModel currentRealm = session.realms().getRealm(realmId);
                         session.getContext().setRealm(currentRealm);
@@ -683,7 +683,7 @@ public class LDAPStorageProviderFactory implements UserStorageProviderFactory<LD
                     KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
                         @Override
-                        public void run(KeycloakSession session) {
+                        public void run(KeycloakRequestSession session) {
                             LDAPStorageProvider ldapFedProvider = (LDAPStorageProvider)session.getProvider(UserStorageProvider.class, fedModel);
                             RealmModel currentRealm = session.realms().getRealm(realmId);
                             session.getContext().setRealm(currentRealm);

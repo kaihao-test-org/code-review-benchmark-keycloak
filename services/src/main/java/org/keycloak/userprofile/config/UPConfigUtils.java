@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.common.util.StreamUtil;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.userprofile.config.UPAttribute;
@@ -73,7 +73,7 @@ public class UPConfigUtils {
     /**
      * Load configuration from JSON file.
      * <p>
-     * Configuration is not validated, use {@link #validate(KeycloakSession, UPConfig)} to validate it and get list of errors.
+     * Configuration is not validated, use {@link #validate(KeycloakRequestSession, UPConfig)} to validate it and get list of errors.
      *
      * @param is JSON file to be loaded
      * @return object representation of the configuration
@@ -109,7 +109,7 @@ public class UPConfigUtils {
      * @param config to validate
      * @return list of errors, empty if no error found
      */
-    public static List<String> validate(KeycloakSession session, UPConfig config) {
+    public static List<String> validate(KeycloakRequestSession session, UPConfig config) {
         List<String> errors = validateAttributes(session, config);
         errors.addAll(validateAttributeGroups(config));
         return errors;
@@ -125,7 +125,7 @@ public class UPConfigUtils {
         return Collections.emptyList();
     }
 
-    private static List<String> validateAttributes(KeycloakSession session, UPConfig config) {
+    private static List<String> validateAttributes(KeycloakRequestSession session, UPConfig config) {
         List<String> errors = new ArrayList<>();
         Set<String> groups = config.getGroups().stream()
                 .map(g -> g.getName())
@@ -168,7 +168,7 @@ public class UPConfigUtils {
      * @param errors to add error message in if something is invalid
      * @param attNamesCache cache of already existing attribute names so we can check uniqueness
      */
-    private static void validateAttribute(KeycloakSession session, UPAttribute attributeConfig, Set<String> groups, List<String> errors, Set<String> attNamesCache) {
+    private static void validateAttribute(KeycloakRequestSession session, UPAttribute attributeConfig, Set<String> groups, List<String> errors, Set<String> attNamesCache) {
         String attributeName = attributeConfig.getName();
         if (isBlank(attributeName)) {
             errors.add("Attribute configuration without 'name' is not allowed");
@@ -221,7 +221,7 @@ public class UPConfigUtils {
         }
     }
 
-    private static void validateScopes(Set<String> scopes, String propertyName, String attributeName, List<String> errors, KeycloakSession session) {
+    private static void validateScopes(Set<String> scopes, String propertyName, String attributeName, List<String> errors, KeycloakRequestSession session) {
         if (scopes == null) {
             return;
         }
@@ -269,7 +269,7 @@ public class UPConfigUtils {
      * @param validatorConfig config to be checked
      * @param errors to add error message in if something is invalid
      */
-    private static void validateValidationConfig(KeycloakSession session, String validator, Map<String, Object> validatorConfig, String attributeName, List<String> errors) {
+    private static void validateValidationConfig(KeycloakRequestSession session, String validator, Map<String, Object> validatorConfig, String attributeName, List<String> errors) {
 
         if (isBlank(validator)) {
             errors.add("Validation without validator id is defined for attribute '" + attributeName + "'");

@@ -27,7 +27,7 @@ import org.keycloak.jose.jwk.JWK;
 import org.keycloak.jose.jwk.JWKParser;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OAuth2DeviceConfig;
 import org.keycloak.models.ParConfig;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -77,7 +77,7 @@ import static org.keycloak.protocol.oidc.utils.OIDCResponseType.CODE;
  */
 public class DescriptionConverter {
 
-    public static ClientRepresentation toInternal(KeycloakSession session, OIDCClientRepresentation clientOIDC) throws ClientRegistrationException {
+    public static ClientRepresentation toInternal(KeycloakRequestSession session, OIDCClientRepresentation clientOIDC) throws ClientRegistrationException {
         ClientRepresentation client = new ClientRepresentation();
 
         client.setClientId(clientOIDC.getClientId());
@@ -294,7 +294,7 @@ public class DescriptionConverter {
         client.setAttributes(attributes);
     }
 
-    private static List<String> getSupportedAlgorithms(KeycloakSession session, Class<? extends Provider> clazz, boolean includeNone) {
+    private static List<String> getSupportedAlgorithms(KeycloakRequestSession session, Class<? extends Provider> clazz, boolean includeNone) {
         Stream<String> supportedAlgorithms = session.getKeycloakSessionFactory().getProviderFactoriesStream(clazz)
                 .map(ProviderFactory::getId);
 
@@ -345,7 +345,7 @@ public class DescriptionConverter {
 
     }
 
-    public static OIDCClientRepresentation toExternalResponse(KeycloakSession session, ClientRepresentation client, URI uri) {
+    public static OIDCClientRepresentation toExternalResponse(KeycloakRequestSession session, ClientRepresentation client, URI uri) {
         OIDCClientRepresentation response = new OIDCClientRepresentation();
         response.setClientId(client.getClientId());
 

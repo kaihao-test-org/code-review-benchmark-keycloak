@@ -17,7 +17,7 @@
 package org.keycloak.testsuite.federation;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.storage.UserStorageProviderFactory;
@@ -38,7 +38,7 @@ public class FailableHardcodedStorageProviderFactory implements UserStorageProvi
     public static final String PROVIDER_ID = "failable-hardcoded-storage";
 
     @Override
-    public FailableHardcodedStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public FailableHardcodedStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new FailableHardcodedStorageProvider(model, session);
     }
 

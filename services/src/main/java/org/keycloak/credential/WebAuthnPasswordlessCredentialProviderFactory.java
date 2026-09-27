@@ -21,7 +21,7 @@ package org.keycloak.credential;
 import com.webauthn4j.converter.util.ObjectConverter;
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
 /**
@@ -34,7 +34,7 @@ public class WebAuthnPasswordlessCredentialProviderFactory implements Credential
     private ObjectConverter converter;
 
     @Override
-    public CredentialProvider create(KeycloakSession session) {
+    public CredentialProvider create(KeycloakRequestSession session) {
         return new WebAuthnPasswordlessCredentialProvider(session, createOrGetObjectConverter());
     }
 

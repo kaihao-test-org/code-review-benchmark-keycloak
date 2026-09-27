@@ -22,7 +22,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.util.reflections.Types;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -37,11 +37,11 @@ import org.keycloak.utils.ServicesUtils;
 public class RoleStorageManager implements RoleProvider {
     private static final Logger logger = Logger.getLogger(RoleStorageManager.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     private final long roleStorageProviderTimeout;
 
-    public RoleStorageManager(KeycloakSession session, long roleStorageProviderTimeout) {
+    public RoleStorageManager(KeycloakRequestSession session, long roleStorageProviderTimeout) {
         this.session = session;
         this.roleStorageProviderTimeout = roleStorageProviderTimeout;
     }
@@ -61,7 +61,7 @@ public class RoleStorageManager implements RoleProvider {
         return new RoleStorageProviderModel(model);
     }
 
-    public static RoleStorageProvider getStorageProvider(KeycloakSession session, RealmModel realm, String componentId) {
+    public static RoleStorageProvider getStorageProvider(KeycloakRequestSession session, RealmModel realm, String componentId) {
         ComponentModel model = realm.getComponent(componentId);
         if (model == null) return null;
         RoleStorageProviderModel storageModel = new RoleStorageProviderModel(model);
@@ -72,7 +72,7 @@ public class RoleStorageManager implements RoleProvider {
         return getStorageProviderInstance(session, storageModel, factory);
     }
 
-    public static <T> Stream<RoleStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakSession session, Class<T> type) {
+    public static <T> Stream<RoleStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakRequestSession session, Class<T> type) {
         return ((StorageProviderRealmModel) realm).getRoleStorageProvidersStream()
                 .filter(model -> {
                     RoleStorageProviderFactory factory = getRoleStorageProviderFactory(model, session);
@@ -86,12 +86,12 @@ public class RoleStorageManager implements RoleProvider {
                 });
     }
 
-    private static RoleStorageProviderFactory getRoleStorageProviderFactory(RoleStorageProviderModel model, KeycloakSession session) {
+    private static RoleStorageProviderFactory getRoleStorageProviderFactory(RoleStorageProviderModel model, KeycloakRequestSession session) {
         return (RoleStorageProviderFactory) session.getKeycloakSessionFactory()
                 .getProviderFactory(RoleStorageProvider.class, model.getProviderId());
     }
 
-    public static RoleStorageProvider getStorageProviderInstance(KeycloakSession session, RoleStorageProviderModel model, RoleStorageProviderFactory factory) {
+    public static RoleStorageProvider getStorageProviderInstance(KeycloakRequestSession session, RoleStorageProviderModel model, RoleStorageProviderFactory factory) {
         RoleStorageProvider instance = (RoleStorageProvider)session.getAttribute(model.getId());
         if (instance != null) return instance;
         instance = factory.create(session, model);
@@ -104,13 +104,13 @@ public class RoleStorageManager implements RoleProvider {
     }
 
 
-    public static <T> Stream<T> getStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getRoleStorageProviderFactory(model, session))));
     }
 
 
-    public static <T> Stream<T> getEnabledStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getEnabledStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .filter(RoleStorageProviderModel::isEnabled)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getRoleStorageProviderFactory(model, session))));

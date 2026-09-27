@@ -25,7 +25,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.common.util.Encode;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.TokenManager;
@@ -71,7 +71,7 @@ public class AdminRoot {
     protected TokenManager tokenManager;
 
     @Context
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     public AdminRoot() {
         this.tokenManager = new TokenManager();
@@ -139,7 +139,7 @@ public class AdminRoot {
         return masterRealmAdminConsoleRedirect();
     }
 
-    protected void resolveRealmAndUpdateSession(String name, KeycloakSession session) {
+    protected void resolveRealmAndUpdateSession(String name, KeycloakRequestSession session) {
         RealmManager realmManager = new RealmManager(session);
         RealmModel realm = realmManager.getRealmByName(name);
         if (realm == null) {
@@ -298,11 +298,11 @@ public class AdminRoot {
         return session.getContext().getHttpRequest();
     }
 
-    public static Theme getTheme(KeycloakSession session, RealmModel realm) throws IOException {
+    public static Theme getTheme(KeycloakRequestSession session, RealmModel realm) throws IOException {
         return session.theme().getTheme(Theme.Type.ADMIN);
     }
 
-    public static Properties getMessages(KeycloakSession session, RealmModel realm, String lang) {
+    public static Properties getMessages(KeycloakRequestSession session, RealmModel realm, String lang) {
         try {
             Theme theme = getTheme(session, realm);
             Locale locale = lang != null ? Locale.forLanguageTag(lang) : Locale.ENGLISH;
@@ -313,7 +313,7 @@ public class AdminRoot {
         }
     }
 
-    public static Properties getMessages(KeycloakSession session, RealmModel realm, String lang, String... bundles) {
+    public static Properties getMessages(KeycloakRequestSession session, RealmModel realm, String lang, String... bundles) {
         Properties compound = new Properties();
         for (String bundle : bundles) {
             Properties current = getMessages(session, realm, lang, bundle);
@@ -322,7 +322,7 @@ public class AdminRoot {
         return compound;
     }
 
-    private static Properties getMessages(KeycloakSession session, RealmModel realm, String lang, String bundle) {
+    private static Properties getMessages(KeycloakRequestSession session, RealmModel realm, String lang, String bundle) {
         try {
             Theme theme = getTheme(session, realm);
             Locale locale = lang != null ? Locale.forLanguageTag(lang) : Locale.ENGLISH;

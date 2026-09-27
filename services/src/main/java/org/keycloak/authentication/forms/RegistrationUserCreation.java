@@ -36,7 +36,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -196,12 +196,12 @@ public class RegistrationUserCreation implements FormAction, FormActionFactory {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return true;
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
 
     }
 
@@ -240,7 +240,7 @@ public class RegistrationUserCreation implements FormAction, FormActionFactory {
         return REQUIREMENT_CHOICES;
     }
     @Override
-    public FormAction create(KeycloakSession session) {
+    public FormAction create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -272,11 +272,11 @@ public class RegistrationUserCreation implements FormAction, FormActionFactory {
     }
 
     /**
-     * Get user profile instance for current HTTP request (KeycloakSession) and for given context. This assumes that there is
+     * Get user profile instance for current HTTP request (KeycloakRequestSession) and for given context. This assumes that there is
      * single user registered within HTTP request, which is always the case in Keycloak
      */
     public UserProfile getOrCreateUserProfile(FormContext formContext, MultivaluedMap<String, String> formData) {
-        KeycloakSession session = formContext.getSession();
+        KeycloakRequestSession session = formContext.getSession();
         UserProfile profile = (UserProfile) session.getAttribute("UP_REGISTER");
         if (profile == null) {
             formData = normalizeFormParameters(formData);
@@ -307,7 +307,7 @@ public class RegistrationUserCreation implements FormAction, FormActionFactory {
                 return true;
             }
 
-            KeycloakSession session = context.getSession();
+            KeycloakRequestSession session = context.getSession();
             OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
             OrganizationModel organization = provider.getById(token.getOrgId());
 
@@ -339,7 +339,7 @@ public class RegistrationUserCreation implements FormAction, FormActionFactory {
             InviteOrgActionToken token = (InviteOrgActionToken) context.getSession().getAttribute(InviteOrgActionToken.class.getName());
 
             if (token != null) {
-                KeycloakSession session = context.getSession();
+                KeycloakRequestSession session = context.getSession();
                 OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
                 OrganizationModel orgModel = provider.getById(token.getOrgId());
                 provider.addManagedMember(orgModel, user);

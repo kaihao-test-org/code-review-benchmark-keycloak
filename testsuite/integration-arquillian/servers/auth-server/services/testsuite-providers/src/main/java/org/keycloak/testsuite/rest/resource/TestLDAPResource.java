@@ -29,7 +29,7 @@ import jakarta.ws.rs.QueryParam;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -55,10 +55,10 @@ import static org.keycloak.testsuite.util.LDAPTestUtils.getGroupDescriptionLDAPA
  */
 public class TestLDAPResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
 
-    public TestLDAPResource(KeycloakSession session, RealmModel realm) {
+    public TestLDAPResource(KeycloakRequestSession session, RealmModel realm) {
         this.session = session;
         this.realm = realm;
     }

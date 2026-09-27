@@ -1,7 +1,7 @@
 package org.keycloak.quarkus.runtime.themes;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.quarkus.runtime.Environment;
 import org.keycloak.theme.FolderThemeProvider;
@@ -17,7 +17,7 @@ public class QuarkusFolderThemeProviderFactory implements ThemeProviderFactory {
     private FolderThemeProvider themeProvider;
 
     @Override
-    public ThemeProvider create(KeycloakSession sessions) {
+    public ThemeProvider create(KeycloakRequestSession sessions) {
         return themeProvider;
     }
 

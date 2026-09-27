@@ -22,7 +22,7 @@ import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.common.util.UriUtils;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.Urls;
@@ -45,17 +45,17 @@ public class RedirectUtils {
 
     private static final Logger logger = Logger.getLogger(RedirectUtils.class);
 
-    public static String verifyRedirectUri(KeycloakSession session, String redirectUri, ClientModel client) {
+    public static String verifyRedirectUri(KeycloakRequestSession session, String redirectUri, ClientModel client) {
         return verifyRedirectUri(session, redirectUri, client, true);
     }
 
-    public static String verifyRedirectUri(KeycloakSession session, String redirectUri, ClientModel client, boolean requireRedirectUri) {
+    public static String verifyRedirectUri(KeycloakRequestSession session, String redirectUri, ClientModel client, boolean requireRedirectUri) {
         if (client != null)
             return verifyRedirectUri(session, client.getRootUrl(), redirectUri, client.getRedirectUris(), requireRedirectUri);
         return null;
     }
 
-    public static Set<String> resolveValidRedirects(KeycloakSession session, String rootUrl, Set<String> validRedirects) {
+    public static Set<String> resolveValidRedirects(KeycloakRequestSession session, String rootUrl, Set<String> validRedirects) {
         // If the valid redirect URI is relative (no scheme, host, port) then use the request's scheme, host, and port
         // the set is ordered by length to get the longest match first
         Set<String> resolveValidRedirects = new TreeSet<>((String s1, String s2) -> s1.length() == s2.length()? s1.compareTo(s2) : s1.length() < s2.length()? 1 : -1);
@@ -69,7 +69,7 @@ public class RedirectUtils {
         return resolveValidRedirects;
     }
 
-    public static String verifyRedirectUri(KeycloakSession session, String rootUrl, String redirectUri, Set<String> validRedirects, boolean requireRedirectUri) {
+    public static String verifyRedirectUri(KeycloakRequestSession session, String rootUrl, String redirectUri, Set<String> validRedirects, boolean requireRedirectUri) {
         KeycloakUriInfo uriInfo = session.getContext().getUri();
         RealmModel realm = session.getContext().getRealm();
 
@@ -156,7 +156,7 @@ public class RedirectUtils {
                 && (redirectUri.getRawPath() == null || !UNSAFE_PATH_PATTERN.matcher(redirectUri.getRawPath()).find());
     }
 
-    private static String relativeToAbsoluteURI(KeycloakSession session, String rootUrl, String relative) {
+    private static String relativeToAbsoluteURI(KeycloakRequestSession session, String rootUrl, String relative) {
         if (rootUrl != null) {
             rootUrl = ResolveRelative.resolveRootUrl(session, rootUrl);
         }

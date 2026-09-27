@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 
@@ -43,7 +43,7 @@ public class MigrateTo25_0_0 extends RealmMigration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         // Can be null during store model tests.
         if (session.sessions() != null) {
             // Offer a migration for persistent user sessions which was added in KC25.
@@ -54,7 +54,7 @@ public class MigrateTo25_0_0 extends RealmMigration {
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         MigrationProvider migrationProvider = session.getProvider(MigrationProvider.class);
 
         ClientScopeModel basicScope = KeycloakModelUtils.getClientScopeByName(realm, "basic");

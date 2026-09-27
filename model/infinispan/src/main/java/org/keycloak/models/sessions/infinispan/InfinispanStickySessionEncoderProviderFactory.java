@@ -22,7 +22,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -40,7 +40,7 @@ public class InfinispanStickySessionEncoderProviderFactory implements StickySess
     private boolean shouldAttachRoute;
 
     @Override
-    public StickySessionEncoderProvider create(KeycloakSession session) {
+    public StickySessionEncoderProvider create(KeycloakRequestSession session) {
         return new InfinispanStickySessionEncoderProvider(session, shouldAttachRoute);
     }
 

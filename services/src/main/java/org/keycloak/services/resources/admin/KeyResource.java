@@ -24,7 +24,7 @@ import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.common.util.Base64;
 import org.keycloak.common.util.PemUtils;
 import org.keycloak.crypto.KeyWrapper;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.KeysMetadataRepresentation;
 import org.keycloak.services.resources.KeycloakOpenAPI;
@@ -48,10 +48,10 @@ import java.util.stream.Collectors;
 public class KeyResource {
 
     private RealmModel realm;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private AdminPermissionEvaluator auth;
 
-    public KeyResource(RealmModel realm, KeycloakSession session, AdminPermissionEvaluator auth) {
+    public KeyResource(RealmModel realm, KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.realm = realm;
         this.session = session;
         this.auth = auth;

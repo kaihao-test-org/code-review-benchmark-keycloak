@@ -14,7 +14,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.events.Details;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
@@ -67,7 +67,7 @@ public class RecoveryAuthnCodesAction implements RequiredActionProvider, Require
     }
 
     @Override
-    public String getCredentialType(KeycloakSession session, AuthenticationSessionModel authenticationSession) {
+    public String getCredentialType(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession) {
         return RecoveryAuthnCodesCredentialModel.TYPE;
     }
 
@@ -77,7 +77,7 @@ public class RecoveryAuthnCodesAction implements RequiredActionProvider, Require
     }
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return INSTANCE;
     }
 
@@ -167,7 +167,7 @@ public class RecoveryAuthnCodesAction implements RequiredActionProvider, Require
     }
 
     @Override
-    public void validateConfig(KeycloakSession session, RealmModel realm, RequiredActionConfigModel model) {
+    public void validateConfig(KeycloakRequestSession session, RealmModel realm, RequiredActionConfigModel model) {
         RequiredActionFactory.super.validateConfig(session, realm, model);
 
         int parsedMaxAuthAge;

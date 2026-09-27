@@ -25,7 +25,7 @@ import org.keycloak.Config;
 import org.keycloak.component.ComponentFactory;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -41,7 +41,7 @@ public interface ClientScopeStorageProviderFactory<T extends ClientScopeStorageP
      * @return
      */
     @Override
-    T create(KeycloakSession session, ComponentModel model);
+    T create(KeycloakRequestSession session, ComponentModel model);
 
     /**
      * This is the name of the provider.
@@ -74,7 +74,7 @@ public interface ClientScopeStorageProviderFactory<T extends ClientScopeStorageP
     }
 
     @Override
-    default void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    default void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
     }
 
     /**
@@ -86,7 +86,7 @@ public interface ClientScopeStorageProviderFactory<T extends ClientScopeStorageP
      * @param model
      */
     @Override
-    default void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    default void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
     }
 
     /**

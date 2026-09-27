@@ -30,7 +30,7 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.ClientInitialAccessModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
@@ -89,7 +89,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void componentsTest(KeycloakSession session1) {
+    public void componentsTest(KeycloakRequestSession session1) {
         doTest(session1,
             // Get ID of some component from realm1
             ((session, realm1) -> realm1.getComponentsStream().findFirst().get().getId()),
@@ -136,7 +136,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void requiredActionProvidersTest(KeycloakSession session1) {
+    public void requiredActionProvidersTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> realm1.getRequiredActionProvidersStream().findFirst().get().getId()),
@@ -184,7 +184,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void authenticationFlowsTest(KeycloakSession session1) {
+    public void authenticationFlowsTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> {
@@ -237,7 +237,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void authenticationExecutionsTest(KeycloakSession session1) {
+    public void authenticationExecutionsTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> {
@@ -290,7 +290,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void authenticationConfigsTest(KeycloakSession session1) {
+    public void authenticationConfigsTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> realm1.getAuthenticatorConfigsStream().findFirst().get().getId()),
@@ -338,7 +338,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void clientInitialAccessTest(KeycloakSession session1) {
+    public void clientInitialAccessTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> {
@@ -384,7 +384,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void rolesTest(KeycloakSession session1) {
+    public void rolesTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> {
@@ -429,7 +429,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void userSessionsTest(KeycloakSession session1) {
+    public void userSessionsTest(KeycloakRequestSession session1) {
         doTest(session1,
                 // Get ID of some object from realm1
                 ((session, realm1) -> {
@@ -477,18 +477,18 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
     }
 
 
-    private void doTest(KeycloakSession session1,
-                               BiFunction<KeycloakSession, RealmModel, String> realm1ObjectIdProducer,
-                               TriConsumer<KeycloakSession, RealmModel, String> testLookupRealm1ObjectInRealm2,
-                               TetraConsumer<KeycloakSession, RealmModel, RealmModel, String> updaterRealm1ObjectInRealm2,
-                               TriConsumer<KeycloakSession, RealmModel, String> testUpdateFailed,
-                               TetraConsumer<KeycloakSession, RealmModel, RealmModel, String> removeRealm1ObjectInRealm2,
-                               TriConsumer<KeycloakSession, RealmModel, String> testRemoveFailed
+    private void doTest(KeycloakRequestSession session1,
+                               BiFunction<KeycloakRequestSession, RealmModel, String> realm1ObjectIdProducer,
+                               TriConsumer<KeycloakRequestSession, RealmModel, String> testLookupRealm1ObjectInRealm2,
+                               TetraConsumer<KeycloakRequestSession, RealmModel, RealmModel, String> updaterRealm1ObjectInRealm2,
+                               TriConsumer<KeycloakRequestSession, RealmModel, String> testUpdateFailed,
+                               TetraConsumer<KeycloakRequestSession, RealmModel, RealmModel, String> removeRealm1ObjectInRealm2,
+                               TriConsumer<KeycloakRequestSession, RealmModel, String> testRemoveFailed
     ) {
 
         // Transaction 1 - Lookup object of realm1
         AtomicReference<String> realm1ObjectId = new AtomicReference<>();
-        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakSession session) -> {
+        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakRequestSession session) -> {
             // can't use getRealmByName as that returns the infinispan realm adapter version, meaning the tests will query
             // the cache instead of the actual provider.
             RealmModel realm1 = session.getProvider(RealmProvider.class).getRealm(testRealmId);
@@ -498,7 +498,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
         });
 
         // Transaction 2
-        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakSession session) -> {
+        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakRequestSession session) -> {
             RealmModel realm1 = session.getProvider(RealmProvider.class).getRealm(testRealmId);
             RealmModel realm2 = session.getProvider(RealmProvider.class).getRealm(fooRealmId);
 
@@ -510,7 +510,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
         });
 
         // Transaction 3
-        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakSession session) -> {
+        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakRequestSession session) -> {
             RealmModel realm1 = session.getProvider(RealmProvider.class).getRealm(testRealmId);
             session.getContext().setRealm(realm1);
             testUpdateFailed.accept(session, realm1, realm1ObjectId.get());
@@ -518,7 +518,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
 
         // Transaction 4
         try {
-            KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakSession session) -> {
+            KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakRequestSession session) -> {
                 RealmModel realm1 = session.getProvider(RealmProvider.class).getRealm(testRealmId);
                 RealmModel realm2 = session.getProvider(RealmProvider.class).getRealm(fooRealmId);
                 // each implementation of remover should set the realm in context according to the operations executed
@@ -530,7 +530,7 @@ public class OwnerReplacementTest extends AbstractKeycloakTest {
         }
 
         // Transaction 5
-        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakSession session) -> {
+        KeycloakModelUtils.runJobInTransaction(session1.getKeycloakSessionFactory(), (KeycloakRequestSession session) -> {
             RealmModel realm1 = session.getProvider(RealmProvider.class).getRealm(testRealmId);
             session.getContext().setRealm(realm1);
             testRemoveFailed.accept(session, realm1, realm1ObjectId.get());

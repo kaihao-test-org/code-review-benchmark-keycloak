@@ -23,7 +23,7 @@ import org.keycloak.config.BootstrapAdminOptions;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -46,9 +46,9 @@ import static org.keycloak.models.UserModel.IS_TEMP_ADMIN_ATTR_NAME;
  */
 public class ApplianceBootstrap {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ApplianceBootstrap(KeycloakSession session) {
+    public ApplianceBootstrap(KeycloakRequestSession session) {
         this.session = session;
     }
 

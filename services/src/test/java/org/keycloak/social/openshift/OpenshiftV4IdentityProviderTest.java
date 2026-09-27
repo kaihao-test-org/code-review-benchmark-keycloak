@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -41,7 +41,7 @@ public class OpenshiftV4IdentityProviderTest {
         //when
         new OpenshiftV4IdentityProvider(null, config) {
             @Override
-            InputStream getOauthMetadataInputStream(KeycloakSession session, String baseUrl) {
+            InputStream getOauthMetadataInputStream(KeycloakRequestSession session, String baseUrl) {
                 return new ByteArrayInputStream(authMetadata.getBytes());
             }
         };
@@ -61,7 +61,7 @@ public class OpenshiftV4IdentityProviderTest {
         try {
             new OpenshiftV4IdentityProvider(null, config) {
                 @Override
-                InputStream getOauthMetadataInputStream(KeycloakSession session, String baseUrl) {
+                InputStream getOauthMetadataInputStream(KeycloakRequestSession session, String baseUrl) {
                     throw new RuntimeException("Failed : HTTP error code : 500");
                 }
             };

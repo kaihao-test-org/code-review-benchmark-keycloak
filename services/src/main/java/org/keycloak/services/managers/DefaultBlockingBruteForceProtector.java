@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.keycloak.common.ClientConnection;
 import org.keycloak.models.AbstractKeycloakTransaction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -50,7 +50,7 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
     }
 
     @Override
-    public boolean isPermanentlyLockedOut(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean isPermanentlyLockedOut(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (super.isPermanentlyLockedOut(session, realm, user)) {
             return true;
         }
@@ -61,7 +61,7 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
     }
 
     @Override
-    public boolean isTemporarilyDisabled(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean isTemporarilyDisabled(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (super.isTemporarilyDisabled(session, realm, user)) {
             return true;
         }
@@ -69,7 +69,7 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
         return isLoginInProgress(session, user);
     }
 
-    private boolean isLoginInProgress(KeycloakSession session, UserModel user) {
+    private boolean isLoginInProgress(KeycloakRequestSession session, UserModel user) {
         AuthenticationSessionModel authSession = session.getContext().getAuthenticationSession();
 
         if (authSession == null) {
@@ -81,7 +81,7 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
     }
 
     // Return true if this thread successfully enlisted itself or it was already done by the same thread
-    private boolean tryEnlistBlockingTransactionOrSameThread(KeycloakSession session, UserModel user) {
+    private boolean tryEnlistBlockingTransactionOrSameThread(KeycloakRequestSession session, UserModel user) {
         AtomicBoolean inserted = new AtomicBoolean(false);
         String threadInProgress = loginAttempts.computeIfAbsent(user.getId(), k -> {
             inserted.set(true);
@@ -118,7 +118,7 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
         return Thread.currentThread().getName();
     }
 
-    private void enlistRemoval(KeycloakSession session, String userId) {
+    private void enlistRemoval(KeycloakRequestSession session, String userId) {
         session.getTransactionManager().enlistAfterCompletion(new AbstractKeycloakTransaction() {
             @Override
             protected void commitImpl() {
@@ -141,14 +141,14 @@ public class DefaultBlockingBruteForceProtector extends DefaultBruteForceProtect
     }
 
     @Override
-    protected void failure(KeycloakSession session, RealmModel realm, String userId, String remoteAddr, long failureTime) {
+    protected void failure(KeycloakRequestSession session, RealmModel realm, String userId, String remoteAddr, long failureTime) {
         // remove the user from concurrent login attemps once it's processed
         enlistRemoval(session, userId);
         super.failure(session, realm, userId, remoteAddr, failureTime);
     }
 
     @Override
-    protected void success(KeycloakSession session, RealmModel realm, String userId) {
+    protected void success(KeycloakRequestSession session, RealmModel realm, String userId) {
         // remove the user from concurrent login attemps once it's processed
         enlistRemoval(session, userId);
         super.success(session, realm, userId);

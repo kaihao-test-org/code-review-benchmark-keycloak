@@ -25,7 +25,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.representations.AuthorizationResponseToken;
@@ -53,7 +53,7 @@ public abstract class OIDCRedirectUriBuilder {
     public abstract Response build();
 
 
-    public static OIDCRedirectUriBuilder fromUri(String baseUri, OIDCResponseMode responseMode, KeycloakSession session, AuthenticatedClientSessionModel clientSession) {
+    public static OIDCRedirectUriBuilder fromUri(String baseUri, OIDCResponseMode responseMode, KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession) {
         KeycloakUriBuilder uriBuilder = KeycloakUriBuilder.fromUri(baseUri);
 
         switch (responseMode) {
@@ -192,10 +192,10 @@ public abstract class OIDCRedirectUriBuilder {
 
         private final OIDCResponseMode responseMode;
         private final AuthorizationResponseToken responseJWT;
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
         private final AuthenticatedClientSessionModel clientSession;
 
-        public JWTRedirectUriBuilder(KeycloakUriBuilder uriBuilder, OIDCResponseMode responseMode, KeycloakSession session, AuthenticatedClientSessionModel clientSession) {
+        public JWTRedirectUriBuilder(KeycloakUriBuilder uriBuilder, OIDCResponseMode responseMode, KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession) {
             super(uriBuilder);
             this.responseMode = responseMode;
             this.session = session;

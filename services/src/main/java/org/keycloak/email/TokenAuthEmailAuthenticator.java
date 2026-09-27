@@ -6,7 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.Transport;
 import org.jboss.logging.Logger;
 import org.keycloak.broker.provider.util.SimpleHttp;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.KeycloakSessionUtil;
 import org.keycloak.vault.VaultStringSecret;
 
@@ -24,7 +24,7 @@ public class TokenAuthEmailAuthenticator implements EmailAuthenticator {
     private final Map<String, TokenAuthEmailAuthenticator.TokenStoreEntry> tokenStore = new ConcurrentHashMap<>();
 
     @Override
-    public void connect(KeycloakSession session, Map<String, String> config, Transport transport) throws EmailException {
+    public void connect(KeycloakRequestSession session, Map<String, String> config, Transport transport) throws EmailException {
         try {
             String token = gatherValidToken(session, config);
 
@@ -49,7 +49,7 @@ public class TokenAuthEmailAuthenticator implements EmailAuthenticator {
         }
     }
 
-    private String gatherValidToken(KeycloakSession session, Map<String, String> config) throws EmailException {
+    private String gatherValidToken(KeycloakRequestSession session, Map<String, String> config) throws EmailException {
         try (VaultStringSecret vaultStringSecret = session.vault().getStringSecret(config.get("authTokenClientSecret"))) {
             String authTokenClientSecret = vaultStringSecret.get().orElse(config.get("authTokenClientSecret"));
             String authTokenUrl = config.get("authTokenUrl");
@@ -101,7 +101,7 @@ public class TokenAuthEmailAuthenticator implements EmailAuthenticator {
                 && tokenStoreEntry.expiration_at.plusSeconds(30).isAfter(LocalDateTime.now());
     }
 
-    private Optional<String> getAccessToken(KeycloakSession session, JsonNode response) {
+    private Optional<String> getAccessToken(KeycloakRequestSession session, JsonNode response) {
         if (response.has("access_token")) {
             return Optional.of(response.get("access_token").asText());
         } else {
@@ -110,7 +110,7 @@ public class TokenAuthEmailAuthenticator implements EmailAuthenticator {
         }
     }
 
-    private Optional<LocalDateTime> getExpiresIn(KeycloakSession session, JsonNode response) {
+    private Optional<LocalDateTime> getExpiresIn(KeycloakRequestSession session, JsonNode response) {
         //token-lifetime, must be given beside the token because token can be opaque (must not be a jwt token)
         if (response.has("expires_in")) {
             String expiresIn = response.get("expires_in").asText();
@@ -121,7 +121,7 @@ public class TokenAuthEmailAuthenticator implements EmailAuthenticator {
         }
     }
 
-    private JsonNode fetchTokenViaHTTP(KeycloakSession session, String authTokenUrl, String authTokenScope, String authTokenClientId, String authTokenClientSecret) throws IOException {
+    private JsonNode fetchTokenViaHTTP(KeycloakRequestSession session, String authTokenUrl, String authTokenScope, String authTokenClientId, String authTokenClientSecret) throws IOException {
         return SimpleHttp.doPost(authTokenUrl, session)
                 .param("client_id", authTokenClientId)
                 .param("client_secret", authTokenClientSecret)

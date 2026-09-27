@@ -27,7 +27,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenExchangeContext;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.protocol.oidc.grants.ciba.channel.CIBAAuthenticationRequest;
@@ -52,7 +52,7 @@ public class ClientScopesCondition extends AbstractClientPolicyConditionProvider
 
     private static final Logger logger = Logger.getLogger(ClientScopesCondition.class);
 
-    public ClientScopesCondition(KeycloakSession session) {
+    public ClientScopesCondition(KeycloakRequestSession session) {
         super(session);
     }
 

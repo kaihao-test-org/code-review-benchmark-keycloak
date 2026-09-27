@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import org.keycloak.Config;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
@@ -54,7 +54,7 @@ public class NonceBackwardsCompatibleMapper implements OIDCAccessTokenMapper, Pr
     }
 
     @Override
-    public final ProtocolMapper create(KeycloakSession session) {
+    public final ProtocolMapper create(KeycloakRequestSession session) {
         return new NonceBackwardsCompatibleMapper();
     }
 
@@ -94,7 +94,7 @@ public class NonceBackwardsCompatibleMapper implements OIDCAccessTokenMapper, Pr
     }
 
     @Override
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         token.setNonce(clientSessionCtx.getAttribute(OIDCLoginProtocol.NONCE_PARAM, String.class));
         return token;
     }

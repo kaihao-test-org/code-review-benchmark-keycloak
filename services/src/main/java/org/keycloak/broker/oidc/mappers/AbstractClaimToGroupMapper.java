@@ -22,7 +22,7 @@ import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.ConfigConstants;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderMapperModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -37,7 +37,7 @@ public abstract class AbstractClaimToGroupMapper extends AbstractClaimMapper {
 
 
     @Override
-    public void importNewUser(KeycloakSession session, RealmModel realm, UserModel user,
+    public void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user,
             IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 
         GroupModel group = this.getGroup(session, realm, mapperModel);
@@ -51,7 +51,7 @@ public abstract class AbstractClaimToGroupMapper extends AbstractClaimMapper {
     }
 
     @Override
-    public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user,
+    public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user,
             IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 
         GroupModel group = this.getGroup(session, realm, mapperModel);
@@ -81,7 +81,7 @@ public abstract class AbstractClaimToGroupMapper extends AbstractClaimMapper {
     protected abstract boolean applies(final IdentityProviderMapperModel mapperModel,
             final BrokeredIdentityContext context);
 
-    private GroupModel getGroup(KeycloakSession session, final RealmModel realm, final IdentityProviderMapperModel mapperModel) {
+    private GroupModel getGroup(KeycloakRequestSession session, final RealmModel realm, final IdentityProviderMapperModel mapperModel) {
         String groupPath = mapperModel.getConfig().get(ConfigConstants.GROUP);
         GroupModel group = KeycloakModelUtils.findGroupByPath(session, realm, groupPath);
 

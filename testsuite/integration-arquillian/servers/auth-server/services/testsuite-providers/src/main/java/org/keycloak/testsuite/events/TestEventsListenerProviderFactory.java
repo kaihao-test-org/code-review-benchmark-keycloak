@@ -20,7 +20,7 @@ package org.keycloak.testsuite.events;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -31,7 +31,7 @@ public class TestEventsListenerProviderFactory implements EventListenerProviderF
     public static final String PROVIDER_ID = "event-queue";
 
     @Override
-    public EventListenerProvider create(KeycloakSession session) {
+    public EventListenerProvider create(KeycloakRequestSession session) {
         return new TestEventsListenerProvider(session);
     }
 

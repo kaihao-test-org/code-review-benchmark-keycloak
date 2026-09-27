@@ -17,7 +17,7 @@
 
 package org.keycloak.authentication;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.UserModel;
@@ -79,19 +79,19 @@ public interface Authenticator extends Provider {
      * @param user
      * @return
      */
-    boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user);
+    boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
     /**
      * Set actions to configure authenticator
      *
      */
-    void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user);
+    void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
     /**
      * Overwrite this if the authenticator is associated with
      * @return
      */
-    default List<RequiredActionFactory> getRequiredActions(KeycloakSession session) {
+    default List<RequiredActionFactory> getRequiredActions(KeycloakRequestSession session) {
         return Collections.emptyList();
     }
 
@@ -99,7 +99,7 @@ public interface Authenticator extends Provider {
      * Checks if all required actions are configured in the realm and are enabled
      * @return
      */
-    default boolean areRequiredActionsEnabled(KeycloakSession session, RealmModel realm) {
+    default boolean areRequiredActionsEnabled(KeycloakRequestSession session, RealmModel realm) {
         for (RequiredActionFactory raf : getRequiredActions(session)) {
             RequiredActionProviderModel rafpm = realm.getRequiredActionProviderByAlias(raf.getId());
             if (rafpm == null) {

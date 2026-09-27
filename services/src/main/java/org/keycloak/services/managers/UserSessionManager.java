@@ -24,7 +24,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -46,9 +46,9 @@ public class UserSessionManager {
 
     private static final Logger logger = Logger.getLogger(UserSessionManager.class);
 
-    private final KeycloakSession kcSession;
+    private final KeycloakRequestSession kcSession;
 
-    public UserSessionManager(KeycloakSession session) {
+    public UserSessionManager(KeycloakRequestSession session) {
         this.kcSession = session;
     }
 

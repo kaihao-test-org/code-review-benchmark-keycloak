@@ -19,7 +19,7 @@ package org.keycloak.protocol.saml.installation;
 
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -37,7 +37,7 @@ import java.net.URI;
 public class KeycloakSamlSubsystemInstallation implements ClientInstallationProvider {
 
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI baseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI baseUri) {
         SamlClient samlClient = new SamlClient(client);
         StringBuilder buffer = new StringBuilder();
         buffer.append("<secure-deployment name=\"YOUR-WAR.war\">\n");
@@ -82,7 +82,7 @@ public class KeycloakSamlSubsystemInstallation implements ClientInstallationProv
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

@@ -16,7 +16,7 @@
  */
 package org.keycloak.component;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.InvalidationHandler;
 import org.keycloak.provider.Provider;
@@ -33,7 +33,7 @@ public interface ComponentFactoryProviderFactory extends ProviderFactory<Compone
     <T extends Provider> ProviderFactory<T> getProviderFactory(Class<T> clazz, String realmId, String componentId, Function<KeycloakSessionFactory, ComponentModel> model);
 
     @Override
-    default ComponentFactoryProvider create(KeycloakSession session) {
+    default ComponentFactoryProvider create(KeycloakRequestSession session) {
         throw new UnsupportedOperationException("ComponentFactoryProvider is session-independent, hence not instantiable per session.");
     }
 

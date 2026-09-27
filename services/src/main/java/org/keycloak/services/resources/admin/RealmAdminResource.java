@@ -71,7 +71,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
@@ -139,13 +139,13 @@ public class RealmAdminResource {
     protected final RealmModel realm;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final ClientConnection connection;
 
     protected final HttpHeaders headers;
 
-    public RealmAdminResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public RealmAdminResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();
@@ -1299,7 +1299,7 @@ public class RealmAdminResource {
         }
     }
 
-    private static PartialImportResults getPartialImportResults(InputStream requestBody, KeycloakSession kcSession, RealmModel kcRealm, AdminEventBuilder adminEventClone) {
+    private static PartialImportResults getPartialImportResults(InputStream requestBody, KeycloakRequestSession kcSession, RealmModel kcRealm, AdminEventBuilder adminEventClone) {
         ExportImportManager exportProvider = kcSession.getProvider(DatastoreProvider.class).getExportImportManager();
         PartialImportResults results = exportProvider.partialImportRealm(kcRealm, requestBody);
         for (PartialImportResult result : results.getResults()) {
