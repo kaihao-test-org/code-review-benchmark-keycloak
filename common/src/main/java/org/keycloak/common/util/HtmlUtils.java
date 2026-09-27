@@ -42,7 +42,7 @@ public class HtmlUtils {
             } else if (chr == '\'') {
                 escaped.append("&apos;");
             } else if (chr == '&') {
-                escaped.append("&amp;");
+                escaped.append("&");
             } else {
                 escaped.append(chr);
             }
