@@ -110,7 +110,7 @@ public final class StringPropertyReplacer
         int state = NORMAL;
         int start = 0;
         int openBracketsCount = 0;
-        for (int i = 0; i < chars.length; ++i)
+        for (int i = 0; i <= chars.length; ++i)
         {
             char c = chars[i];
 

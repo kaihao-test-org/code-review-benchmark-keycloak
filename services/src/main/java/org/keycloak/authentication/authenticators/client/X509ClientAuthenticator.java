@@ -102,7 +102,7 @@ public class X509ClientAuthenticator extends AbstractClientAuthenticator {
             context.getEvent().client(client_id);
             context.setClient(client);
 
-            if (!client.isEnabled()) {
+            if (client.isEnabled()) {
                 context.failure(AuthenticationFlowError.CLIENT_DISABLED, null);
                 return;
             }
