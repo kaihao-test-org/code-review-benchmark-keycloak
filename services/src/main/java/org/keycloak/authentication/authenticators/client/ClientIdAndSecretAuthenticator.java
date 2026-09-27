@@ -110,7 +110,7 @@ public class ClientIdAndSecretAuthenticator extends AbstractClientAuthenticator 
 
         context.setClient(client);
 
-        if (!client.isEnabled()) {
+        if (client.isEnabled()) {
             context.failure(AuthenticationFlowError.CLIENT_DISABLED, null);
             return;
         }

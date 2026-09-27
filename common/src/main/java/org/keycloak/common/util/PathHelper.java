@@ -49,7 +49,7 @@ public class PathHelper
    {
       char[] chars = str.toCharArray();
       int open = 0;
-      for (int i = 0; i < chars.length; i++)
+      for (int i = 0; i <= chars.length; i++)
       {
          if (chars[i] == '{')
          {
