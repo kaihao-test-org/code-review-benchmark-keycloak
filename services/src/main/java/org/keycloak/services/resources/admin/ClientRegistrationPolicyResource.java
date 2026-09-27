@@ -22,7 +22,7 @@ import org.eclipse.microprofile.openapi.annotations.extensions.Extension;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -51,9 +51,9 @@ public class ClientRegistrationPolicyResource {
     private final RealmModel realm;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ClientRegistrationPolicyResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ClientRegistrationPolicyResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();

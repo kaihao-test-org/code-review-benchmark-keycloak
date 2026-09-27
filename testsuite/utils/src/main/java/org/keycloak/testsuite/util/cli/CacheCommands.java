@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.infinispan.Cache;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 /**
@@ -38,7 +38,7 @@ public class CacheCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             InfinispanConnectionProvider ispnProvider = session.getProvider(InfinispanConnectionProvider.class);
             Set<String> cacheNames = ispnProvider.getCache("realms").getCacheManager().getCacheNames();
             log.infof("Available caches: %s", cacheNames);
@@ -55,7 +55,7 @@ public class CacheCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             String cacheName = getArg(0);
             InfinispanConnectionProvider ispnProvider = session.getProvider(InfinispanConnectionProvider.class);
             Cache<Object, Object> cache = ispnProvider.getCache(cacheName);
@@ -96,7 +96,7 @@ public class CacheCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             String realmName = getArg(0);
             RealmModel realm = session.realms().getRealmByName(realmName);
             if (realm == null) {

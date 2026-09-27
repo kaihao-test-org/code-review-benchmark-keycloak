@@ -19,7 +19,7 @@ package org.keycloak.protocol.saml.mappers;
 
 import org.keycloak.dom.saml.v2.assertion.AttributeStatementType;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 
@@ -29,6 +29,6 @@ import org.keycloak.models.UserSessionModel;
  */
 public interface SAMLRoleListMapper {
 
-    void mapRoles(AttributeStatementType roleAttributeStatement, ProtocolMapperModel mappingModel, KeycloakSession session,
+    void mapRoles(AttributeStatementType roleAttributeStatement, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                      UserSessionModel userSession, ClientSessionContext clientSessionCtx );
 }

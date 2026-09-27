@@ -28,7 +28,7 @@ import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.crypto.ServerECDSASignatureVerifierContext;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.jose.jws.crypto.HashUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.LDCredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.SdJwtCredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.SdJwtCredentialBuilder;
@@ -196,7 +196,7 @@ public class SdJwtCredentialSignerTest extends OID4VCTest {
                                 List.of()));
     }
 
-    public static void testSignSDJwtCredential(KeycloakSession session, String signingKeyId, String overrideKeyId, String
+    public static void testSignSDJwtCredential(KeycloakRequestSession session, String signingKeyId, String overrideKeyId, String
             algorithm, Map<String, Object> claims, int decoys, List<String> visibleClaims) {
         CredentialBuildConfig credentialBuildConfig = new CredentialBuildConfig()
                 .setCredentialIssuer(TEST_DID.toString())

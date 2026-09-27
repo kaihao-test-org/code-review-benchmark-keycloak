@@ -31,7 +31,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.RealmModel;
@@ -82,9 +82,9 @@ public class ClientsResource {
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ClientsResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ClientsResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;

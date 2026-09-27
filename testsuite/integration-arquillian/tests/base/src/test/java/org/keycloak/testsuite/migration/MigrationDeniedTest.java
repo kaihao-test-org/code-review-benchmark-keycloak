@@ -27,7 +27,7 @@ import org.keycloak.common.Version;
 import org.keycloak.migration.MigrationModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.DeploymentStateProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -50,7 +50,7 @@ public class MigrationDeniedTest extends AbstractKeycloakTest {
      */
     @Test
     @ModelTest
-    public void testMigrationDeniedWithDBSnapshotAndServerNonSnapshot(KeycloakSession s) {
+    public void testMigrationDeniedWithDBSnapshotAndServerNonSnapshot(KeycloakRequestSession s) {
         KeycloakModelUtils.runJobInTransaction(s.getKeycloakSessionFactory(), (session) -> {
             MigrationModel model = session.getProvider(DeploymentStateProvider.class).getMigrationModel();
             String databaseVersion = model.getStoredVersion();
@@ -79,7 +79,7 @@ public class MigrationDeniedTest extends AbstractKeycloakTest {
      */
     @Test
     @ModelTest
-    public void testMigrationDeniedWithDBNonSnapshotAndServerSnapshot(KeycloakSession s) {
+    public void testMigrationDeniedWithDBNonSnapshotAndServerSnapshot(KeycloakRequestSession s) {
         KeycloakModelUtils.runJobInTransaction(s.getKeycloakSessionFactory(), (session) -> {
             MigrationModel model = session.getProvider(DeploymentStateProvider.class).getMigrationModel();
             String databaseVersion = model.getStoredVersion();

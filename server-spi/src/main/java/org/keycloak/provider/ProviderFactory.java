@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -35,7 +35,7 @@ import org.keycloak.models.KeycloakSessionFactory;
  */
 public interface ProviderFactory<T extends Provider> {
 
-    T create(KeycloakSession session);
+    T create(KeycloakRequestSession session);
 
     /**
      * Only called once when the factory is first created.  This config is pulled from keycloak_server.json

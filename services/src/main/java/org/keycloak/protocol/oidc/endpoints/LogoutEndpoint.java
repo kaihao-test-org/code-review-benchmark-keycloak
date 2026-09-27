@@ -40,7 +40,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -101,7 +101,7 @@ import java.util.Set;
 public class LogoutEndpoint {
     private static final Logger logger = Logger.getLogger(LogoutEndpoint.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final ClientConnection clientConnection;
 
@@ -115,7 +115,7 @@ public class LogoutEndpoint {
 
     private Cors cors;
 
-    public LogoutEndpoint(KeycloakSession session, TokenManager tokenManager, EventBuilder event) {
+    public LogoutEndpoint(KeycloakRequestSession session, TokenManager tokenManager, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.tokenManager = tokenManager;

@@ -30,7 +30,7 @@ import org.keycloak.crypto.SignatureSignerContext;
 import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.jose.jws.JWSBuilder;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.constants.Oid4VciConstants;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerWellKnownProvider;
@@ -64,11 +64,11 @@ public class JwtCNonceHandler implements CNonceHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtCNonceHandler.class);
 
-    private final KeycloakSession keycloakSession;
+    private final KeycloakRequestSession keycloakSession;
 
     private final KeyWrapper signingKey;
 
-    public JwtCNonceHandler(KeycloakSession keycloakSession) {
+    public JwtCNonceHandler(KeycloakRequestSession keycloakSession) {
         this.keycloakSession = keycloakSession;
         this.signingKey = selectSigningKey(keycloakSession.getContext().getRealm());
     }

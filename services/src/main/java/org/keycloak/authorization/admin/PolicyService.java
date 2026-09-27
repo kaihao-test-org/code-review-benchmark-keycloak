@@ -59,7 +59,7 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.representations.idm.authorization.AbstractPolicyRepresentation;
 import org.keycloak.representations.idm.authorization.PolicyProviderRepresentation;
@@ -354,7 +354,7 @@ public class PolicyService {
         return authorization.getProviderFactory(policyType);
     }
 
-    private void audit(AbstractPolicyRepresentation resource, String id, OperationType operation, KeycloakSession session) {
+    private void audit(AbstractPolicyRepresentation resource, String id, OperationType operation, KeycloakRequestSession session) {
         if (id != null) {
             adminEvent.operation(operation).resourcePath(session.getContext().getUri(), id).representation(resource).success();
         } else {

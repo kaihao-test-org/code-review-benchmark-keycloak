@@ -24,7 +24,7 @@ import org.infinispan.client.hotrod.exceptions.HotRodClientException;
 import org.infinispan.commons.api.BasicCache;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.session.RevokedTokenPersisterProvider;
@@ -41,12 +41,12 @@ public class InfinispanSingleUseObjectProvider implements SingleUseObjectProvide
 
     public static final Logger logger = Logger.getLogger(InfinispanSingleUseObjectProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final BasicCache<String, SingleUseObjectValueEntity> singleUseObjectCache;
     private final boolean persistRevokedTokens;
     private final InfinispanKeycloakTransaction tx;
 
-    public InfinispanSingleUseObjectProvider(KeycloakSession session, BasicCache<String, SingleUseObjectValueEntity> singleUseObjectCache, boolean persistRevokedTokens) {
+    public InfinispanSingleUseObjectProvider(KeycloakRequestSession session, BasicCache<String, SingleUseObjectValueEntity> singleUseObjectCache, boolean persistRevokedTokens) {
         this.session = session;
         this.singleUseObjectCache = singleUseObjectCache;
         this.persistRevokedTokens = persistRevokedTokens;

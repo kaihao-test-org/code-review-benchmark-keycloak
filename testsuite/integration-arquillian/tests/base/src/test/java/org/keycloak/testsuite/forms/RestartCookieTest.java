@@ -39,7 +39,7 @@ import org.keycloak.keys.Attributes;
 import org.keycloak.keys.GeneratedHmacKeyProviderFactory;
 import org.keycloak.keys.KeyProvider;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ParConfig;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultKeyProviders;
@@ -187,7 +187,7 @@ public class RestartCookieTest extends AbstractTestRealmKeycloakTest {
     // KEYCLOAK-5440 -- migration from Keycloak 3.1.0
     @Test
     public void testRestartCookieBackwardsCompatible_Keycloak25() throws IOException {
-        String oldRestartCookie = testingClient.server().fetchString((KeycloakSession session) -> {
+        String oldRestartCookie = testingClient.server().fetchString((KeycloakRequestSession session) -> {
             String cookieVal = OLD_RESTART_COOKIE_JSON.replace("\n", "").replace(" ", "");
             RealmModel realm = session.realms().getRealmByName("test");
 
@@ -219,7 +219,7 @@ public class RestartCookieTest extends AbstractTestRealmKeycloakTest {
     // KEYCLOAK-7158 -- migration from Keycloak 1.9.8
     @Test
     public void testRestartCookieBackwardsCompatible_Keycloak19() throws IOException {
-        String oldRestartCookie = testingClient.server().fetchString((KeycloakSession session) -> {
+        String oldRestartCookie = testingClient.server().fetchString((KeycloakRequestSession session) -> {
             String cookieVal = OLD_RESTART_COOKIE_JSON.replace("\n", "").replace(" ", "");
             RealmModel realm = session.realms().getRealmByName("test");
 

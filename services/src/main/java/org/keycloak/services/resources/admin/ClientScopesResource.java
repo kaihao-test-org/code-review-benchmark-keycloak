@@ -29,7 +29,7 @@ import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -68,9 +68,9 @@ public class ClientScopesResource {
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ClientScopesResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ClientScopesResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;

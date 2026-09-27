@@ -19,7 +19,7 @@ package org.keycloak.testsuite.model;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -43,7 +43,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void simpleModelTest(KeycloakSession session) {
+    public void simpleModelTest(KeycloakRequestSession session) {
         log.infof("simpleModelTest");
         RealmModel realm = session.realms().getRealmByName("master");
 
@@ -53,11 +53,11 @@ public class SimpleModelTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void simpleModelTestWithNestedTransactions(KeycloakSession session) {
+    public void simpleModelTestWithNestedTransactions(KeycloakRequestSession session) {
         log.infof("simpleModelTestWithNestedTransactions");
 
         // Transaction 1
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session1) -> {
 
             RealmModel realm = session1.realms().createRealm("foo");
             realm.setDefaultRole(session1.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -65,7 +65,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
         });
 
         // Transaction 2 - should be able to see the created realm. Update it
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session2) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session2) -> {
 
             RealmModel realm = session2.realms().getRealmByName("foo");
             Assert.assertNotNull(realm);
@@ -76,7 +76,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
         });
 
         // Transaction 3 - Doublecheck update is visible. Then rollback transaction!
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session3) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session3) -> {
 
             RealmModel realm = session3.realms().getRealmByName("foo");
             Assert.assertNotNull(realm);
@@ -91,7 +91,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
         });
 
         // Transaction 4 - should still see the old value of attribute. Delete realm
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session4) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session4) -> {
 
             RealmModel realm = session4.realms().getRealmByName("foo");
             Assert.assertNotNull(realm);
@@ -108,7 +108,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
     // Just for the test that AssertionError is correctly propagated
     @Test(expected = AssertionError.class)
     @ModelTest
-    public void simpleModelTestWithAssertionError(KeycloakSession session) {
+    public void simpleModelTestWithAssertionError(KeycloakRequestSession session) {
         log.infof("simpleModelTestWithAssertionError");
         RealmModel realm = session.realms().getRealmByName("masterr");
 
@@ -120,7 +120,7 @@ public class SimpleModelTest extends AbstractKeycloakTest {
     // Just for the test that other exception is correctly propagated
     @Test(expected = RunOnServerException.class)
     @ModelTest
-    public void simpleModelTestWithOtherError(KeycloakSession session) {
+    public void simpleModelTestWithOtherError(KeycloakRequestSession session) {
         log.infof("simpleModelTestWithOtherError");
         throw new RuntimeException("Some strange exception");
     }

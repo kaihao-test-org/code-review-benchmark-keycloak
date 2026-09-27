@@ -18,7 +18,7 @@
 package org.keycloak.crypto;
 
 import org.keycloak.jose.jwe.JWEConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class EcdhEsA256KwCekManagementProviderFactory implements CekManagementProviderFactory {
 
@@ -30,7 +30,7 @@ public class EcdhEsA256KwCekManagementProviderFactory implements CekManagementPr
     }
 
     @Override
-    public CekManagementProvider create(KeycloakSession session) {
+    public CekManagementProvider create(KeycloakRequestSession session) {
         return new EcdhEsCekManagementProvider(session, ID);
     }
 

@@ -17,7 +17,7 @@
 package org.keycloak.provider;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -37,7 +37,7 @@ public interface ExceptionConverter extends Provider, ProviderFactory<ExceptionC
     Throwable convert(Throwable t);
 
     @Override
-    default ExceptionConverter create(KeycloakSession session) {
+    default ExceptionConverter create(KeycloakRequestSession session) {
         return this;
     }
 

@@ -19,7 +19,7 @@ package org.keycloak.services.managers;
 
 import java.util.List;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -34,7 +34,7 @@ public class DefaultBruteForceProtectorFactory implements BruteForceProtectorFac
     private boolean allowConcurrentRequests;
 
     @Override
-    public BruteForceProtector create(KeycloakSession session) {
+    public BruteForceProtector create(KeycloakRequestSession session) {
         return protector;
     }
 

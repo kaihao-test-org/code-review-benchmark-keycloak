@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ public class AccessTokenIntrospectionProviderFactory implements TokenIntrospecti
     public static final String ACCESS_TOKEN_TYPE = "access_token";
 
     @Override
-    public TokenIntrospectionProvider create(KeycloakSession session) {
+    public TokenIntrospectionProvider create(KeycloakRequestSession session) {
         return new AccessTokenIntrospectionProvider(session);
     }
 

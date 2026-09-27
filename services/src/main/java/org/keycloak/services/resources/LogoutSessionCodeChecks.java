@@ -26,7 +26,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.ErrorPage;
 import org.keycloak.services.managers.ClientSessionCode;
@@ -38,7 +38,7 @@ import org.keycloak.sessions.RootAuthenticationSessionModel;
  */
 public class LogoutSessionCodeChecks extends SessionCodeChecks {
 
-    public LogoutSessionCodeChecks(RealmModel realm, UriInfo uriInfo, HttpRequest request, ClientConnection clientConnection, KeycloakSession session, EventBuilder event,
+    public LogoutSessionCodeChecks(RealmModel realm, UriInfo uriInfo, HttpRequest request, ClientConnection clientConnection, KeycloakRequestSession session, EventBuilder event,
                                    String code, String clientId, String tabId) {
         super(realm, uriInfo, request, clientConnection, session, event, null, code, null, clientId, tabId, null, null);
     }

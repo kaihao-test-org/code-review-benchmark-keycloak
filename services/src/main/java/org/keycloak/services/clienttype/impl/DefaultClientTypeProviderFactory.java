@@ -20,7 +20,7 @@ package org.keycloak.services.clienttype.impl;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.client.clienttype.ClientTypeProvider;
@@ -34,7 +34,7 @@ public class DefaultClientTypeProviderFactory implements ClientTypeProviderFacto
     public static final String PROVIDER_ID = "default";
 
     @Override
-    public ClientTypeProvider create(KeycloakSession session) {
+    public ClientTypeProvider create(KeycloakRequestSession session) {
         return new DefaultClientTypeProvider();
     }
 

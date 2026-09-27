@@ -17,7 +17,7 @@
 
 package org.keycloak.services.clientregistration;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientRepresentation;
 
 /**
@@ -27,7 +27,7 @@ public interface ClientRegistrationContext {
 
     ClientRepresentation getClient();
 
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
 
     ClientRegistrationProvider getProvider();
 

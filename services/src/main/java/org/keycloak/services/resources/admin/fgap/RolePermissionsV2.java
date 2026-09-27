@@ -29,7 +29,7 @@ import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.services.resources.admin.fgap.ModelRecord.RoleModelRecord;
@@ -38,7 +38,7 @@ class RolePermissionsV2 extends RolePermissions {
 
     private final FineGrainedAdminPermissionEvaluator eval;
 
-    RolePermissionsV2(KeycloakSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
+    RolePermissionsV2(KeycloakRequestSession session, RealmModel realm, AuthorizationProvider authz, MgmtPermissions root) {
         super(session, realm, authz, root);
         this.eval = new FineGrainedAdminPermissionEvaluator(session, root, resourceStore, policyStore);
     }

@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.executor;
 
 import java.util.List;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -37,7 +37,7 @@ public class SamlSecureClientUrisExecutorFactory implements ClientPolicyExecutor
     public static final String PROVIDER_ID = "saml-secure-client-uris";
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SamlSecureClientUrisExecutor(session);
     }
 

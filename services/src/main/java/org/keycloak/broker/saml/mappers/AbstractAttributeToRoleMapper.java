@@ -21,7 +21,7 @@ import org.keycloak.broker.provider.AbstractIdentityProviderMapper;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.ConfigConstants;
 import org.keycloak.models.IdentityProviderMapperModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -39,7 +39,7 @@ public abstract class AbstractAttributeToRoleMapper extends AbstractIdentityProv
     private static final Logger LOG = Logger.getLogger(AbstractAttributeToRoleMapper.class);
 
     @Override
-    public void importNewUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
         RoleModel role = this.getRole(realm, mapperModel);
         if (role == null) {
             return;
@@ -51,7 +51,7 @@ public abstract class AbstractAttributeToRoleMapper extends AbstractIdentityProv
     }
 
     @Override
-    public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
         RoleModel role = this.getRole(realm, mapperModel);
         if (role == null) {
             return;

@@ -21,7 +21,7 @@ package org.keycloak.models.cache.infinispan.authorization.entities;
 import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.model.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.infinispan.DefaultLazyLoader;
 import org.keycloak.models.cache.infinispan.LazyLoader;
 import org.keycloak.models.cache.infinispan.entities.AbstractRevisioned;
@@ -86,7 +86,7 @@ public class CachedPolicy extends AbstractRevisioned implements InResourceServer
         return this.logic;
     }
 
-    public Map<String, String> getConfig(KeycloakSession session, Supplier<Policy> policy) {
+    public Map<String, String> getConfig(KeycloakRequestSession session, Supplier<Policy> policy) {
         return this.config.get(session, policy);
     }
 
@@ -98,19 +98,19 @@ public class CachedPolicy extends AbstractRevisioned implements InResourceServer
         return this.description;
     }
 
-    public Set<String> getAssociatedPoliciesIds(KeycloakSession session, Supplier<Policy> policy) {
+    public Set<String> getAssociatedPoliciesIds(KeycloakRequestSession session, Supplier<Policy> policy) {
         return this.associatedPoliciesIds.get(session, policy);
     }
 
-    public Set<String> getResourcesIds(KeycloakSession session, Supplier<Policy> policy) {
+    public Set<String> getResourcesIds(KeycloakRequestSession session, Supplier<Policy> policy) {
         return this.resourcesIds.get(session, policy);
     }
 
-    public Set<String> getResourceNames(KeycloakSession session, Supplier<Policy> policy) {
+    public Set<String> getResourceNames(KeycloakRequestSession session, Supplier<Policy> policy) {
         return this.resourcesNames.get(session, policy);
     }
 
-    public Set<String> getScopesIds(KeycloakSession session, Supplier<Policy> policy) {
+    public Set<String> getScopesIds(KeycloakRequestSession session, Supplier<Policy> policy) {
         return this.scopesIds.get(session, policy);
     }
 

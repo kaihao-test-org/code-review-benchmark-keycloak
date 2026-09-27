@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultiSiteUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -50,7 +50,7 @@ public class UserSessionAdapter<T extends SessionRefreshStore & UserSessionProvi
 
     private static final Logger logger = Logger.getLogger(UserSessionAdapter.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final T provider;
 
@@ -68,7 +68,7 @@ public class UserSessionAdapter<T extends SessionRefreshStore & UserSessionProvi
 
     private SessionPersistenceState persistenceState;
 
-    public UserSessionAdapter(KeycloakSession session, UserModel user, T provider,
+    public UserSessionAdapter(KeycloakRequestSession session, UserModel user, T provider,
                               SessionsChangelogBasedTransaction<String, UserSessionEntity> userSessionUpdateTx,
                               SessionsChangelogBasedTransaction<UUID, AuthenticatedClientSessionEntity> clientSessionUpdateTx,
                               RealmModel realm, UserSessionEntity entity, boolean offline) {

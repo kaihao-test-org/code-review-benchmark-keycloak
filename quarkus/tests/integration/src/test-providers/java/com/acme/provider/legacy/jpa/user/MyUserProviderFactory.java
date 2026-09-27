@@ -19,14 +19,14 @@ package com.acme.provider.legacy.jpa.user;
 
 import jakarta.persistence.EntityManager;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserProvider;
 import org.keycloak.models.jpa.JpaUserProviderFactory;
 
 public class MyUserProviderFactory extends JpaUserProviderFactory {
 
     @Override
-    public UserProvider create(KeycloakSession session) {
+    public UserProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new MyUserProvider(session, em);
     }

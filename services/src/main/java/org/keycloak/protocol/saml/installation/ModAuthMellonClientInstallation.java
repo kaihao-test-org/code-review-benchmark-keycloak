@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import org.keycloak.Config;
 import org.keycloak.common.util.PemUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -45,7 +45,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class ModAuthMellonClientInstallation implements ClientInstallationProvider {
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI serverBaseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI serverBaseUri) {
         SamlClient samlClient = new SamlClient(client);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(baos);
@@ -119,7 +119,7 @@ public class ModAuthMellonClientInstallation implements ClientInstallationProvid
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

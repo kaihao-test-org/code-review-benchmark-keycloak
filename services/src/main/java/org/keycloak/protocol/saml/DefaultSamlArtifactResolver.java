@@ -3,7 +3,7 @@ package org.keycloak.protocol.saml;
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.saml.util.ArtifactBindingUtils;
 import org.keycloak.saml.common.constants.GeneralConstants;
 import org.keycloak.utils.StringUtil;
@@ -43,7 +43,7 @@ public class DefaultSamlArtifactResolver implements ArtifactResolver {
     }
 
     @Override
-    public ClientModel selectSourceClient(KeycloakSession session, String artifact) throws ArtifactResolverProcessingException {
+    public ClientModel selectSourceClient(KeycloakRequestSession session, String artifact) throws ArtifactResolverProcessingException {
         byte[] source = extractSourceFromArtifact(artifact);
         String identifier = ArtifactBindingUtils.getArtifactBindingIdentifierString(source);
 

@@ -23,7 +23,7 @@ import org.keycloak.common.enums.AccountRestApiVersion;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.AccessTokenIntrospectionProvider;
 import org.keycloak.protocol.oidc.AccessTokenIntrospectionProviderFactory;
@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class AccountLoader {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final EventBuilder event;
 
     private final HttpRequest request;
@@ -62,7 +62,7 @@ public class AccountLoader {
 
     private static final Logger logger = Logger.getLogger(AccountLoader.class);
 
-    public AccountLoader(KeycloakSession session, EventBuilder event) {
+    public AccountLoader(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.event = event;
         this.request = session.getContext().getHttpRequest();
@@ -104,7 +104,7 @@ public class AccountLoader {
         return getAccountRestService(getAccountManagementClient(session.getContext().getRealm()), version);
     }
 
-    private Theme getTheme(KeycloakSession session) {
+    private Theme getTheme(KeycloakRequestSession session) {
         try {
             return session.theme().getTheme(Theme.Type.ACCOUNT);
         } catch (IOException e) {

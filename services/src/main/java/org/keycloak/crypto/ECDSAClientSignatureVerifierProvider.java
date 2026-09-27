@@ -3,13 +3,13 @@ package org.keycloak.crypto;
 import org.keycloak.common.VerificationException;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ECDSAClientSignatureVerifierProvider implements ClientSignatureVerifierProvider {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String algorithm;
 
-    public ECDSAClientSignatureVerifierProvider(KeycloakSession session, String algorithm) {
+    public ECDSAClientSignatureVerifierProvider(KeycloakRequestSession session, String algorithm) {
         this.session = session;
         this.algorithm = algorithm;
     }

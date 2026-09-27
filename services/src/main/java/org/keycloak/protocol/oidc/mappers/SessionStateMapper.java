@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.mappers;
 import org.jboss.logging.Logger;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -73,7 +73,7 @@ public class SessionStateMapper extends AbstractOIDCProtocolMapper implements OI
     }
 
     @Override
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession,
+    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession,
                             ClientSessionContext clientSessionCtx) {
         if (userSession != null) {
             token.getOtherClaims().put(IDToken.SESSION_STATE, userSession.getId());

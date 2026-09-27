@@ -20,7 +20,7 @@ package org.keycloak.models.session;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.keycloak.common.util.MultiSiteUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OfflineUserSessionModel;
 import org.keycloak.models.RealmModel;
@@ -45,7 +45,7 @@ public class PersistentUserSessionAdapter implements OfflineUserSessionModel {
     private UserModel user;
     private String userId;
     private RealmModel realm;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private final Map<String, AuthenticatedClientSessionModel> authenticatedClientSessions;
 
     private PersistentUserSessionData data;
@@ -144,7 +144,7 @@ public class PersistentUserSessionAdapter implements OfflineUserSessionModel {
         this.authenticatedClientSessions = other.getAuthenticatedClientSessions();
     }
 
-    public PersistentUserSessionAdapter(KeycloakSession session, PersistentUserSessionModel model, RealmModel realm, String userId, Map<String, AuthenticatedClientSessionModel> clientSessions) {
+    public PersistentUserSessionAdapter(KeycloakRequestSession session, PersistentUserSessionModel model, RealmModel realm, String userId, Map<String, AuthenticatedClientSessionModel> clientSessions) {
         this.session = session;
         this.model = model;
         this.realm = realm;

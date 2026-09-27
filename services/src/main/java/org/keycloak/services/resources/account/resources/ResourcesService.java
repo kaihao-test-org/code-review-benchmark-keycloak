@@ -38,7 +38,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.authorization.model.PermissionTicket;
 import org.keycloak.authorization.store.PermissionTicketStore;
 import org.keycloak.common.util.KeycloakUriBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.Auth;
 import org.keycloak.utils.MediaType;
@@ -48,7 +48,7 @@ import org.keycloak.utils.MediaType;
  */
 public class ResourcesService extends AbstractResourceService {
 
-    public ResourcesService(KeycloakSession session, UserModel user, Auth auth, HttpRequest request) {
+    public ResourcesService(KeycloakRequestSession session, UserModel user, Auth auth, HttpRequest request) {
         super(session, user, auth, request);
     }
 

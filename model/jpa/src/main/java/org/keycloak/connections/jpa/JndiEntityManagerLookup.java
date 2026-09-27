@@ -20,14 +20,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
 public class JndiEntityManagerLookup {
-    public static EntityManager getSessionEntityManager(KeycloakSession session, String entityManagerFactoryJndiName) {
+    public static EntityManager getSessionEntityManager(KeycloakRequestSession session, String entityManagerFactoryJndiName) {
         EntityManagerFactory factory = null;
         try {
             factory = (EntityManagerFactory)new InitialContext().lookup(entityManagerFactoryJndiName);

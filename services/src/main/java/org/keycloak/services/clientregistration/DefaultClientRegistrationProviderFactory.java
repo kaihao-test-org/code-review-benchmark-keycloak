@@ -18,7 +18,7 @@
 package org.keycloak.services.clientregistration;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -27,7 +27,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class DefaultClientRegistrationProviderFactory implements ClientRegistrationProviderFactory {
 
     @Override
-    public ClientRegistrationProvider create(KeycloakSession session) {
+    public ClientRegistrationProvider create(KeycloakRequestSession session) {
         return new DefaultClientRegistrationProvider(session);
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.condition;
 import java.util.LinkedList;
 import java.util.List;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.LoginProtocol;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -37,13 +37,13 @@ public class ClientProtocolConditionFactory implements ClientPolicyConditionProv
     private List<String> loginProtocols;
 
     @Override
-    public ClientPolicyConditionProvider create(KeycloakSession session) {
+    public ClientPolicyConditionProvider create(KeycloakRequestSession session) {
         return new ClientProtocolCondition(session);
     }
 
     @Override
     public void postInit(KeycloakSessionFactory factory) {
-        try (KeycloakSession session = factory.create()) {
+        try (KeycloakRequestSession session = factory.create()) {
             loginProtocols = new LinkedList<>(session.listProviderIds(LoginProtocol.class));
         }
     }

@@ -25,7 +25,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.headers.SecurityHeadersProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.protocol.oidc.OIDCLoginProtocolService;
 import org.keycloak.protocol.oidc.endpoints.AuthorizationEndpointChecker;
@@ -73,7 +73,7 @@ public class ParEndpoint extends AbstractParEndpoint {
         return uriBuilder.path(OIDCLoginProtocolService.class, "resolveExtension").resolveTemplate("extension", ParRootEndpoint.PROVIDER_ID, false).path(ParRootEndpoint.class, "request");
     }
 
-    public ParEndpoint(KeycloakSession session, EventBuilder event) {
+    public ParEndpoint(KeycloakRequestSession session, EventBuilder event) {
         super(session, event);
     this.httpRequest = session.getContext().getHttpRequest();
     }

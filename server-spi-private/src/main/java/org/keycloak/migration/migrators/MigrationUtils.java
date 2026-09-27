@@ -25,7 +25,7 @@ import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperContainerModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
@@ -77,7 +77,7 @@ public class MigrationUtils {
 
 
     // Called when offline token older than 4.0 (Offline token without clientScopeIds) is called
-    public static void migrateOldOfflineToken(KeycloakSession session, RealmModel realm, ClientModel client, UserModel user) throws OAuthErrorException {
+    public static void migrateOldOfflineToken(KeycloakRequestSession session, RealmModel realm, ClientModel client, UserModel user) throws OAuthErrorException {
         ClientScopeModel offlineScope = KeycloakModelUtils.getClientScopeByName(realm, OAuth2Constants.OFFLINE_ACCESS);
         if (offlineScope == null) {
             throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Offline Access scope not found");

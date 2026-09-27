@@ -39,7 +39,7 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserLoginFailureProvider;
 import org.keycloak.models.UserProvider;
@@ -527,7 +527,7 @@ public class InfinispanIckleQueryTest extends KeycloakModelTest {
         return inComittedTransaction(InfinispanIckleQueryTest::getInfinispanConnectionProviderWithSession);
     }
 
-    private static InfinispanConnectionProvider getInfinispanConnectionProviderWithSession(KeycloakSession session) {
+    private static InfinispanConnectionProvider getInfinispanConnectionProviderWithSession(KeycloakRequestSession session) {
         return session.getProvider(InfinispanConnectionProvider.class);
     }
 

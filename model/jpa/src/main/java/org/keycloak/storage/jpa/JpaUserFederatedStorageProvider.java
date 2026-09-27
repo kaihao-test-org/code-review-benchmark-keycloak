@@ -28,7 +28,7 @@ import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ProtocolMapperModel;
@@ -76,10 +76,10 @@ public class JpaUserFederatedStorageProvider implements
 
     protected static final Logger logger = Logger.getLogger(JpaUserFederatedStorageProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected EntityManager em;
 
-    public JpaUserFederatedStorageProvider(KeycloakSession session, EntityManager em) {
+    public JpaUserFederatedStorageProvider(KeycloakRequestSession session, EntityManager em) {
         this.session = session;
         this.em = em;
     }

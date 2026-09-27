@@ -38,7 +38,7 @@ import org.keycloak.models.AccountRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -70,7 +70,7 @@ public class IdpLinkAction implements RequiredActionProvider, RequiredActionFact
     public static final String IDP_LINK_ERROR = "idp_link_error";
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -103,7 +103,7 @@ public class IdpLinkAction implements RequiredActionProvider, RequiredActionFact
     @Override
     public void requiredActionChallenge(RequiredActionContext context) {
         AuthenticationSessionModel authSession = context.getAuthenticationSession();
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
         UserModel user = context.getUser();
         ClientModel client = authSession.getClient();
@@ -146,7 +146,7 @@ public class IdpLinkAction implements RequiredActionProvider, RequiredActionFact
     @Override
     public void processAction(RequiredActionContext context) {
         AuthenticationSessionModel authSession = context.getAuthenticationSession();
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
         ClientModel client = authSession.getClient();
 

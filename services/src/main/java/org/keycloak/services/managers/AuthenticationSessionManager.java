@@ -33,7 +33,7 @@ import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.jose.jws.crypto.HashUtils;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionProvider;
@@ -54,9 +54,9 @@ public class AuthenticationSessionManager {
 
     private static final Logger log = Logger.getLogger(AuthenticationSessionManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public AuthenticationSessionManager(KeycloakSession session) {
+    public AuthenticationSessionManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

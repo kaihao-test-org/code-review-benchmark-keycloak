@@ -56,7 +56,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
@@ -88,10 +88,10 @@ public class ClientScopeEvaluateResource {
     private final AdminPermissionEvaluator auth;
 
     private final UriInfo uriInfo;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ClientConnection clientConnection;
 
-    public ClientScopeEvaluateResource(KeycloakSession session, UriInfo uriInfo, RealmModel realm, AdminPermissionEvaluator auth,
+    public ClientScopeEvaluateResource(KeycloakRequestSession session, UriInfo uriInfo, RealmModel realm, AdminPermissionEvaluator auth,
                                  ClientModel client, ClientConnection clientConnection) {
         this.uriInfo = uriInfo;
         this.realm = realm;

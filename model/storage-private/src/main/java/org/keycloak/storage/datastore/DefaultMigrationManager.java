@@ -66,7 +66,7 @@ import org.keycloak.migration.migrators.MigrateTo9_0_4;
 import org.keycloak.migration.migrators.Migration;
 import org.keycloak.models.Constants;
 import org.keycloak.models.DeploymentStateProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -129,10 +129,10 @@ public class DefaultMigrationManager implements MigrationManager {
             new MigrateTo26_3_0(),
     };
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final boolean allowMigrateExistingDatabaseToSnapshot;
 
-    public DefaultMigrationManager(KeycloakSession session, boolean allowMigrateExistingDatabaseToSnapshot) {
+    public DefaultMigrationManager(KeycloakRequestSession session, boolean allowMigrateExistingDatabaseToSnapshot) {
         this.session = session;
         this.allowMigrateExistingDatabaseToSnapshot = allowMigrateExistingDatabaseToSnapshot;
     }

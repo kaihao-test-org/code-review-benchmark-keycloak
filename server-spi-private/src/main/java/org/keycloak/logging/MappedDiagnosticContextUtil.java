@@ -3,7 +3,7 @@ package org.keycloak.logging;
 import org.jboss.logging.Logger;
 import org.jboss.logging.MDC;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +14,7 @@ public final class MappedDiagnosticContextUtil {
     private static final MappedDiagnosticContextProvider NOOP_PROVIDER = new NoopMappedDiagnosticContextProvider();
     private static volatile Collection<String> keysToClear = Collections.emptySet();
 
-    public static MappedDiagnosticContextProvider getMappedDiagnosticContextProvider(KeycloakSession session) {
+    public static MappedDiagnosticContextProvider getMappedDiagnosticContextProvider(KeycloakRequestSession session) {
         if (!Profile.isFeatureEnabled(Profile.Feature.LOG_MDC)) {
             return NOOP_PROVIDER;
         }

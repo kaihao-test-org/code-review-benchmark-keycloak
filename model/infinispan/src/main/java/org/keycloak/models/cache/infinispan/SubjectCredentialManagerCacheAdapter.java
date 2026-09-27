@@ -20,7 +20,7 @@ package org.keycloak.models.cache.infinispan;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.UserCredentialManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
@@ -29,7 +29,7 @@ import org.keycloak.models.UserModel;
  */
 public abstract class SubjectCredentialManagerCacheAdapter extends UserCredentialManager {
 
-    public SubjectCredentialManagerCacheAdapter(KeycloakSession session, RealmModel realm, UserModel user) {
+    public SubjectCredentialManagerCacheAdapter(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         super(session, realm, user);
     }
 

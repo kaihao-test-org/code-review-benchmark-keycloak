@@ -28,7 +28,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.representations.ClaimsRepresentation;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -46,10 +46,10 @@ public class IntentClientBindCheckExecutor implements ClientPolicyExecutorProvid
 
     private static final Logger logger = Logger.getLogger(IntentClientBindCheckExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public IntentClientBindCheckExecutor(KeycloakSession session) {
+    public IntentClientBindCheckExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

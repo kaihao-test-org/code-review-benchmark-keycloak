@@ -35,7 +35,7 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
@@ -107,11 +107,11 @@ public class UsersResource {
 
     protected final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final HttpHeaders headers;
 
-    public UsersResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public UsersResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.auth = auth;

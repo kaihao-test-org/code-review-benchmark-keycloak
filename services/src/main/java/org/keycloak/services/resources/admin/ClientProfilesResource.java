@@ -33,7 +33,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientProfilesRepresentation;
 import org.keycloak.services.ErrorResponse;
@@ -49,12 +49,12 @@ public class ClientProfilesResource {
 
     protected final HttpResponse response;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final RealmModel realm;
     private final AdminPermissionEvaluator auth;
 
-    public ClientProfilesResource(KeycloakSession session, AdminPermissionEvaluator auth) {
+    public ClientProfilesResource(KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;

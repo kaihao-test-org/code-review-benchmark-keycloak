@@ -29,7 +29,7 @@ import java.util.Set;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -47,7 +47,7 @@ import org.keycloak.util.JsonSerialization;
  */
 public abstract class AbstractUserProfileTest extends AbstractTestRealmKeycloakTest {
 
-    protected static void configureAuthenticationSession(KeycloakSession session) {
+    protected static void configureAuthenticationSession(KeycloakRequestSession session) {
         Set<String> scopes = new HashSet<>();
 
         scopes.add("customer");
@@ -55,7 +55,7 @@ public abstract class AbstractUserProfileTest extends AbstractTestRealmKeycloakT
         configureAuthenticationSession(session, "client-a", scopes);
     }
 
-    protected static void configureAuthenticationSession(KeycloakSession session, String clientId, Set<String> requestedScopes) {
+    protected static void configureAuthenticationSession(KeycloakRequestSession session, String clientId, Set<String> requestedScopes) {
         RealmModel realm = session.getContext().getRealm();
 
         ClientModel client = realm.getClientByClientId(clientId);
@@ -63,21 +63,21 @@ public abstract class AbstractUserProfileTest extends AbstractTestRealmKeycloakT
         session.getContext().setClient(client);
     }
 
-    protected static Optional<ComponentModel> setAndGetDefaultConfiguration(KeycloakSession session) {
+    protected static Optional<ComponentModel> setAndGetDefaultConfiguration(KeycloakRequestSession session) {
         setDefaultConfiguration(session);
         return getComponentModel(session);
     }
 
-    protected static Optional<ComponentModel> getComponentModel(KeycloakSession session) {
+    protected static Optional<ComponentModel> getComponentModel(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         return realm.getComponentsStream(realm.getId(), UserProfileProvider.class.getName()).findAny();
     }
 
-    protected static void setDefaultConfiguration(KeycloakSession session) {
+    protected static void setDefaultConfiguration(KeycloakRequestSession session) {
         setConfiguration(session, UPConfigUtils.readSystemDefaultConfig());
     }
 
-    protected static void setConfiguration(KeycloakSession session, String config) {
+    protected static void setConfiguration(KeycloakRequestSession session, String config) {
         UserProfileProvider provider = getUserProfileProvider(session);
         try {
             UPConfig upConfig = config == null ? null : UPConfigUtils.parseConfig(config);
@@ -87,7 +87,7 @@ public abstract class AbstractUserProfileTest extends AbstractTestRealmKeycloakT
         }
     }
 
-    protected static UserProfileProvider getUserProfileProvider(KeycloakSession session) {
+    protected static UserProfileProvider getUserProfileProvider(KeycloakRequestSession session) {
         return session.getProvider(UserProfileProvider.class);
     }
 

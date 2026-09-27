@@ -19,7 +19,7 @@ package org.keycloak.protocol.oidc.utils;
 
 import org.keycloak.common.util.UriUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class WebOriginsUtils {
 
     public static final String INCLUDE_REDIRECTS = "+";
 
-    public static Set<String> resolveValidWebOrigins(KeycloakSession session, ClientModel client) {
+    public static Set<String> resolveValidWebOrigins(KeycloakRequestSession session, ClientModel client) {
         Set<String> origins = new HashSet<>();
         if (client.getWebOrigins() != null) {
             origins.addAll(client.getWebOrigins());

@@ -19,7 +19,7 @@ package org.keycloak.models.cache.infinispan.organization;
 
 import org.keycloak.Config.Scope;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -32,7 +32,7 @@ public class InfinispanOrganizationProviderFactory implements OrganizationProvid
     public static final String PROVIDER_ID = "infinispan";
 
     @Override
-    public OrganizationProvider create(KeycloakSession session) {
+    public OrganizationProvider create(KeycloakRequestSession session) {
         return new InfinispanOrganizationProvider(session);
     }
 
@@ -50,14 +50,14 @@ public class InfinispanOrganizationProviderFactory implements OrganizationProvid
                 registerOrganizationInvalidation(event.getKeycloakSession(), event.getRemovedIdentityProvider());
             }
             if (e instanceof UserModel.UserPreRemovedEvent event) {
-                KeycloakSession session = event.getKeycloakSession();
+                KeycloakRequestSession session = event.getKeycloakSession();
                 InfinispanOrganizationProvider orgProvider = (InfinispanOrganizationProvider) session.getProvider(OrganizationProvider.class, getId());
                 orgProvider.getByMember(event.getUser()).forEach(organization -> orgProvider.registerMemberInvalidation(organization, event.getUser()));
             }
         });
     }
 
-    private void registerOrganizationInvalidation(KeycloakSession session, IdentityProviderModel idp) {
+    private void registerOrganizationInvalidation(KeycloakRequestSession session, IdentityProviderModel idp) {
         if (idp.getOrganizationId() != null) {
             InfinispanOrganizationProvider orgProvider = (InfinispanOrganizationProvider) session.getProvider(OrganizationProvider.class, getId());
             if (orgProvider != null) {

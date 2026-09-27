@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.CollectionUtil;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserProvider;
@@ -75,7 +75,7 @@ public class DefaultAttributes extends HashMap<String, List<String>> implements 
     public static final String DEFAULT_MAX_LENGTH_ATTRIBUTES = "2048";
 
     protected final UserProfileContext context;
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private final Map<String, AttributeMetadata> metadataByAttribute;
     private final UPConfig upConfig;
     protected final UserModel user;
@@ -83,7 +83,7 @@ public class DefaultAttributes extends HashMap<String, List<String>> implements 
 
     public DefaultAttributes(UserProfileContext context, Map<String, ?> attributes, UserModel user,
             UserProfileMetadata profileMetadata,
-            KeycloakSession session) {
+            KeycloakRequestSession session) {
         this.context = context;
         this.user = user;
         this.session = session;

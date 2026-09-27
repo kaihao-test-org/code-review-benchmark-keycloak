@@ -18,15 +18,15 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
 
 public class UseLightweightAccessTokenExecutor implements ClientPolicyExecutorProvider<ClientPolicyExecutorConfigurationRepresentation> {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public UseLightweightAccessTokenExecutor(KeycloakSession session) {
+    public UseLightweightAccessTokenExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

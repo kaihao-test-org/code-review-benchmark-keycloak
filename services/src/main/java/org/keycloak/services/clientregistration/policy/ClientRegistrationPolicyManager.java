@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.events.Details;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.services.clientregistration.ClientRegistrationContext;
@@ -77,7 +77,7 @@ public class ClientRegistrationPolicyManager {
         }
     }
 
-    public static void triggerBeforeView(KeycloakSession session, ClientRegistrationProvider provider, RegistrationAuth authType, ClientModel client) throws ClientRegistrationPolicyException {
+    public static void triggerBeforeView(KeycloakRequestSession session, ClientRegistrationProvider provider, RegistrationAuth authType, ClientModel client) throws ClientRegistrationPolicyException {
         triggerPolicies(session, provider, authType, "before view client " + client.getClientId(), (ClientRegistrationPolicy policy) -> {
 
             policy.beforeView(provider, client);
@@ -85,7 +85,7 @@ public class ClientRegistrationPolicyManager {
         });
     }
 
-    public static void triggerBeforeRemove(KeycloakSession session, ClientRegistrationProvider provider, RegistrationAuth authType, ClientModel client) throws ClientRegistrationPolicyException {
+    public static void triggerBeforeRemove(KeycloakRequestSession session, ClientRegistrationProvider provider, RegistrationAuth authType, ClientModel client) throws ClientRegistrationPolicyException {
         triggerPolicies(session, provider, authType, "before delete client " + client.getClientId(), (ClientRegistrationPolicy policy) -> {
 
             policy.beforeDelete(provider, client);
@@ -95,7 +95,7 @@ public class ClientRegistrationPolicyManager {
 
 
 
-    private static void triggerPolicies(KeycloakSession session, ClientRegistrationProvider provider, RegistrationAuth authType,
+    private static void triggerPolicies(KeycloakRequestSession session, ClientRegistrationProvider provider, RegistrationAuth authType,
                                         String opDescription, ClientRegOperation op) throws ClientRegistrationPolicyException {
         RealmModel realm = session.getContext().getRealm();
 
@@ -105,7 +105,7 @@ public class ClientRegistrationPolicyManager {
                 .forEach(policyModel -> runPolicy(policyModel, session, provider, opDescription, op));
     }
 
-    private static void runPolicy(ComponentModel policyModel, KeycloakSession session, ClientRegistrationProvider provider,
+    private static void runPolicy(ComponentModel policyModel, KeycloakRequestSession session, ClientRegistrationProvider provider,
                            String opDescription, ClientRegOperation op) throws ClientRegistrationPolicyException {
         ClientRegistrationPolicy policy = session.getProvider(ClientRegistrationPolicy.class, policyModel);
         if (policy == null) {

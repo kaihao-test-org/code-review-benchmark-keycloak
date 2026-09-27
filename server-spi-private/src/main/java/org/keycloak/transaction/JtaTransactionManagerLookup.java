@@ -16,7 +16,7 @@
  */
 package org.keycloak.transaction;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
 
@@ -35,7 +35,7 @@ public interface JtaTransactionManagerLookup extends Provider, ProviderFactory<J
     }
 
     @Override
-    default JtaTransactionManagerLookup create(KeycloakSession session) {
+    default JtaTransactionManagerLookup create(KeycloakRequestSession session) {
         return this;
     }
 

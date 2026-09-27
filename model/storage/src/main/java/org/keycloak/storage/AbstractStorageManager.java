@@ -21,7 +21,7 @@ import org.keycloak.Config;
 import org.keycloak.common.util.reflections.Types;
 import org.keycloak.component.ComponentFactory;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
@@ -50,14 +50,14 @@ public abstract class AbstractStorageManager<ProviderType extends Provider,
      * to 3000 milliseconds and it's configurable.
      */
     private static final Long STORAGE_PROVIDER_DEFAULT_TIMEOUT = 3000L;
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private final Class<ProviderType> providerTypeClass;
     private final Class<? extends ProviderFactory> factoryTypeClass;
     private final Function<ComponentModel, StorageProviderModelType> toStorageProviderModelTypeFunction;
     private final String configScope;
     private Long storageProviderTimeout;
 
-    public AbstractStorageManager(KeycloakSession session, Class<? extends ProviderFactory> factoryTypeClass, Class<ProviderType> providerTypeClass, Function<ComponentModel, StorageProviderModelType> toStorageProviderModelTypeFunction, String configScope) {
+    public AbstractStorageManager(KeycloakRequestSession session, Class<? extends ProviderFactory> factoryTypeClass, Class<ProviderType> providerTypeClass, Function<ComponentModel, StorageProviderModelType> toStorageProviderModelTypeFunction, String configScope) {
         this.session = session;
         this.providerTypeClass = providerTypeClass;
         this.factoryTypeClass = factoryTypeClass;

@@ -3,7 +3,7 @@ package org.keycloak.protocol.docker.installation;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -28,7 +28,7 @@ public class DockerComposeYamlInstallationProvider implements ClientInstallation
     public static final String ROOT_DIR = "keycloak-docker-compose-yaml/";
 
     @Override
-    public ClientInstallationProvider create(final KeycloakSession session) {
+    public ClientInstallationProvider create(final KeycloakRequestSession session) {
         return this;
     }
 
@@ -53,7 +53,7 @@ public class DockerComposeYamlInstallationProvider implements ClientInstallation
     }
 
     @Override
-    public Response generateInstallation(final KeycloakSession session, final RealmModel realm, final ClientModel client, final URI serverBaseUri) {
+    public Response generateInstallation(final KeycloakRequestSession session, final RealmModel realm, final ClientModel client, final URI serverBaseUri) {
         final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         final ZipOutputStream zipOutput = new ZipOutputStream(byteStream);
 

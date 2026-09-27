@@ -44,7 +44,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -132,7 +132,7 @@ public class ExternalInternalTokenExchangeV2Test extends AbstractInitializedBase
         };
     }
 
-    private static void setupRealm(KeycloakSession session) {
+    private static void setupRealm(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         IdentityProviderModel idp = session.identityProviders().getByAlias(IDP_OIDC_ALIAS);
         org.junit.Assert.assertNotNull(idp);

@@ -32,7 +32,7 @@ import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenExchangeContext;
 import org.keycloak.representations.JsonWebToken;
 
@@ -57,7 +57,7 @@ public class GoogleIdentityProvider extends OIDCIdentityProvider implements Soci
     private static final String OIDC_PARAMETER_ACCESS_TYPE = "access_type";
     private static final String ACCESS_TYPE_OFFLINE = "offline";
 
-    public GoogleIdentityProvider(KeycloakSession session, GoogleIdentityProviderConfig config) {
+    public GoogleIdentityProvider(KeycloakRequestSession session, GoogleIdentityProviderConfig config) {
         super(session, config);
         config.setAuthorizationUrl(AUTH_URL);
         config.setTokenUrl(TOKEN_URL);

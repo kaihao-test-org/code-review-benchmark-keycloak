@@ -21,7 +21,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserManager;
 import org.keycloak.models.UserModel;
@@ -65,7 +65,7 @@ public class SessionTimeoutValidationTest extends AbstractTestRealmKeycloakTest 
 
     @Test
     @ModelTest
-    public  void testIsSessionValid(KeycloakSession session) {
+    public  void testIsSessionValid(KeycloakRequestSession session) {
         
         // KEYCLOAK-9833 Large SSO Session Idle/SSO Session Max causes login failure
         RealmModel realm = session.realms().getRealmByName("test");

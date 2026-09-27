@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserManager;
 import org.keycloak.models.UserModel;
@@ -67,7 +67,7 @@ public class LoginTimeoutValidationTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public  void testIsLoginTimeoutValid(KeycloakSession keycloakSession) {
+    public  void testIsLoginTimeoutValid(KeycloakRequestSession keycloakSession) {
         
         RealmModel realm = keycloakSession.realms().getRealmByName("test");
         UserSessionModel userSession =

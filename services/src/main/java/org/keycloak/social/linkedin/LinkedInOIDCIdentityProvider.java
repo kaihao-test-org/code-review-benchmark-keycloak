@@ -24,7 +24,7 @@ import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.keys.PublicKeyLoader;
 import org.keycloak.keys.PublicKeyStorageProvider;
 import org.keycloak.keys.PublicKeyStorageUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * <p>Specific OIDC LinkedIn provider for <b>Sign In with LinkedIn using OpenID Connect</b>
@@ -36,7 +36,7 @@ public class LinkedInOIDCIdentityProvider extends OIDCIdentityProvider implement
 
     public static final String DEFAULT_SCOPE = "openid profile email";
 
-    public LinkedInOIDCIdentityProvider(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public LinkedInOIDCIdentityProvider(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         super(session, config);
     }
 

@@ -34,7 +34,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -76,7 +76,7 @@ public class TwitterIdentityProvider extends AbstractIdentityProvider<OAuth2Iden
 
     private final OAuthAuthorization oAuthAuthorization;
 
-    public TwitterIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
+    public TwitterIdentityProvider(KeycloakRequestSession session, OAuth2IdentityProviderConfig config) {
         super(session, config);
         try (VaultStringSecret vaultStringSecret = session.vault().getStringSecret(getConfig().getClientSecret())) {
             oAuthAuthorization = OAuthAuthorization.newBuilder()
@@ -169,13 +169,13 @@ public class TwitterIdentityProvider extends AbstractIdentityProvider<OAuth2Iden
         protected final EventBuilder event;
         private final TwitterIdentityProvider provider;
 
-        protected final KeycloakSession session;
+        protected final KeycloakRequestSession session;
 
         protected final ClientConnection clientConnection;
 
         protected final HttpHeaders headers;
 
-        public Endpoint(KeycloakSession session, AuthenticationCallback callback, EventBuilder event, TwitterIdentityProvider provider) {
+        public Endpoint(KeycloakRequestSession session, AuthenticationCallback callback, EventBuilder event, TwitterIdentityProvider provider) {
             this.session = session;
             this.realm = session.getContext().getRealm();
             this.clientConnection = session.getContext().getConnection();
@@ -265,7 +265,7 @@ public class TwitterIdentityProvider extends AbstractIdentityProvider<OAuth2Iden
     }
 
     @Override
-    public Response retrieveToken(KeycloakSession session, FederatedIdentityModel identity) {
+    public Response retrieveToken(KeycloakRequestSession session, FederatedIdentityModel identity) {
         return Response.ok(identity.getToken()).type(MediaType.APPLICATION_JSON).build();
     }
 

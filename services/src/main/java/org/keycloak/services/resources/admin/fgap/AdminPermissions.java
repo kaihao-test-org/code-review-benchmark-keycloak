@@ -19,7 +19,7 @@ package org.keycloak.services.resources.admin.fgap;
 import org.keycloak.common.Profile;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -34,27 +34,27 @@ import org.keycloak.services.resources.admin.AdminAuth;
 public class AdminPermissions {
 
 
-    public static AdminPermissionEvaluator evaluator(KeycloakSession session, RealmModel realm, AdminAuth auth) {
+    public static AdminPermissionEvaluator evaluator(KeycloakRequestSession session, RealmModel realm, AdminAuth auth) {
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ_V2)) {
             return new MgmtPermissionsV2(session, realm, auth);
         }
         return new MgmtPermissions(session, realm, auth);
     }
-    public static AdminPermissionEvaluator evaluator(KeycloakSession session, RealmModel realm, RealmModel adminsRealm, UserModel admin) {
+    public static AdminPermissionEvaluator evaluator(KeycloakRequestSession session, RealmModel realm, RealmModel adminsRealm, UserModel admin) {
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ_V2)) {
             return new MgmtPermissionsV2(session, adminsRealm, admin);
         }
         return new MgmtPermissions(session, realm, adminsRealm, admin);
     }
 
-    public static RealmsPermissionEvaluator realms(KeycloakSession session, AdminAuth auth) {
+    public static RealmsPermissionEvaluator realms(KeycloakRequestSession session, AdminAuth auth) {
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ_V2)) {
             return new MgmtPermissionsV2(session, auth);
         }
         return new MgmtPermissions(session, auth);
     }
 
-    public static AdminPermissionManagement management(KeycloakSession session, RealmModel realm) {
+    public static AdminPermissionManagement management(KeycloakRequestSession session, RealmModel realm) {
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ_V2)) {
              return new MgmtPermissionsV2(session, realm);
         }

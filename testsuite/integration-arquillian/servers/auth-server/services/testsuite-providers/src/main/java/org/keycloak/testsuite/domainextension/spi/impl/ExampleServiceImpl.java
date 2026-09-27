@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.domainextension.spi.impl;
 
 import org.keycloak.connections.jpa.JpaConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.testsuite.domainextension.CompanyRepresentation;
@@ -31,9 +31,9 @@ import java.util.List;
 
 public class ExampleServiceImpl implements ExampleService {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ExampleServiceImpl(KeycloakSession session) {
+    public ExampleServiceImpl(KeycloakRequestSession session) {
         this.session = session;
         if (getRealm() == null) {
             throw new IllegalStateException("The service cannot accept a session without a realm in it's context.");

@@ -29,7 +29,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.marshalling.Marshalling;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.sessions.infinispan.InfinispanAuthenticationSessionProviderFactory;
 import org.keycloak.models.sessions.infinispan.changes.remote.remover.query.ByRealmIdQueryConditionalRemover;
@@ -65,7 +65,7 @@ public class RemoteInfinispanAuthenticationSessionProviderFactory implements Aut
     }
 
     @Override
-    public RemoteInfinispanAuthenticationSessionProvider create(KeycloakSession session) {
+    public RemoteInfinispanAuthenticationSessionProvider create(KeycloakRequestSession session) {
         return new RemoteInfinispanAuthenticationSessionProvider(session, authSessionsLimit, createAndEnlistTransaction(session));
     }
 
@@ -144,7 +144,7 @@ public class RemoteInfinispanAuthenticationSessionProviderFactory implements Aut
         return InfinispanUtils.PROVIDER_ORDER;
     }
 
-    private AuthenticationSessionChangeLogTransaction createAndEnlistTransaction(KeycloakSession session) {
+    private AuthenticationSessionChangeLogTransaction createAndEnlistTransaction(KeycloakRequestSession session) {
         var tx = new AuthenticationSessionChangeLogTransaction(this, this, new ByRealmIdQueryConditionalRemover<>(PROTO_ENTITY));
         session.getTransactionManager().enlistAfterCompletion(tx);
         return tx;

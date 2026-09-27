@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 import org.jboss.logging.Logger;
 import org.keycloak.common.enums.SslRequired;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.urls.HostnameProvider;
 import org.keycloak.urls.UrlType;
 
@@ -36,7 +36,7 @@ import static org.keycloak.utils.StringUtil.isNotBlank;
  * @author Vaclav Muzikar <vmuzikar@redhat.com>
  */
 public class HostnameV2Provider implements HostnameProvider {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String hostname;
     private final URI hostnameUrl;
     private final URI adminUrl;
@@ -45,7 +45,7 @@ public class HostnameV2Provider implements HostnameProvider {
 
     private final Logger logger = Logger.getLogger(HostnameV2Provider.class);
 
-    public HostnameV2Provider(KeycloakSession session, String hostname, URI hostnameUrl, URI adminUrl, Boolean backchannelDynamic) {
+    public HostnameV2Provider(KeycloakRequestSession session, String hostname, URI hostnameUrl, URI adminUrl, Boolean backchannelDynamic) {
         this.session = session;
         this.hostname = hostname;
         this.hostnameUrl = hostnameUrl;

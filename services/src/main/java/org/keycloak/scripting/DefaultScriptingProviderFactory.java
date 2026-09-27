@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import javax.script.ScriptEngine;
@@ -43,7 +43,7 @@ public class DefaultScriptingProviderFactory implements ScriptingProviderFactory
     private Config.Scope config;
 
     @Override
-    public ScriptingProvider create(KeycloakSession session) {
+    public ScriptingProvider create(KeycloakRequestSession session) {
         return new DefaultScriptingProvider(this);
     }
 

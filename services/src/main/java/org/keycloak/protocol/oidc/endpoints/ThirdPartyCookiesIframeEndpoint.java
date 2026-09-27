@@ -17,7 +17,7 @@
 
 package org.keycloak.protocol.oidc.endpoints;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.MediaType;
 
 import jakarta.ws.rs.GET;
@@ -33,9 +33,9 @@ import static org.keycloak.protocol.oidc.endpoints.IframeUtil.returnIframeFromRe
  */
 public class ThirdPartyCookiesIframeEndpoint {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ThirdPartyCookiesIframeEndpoint(KeycloakSession session) {
+    public ThirdPartyCookiesIframeEndpoint(KeycloakRequestSession session) {
         this.session = session;
     }
 

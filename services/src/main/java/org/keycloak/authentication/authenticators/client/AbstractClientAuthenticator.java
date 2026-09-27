@@ -20,7 +20,7 @@ package org.keycloak.authentication.authenticators.client;
 import org.keycloak.Config;
 import org.keycloak.authentication.ClientAuthenticator;
 import org.keycloak.authentication.ClientAuthenticatorFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -39,7 +39,7 @@ public abstract class AbstractClientAuthenticator implements ClientAuthenticator
     }
 
     @Override
-    public ClientAuthenticator create(KeycloakSession session) {
+    public ClientAuthenticator create(KeycloakRequestSession session) {
         return this;
     }
 

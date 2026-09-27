@@ -39,7 +39,7 @@ import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.common.Profile;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -72,11 +72,11 @@ public class RemoteUserSessionProvider implements UserSessionProvider {
     private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
     private static final int MAX_CONCURRENT_REQUESTS = 16;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final UserSessionTransaction transaction;
     private final int batchSize;
 
-    public RemoteUserSessionProvider(KeycloakSession session, UserSessionTransaction transaction, int batchSize) {
+    public RemoteUserSessionProvider(KeycloakRequestSession session, UserSessionTransaction transaction, int batchSize) {
         this.session = session;
         this.transaction = transaction;
         this.batchSize = batchSize;
@@ -270,7 +270,7 @@ public class RemoteUserSessionProvider implements UserSessionProvider {
     }
 
     @Override
-    public KeycloakSession getKeycloakSession() {
+    public KeycloakRequestSession getKeycloakSession() {
         return session;
     }
 

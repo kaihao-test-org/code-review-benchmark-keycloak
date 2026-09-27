@@ -17,20 +17,20 @@
 
 package org.keycloak.connections.jpa.updater.liquibase;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */
 public class ThreadLocalSessionContext {
 
-    private static final ThreadLocal<KeycloakSession> currentSession = new ThreadLocal<KeycloakSession>();
+    private static final ThreadLocal<KeycloakRequestSession> currentSession = new ThreadLocal<KeycloakRequestSession>();
 
-    public static KeycloakSession getCurrentSession() {
+    public static KeycloakRequestSession getCurrentSession() {
         return currentSession.get();
     }
 
-    public static void setCurrentSession(KeycloakSession session) {
+    public static void setCurrentSession(KeycloakRequestSession session) {
         currentSession.set(session);
     }
 

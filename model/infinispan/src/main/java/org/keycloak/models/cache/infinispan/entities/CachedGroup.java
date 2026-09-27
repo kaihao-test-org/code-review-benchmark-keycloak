@@ -20,7 +20,7 @@ package org.keycloak.models.cache.infinispan.entities;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.cache.infinispan.DefaultLazyLoader;
@@ -63,11 +63,11 @@ public class CachedGroup extends AbstractRevisioned implements InRealm {
         return realm;
     }
 
-    public MultivaluedHashMap<String, String> getAttributes(KeycloakSession session, Supplier<GroupModel> group) {
+    public MultivaluedHashMap<String, String> getAttributes(KeycloakRequestSession session, Supplier<GroupModel> group) {
         return attributes.get(session, group);
     }
 
-    public Set<String> getRoleMappings(KeycloakSession session, Supplier<GroupModel> group) {
+    public Set<String> getRoleMappings(KeycloakRequestSession session, Supplier<GroupModel> group) {
         // it may happen that groups were not loaded before so we don't actually need to invalidate entries in the cache
         if (group == null) {
             return Collections.emptySet();
@@ -87,7 +87,7 @@ public class CachedGroup extends AbstractRevisioned implements InRealm {
         return parentId;
     }
 
-    public Set<String> getSubGroups(KeycloakSession session, Supplier<GroupModel> group) {
+    public Set<String> getSubGroups(KeycloakRequestSession session, Supplier<GroupModel> group) {
         return subGroups.get(session, group);
     }
 

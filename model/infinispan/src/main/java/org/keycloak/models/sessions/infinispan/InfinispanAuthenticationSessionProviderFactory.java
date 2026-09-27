@@ -29,7 +29,7 @@ import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.infinispan.events.AuthenticationSessionAuthNoteUpdateEvent;
 import org.keycloak.models.sessions.infinispan.changes.SerializeExecutionsByKey;
@@ -90,7 +90,7 @@ public class InfinispanAuthenticationSessionProviderFactory implements Authentic
             @Override
             public void onEvent(ProviderEvent event) {
                 if (event instanceof PostMigrationEvent) {
-                    KeycloakModelUtils.runJobInTransaction(factory, (KeycloakSession session) -> {
+                    KeycloakModelUtils.runJobInTransaction(factory, (KeycloakRequestSession session) -> {
                         registerClusterListeners(session);
                     });
                 }
@@ -110,7 +110,7 @@ public class InfinispanAuthenticationSessionProviderFactory implements Authentic
                 .build();
     }
 
-    protected void registerClusterListeners(KeycloakSession session) {
+    protected void registerClusterListeners(KeycloakRequestSession session) {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
         ClusterProvider cluster = session.getProvider(ClusterProvider.class);
 
@@ -128,7 +128,7 @@ public class InfinispanAuthenticationSessionProviderFactory implements Authentic
     }
 
     @Override
-    public InfinispanAuthenticationSessionProvider create(KeycloakSession session) {
+    public InfinispanAuthenticationSessionProvider create(KeycloakRequestSession session) {
         InfinispanConnectionProvider connections = session.getProvider(InfinispanConnectionProvider.class);
         Cache<String, SessionEntityWrapper<RootAuthenticationSessionEntity>> cache = connections.getCache(InfinispanConnectionProvider.AUTHENTICATION_SESSIONS_CACHE_NAME);
         this.authSessionsCache = cache;

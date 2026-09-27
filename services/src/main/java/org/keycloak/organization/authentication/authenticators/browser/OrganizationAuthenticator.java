@@ -49,7 +49,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.OrganizationModel.IdentityProviderRedirectMode;
@@ -69,10 +69,10 @@ public class OrganizationAuthenticator extends IdentityProviderAuthenticator {
 
     private static final String LOGIN_HINT_ALREADY_HANDLED = "loginHintAlreadyHandled";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final WebAuthnConditionalUIAuthenticator webauthnAuth;
 
-    public OrganizationAuthenticator(KeycloakSession session) {
+    public OrganizationAuthenticator(KeycloakRequestSession session) {
         this.session = session;
         this.webauthnAuth = new WebAuthnConditionalUIAuthenticator(session, (context) -> createLoginForm(context));
     }
@@ -178,7 +178,7 @@ public class OrganizationAuthenticator extends IdentityProviderAuthenticator {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return realm.isOrganizationsEnabled();
     }
 

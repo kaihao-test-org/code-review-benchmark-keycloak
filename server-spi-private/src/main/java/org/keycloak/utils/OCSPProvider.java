@@ -39,7 +39,7 @@ import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 import org.keycloak.connections.httpclient.HttpClientProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 
 /**
@@ -77,7 +77,7 @@ public abstract class OCSPProvider {
      * @param responderCert a certificate that OCSP responder uses to sign OCSP responses
      * @return revocation status
      */
-    public OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert, X509Certificate issuerCertificate, URI responderURI, X509Certificate responderCert, Date date) throws CertPathValidatorException {
+    public OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert, X509Certificate issuerCertificate, URI responderURI, X509Certificate responderCert, Date date) throws CertPathValidatorException {
         if (cert == null)
             throw new IllegalArgumentException("cert cannot be null");
         if (issuerCertificate == null)
@@ -96,7 +96,7 @@ public abstract class OCSPProvider {
      * @param date
      * @return revocation status
      */
-    public OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert, X509Certificate issuerCertificate, Date date, X509Certificate responderCert) throws CertPathValidatorException {
+    public OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert, X509Certificate issuerCertificate, Date date, X509Certificate responderCert) throws CertPathValidatorException {
         List<String> responderURIs = null;
         try {
             responderURIs = getResponderURIs(cert);
@@ -121,7 +121,7 @@ public abstract class OCSPProvider {
         return check(session, cert, issuerCertificate, Collections.unmodifiableList(uris), responderCert, date);
     }
 
-    protected byte[] getEncodedOCSPResponse(KeycloakSession session, byte[] encodedOCSPReq, URI responderUri) throws IOException {
+    protected byte[] getEncodedOCSPResponse(KeycloakRequestSession session, byte[] encodedOCSPReq, URI responderUri) throws IOException {
 
         CloseableHttpClient httpClient = session.getProvider(HttpClientProvider.class).getHttpClient();
         HttpPost post = new HttpPost(responderUri);
@@ -161,7 +161,7 @@ public abstract class OCSPProvider {
      * @param issuerCertificate The issuer certificate
      * @return revocation status
      */
-    public OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert, X509Certificate issuerCertificate) throws CertPathValidatorException {
+    public OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert, X509Certificate issuerCertificate) throws CertPathValidatorException {
         return check(session, cert, issuerCertificate, null, null);
     }
 
@@ -176,7 +176,7 @@ public abstract class OCSPProvider {
      * @return a revocation status
      * @throws CertPathValidatorException
      */
-    protected abstract OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert,
+    protected abstract OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert,
             X509Certificate issuerCertificate, List<URI> responderURIs, X509Certificate responderCert, Date date)
             throws CertPathValidatorException;
 

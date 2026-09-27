@@ -20,7 +20,7 @@ package org.keycloak.services.migration;
 import org.keycloak.Config;
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.migration.MigrationProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class DefaultMigrationProviderFactory implements MigrationProviderFactory {
 
     @Override
-    public MigrationProvider create(KeycloakSession session) {
+    public MigrationProvider create(KeycloakRequestSession session) {
         return new DefaultMigrationProvider(session);
     }
 

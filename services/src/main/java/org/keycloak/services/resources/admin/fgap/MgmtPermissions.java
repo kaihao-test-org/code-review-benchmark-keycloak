@@ -32,7 +32,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -54,7 +54,7 @@ import jakarta.ws.rs.ForbiddenException;
  */
 class MgmtPermissions implements AdminPermissionEvaluator, AdminPermissionManagement, RealmsPermissionEvaluator {
     protected RealmModel realm;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected AuthorizationProvider authz;
     protected AdminAuth auth;
     protected Identity identity;
@@ -69,7 +69,7 @@ class MgmtPermissions implements AdminPermissionEvaluator, AdminPermissionManage
     protected RolePermissions rolePermissions;
 
 
-    MgmtPermissions(KeycloakSession session, RealmModel realm) {
+    MgmtPermissions(KeycloakRequestSession session, RealmModel realm) {
         this.session = session;
         this.realm = realm;
         KeycloakSessionFactory keycloakSessionFactory = session.getKeycloakSessionFactory();
@@ -79,7 +79,7 @@ class MgmtPermissions implements AdminPermissionEvaluator, AdminPermissionManage
         }
     }
 
-    MgmtPermissions(KeycloakSession session, RealmModel realm, AdminAuth auth) {
+    MgmtPermissions(KeycloakRequestSession session, RealmModel realm, AdminAuth auth) {
         this(session, realm);
         this.auth = auth;
         this.admin = auth.getUser();
@@ -90,7 +90,7 @@ class MgmtPermissions implements AdminPermissionEvaluator, AdminPermissionManage
         }
         initIdentity(session, auth);
     }
-    MgmtPermissions(KeycloakSession session, AdminAuth auth) {
+    MgmtPermissions(KeycloakRequestSession session, AdminAuth auth) {
         this.session = session;
         this.auth = auth;
         this.admin = auth.getUser();
@@ -98,20 +98,20 @@ class MgmtPermissions implements AdminPermissionEvaluator, AdminPermissionManage
         initIdentity(session, auth);
     }
 
-    private void initIdentity(KeycloakSession session, AdminAuth auth) {
+    private void initIdentity(KeycloakRequestSession session, AdminAuth auth) {
         AccessToken accessToken = auth.getToken();
         AuthenticationManager.resolveLightweightAccessTokenRoles(session, accessToken, adminsRealm);
         this.identity = new KeycloakIdentity(accessToken, session, adminsRealm);
     }
 
-    MgmtPermissions(KeycloakSession session, RealmModel adminsRealm, UserModel admin) {
+    MgmtPermissions(KeycloakRequestSession session, RealmModel adminsRealm, UserModel admin) {
         this.session = session;
         this.admin = admin;
         this.adminsRealm = adminsRealm;
         this.identity = new UserModelIdentity(adminsRealm, admin);
     }
 
-    MgmtPermissions(KeycloakSession session, RealmModel realm, RealmModel adminsRealm, UserModel admin) {
+    MgmtPermissions(KeycloakRequestSession session, RealmModel realm, RealmModel adminsRealm, UserModel admin) {
         this(session, realm);
         this.admin = admin;
         this.adminsRealm = adminsRealm;

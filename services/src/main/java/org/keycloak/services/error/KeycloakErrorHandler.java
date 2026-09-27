@@ -8,7 +8,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.forms.login.freemarker.model.UrlBean;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionTaskWithResult;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.ModelDuplicateException;
@@ -57,14 +57,14 @@ public class KeycloakErrorHandler implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable throwable) {
-        KeycloakSession session = KeycloakSessionUtil.getKeycloakSession();
+        KeycloakRequestSession session = KeycloakSessionUtil.getKeycloakSession();
 
         if (session == null) {
             // errors might be thrown when handling errors from JAX-RS before the session is available
             return KeycloakModelUtils.runJobInTransactionWithResult(getSessionFactory(),
                     new KeycloakSessionTaskWithResult<Response>() {
                         @Override
-                        public Response run(KeycloakSession session) {
+                        public Response run(KeycloakRequestSession session) {
                             return getResponse(session, throwable);
                         }
                     });
@@ -73,7 +73,7 @@ public class KeycloakErrorHandler implements ExceptionMapper<Throwable> {
         return getResponse(session, throwable);
     }
 
-    public static Response getResponse(KeycloakSession session, Throwable throwable) {
+    public static Response getResponse(KeycloakRequestSession session, Throwable throwable) {
         KeycloakTransaction tx = session.getTransactionManager();
         tx.setRollbackOnly();
 
@@ -166,7 +166,7 @@ public class KeycloakErrorHandler implements ExceptionMapper<Throwable> {
         return "unknown_error";
     }
 
-    private static RealmModel resolveRealm(KeycloakSession session) {
+    private static RealmModel resolveRealm(KeycloakRequestSession session) {
         String path = session.getContext().getUri().getPath();
         Matcher m = realmNamePattern.matcher(path);
         String realmName;
@@ -187,7 +187,7 @@ public class KeycloakErrorHandler implements ExceptionMapper<Throwable> {
         return realm;
     }
 
-    private static Map<String, Object> initAttributes(KeycloakSession session, RealmModel realm, Theme theme, Locale locale, Response.Status responseStatus) throws IOException {
+    private static Map<String, Object> initAttributes(KeycloakRequestSession session, RealmModel realm, Theme theme, Locale locale, Response.Status responseStatus) throws IOException {
         Map<String, Object> attributes = new HashMap<>();
         Properties messagesBundle = theme.getEnhancedMessages(realm, locale);
 

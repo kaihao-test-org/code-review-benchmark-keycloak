@@ -40,7 +40,7 @@ import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OAuth2DeviceConfig;
 import org.keycloak.models.OTPPolicy;
@@ -527,15 +527,15 @@ public class CachedRealm extends AbstractExtendableRevisioned {
         return accessCodeLifespanLogin;
     }
 
-    public OAuth2DeviceConfig getOAuth2DeviceConfig(KeycloakSession session, Supplier<RealmModel> modelSupplier) {
+    public OAuth2DeviceConfig getOAuth2DeviceConfig(KeycloakRequestSession session, Supplier<RealmModel> modelSupplier) {
         return deviceConfig.get(session, modelSupplier);
     }
 
-    public CibaConfig getCibaConfig(KeycloakSession session, Supplier<RealmModel> modelSupplier) {
+    public CibaConfig getCibaConfig(KeycloakRequestSession session, Supplier<RealmModel> modelSupplier) {
         return cibaConfig.get(session, modelSupplier);
     }
 
-    public ParConfig getParConfig(KeycloakSession session, Supplier<RealmModel> modelSupplier) {
+    public ParConfig getParConfig(KeycloakRequestSession session, Supplier<RealmModel> modelSupplier) {
         return parConfig.get(session, modelSupplier);
     }
 
@@ -703,11 +703,11 @@ public class CachedRealm extends AbstractExtendableRevisioned {
         return defaultGroups;
     }
 
-    public List<String> getDefaultDefaultClientScopes(KeycloakSession session, Supplier<RealmModel> modelSupplier) {
+    public List<String> getDefaultDefaultClientScopes(KeycloakRequestSession session, Supplier<RealmModel> modelSupplier) {
         return defaultDefaultClientScopes.get(session, modelSupplier);
     }
 
-    public List<String> getOptionalDefaultClientScopes(KeycloakSession session, Supplier<RealmModel> modelSupplier) {
+    public List<String> getOptionalDefaultClientScopes(KeycloakRequestSession session, Supplier<RealmModel> modelSupplier) {
         return optionalDefaultClientScopes.get(session, modelSupplier);
     }
 

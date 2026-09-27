@@ -53,13 +53,13 @@ public interface UserModel extends RoleMapperModel {
     interface UserRemovedEvent extends ProviderEvent {
         RealmModel getRealm();
         UserModel getUser();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface UserPreRemovedEvent extends ProviderEvent {
         RealmModel getRealm();
         UserModel getUser();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     String getId();

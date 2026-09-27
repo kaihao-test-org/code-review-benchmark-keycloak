@@ -35,7 +35,7 @@ import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OAuth2DeviceConfig;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.ParConfig;
@@ -71,10 +71,10 @@ public class RealmAdapter implements CachedRealmModel {
     protected CachedRealm cached;
     protected RealmCacheSession cacheSession;
     protected volatile RealmModel updated;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     private final Supplier<RealmModel> modelSupplier;
 
-    public RealmAdapter(KeycloakSession session, CachedRealm cached, RealmCacheSession cacheSession) {
+    public RealmAdapter(KeycloakRequestSession session, CachedRealm cached, RealmCacheSession cacheSession) {
         this.cached = cached;
         this.cacheSession = cacheSession;
         this.session = session;

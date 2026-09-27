@@ -25,14 +25,14 @@ import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.model.Resource;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resources.admin.fgap.ModelRecord.GroupModelRecord;
 
 class GroupPermissionsV2 extends GroupPermissions {
 
     private final FineGrainedAdminPermissionEvaluator eval;
 
-    GroupPermissionsV2(KeycloakSession session, AuthorizationProvider authz, MgmtPermissions root) {
+    GroupPermissionsV2(KeycloakRequestSession session, AuthorizationProvider authz, MgmtPermissions root) {
         super(authz, root);
         this.eval = new FineGrainedAdminPermissionEvaluator(session, root, resourceStore, policyStore);
     }

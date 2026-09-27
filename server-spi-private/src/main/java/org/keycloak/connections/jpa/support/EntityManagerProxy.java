@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelIllegalStateException;
@@ -52,7 +52,7 @@ public class EntityManagerProxy {
     private final int batchSize;
     private int changeCount = 0;
 
-    public static EntityManager create(KeycloakSession session, EntityManager em) {
+    public static EntityManager create(KeycloakRequestSession session, EntityManager em) {
         // the alternative to this tracking is to have a method on the session for
         // getting the in use providers - not something that will create all providers
         EntityManagerProxy converter = new EntityManagerProxy(session, em);
@@ -65,7 +65,7 @@ public class EntityManagerProxy {
         return (EntityManager) Proxy.newProxyInstance(EntityManager.class.getClassLoader(), new Class[]{EntityManager.class}, converter::invoke);
     }
 
-    private EntityManagerProxy(KeycloakSession session, EntityManager em) {
+    private EntityManagerProxy(KeycloakRequestSession session, EntityManager em) {
         batchEnabled = session.getAttributeOrDefault(Constants.STORAGE_BATCH_ENABLED, false);
         batchSize = session.getAttributeOrDefault(Constants.STORAGE_BATCH_SIZE, 100);
         this.em = em;

@@ -21,7 +21,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.GroupProvider;
 import org.keycloak.models.GroupProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -68,7 +68,7 @@ public class JpaGroupProviderFactory implements GroupProviderFactory {
     }
 
     @Override
-    public GroupProvider create(KeycloakSession session) {
+    public GroupProvider create(KeycloakRequestSession session) {
         EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         return new JpaRealmProvider(session, em, null, groupSearchableAttributes);
     }

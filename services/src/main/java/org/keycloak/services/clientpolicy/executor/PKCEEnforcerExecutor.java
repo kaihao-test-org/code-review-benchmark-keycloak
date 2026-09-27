@@ -28,7 +28,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.events.Errors;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
@@ -53,10 +53,10 @@ public class PKCEEnforcerExecutor implements ClientPolicyExecutorProvider<PKCEEn
     private static final Pattern VALID_CODE_CHALLENGE_PATTERN = Pattern.compile("^[0-9a-zA-Z\\-\\.~_]+$");
     private static final Pattern VALID_CODE_VERIFIER_PATTERN  = Pattern.compile("^[0-9a-zA-Z\\-\\.~_]+$");
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public PKCEEnforcerExecutor(KeycloakSession session) {
+    public PKCEEnforcerExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

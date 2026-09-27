@@ -48,7 +48,7 @@ import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserManager;
@@ -79,13 +79,13 @@ import static org.junit.Assume.assumeFalse;
 public class UserSessionProviderOfflineModelTest extends KeycloakModelTest {
 
     private String realmId;
-    private KeycloakSession kcSession;
+    private KeycloakRequestSession kcSession;
 
     private UserSessionManager sessionManager;
     private UserSessionPersisterProvider persister;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "test");
         s.getContext().setRealm(realm);
         realm.setOfflineSessionIdleTimeout(Constants.DEFAULT_OFFLINE_SESSION_IDLE_TIMEOUT);
@@ -103,7 +103,7 @@ public class UserSessionProviderOfflineModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.sessions().removeUserSessions(realm);
@@ -412,7 +412,7 @@ public class UserSessionProviderOfflineModelTest extends KeycloakModelTest {
     public void testOfflineClientSessionLoading() {
         Assume.assumeTrue("Remote Infinispan feature does not store sessions in UserSessionPersisterProvider", InfinispanUtils.isEmbeddedInfinispan());
         // create online user and client sessions
-        inComittedTransaction((Consumer<KeycloakSession>) session -> UserSessionPersisterProviderTest.createSessions(session, realmId));
+        inComittedTransaction((Consumer<KeycloakRequestSession>) session -> UserSessionPersisterProviderTest.createSessions(session, realmId));
 
         // create offline user and client sessions
         withRealm(realmId, (session, realm) -> {
@@ -456,7 +456,7 @@ public class UserSessionProviderOfflineModelTest extends KeycloakModelTest {
         });
 
         // create online user and client sessions
-        inComittedTransaction((Consumer<KeycloakSession>) session -> UserSessionPersisterProviderTest.createSessions(session, realmId));
+        inComittedTransaction((Consumer<KeycloakRequestSession>) session -> UserSessionPersisterProviderTest.createSessions(session, realmId));
 
         // create offline user and client sessions
         List<String> offlineUserSessionIds = withRealm(realmId, (session, realm) -> session.sessions()
@@ -542,7 +542,7 @@ public class UserSessionProviderOfflineModelTest extends KeycloakModelTest {
         });
     }
 
-    private static Set<String> createOfflineSessionIncludeClientSessions(KeycloakSession session, UserSessionModel
+    private static Set<String> createOfflineSessionIncludeClientSessions(KeycloakRequestSession session, UserSessionModel
             userSession) {
         Set<String> offlineSessions = new HashSet<>();
         UserSessionManager localManager = new UserSessionManager(session);

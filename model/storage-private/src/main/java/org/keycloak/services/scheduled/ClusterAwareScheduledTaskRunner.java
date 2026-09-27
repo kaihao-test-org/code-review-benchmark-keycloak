@@ -20,7 +20,7 @@ package org.keycloak.services.scheduled;
 import org.jboss.logging.Logger;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.cluster.ExecutionResult;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.timer.ScheduledTask;
 
@@ -43,7 +43,7 @@ public class ClusterAwareScheduledTaskRunner extends ScheduledTaskRunner {
     }
 
     @Override
-    protected void runTask(final KeycloakSession session) {
+    protected void runTask(final KeycloakRequestSession session) {
         ClusterProvider clusterProvider = session.getProvider(ClusterProvider.class);
         String taskKey = task.getClass().getSimpleName();
 

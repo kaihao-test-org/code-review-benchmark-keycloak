@@ -58,7 +58,7 @@ public class ImpersonationConstants {
     }
 
 
-    public static void setupImpersonationService(KeycloakSession session, RealmModel realm) {
+    public static void setupImpersonationService(KeycloakRequestSession session, RealmModel realm) {
         setupMasterRealmRole(session.realms(), realm);
         setupRealmRole(realm);
     }

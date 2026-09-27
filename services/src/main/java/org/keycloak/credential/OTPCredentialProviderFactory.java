@@ -16,7 +16,7 @@
  */
 package org.keycloak.credential;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
@@ -25,7 +25,7 @@ import org.keycloak.models.KeycloakSession;
 public class OTPCredentialProviderFactory implements CredentialProviderFactory<OTPCredentialProvider> {
     public static final String PROVIDER_ID="keycloak-otp";
     @Override
-    public OTPCredentialProvider create(KeycloakSession session) {
+    public OTPCredentialProvider create(KeycloakRequestSession session) {
         return new OTPCredentialProvider(session);
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientPoliciesRepresentation;
 import org.keycloak.representations.idm.ClientProfilesRepresentation;
@@ -38,9 +38,9 @@ public class DefaultClientPolicyManager implements ClientPolicyManager {
 
     private static final Logger logger = Logger.getLogger(DefaultClientPolicyManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultClientPolicyManager(KeycloakSession session) {
+    public DefaultClientPolicyManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

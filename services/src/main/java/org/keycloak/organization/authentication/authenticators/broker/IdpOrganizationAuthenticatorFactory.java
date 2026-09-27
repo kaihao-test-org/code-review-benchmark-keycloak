@@ -26,7 +26,7 @@ import org.keycloak.authentication.AuthenticatorFactory;
 import org.keycloak.common.Profile;
 import org.keycloak.common.Profile.Feature;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -36,7 +36,7 @@ public class IdpOrganizationAuthenticatorFactory implements AuthenticatorFactory
     public static final String ID = "idp-add-organization-member";
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return new IdpAddOrganizationMemberAuthenticator();
     }
 

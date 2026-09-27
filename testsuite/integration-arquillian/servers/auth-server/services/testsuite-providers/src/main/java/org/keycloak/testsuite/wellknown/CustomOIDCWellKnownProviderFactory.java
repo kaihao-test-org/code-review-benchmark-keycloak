@@ -20,7 +20,7 @@ package org.keycloak.testsuite.wellknown;
 
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCWellKnownProviderFactory;
 import org.keycloak.wellknown.WellKnownProvider;
 
@@ -32,7 +32,7 @@ public class CustomOIDCWellKnownProviderFactory extends OIDCWellKnownProviderFac
     public static final String INCLUDE_CLIENT_SCOPES = "oidc.wellknown.include.client.scopes";
 
     @Override
-    public WellKnownProvider create(KeycloakSession session) {
+    public WellKnownProvider create(KeycloakRequestSession session) {
         return new CustomOIDCWellKnownProvider(session, getOpenidConfigOverride(), includeClientScopes());
     }
 

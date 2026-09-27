@@ -20,7 +20,7 @@ import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -39,7 +39,7 @@ public class FacebookIdentityProviderFactory extends AbstractIdentityProviderFac
     }
 
     @Override
-    public FacebookIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public FacebookIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new FacebookIdentityProvider(session, new FacebookIdentityProviderConfig(model));
     }
 

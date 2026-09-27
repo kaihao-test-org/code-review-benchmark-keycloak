@@ -17,7 +17,7 @@
 package org.keycloak.storage.client;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
 
@@ -33,13 +33,13 @@ import java.util.Map;
  * @version $Revision: 1 $
  */
 public abstract class AbstractClientStorageAdapter extends UnsupportedOperationsClientStorageAdapter {
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected ClientStorageProviderModel component;
     private StorageId storageId;
 
 
-    public AbstractClientStorageAdapter(KeycloakSession session, RealmModel realm, ClientStorageProviderModel component) {
+    public AbstractClientStorageAdapter(KeycloakRequestSession session, RealmModel realm, ClientStorageProviderModel component) {
         this.session = session;
         this.realm = realm;
         this.component = component;
@@ -128,7 +128,7 @@ public abstract class AbstractClientStorageAdapter extends UnsupportedOperations
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });

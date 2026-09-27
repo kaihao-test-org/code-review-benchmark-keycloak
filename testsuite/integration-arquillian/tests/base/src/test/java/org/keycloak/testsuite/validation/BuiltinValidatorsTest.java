@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.testsuite.AbstractKeycloakTest;
 import org.keycloak.testsuite.arquillian.annotation.ModelTest;
@@ -121,7 +121,7 @@ public class BuiltinValidatorsTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testLengthValidator_ConfigValidation(KeycloakSession session) {
+    public void testLengthValidator_ConfigValidation(KeycloakRequestSession session) {
 
         // invalid min and max config values
         ValidatorConfig config = new ValidatorConfig(ImmutableMap.of(LengthValidator.KEY_MIN, new Object(), LengthValidator.KEY_MAX, "invalid"));
@@ -323,7 +323,7 @@ public class BuiltinValidatorsTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testDoubleValidator_ConfigValidation(KeycloakSession session) {
+    public void testDoubleValidator_ConfigValidation(KeycloakRequestSession session) {
 
         // invalid min and max config values
         ValidatorConfig config = new ValidatorConfig(ImmutableMap.of(DoubleValidator.KEY_MIN, new Object(), DoubleValidator.KEY_MAX, "invalid"));
@@ -426,7 +426,7 @@ public class BuiltinValidatorsTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testIntegerValidator_ConfigValidation(KeycloakSession session) {
+    public void testIntegerValidator_ConfigValidation(KeycloakRequestSession session) {
 
         // invalid min and max config values
         ValidatorConfig config = new ValidatorConfig(ImmutableMap.of(IntegerValidator.KEY_MIN, new Object(), IntegerValidator.KEY_MAX, "invalid"));
@@ -565,7 +565,7 @@ public class BuiltinValidatorsTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testOptionsValidator_Config_Validation(KeycloakSession session) {
+    public void testOptionsValidator_Config_Validation(KeycloakRequestSession session) {
         
         ValidationResult result = BuiltinValidators.validatorConfigValidator().validate(ValidatorConfig.builder().build(), OptionsValidator.ID, new ValidationContext(session)).toResult();
         Assert.assertFalse(result.isValid());
@@ -581,7 +581,7 @@ public class BuiltinValidatorsTest extends AbstractKeycloakTest {
 
     @Test
     @ModelTest
-    public void testMultivaluedValidatorConfiguration(KeycloakSession session) {
+    public void testMultivaluedValidatorConfiguration(KeycloakRequestSession session) {
         // invalid min and max config values
         ValidatorConfig config = new ValidatorConfig(ImmutableMap.of(MultiValueValidator.KEY_MIN, new Object(), MultiValueValidator.KEY_MAX, "invalid"));
         ValidationResult result = BuiltinValidators.validatorConfigValidator().validate(config, MultiValueValidator.ID, new ValidationContext(session)).toResult();

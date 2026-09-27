@@ -31,7 +31,7 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.http.FormPartValue;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -75,11 +75,11 @@ import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 public class IdentityProvidersResource {
 
     private final RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
-    public IdentityProvidersResource(RealmModel realm, KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public IdentityProvidersResource(RealmModel realm, KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.realm = realm;
         this.session = session;
         this.auth = auth;

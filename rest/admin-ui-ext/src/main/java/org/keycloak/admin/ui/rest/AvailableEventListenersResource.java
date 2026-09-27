@@ -32,15 +32,15 @@ import org.keycloak.admin.ui.rest.model.EventListener;
 import org.keycloak.admin.ui.rest.model.ProviderMapper;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 
 public class AvailableEventListenersResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
 
-    public AvailableEventListenersResource(KeycloakSession session, AdminPermissionEvaluator auth) {
+    public AvailableEventListenersResource(KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.session = session;
         this.auth = auth;
     }

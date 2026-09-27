@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperContainerModel;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -130,19 +130,19 @@ public class ScriptBasedOIDCProtocolMapper extends AbstractOIDCProtocolMapper im
   }
 
   @Override
-  protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession, ClientSessionContext clientSessionCtx) {
+  protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession, ClientSessionContext clientSessionCtx) {
     Object claimValue = evaluateScript(token, mappingModel, userSession, keycloakSession);
     OIDCAttributeMapperHelper.mapClaim(token, mappingModel, claimValue);
   }
 
   @Override
   protected void setClaim(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel, UserSessionModel userSession,
-          KeycloakSession keycloakSession, ClientSessionContext clientSessionCtx) {
+          KeycloakRequestSession keycloakSession, ClientSessionContext clientSessionCtx) {
     Object claimValue = evaluateScript(accessTokenResponse, mappingModel, userSession, keycloakSession);
     OIDCAttributeMapperHelper.mapClaim(accessTokenResponse, mappingModel, claimValue);
   }
 
-  private Object evaluateScript(Object tokenBinding, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession) {
+  private Object evaluateScript(Object tokenBinding, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession) {
     UserModel user = userSession.getUser();
     String scriptSource = getScriptCode(mappingModel);
     RealmModel realm = userSession.getRealm();
@@ -174,7 +174,7 @@ public class ScriptBasedOIDCProtocolMapper extends AbstractOIDCProtocolMapper im
   }
 
   @Override
-  public void validateConfig(KeycloakSession session, RealmModel realm, ProtocolMapperContainerModel client, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
+  public void validateConfig(KeycloakRequestSession session, RealmModel realm, ProtocolMapperContainerModel client, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
 
     String scriptCode = getScriptCode(mapperModel);
     if (scriptCode == null) {

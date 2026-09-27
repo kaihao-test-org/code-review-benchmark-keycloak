@@ -14,7 +14,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.ImpersonationSessionNote;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -37,12 +37,12 @@ public class UserSessionUtil {
 
     private static final Logger logger = Logger.getLogger(UserSessionUtil.class);
 
-    public static UserSessionValidationResult findValidSessionForIdentityCookie(KeycloakSession session, RealmModel realm, AccessToken token, Consumer<UserSessionModel> invalidSessionCallback) {
+    public static UserSessionValidationResult findValidSessionForIdentityCookie(KeycloakRequestSession session, RealmModel realm, AccessToken token, Consumer<UserSessionModel> invalidSessionCallback) {
         return findValidSession(session, realm, token,  null, AccessTokenContext.SessionType.ONLINE, false, true, invalidSessionCallback);
     }
 
 
-    public static UserSessionValidationResult findValidSessionForRefreshToken(KeycloakSession session, RealmModel realm, RefreshToken token, ClientModel client, Consumer<UserSessionModel> invalidSessionCallback) {
+    public static UserSessionValidationResult findValidSessionForRefreshToken(KeycloakRequestSession session, RealmModel realm, RefreshToken token, ClientModel client, Consumer<UserSessionModel> invalidSessionCallback) {
         AccessTokenContext.SessionType sessionType;
         if (TokenUtil.TOKEN_TYPE_OFFLINE.equals(token.getType())) {
             sessionType = AccessTokenContext.SessionType.OFFLINE;
@@ -56,7 +56,7 @@ public class UserSessionUtil {
     }
 
 
-    public static UserSessionValidationResult findValidSessionForAccessToken(KeycloakSession session, RealmModel realm, AccessToken token, ClientModel client, Consumer<UserSessionModel> invalidSessionCallback) {
+    public static UserSessionValidationResult findValidSessionForAccessToken(KeycloakRequestSession session, RealmModel realm, AccessToken token, ClientModel client, Consumer<UserSessionModel> invalidSessionCallback) {
         AccessTokenContext accessTokenContext = session.getProvider(TokenContextEncoderProvider.class).getTokenContextFromTokenId(token.getId());
         AccessTokenContext.SessionType sessionType = accessTokenContext.getSessionType();
         return findValidSession(session, realm, token, client, sessionType, Profile.isFeatureEnabled(Profile.Feature.TOKEN_EXCHANGE), false, invalidSessionCallback);
@@ -78,7 +78,7 @@ public class UserSessionUtil {
      * @param invalidSessionCallback Callback, which is invoked when user session is found, but validation of this userSession failed. Callback not called when userSession not found or when all valiation successful
      * @return userSession with all the successful validations OR error. Result should never contain both session and error. The error contains the error code from {@link Errors}, so it can be directly used in the error event
      */
-    private static UserSessionValidationResult findValidSession(KeycloakSession session, RealmModel realm,
+    private static UserSessionValidationResult findValidSession(KeycloakRequestSession session, RealmModel realm,
                                                     AccessToken token, ClientModel client,
                                                     AccessTokenContext.SessionType sessionType, boolean allowImpersonationFallback, boolean skipCheckClient, Consumer<UserSessionModel> invalidSessionCallback) {
         logger.tracef("Lookup user session with the sessionType '%s'. Token session id: %s", sessionType, token.getSessionId());
@@ -165,7 +165,7 @@ public class UserSessionUtil {
     }
 
 
-    public static UserSessionModel createTransientUserSession(KeycloakSession session, UserSessionModel userSession) {
+    public static UserSessionModel createTransientUserSession(KeycloakRequestSession session, UserSessionModel userSession) {
         if (userSession.getPersistenceState() == UserSessionModel.SessionPersistenceState.TRANSIENT) {
             throw new IllegalArgumentException("Not expected to invoke this method with the transient session");
         }
@@ -189,7 +189,7 @@ public class UserSessionUtil {
         };
     }
 
-    private static void attachAuthenticationSession(KeycloakSession session, UserSessionModel userSession, ClientModel client) {
+    private static void attachAuthenticationSession(KeycloakRequestSession session, UserSessionModel userSession, ClientModel client) {
         RootAuthenticationSessionModel rootAuthSession = session.authenticationSessions().createRootAuthenticationSession(userSession.getRealm());
         AuthenticationSessionModel authSession = rootAuthSession.createAuthenticationSession(client);
         authSession.setAuthenticatedUser(userSession.getUser());
@@ -199,13 +199,13 @@ public class UserSessionUtil {
         TokenManager.attachAuthenticationSession(session, userSession, authSession);
     }
 
-    private static UserSessionModel createTransientSessionForClient(KeycloakSession session, UserSessionModel userSession, ClientModel client) {
+    private static UserSessionModel createTransientSessionForClient(KeycloakRequestSession session, UserSessionModel userSession, ClientModel client) {
         UserSessionModel transientSession = createTransientUserSession(session, userSession);
         attachAuthenticationSession(session, transientSession, client);
         return transientSession;
     }
 
-    private static UserSessionValidationResult createTransientSessionForClient(KeycloakSession session, RealmModel realm, AccessToken token, ClientModel client) {
+    private static UserSessionValidationResult createTransientSessionForClient(KeycloakRequestSession session, RealmModel realm, AccessToken token, ClientModel client) {
         // create a transient session
         UserModel user = TokenManager.lookupUserFromStatelessToken(session, realm, token);
         if (user == null) {
@@ -243,7 +243,7 @@ public class UserSessionUtil {
         }
     }
 
-    public static UserSessionModel getUserSessionWithImpersonatorClient(KeycloakSession session, RealmModel realm, String userSessionId, boolean offline, String clientUUID) {
+    public static UserSessionModel getUserSessionWithImpersonatorClient(KeycloakRequestSession session, RealmModel realm, String userSessionId, boolean offline, String clientUUID) {
         return session.sessions().getUserSessionWithPredicate(realm, userSessionId, offline, userSession -> Objects.equals(clientUUID, userSession.getNote(ImpersonationSessionNote.IMPERSONATOR_CLIENT.toString())));
     }
 
@@ -252,7 +252,7 @@ public class UserSessionUtil {
         private final UserSessionModel userSession;
         private final String error;
 
-        private static UserSessionValidationResult validSession(KeycloakSession session, UserSessionModel userSession) {
+        private static UserSessionValidationResult validSession(KeycloakRequestSession session, UserSessionModel userSession) {
             session.getContext().setUserSession(userSession);
             return new UserSessionValidationResult(userSession, null);
         }

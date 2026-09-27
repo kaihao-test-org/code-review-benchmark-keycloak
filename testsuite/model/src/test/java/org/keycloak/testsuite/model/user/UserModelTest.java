@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserModel;
@@ -70,7 +70,7 @@ public class UserModelTest extends KeycloakModelTest {
     private String userFederationId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -82,7 +82,7 @@ public class UserModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -93,7 +93,7 @@ public class UserModelTest extends KeycloakModelTest {
         return true;
     }
 
-    private Void addRemoveUser(KeycloakSession session, int i) {
+    private Void addRemoveUser(KeycloakRequestSession session, int i) {
         RealmModel realm = session.realms().getRealmByName("realm");
         session.getContext().setRealm(realm);
 
@@ -299,7 +299,7 @@ public class UserModelTest extends KeycloakModelTest {
         }));
     }
 
-    private UserStorageProvider getUserFederationInstance(KeycloakSession session, final RealmModel realm) throws RuntimeException {
+    private UserStorageProvider getUserFederationInstance(KeycloakRequestSession session, final RealmModel realm) throws RuntimeException {
         UserStorageProvider instance = (UserStorageProvider)session.getAttribute(userFederationId);
 
         if (instance == null) {

@@ -17,7 +17,7 @@
 package org.keycloak.services.filters;
 
 import org.keycloak.headers.SecurityHeadersProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.KeycloakSessionUtil;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -38,7 +38,7 @@ public class KeycloakSecurityHeadersFilter implements ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) {
-        KeycloakSession session = KeycloakSessionUtil.getKeycloakSession();
+        KeycloakRequestSession session = KeycloakSessionUtil.getKeycloakSession();
 
         if (session != null) {
             SecurityHeadersProvider securityHeadersProvider = session.getProvider(SecurityHeadersProvider.class);

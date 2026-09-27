@@ -23,7 +23,7 @@ import java.util.Objects;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.cache.infinispan.events.AuthenticationSessionAuthNoteUpdateEvent;
 import org.keycloak.models.sessions.infinispan.InfinispanAuthenticationSessionProviderFactory;
@@ -36,11 +36,11 @@ import org.keycloak.sessions.RootAuthenticationSessionModel;
 
 public class RemoteInfinispanAuthenticationSessionProvider implements AuthenticationSessionProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AuthenticationSessionChangeLogTransaction transaction;
     private final int authSessionsLimit;
 
-    public RemoteInfinispanAuthenticationSessionProvider(KeycloakSession session, int authSessionsLimit, AuthenticationSessionChangeLogTransaction transaction) {
+    public RemoteInfinispanAuthenticationSessionProvider(KeycloakRequestSession session, int authSessionsLimit, AuthenticationSessionChangeLogTransaction transaction) {
         this.session = Objects.requireNonNull(session);
         this.authSessionsLimit = authSessionsLimit;
         this.transaction = Objects.requireNonNull(transaction);

@@ -16,7 +16,7 @@
  */
 package org.keycloak.services;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.KeycloakTransactionManager;
 import org.keycloak.tracing.TracingProvider;
@@ -37,12 +37,12 @@ public class DefaultKeycloakTransactionManager implements KeycloakTransactionMan
     private final List<KeycloakTransaction> afterCompletion = new LinkedList<>();
     private boolean active;
     private boolean rollback;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private JTAPolicy jtaPolicy = JTAPolicy.REQUIRES_NEW;
     // Used to prevent double committing/rollback if there is an uncaught exception
     protected boolean completed;
 
-    public DefaultKeycloakTransactionManager(KeycloakSession session) {
+    public DefaultKeycloakTransactionManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

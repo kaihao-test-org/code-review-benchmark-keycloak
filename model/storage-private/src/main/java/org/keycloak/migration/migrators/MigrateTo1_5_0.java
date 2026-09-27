@@ -19,7 +19,7 @@ package org.keycloak.migration.migrators;
 
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AuthenticationFlowModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
@@ -36,16 +36,16 @@ public class MigrateTo1_5_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> migrateRealm(session, realm));
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealm(session, realm);
     }
 
-    protected void migrateRealm(KeycloakSession session, RealmModel realm) {
+    protected void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         DefaultAuthenticationFlows.migrateFlows(realm); // add reset credentials flo
         realm.setOTPPolicy(OTPPolicy.DEFAULT_POLICY);
         realm.setBrowserFlow(realm.getFlowByAlias(DefaultAuthenticationFlows.BROWSER_FLOW));

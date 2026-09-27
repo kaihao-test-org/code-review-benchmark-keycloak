@@ -38,7 +38,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.authentication.requiredactions.WebAuthnRegisterFactory;
 import org.keycloak.common.util.Base64;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.WebAuthnPolicy;
@@ -58,12 +58,12 @@ public class WebAuthnCredentialProvider implements CredentialProvider<WebAuthnCr
 
     private static final Logger logger = Logger.getLogger(WebAuthnCredentialProvider.class);
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
     private CredentialPublicKeyConverter credentialPublicKeyConverter;
     private AttestationStatementConverter attestationStatementConverter;
 
-    public WebAuthnCredentialProvider(KeycloakSession session, ObjectConverter objectConverter) {
+    public WebAuthnCredentialProvider(KeycloakRequestSession session, ObjectConverter objectConverter) {
         this.session = session;
         if (credentialPublicKeyConverter == null)
             credentialPublicKeyConverter = new CredentialPublicKeyConverter(objectConverter);
@@ -300,7 +300,7 @@ public class WebAuthnCredentialProvider implements CredentialProvider<WebAuthnCr
                 .build(session);
     }
 
-    protected KeycloakSession getKeycloakSession() {
+    protected KeycloakRequestSession getKeycloakSession() {
         return session;
     }
 

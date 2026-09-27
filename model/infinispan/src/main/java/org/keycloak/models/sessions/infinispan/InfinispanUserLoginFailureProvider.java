@@ -18,7 +18,7 @@ package org.keycloak.models.sessions.infinispan;
 
 import org.infinispan.Cache;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserLoginFailureProvider;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserLoginFailureModel;
@@ -49,14 +49,14 @@ public class InfinispanUserLoginFailureProvider implements UserLoginFailureProvi
 
     private static final Logger log = Logger.getLogger(InfinispanUserLoginFailureProvider.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
 
     protected final Cache<LoginFailureKey, SessionEntityWrapper<LoginFailureEntity>> loginFailureCache;
     protected final InfinispanChangelogBasedTransaction<LoginFailureKey, LoginFailureEntity> loginFailuresTx;
     protected final SessionEventsSenderTransaction clusterEventsSenderTx;
 
-    public InfinispanUserLoginFailureProvider(KeycloakSession session,
+    public InfinispanUserLoginFailureProvider(KeycloakRequestSession session,
                                               Cache<LoginFailureKey, SessionEntityWrapper<LoginFailureEntity>> loginFailureCache,
                                               SerializeExecutionsByKey<LoginFailureKey> serializer) {
         this.session = session;

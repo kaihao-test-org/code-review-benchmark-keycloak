@@ -63,7 +63,7 @@ public class PasswordPolicy implements Serializable {
         return new Builder();
     }
 
-    public static PasswordPolicy parse(KeycloakSession session, String policyString) {
+    public static PasswordPolicy parse(KeycloakRequestSession session, String policyString) {
         return new Builder(policyString).build(session);
     }
 
@@ -212,7 +212,7 @@ public class PasswordPolicy implements Serializable {
             return this;
         }
 
-        public PasswordPolicy build(KeycloakSession session) {
+        public PasswordPolicy build(KeycloakRequestSession session) {
             Map<String, Object> config = new HashMap<>();
             for (Map.Entry<String, String> e : map.entrySet()) {
 

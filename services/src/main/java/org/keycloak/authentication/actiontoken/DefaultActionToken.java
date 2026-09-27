@@ -23,7 +23,7 @@ import org.keycloak.TokenVerifier.Predicate;
 import org.keycloak.common.VerificationException;
 import org.keycloak.models.SingleUseObjectValueModel;
 import org.keycloak.models.DefaultActionTokenKey;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.Urls;
 
@@ -153,7 +153,7 @@ public class DefaultActionToken extends DefaultActionTokenKey implements SingleU
      * @param uri
      * @return
      */
-    public String serialize(KeycloakSession session, RealmModel realm, UriInfo uri) {
+    public String serialize(KeycloakRequestSession session, RealmModel realm, UriInfo uri) {
         String issuerUri = getIssuer(realm, uri);
 
         this

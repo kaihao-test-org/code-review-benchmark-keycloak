@@ -19,7 +19,7 @@ package org.keycloak.broker.provider;
 
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ConfiguredProvider;
@@ -57,7 +57,7 @@ public interface IdentityProviderMapper extends Provider, ProviderFactory<Identi
      * @param mapperModel
      * @param context
      */
-    void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
+    void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
 
     /**
      * Called after UserModel is created for first time for this user. Called after "FirstBrokerLogin" flow
@@ -68,7 +68,7 @@ public interface IdentityProviderMapper extends Provider, ProviderFactory<Identi
      * @param mapperModel
      * @param context
      */
-    void importNewUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
+    void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
 
     /**
      * Called when this user has logged in before and has already been imported. Legacy behaviour. When updating the mapper to correctly update brokered users
@@ -80,7 +80,7 @@ public interface IdentityProviderMapper extends Provider, ProviderFactory<Identi
      * @param mapperModel
      * @param context
      */
-    void updateBrokeredUserLegacy(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
+    void updateBrokeredUserLegacy(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
 
     /**
      * Called when this user has logged in before and has already been imported.
@@ -91,5 +91,5 @@ public interface IdentityProviderMapper extends Provider, ProviderFactory<Identi
      * @param mapperModel
      * @param context
      */
-    void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
+    void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context);
 }

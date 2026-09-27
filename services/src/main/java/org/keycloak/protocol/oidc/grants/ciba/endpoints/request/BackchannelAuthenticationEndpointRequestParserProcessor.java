@@ -23,7 +23,7 @@ import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.utils.RedirectUtils;
@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class BackchannelAuthenticationEndpointRequestParserProcessor {
 
-    public static BackchannelAuthenticationEndpointRequest parseRequest(EventBuilder event, KeycloakSession session, ClientModel client, MultivaluedMap<String, String> requestParams, CibaConfig config) {
+    public static BackchannelAuthenticationEndpointRequest parseRequest(EventBuilder event, KeycloakRequestSession session, ClientModel client, MultivaluedMap<String, String> requestParams, CibaConfig config) {
         try {
             BackchannelAuthenticationEndpointRequest request = new BackchannelAuthenticationEndpointRequest();
 

@@ -24,7 +24,7 @@ import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.QueryStatistics;
 import org.hibernate.stat.Statistics;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.timer.ScheduledTask;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -45,7 +45,7 @@ public class HibernateStatsReporter implements ScheduledTask {
 
 
     @Override
-    public void run(KeycloakSession session) {
+    public void run(KeycloakRequestSession session) {
         SessionFactory sessionFactory = ((SessionFactoryImpl) emf);
         Statistics stats = sessionFactory.getStatistics();
 

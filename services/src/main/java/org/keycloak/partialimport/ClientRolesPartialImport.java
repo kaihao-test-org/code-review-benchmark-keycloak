@@ -17,7 +17,7 @@
 package org.keycloak.partialimport;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.representations.idm.ClientRepresentation;
@@ -67,7 +67,7 @@ public class ClientRolesPartialImport {
         return clientId + "-->" + getName(roleRep);
     }
 
-    public boolean exists(RealmModel realm, KeycloakSession session, String clientId, RoleRepresentation roleRep) {
+    public boolean exists(RealmModel realm, KeycloakRequestSession session, String clientId, RoleRepresentation roleRep) {
         ClientModel client = realm.getClientByClientId(clientId);
         if (client == null) return false;
 
@@ -110,7 +110,7 @@ public class ClientRolesPartialImport {
         client.removeRole(role);
     }
 
-    public void prepare(PartialImportRepresentation partialImportRep, RealmModel realm, KeycloakSession session) {
+    public void prepare(PartialImportRepresentation partialImportRep, RealmModel realm, KeycloakRequestSession session) {
         Map<String, List<RoleRepresentation>> repList = getRepList(partialImportRep);
         if (repList == null || repList.isEmpty()) return;
 

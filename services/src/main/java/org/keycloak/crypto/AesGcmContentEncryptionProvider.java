@@ -19,14 +19,14 @@ package org.keycloak.crypto;
 
 import org.keycloak.jose.jwe.enc.AesGcmJWEEncryptionProvider;
 import org.keycloak.jose.jwe.enc.JWEEncryptionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class AesGcmContentEncryptionProvider implements ContentEncryptionProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String jweAlgorithmName;
 
-    public AesGcmContentEncryptionProvider(KeycloakSession session, String jweAlgorithmName) {
+    public AesGcmContentEncryptionProvider(KeycloakRequestSession session, String jweAlgorithmName) {
         this.session = session;
         this.jweAlgorithmName = jweAlgorithmName;
     }

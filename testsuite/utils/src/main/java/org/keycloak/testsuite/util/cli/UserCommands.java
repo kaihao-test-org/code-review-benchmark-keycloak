@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.util.cli;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -47,7 +47,7 @@ public class UserCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             usernamePrefix = getArg(0);
             password = getArg(1);
             realmName = getArg(2);
@@ -61,7 +61,7 @@ public class UserCommands {
             log.infof("Command finished. All users from %s to %s created", usernamePrefix + first, usernamePrefix + (first + count - 1));
         }
 
-        private void createUsersInBatch(KeycloakSession session, int first, int count) {
+        private void createUsersInBatch(KeycloakRequestSession session, int first, int count) {
             RealmModel realm = session.realms().getRealmByName(realmName);
             if (realm == null) {
                 log.errorf("Unknown realm: %s", realmName);
@@ -136,7 +136,7 @@ public class UserCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             String usernamePrefix = getArg(0);
             String realmName = getArg(1);
             int first = getIntArg(2);
@@ -177,7 +177,7 @@ public class UserCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             String realmName = getArg(0);
             RealmModel realm = session.realms().getRealmByName(realmName);
             if (realm == null) {
@@ -204,7 +204,7 @@ public class UserCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             String realmName = getArg(0);
             String username = getArg(1);
             RealmModel realm = session.realms().getRealmByName(realmName);

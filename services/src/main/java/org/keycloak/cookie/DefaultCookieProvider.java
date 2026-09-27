@@ -4,7 +4,7 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;
 import org.jboss.logging.Logger;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.SecureContextResolver;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ public class DefaultCookieProvider implements CookieProvider {
 
     private static final Logger logger = Logger.getLogger(DefaultCookieProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final CookiePathResolver pathResolver;
 
@@ -22,7 +22,7 @@ public class DefaultCookieProvider implements CookieProvider {
 
     private final Map<String, Cookie> cookies;
 
-    public DefaultCookieProvider(KeycloakSession session) {
+    public DefaultCookieProvider(KeycloakRequestSession session) {
         KeycloakContext context = session.getContext();
 
         this.session = session;

@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.policy.provider.PolicyProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.authorization.ResourceType;
 
@@ -42,7 +42,7 @@ public interface PartialEvaluationPolicyProvider {
      * @param subject the subject
      * @return the permissions that apply to the given {@code subject}
      */
-    Stream<Policy> getPermissions(KeycloakSession session, ResourceType resourceType, UserModel subject);
+    Stream<Policy> getPermissions(KeycloakRequestSession session, ResourceType resourceType, UserModel subject);
 
     /**
      * If partial evaluation is supported for the given {@code policy}.
@@ -60,5 +60,5 @@ public interface PartialEvaluationPolicyProvider {
      * @param subject the subject
      * @return {@code true} if access is granted. Otherwise, returns {@code false}
      */
-    boolean evaluate(KeycloakSession session, Policy policy, UserModel subject);
+    boolean evaluate(KeycloakRequestSession session, Policy policy, UserModel subject);
 }

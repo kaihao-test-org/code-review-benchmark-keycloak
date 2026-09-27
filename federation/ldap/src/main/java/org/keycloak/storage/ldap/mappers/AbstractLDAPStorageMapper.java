@@ -19,7 +19,7 @@ package org.keycloak.storage.ldap.mappers;
 
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.storage.ldap.LDAPStorageProvider;
@@ -39,7 +39,7 @@ import org.keycloak.models.RoleModel;
  */
 public abstract class AbstractLDAPStorageMapper implements LDAPStorageMapper {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final ComponentModel mapperModel;
     protected final LDAPStorageProvider ldapProvider;
 

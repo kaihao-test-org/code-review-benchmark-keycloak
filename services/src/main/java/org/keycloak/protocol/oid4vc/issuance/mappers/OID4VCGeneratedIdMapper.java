@@ -19,7 +19,7 @@ package org.keycloak.protocol.oid4vc.issuance.mappers;
 
 import org.apache.commons.collections4.ListUtils;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.protocol.oid4vc.model.VerifiableCredential;
@@ -100,7 +100,7 @@ public class OID4VCGeneratedIdMapper extends OID4VCMapper {
     }
 
     @Override
-    public ProtocolMapper create(KeycloakSession session) {
+    public ProtocolMapper create(KeycloakRequestSession session) {
         return new OID4VCGeneratedIdMapper();
     }
 

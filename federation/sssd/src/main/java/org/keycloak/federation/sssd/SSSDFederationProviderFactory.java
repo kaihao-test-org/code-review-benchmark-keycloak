@@ -25,7 +25,7 @@ import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.federation.sssd.impl.AvailabilityChecker;
 import org.keycloak.federation.sssd.impl.PAMAuthenticator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.storage.UserStorageProviderFactory;
@@ -48,7 +48,7 @@ public class SSSDFederationProviderFactory implements UserStorageProviderFactory
     }
 
     @Override
-    public SSSDFederationProvider create(KeycloakSession session, ComponentModel model) {
+    public SSSDFederationProvider create(KeycloakRequestSession session, ComponentModel model) {
         lazyInit();
         return new SSSDFederationProvider(session, new UserStorageProviderModel(model), this);
     }

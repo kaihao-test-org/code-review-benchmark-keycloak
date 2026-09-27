@@ -24,7 +24,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.AuthorizeClientUtil;
 import org.keycloak.services.ErrorResponseException;
@@ -34,11 +34,11 @@ import org.keycloak.services.ErrorResponseException;
  */
 public abstract class AbstractCibaEndpoint {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final EventBuilder event;
     protected final RealmModel realm;
 
-    public AbstractCibaEndpoint(KeycloakSession session, EventBuilder event) {
+    public AbstractCibaEndpoint(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.event = event;
         realm = session.getContext().getRealm();

@@ -32,7 +32,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.AccountRoles;
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -78,7 +78,7 @@ public class DeleteAccount implements RequiredActionProvider, RequiredActionFact
 
   @Override
   public void processAction(RequiredActionContext context) {
-    KeycloakSession session = context.getSession();
+    KeycloakRequestSession session = context.getSession();
     EventBuilder eventBuilder = context.getEvent();
     KeycloakContext keycloakContext = session.getContext();
     RealmModel realm = keycloakContext.getRealm();
@@ -150,7 +150,7 @@ public class DeleteAccount implements RequiredActionProvider, RequiredActionFact
   }
 
   @Override
-  public RequiredActionProvider create(KeycloakSession session) {
+  public RequiredActionProvider create(KeycloakRequestSession session) {
     return this;
   }
 
@@ -185,7 +185,7 @@ public class DeleteAccount implements RequiredActionProvider, RequiredActionFact
   }
 
   @Override
-  public int getMaxAuthAge(KeycloakSession session) {
+  public int getMaxAuthAge(KeycloakRequestSession session) {
     return 0;
   }
 
@@ -194,7 +194,7 @@ public class DeleteAccount implements RequiredActionProvider, RequiredActionFact
       return Collections.emptyList();
   }
 
-  private void removeAuthenticationSession(RequiredActionContext context, KeycloakSession session) {
+  private void removeAuthenticationSession(RequiredActionContext context, KeycloakRequestSession session) {
     AuthenticationSessionModel authSession = context.getAuthenticationSession();
     new AuthenticationSessionManager(session).removeAuthenticationSession(authSession.getRealm(), authSession, true);
   }

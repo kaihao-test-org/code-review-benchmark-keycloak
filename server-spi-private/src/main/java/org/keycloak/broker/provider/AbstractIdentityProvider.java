@@ -23,7 +23,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -55,10 +55,10 @@ public abstract class AbstractIdentityProvider<C extends IdentityProviderModel> 
     public static final String BROKER_REGISTERED_NEW_USER = "BROKER_REGISTERED_NEW_USER";
 
     public static final String ACCOUNT_LINK_URL = "account-link-url";
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private final C config;
 
-    public AbstractIdentityProvider(KeycloakSession session, C config) {
+    public AbstractIdentityProvider(KeycloakRequestSession session, C config) {
         this.session = session;
         this.config = config;
     }
@@ -88,12 +88,12 @@ public abstract class AbstractIdentityProvider<C extends IdentityProviderModel> 
     }
 
     @Override
-    public Response keycloakInitiatedBrowserLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
+    public Response keycloakInitiatedBrowserLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
         return null;
     }
 
     @Override
-    public void backchannelLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
+    public void backchannelLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
 
     }
 
@@ -160,17 +160,17 @@ public abstract class AbstractIdentityProvider<C extends IdentityProviderModel> 
     }
 
     @Override
-    public void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, BrokeredIdentityContext context) {
+    public void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, BrokeredIdentityContext context) {
 
     }
 
     @Override
-    public void importNewUser(KeycloakSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context) {
+    public void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context) {
 
     }
 
     @Override
-    public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context) {
+    public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, BrokeredIdentityContext context) {
         updateEmail(user, context);
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.protocol.oid4vc.issuance.signing;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Base64;
 import org.keycloak.crypto.SignatureSignerContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.TimeProvider;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.CredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.LDCredentialBody;
@@ -50,7 +50,7 @@ public class LDCredentialSigner extends AbstractCredentialSigner<VerifiableCrede
 
     private final TimeProvider timeProvider;
 
-    public LDCredentialSigner(KeycloakSession keycloakSession, TimeProvider timeProvider) {
+    public LDCredentialSigner(KeycloakRequestSession keycloakSession, TimeProvider timeProvider) {
         super(keycloakSession);
         this.timeProvider = timeProvider;
     }

@@ -25,7 +25,7 @@ import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.social.SocialIdentityProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.IOException;
 
@@ -41,7 +41,7 @@ public class InstagramIdentityProvider extends AbstractOAuth2IdentityProvider im
 	public static final String DEFAULT_SCOPE = "user_profile";
 	public static final String LEGACY_ID_FIELD = "ig_id";
 	
-	public InstagramIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
+	public InstagramIdentityProvider(KeycloakRequestSession session, OAuth2IdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(AUTH_URL);
 		config.setTokenUrl(TOKEN_URL);

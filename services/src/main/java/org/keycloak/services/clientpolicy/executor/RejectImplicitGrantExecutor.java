@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.protocol.oidc.utils.OIDCResponseType;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RejectImplicitGrantExecutor implements ClientPolicyExecutorProvider<RejectImplicitGrantExecutor.Configuration> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public RejectImplicitGrantExecutor(KeycloakSession session) {
+    public RejectImplicitGrantExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

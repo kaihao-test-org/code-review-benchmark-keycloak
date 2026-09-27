@@ -18,7 +18,7 @@
 package org.keycloak.partialimport;
 
 import org.keycloak.models.IdentityProviderMapperModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -45,12 +45,12 @@ public class IdentityProviderMappersPartialImport extends AbstractPartialImport<
     }
 
     @Override
-    public String getModelId(RealmModel realm, KeycloakSession session, IdentityProviderMapperRepresentation idpMapperRep) {
+    public String getModelId(RealmModel realm, KeycloakRequestSession session, IdentityProviderMapperRepresentation idpMapperRep) {
         return session.identityProviders().getMapperByName(idpMapperRep.getIdentityProviderAlias(), idpMapperRep.getName()).getId();
     }
 
     @Override
-    public boolean exists(RealmModel realm, KeycloakSession session, IdentityProviderMapperRepresentation idpMapperRep) {
+    public boolean exists(RealmModel realm, KeycloakRequestSession session, IdentityProviderMapperRepresentation idpMapperRep) {
         return session.identityProviders().getMapperByName(idpMapperRep.getIdentityProviderAlias(), idpMapperRep.getName()) != null;
     }
 
@@ -65,7 +65,7 @@ public class IdentityProviderMappersPartialImport extends AbstractPartialImport<
     }
 
     @Override
-    public void remove(RealmModel realm, KeycloakSession session, IdentityProviderMapperRepresentation idpMapperRep) {
+    public void remove(RealmModel realm, KeycloakRequestSession session, IdentityProviderMapperRepresentation idpMapperRep) {
         IdentityProviderMapperModel idpMapper = session.identityProviders().getMapperByName(idpMapperRep.getIdentityProviderAlias(), idpMapperRep.getName());
         if (idpMapper != null) {
             session.identityProviders().removeMapper(idpMapper);
@@ -73,7 +73,7 @@ public class IdentityProviderMappersPartialImport extends AbstractPartialImport<
     }
 
     @Override
-    public void create(RealmModel realm, KeycloakSession session, IdentityProviderMapperRepresentation idpMapperRep) {
+    public void create(RealmModel realm, KeycloakRequestSession session, IdentityProviderMapperRepresentation idpMapperRep) {
         IdentityProviderMapperModel existing = session.identityProviders().getMapperByName(idpMapperRep.getIdentityProviderAlias(), idpMapperRep.getName());
         if (existing != null) {
             session.identityProviders().removeMapper(existing);

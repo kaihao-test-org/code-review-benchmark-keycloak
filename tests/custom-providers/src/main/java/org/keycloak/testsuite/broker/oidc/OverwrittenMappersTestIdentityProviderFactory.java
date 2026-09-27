@@ -21,7 +21,7 @@ import org.keycloak.broker.oidc.KeycloakOIDCIdentityProvider;
 import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.oidc.OIDCIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author Daniel Fesenmeyer <daniel.fesenmeyer@bosch.com>
@@ -36,7 +36,7 @@ public class OverwrittenMappersTestIdentityProviderFactory extends OIDCIdentityP
     }
 
     @Override
-    public KeycloakOIDCIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public KeycloakOIDCIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new OverwrittenMappersTestIdentityProvider(session, new OIDCIdentityProviderConfig(model));
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.condition;
 
 import java.util.Optional;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
 import org.keycloak.util.JsonSerialization;
@@ -30,10 +30,10 @@ import org.keycloak.util.JsonSerialization;
  */
 public abstract class AbstractClientPolicyConditionProvider<CONFIG extends ClientPolicyConditionConfigurationRepresentation> implements ClientPolicyConditionProvider<CONFIG> {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected CONFIG configuration;
 
-    public AbstractClientPolicyConditionProvider(KeycloakSession session) {
+    public AbstractClientPolicyConditionProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

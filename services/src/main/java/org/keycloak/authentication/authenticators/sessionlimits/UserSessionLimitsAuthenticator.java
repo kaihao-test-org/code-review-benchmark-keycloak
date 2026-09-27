@@ -15,7 +15,7 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -26,11 +26,11 @@ public class UserSessionLimitsAuthenticator implements Authenticator {
 
     private static final Logger logger = Logger.getLogger(UserSessionLimitsAuthenticator.class);
     public static final String SESSION_LIMIT_EXCEEDED = "sessionLimitExceeded";
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     String behavior;
 
-    public UserSessionLimitsAuthenticator(KeycloakSession session) {
+    public UserSessionLimitsAuthenticator(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -143,12 +143,12 @@ public class UserSessionLimitsAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return true;
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
 
     }
 

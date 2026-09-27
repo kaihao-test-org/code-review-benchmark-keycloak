@@ -5,16 +5,16 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.util.JsonSerialization;
 
 public class RunOnServerRealmResourceProvider implements RealmResourceProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ClassLoader classLoader;
 
-    public RunOnServerRealmResourceProvider(KeycloakSession session, ClassLoader classLoader) {
+    public RunOnServerRealmResourceProvider(KeycloakRequestSession session, ClassLoader classLoader) {
         this.session = session;
         this.classLoader = classLoader;
     }

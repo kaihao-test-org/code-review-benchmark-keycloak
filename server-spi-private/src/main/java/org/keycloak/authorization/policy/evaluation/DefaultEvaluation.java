@@ -30,7 +30,7 @@ import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.permission.ResourcePermission;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -148,7 +148,7 @@ public class DefaultEvaluation implements Evaluation {
 
             @Override
             public boolean isUserInGroup(String id, String groupId, boolean checkParent) {
-                KeycloakSession session = authorizationProvider.getKeycloakSession();
+                KeycloakRequestSession session = authorizationProvider.getKeycloakSession();
                 UserModel user = getUser(id, session);
 
                 if (Objects.isNull(user)) {
@@ -170,7 +170,7 @@ public class DefaultEvaluation implements Evaluation {
             }
 
             private final String USER_CACHE_SESSION_ATTRIBUTE = DefaultEvaluation.class.getName() + ".userCache";
-            private UserModel getUser(String id, KeycloakSession session) {
+            private UserModel getUser(String id, KeycloakRequestSession session) {
                 @SuppressWarnings("unchecked") HashMap<String, UserModel> cache = (HashMap<String, UserModel>) session.getAttribute(USER_CACHE_SESSION_ATTRIBUTE);
                 if (cache == null) {
                     cache = new HashMap<>();
@@ -202,7 +202,7 @@ public class DefaultEvaluation implements Evaluation {
 
             @Override
             public boolean isUserInRealmRole(String id, String roleName) {
-                KeycloakSession session = authorizationProvider.getKeycloakSession();
+                KeycloakRequestSession session = authorizationProvider.getKeycloakSession();
                 UserModel user = getUser(id, session);
 
                 if (Objects.isNull(user)) {
@@ -216,7 +216,7 @@ public class DefaultEvaluation implements Evaluation {
 
             @Override
             public boolean isUserInClientRole(String id, String clientId, String roleName) {
-                KeycloakSession session = authorizationProvider.getKeycloakSession();
+                KeycloakRequestSession session = authorizationProvider.getKeycloakSession();
                 RealmModel realm = session.getContext().getRealm();
                 UserModel user = getUser(id, session);
 
@@ -244,7 +244,7 @@ public class DefaultEvaluation implements Evaluation {
 
             @Override
             public boolean isGroupInRole(String id, String role) {
-                KeycloakSession session = authorizationProvider.getKeycloakSession();
+                KeycloakRequestSession session = authorizationProvider.getKeycloakSession();
                 RealmModel realm = session.getContext().getRealm();
                 GroupModel group = KeycloakModelUtils.findGroupByPath(session, realm, id);
 

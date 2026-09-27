@@ -18,7 +18,7 @@ package org.keycloak.testsuite.federation;
 
 import java.util.List;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 import org.keycloak.storage.role.RoleStorageProviderFactory;
@@ -26,7 +26,7 @@ import org.keycloak.storage.role.RoleStorageProviderModel;
 
 public class HardcodedRoleStorageProviderFactory implements RoleStorageProviderFactory<HardcodedRoleStorageProvider> {
     @Override
-    public HardcodedRoleStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public HardcodedRoleStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new HardcodedRoleStorageProvider(new RoleStorageProviderModel(model));
     }
 

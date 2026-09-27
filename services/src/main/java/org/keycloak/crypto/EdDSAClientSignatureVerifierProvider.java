@@ -20,16 +20,16 @@ package org.keycloak.crypto;
 import org.keycloak.common.VerificationException;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
  */
 public class EdDSAClientSignatureVerifierProvider implements ClientSignatureVerifierProvider {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String algorithm;
 
-    public EdDSAClientSignatureVerifierProvider(KeycloakSession session, String algorithm) {
+    public EdDSAClientSignatureVerifierProvider(KeycloakRequestSession session, String algorithm) {
         this.session = session;
         this.algorithm = algorithm;
     }

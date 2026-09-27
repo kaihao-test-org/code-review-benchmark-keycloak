@@ -43,7 +43,7 @@ public class DummyUserFederationProvider implements UserStorageProvider,
         CredentialInputValidator {
 
     private final Map<String, UserModel> users;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private ComponentModel component;
 
     // Hardcoded password of test-user
@@ -54,7 +54,7 @@ public class DummyUserFederationProvider implements UserStorageProvider,
 
 
 
-    public DummyUserFederationProvider(KeycloakSession session, ComponentModel component, Map<String, UserModel> users) {
+    public DummyUserFederationProvider(KeycloakRequestSession session, ComponentModel component, Map<String, UserModel> users) {
         this.users = users;
         this.session = session;
         this.component = component;

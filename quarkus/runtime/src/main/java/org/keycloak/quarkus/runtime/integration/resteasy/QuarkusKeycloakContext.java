@@ -23,12 +23,12 @@ import org.jboss.resteasy.reactive.server.core.ResteasyReactiveRequestContext;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.DefaultKeycloakContext;
 
 public final class QuarkusKeycloakContext extends DefaultKeycloakContext {
 
-    public QuarkusKeycloakContext(KeycloakSession session) {
+    public QuarkusKeycloakContext(KeycloakRequestSession session) {
         super(session);
     }
 

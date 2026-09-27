@@ -46,7 +46,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
@@ -162,7 +162,7 @@ public class SamlProtocol implements LoginProtocol {
 
     protected static final Logger logger = Logger.getLogger(SamlProtocol.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     protected RealmModel realm;
 
@@ -176,7 +176,7 @@ public class SamlProtocol implements LoginProtocol {
     protected SingleUseObjectProvider singleUseStore;
 
     @Override
-    public SamlProtocol setSession(KeycloakSession session) {
+    public SamlProtocol setSession(KeycloakRequestSession session) {
         this.session = session;
         return this;
     }
@@ -631,7 +631,7 @@ public class SamlProtocol implements LoginProtocol {
         }
     }
 
-    public AttributeStatementType populateAttributeStatements(List<ProtocolMapperProcessor<SAMLAttributeStatementMapper>> attributeStatementMappers, KeycloakSession session, UserSessionModel userSession,
+    public AttributeStatementType populateAttributeStatements(List<ProtocolMapperProcessor<SAMLAttributeStatementMapper>> attributeStatementMappers, KeycloakRequestSession session, UserSessionModel userSession,
                                                               AuthenticatedClientSessionModel clientSession) {
         AttributeStatementType attributeStatement = new AttributeStatementType();
         for (ProtocolMapperProcessor<SAMLAttributeStatementMapper> processor : attributeStatementMappers) {
@@ -642,7 +642,7 @@ public class SamlProtocol implements LoginProtocol {
     }
 
     public ResponseType transformLoginResponse(List<ProtocolMapperProcessor<SAMLLoginResponseMapper>> mappers, ResponseType response,
-            KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+            KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         for (ProtocolMapperProcessor<SAMLLoginResponseMapper> processor : mappers) {
             response = processor.mapper.transformLoginResponse(response, processor.model, session, userSession, clientSessionCtx);
         }
@@ -654,7 +654,7 @@ public class SamlProtocol implements LoginProtocol {
         return response;
     }
 
-    public void populateRoles(ProtocolMapperProcessor<SAMLRoleListMapper> roleListMapper, KeycloakSession session, UserSessionModel userSession,
+    public void populateRoles(ProtocolMapperProcessor<SAMLRoleListMapper> roleListMapper, KeycloakRequestSession session, UserSessionModel userSession,
                               ClientSessionContext clientSessionCtx, final AttributeStatementType existingAttributeStatement) {
         if (roleListMapper == null)
             return;
@@ -662,7 +662,7 @@ public class SamlProtocol implements LoginProtocol {
     }
 
     protected String getSAMLNameId(
-            List<ProtocolMapperProcessor<SAMLNameIdMapper>> samlNameIdMappers, String nameIdFormat, KeycloakSession session,
+            List<ProtocolMapperProcessor<SAMLNameIdMapper>> samlNameIdMappers, String nameIdFormat, KeycloakRequestSession session,
                                     UserSessionModel userSession, AuthenticatedClientSessionModel clientSession) {
         for (ProtocolMapperProcessor<SAMLNameIdMapper> nameIdMap : samlNameIdMappers) {
             if(nameIdFormat.equals(nameIdMap.model.getConfig().get(NameIdMapperHelper.MAPPER_NAMEID_FORMAT))) {
@@ -672,7 +672,7 @@ public class SamlProtocol implements LoginProtocol {
         return getNameId(nameIdFormat, clientSession, userSession);
     }
 
-    public static String getLogoutServiceUrl(KeycloakSession session, ClientModel client, String bindingType, boolean backChannelLogout) {
+    public static String getLogoutServiceUrl(KeycloakRequestSession session, ClientModel client, String bindingType, boolean backChannelLogout) {
         String logoutServiceUrl = null;
 
         if (SAML_SOAP_BINDING.equals(bindingType)) {

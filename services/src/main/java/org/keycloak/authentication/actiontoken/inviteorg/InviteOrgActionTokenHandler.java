@@ -31,7 +31,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -73,7 +73,7 @@ public class InviteOrgActionTokenHandler extends AbstractActionTokenHandler<Invi
 
     @Override
     public Response preHandleToken(InviteOrgActionToken token, ActionTokenContext<InviteOrgActionToken> tokenContext) {
-        KeycloakSession session = tokenContext.getSession();
+        KeycloakRequestSession session = tokenContext.getSession();
         OrganizationProvider orgProvider = session.getProvider(OrganizationProvider.class);
         AuthenticationSessionModel authSession = tokenContext.getAuthenticationSession();
 
@@ -94,7 +94,7 @@ public class InviteOrgActionTokenHandler extends AbstractActionTokenHandler<Invi
     @Override
     public Response handleToken(InviteOrgActionToken token, ActionTokenContext<InviteOrgActionToken> tokenContext) {
         UserModel user = tokenContext.getAuthenticationSession().getAuthenticatedUser();
-        KeycloakSession session = tokenContext.getSession();
+        KeycloakRequestSession session = tokenContext.getSession();
         OrganizationProvider orgProvider = session.getProvider(OrganizationProvider.class);
         AuthenticationSessionModel authSession = tokenContext.getAuthenticationSession();
         EventBuilder event = tokenContext.getEvent();

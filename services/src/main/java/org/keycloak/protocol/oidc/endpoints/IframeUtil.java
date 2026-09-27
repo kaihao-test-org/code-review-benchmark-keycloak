@@ -19,7 +19,7 @@ package org.keycloak.protocol.oidc.endpoints;
 
 import org.keycloak.common.Version;
 import org.keycloak.headers.SecurityHeadersProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.util.CacheControlUtil;
 
 import jakarta.ws.rs.core.CacheControl;
@@ -29,11 +29,11 @@ import java.util.function.Supplier;
 
 public class IframeUtil {
 
-    public static Response returnIframeFromResources(String fileName, String version, KeycloakSession session) {
+    public static Response returnIframeFromResources(String fileName, String version, KeycloakRequestSession session) {
         return returnIframe(version, session, () -> IframeUtil.class.getResourceAsStream(fileName));
     }
 
-    public static Response returnIframe(String version, KeycloakSession session, Supplier<Object> responseEntityProvider) {
+    public static Response returnIframe(String version, KeycloakRequestSession session, Supplier<Object> responseEntityProvider) {
         CacheControl cacheControl;
         if (version != null) {
             if (!version.equals(Version.RESOURCES_VERSION)) {

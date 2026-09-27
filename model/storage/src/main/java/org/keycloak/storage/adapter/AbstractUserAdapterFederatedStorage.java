@@ -21,7 +21,7 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.UserCredentialManager;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.SubjectCredentialManager;
@@ -58,11 +58,11 @@ public abstract class AbstractUserAdapterFederatedStorage extends UserModelDefau
     public static String ENABLED_ATTRIBUTE = "ENABLED";
 
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected ComponentModel storageProviderModel;
 
-    public AbstractUserAdapterFederatedStorage(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel) {
+    public AbstractUserAdapterFederatedStorage(KeycloakRequestSession session, RealmModel realm, ComponentModel storageProviderModel) {
         this.session = session;
         this.realm = realm;
         this.storageProviderModel = storageProviderModel;
@@ -425,7 +425,7 @@ public abstract class AbstractUserAdapterFederatedStorage extends UserModelDefau
     @Deprecated
     public abstract static class Streams extends AbstractUserAdapterFederatedStorage implements UserModel {
 
-        public Streams(final KeycloakSession session, final RealmModel realm, final ComponentModel storageProviderModel) {
+        public Streams(final KeycloakRequestSession session, final RealmModel realm, final ComponentModel storageProviderModel) {
             super(session, realm, storageProviderModel);
         }
     }

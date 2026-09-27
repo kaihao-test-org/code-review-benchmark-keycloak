@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -48,7 +48,7 @@ public class DefaultSecurityProfileProviderFactory implements SecurityProfilePro
     private volatile SecurityProfileConfiguration configuration;
 
     @Override
-    public SecurityProfileProvider create(KeycloakSession session) {
+    public SecurityProfileProvider create(KeycloakRequestSession session) {
         return new DefaultSecurityProfileProvider(readConfiguration(session));
     }
 
@@ -83,7 +83,7 @@ public class DefaultSecurityProfileProviderFactory implements SecurityProfilePro
         return "default";
     }
 
-    protected SecurityProfileConfiguration readConfiguration(KeycloakSession session) {
+    protected SecurityProfileConfiguration readConfiguration(KeycloakRequestSession session) {
         if (configuration == null) {
             synchronized (this) {
                 SecurityProfileConfiguration conf;

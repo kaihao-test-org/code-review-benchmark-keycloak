@@ -22,7 +22,7 @@ import org.keycloak.cookie.CookieType;
 import org.keycloak.events.Details;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.storage.ReadOnlyException;
 
@@ -30,9 +30,9 @@ public class DefaultLocaleUpdaterProvider implements LocaleUpdaterProvider {
 
     private static final Logger logger = Logger.getLogger(LocaleSelectorProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultLocaleUpdaterProvider(KeycloakSession session) {
+    public DefaultLocaleUpdaterProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

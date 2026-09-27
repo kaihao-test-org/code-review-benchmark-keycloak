@@ -37,7 +37,7 @@ import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserModel;
@@ -70,10 +70,10 @@ import static org.keycloak.testsuite.model.session.UserSessionPersisterProviderT
 public class UserSessionProviderModelTest extends KeycloakModelTest {
 
     private String realmId;
-    private KeycloakSession kcSession;
+    private KeycloakRequestSession kcSession;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "test");
         s.getContext().setRealm(realm);
         realm.setOfflineSessionIdleTimeout(Constants.DEFAULT_OFFLINE_SESSION_IDLE_TIMEOUT);
@@ -91,7 +91,7 @@ public class UserSessionProviderModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);

@@ -21,7 +21,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.enums.HostnameVerificationPolicy;
 import org.keycloak.common.util.KeystoreUtil;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -61,7 +61,7 @@ public class FileTruststoreProviderFactory implements TruststoreProviderFactory 
     private TruststoreProvider provider;
 
     @Override
-    public TruststoreProvider create(KeycloakSession session) {
+    public TruststoreProvider create(KeycloakRequestSession session) {
         return provider;
     }
 

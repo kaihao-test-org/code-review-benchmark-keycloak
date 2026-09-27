@@ -18,7 +18,7 @@
 package org.keycloak.timer.basic;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.timer.TimerProvider;
 import org.keycloak.timer.TimerProviderFactory;
@@ -41,7 +41,7 @@ public class BasicTimerProviderFactory implements TimerProviderFactory {
     private ConcurrentMap<String, TimerTaskContextImpl> scheduledTasks = new ConcurrentHashMap<>();
 
     @Override
-    public TimerProvider create(KeycloakSession session) {
+    public TimerProvider create(KeycloakRequestSession session) {
         return new BasicTimerProvider(session, timer, transactionTimeout, this);
     }
 

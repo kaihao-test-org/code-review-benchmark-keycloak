@@ -31,7 +31,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.AccessTokenIntrospectionProvider;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessToken.Authorization;
@@ -47,7 +47,7 @@ public class RPTIntrospectionProvider extends AccessTokenIntrospectionProvider<A
 
     protected static final Logger LOGGER = Logger.getLogger(RPTIntrospectionProvider.class);
 
-    public RPTIntrospectionProvider(KeycloakSession session) {
+    public RPTIntrospectionProvider(KeycloakRequestSession session) {
         super(session);
     }
 

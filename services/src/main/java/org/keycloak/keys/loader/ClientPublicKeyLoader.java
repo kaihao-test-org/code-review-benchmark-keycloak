@@ -27,7 +27,7 @@ import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.keys.PublicKeyLoader;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
@@ -49,17 +49,17 @@ public class ClientPublicKeyLoader implements PublicKeyLoader {
 
     private static final Logger logger = Logger.getLogger(ClientPublicKeyLoader.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ClientModel client;
     private final JWK.Use keyUse;
 
-    public ClientPublicKeyLoader(KeycloakSession session, ClientModel client) {
+    public ClientPublicKeyLoader(KeycloakRequestSession session, ClientModel client) {
         this.session = session;
         this.client = client;
         this.keyUse = JWK.Use.SIG;
     }
 
-    public ClientPublicKeyLoader(KeycloakSession session, ClientModel client, JWK.Use keyUse) {
+    public ClientPublicKeyLoader(KeycloakRequestSession session, ClientModel client, JWK.Use keyUse) {
         this.session = session;
         this.client = client;
         this.keyUse = keyUse;

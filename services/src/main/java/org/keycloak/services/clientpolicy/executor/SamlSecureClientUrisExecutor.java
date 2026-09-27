@@ -24,7 +24,7 @@ import java.util.Map;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.dom.saml.v2.protocol.AuthnRequestType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.RedirectUtils;
 import org.keycloak.protocol.saml.SamlProtocol;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -42,7 +42,7 @@ import org.keycloak.utils.StringUtil;
  */
 public class SamlSecureClientUrisExecutor implements ClientPolicyExecutorProvider<SamlSecureClientUrisExecutor.Configuration> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration config;
 
     public static class Configuration extends ClientPolicyExecutorConfigurationRepresentation {
@@ -66,7 +66,7 @@ public class SamlSecureClientUrisExecutor implements ClientPolicyExecutorProvide
         }
     }
 
-    public SamlSecureClientUrisExecutor(KeycloakSession session) {
+    public SamlSecureClientUrisExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

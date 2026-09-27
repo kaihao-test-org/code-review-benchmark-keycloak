@@ -18,7 +18,7 @@ package org.keycloak.testsuite.federation;
 
 import java.util.List;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 import org.keycloak.storage.clientscope.ClientScopeStorageProviderFactory;
@@ -31,7 +31,7 @@ public class HardcodedClientScopeStorageProviderFactory implements ClientScopeSt
     protected static final List<ProviderConfigProperty> CONFIG_PROPERTIES;
 
     @Override
-    public HardcodedClientScopeStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public HardcodedClientScopeStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new HardcodedClientScopeStorageProvider(session, new ClientScopeStorageProviderModel(model));
     }
 

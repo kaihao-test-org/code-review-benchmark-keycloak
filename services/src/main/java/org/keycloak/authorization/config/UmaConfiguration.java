@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.UriInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.keycloak.authorization.AuthorizationService;
 import org.keycloak.authorization.protection.ProtectionService;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCWellKnownProviderFactory;
 import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentation;
@@ -36,7 +36,7 @@ import org.keycloak.wellknown.WellKnownProvider;
  */
 public class UmaConfiguration extends OIDCConfigurationRepresentation {
 
-    public static final UmaConfiguration create(KeycloakSession session) {
+    public static final UmaConfiguration create(KeycloakRequestSession session) {
         WellKnownProvider oidcProvider = session.getProvider(WellKnownProvider.class, OIDCWellKnownProviderFactory.PROVIDER_ID);
         OIDCConfigurationRepresentation oidcConfig = OIDCConfigurationRepresentation.class.cast(oidcProvider.getConfig());
         UmaConfiguration configuration = new UmaConfiguration();

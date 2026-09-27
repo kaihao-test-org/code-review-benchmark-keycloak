@@ -25,7 +25,7 @@ import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.common.util.Time;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.cache.infinispan.events.AuthenticationSessionAuthNoteUpdateEvent;
@@ -52,14 +52,14 @@ import java.util.Map;
  */
 public class InfinispanAuthenticationSessionProvider implements AuthenticationSessionProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final InfinispanKeyGenerator keyGenerator;
     private final int authSessionsLimit;
     protected final Cache<String, SessionEntityWrapper<RootAuthenticationSessionEntity>> cache;
     protected final InfinispanChangelogBasedTransaction<String, RootAuthenticationSessionEntity> sessionTx;
     protected final SessionEventsSenderTransaction clusterEventsSenderTx;
 
-    public InfinispanAuthenticationSessionProvider(KeycloakSession session, InfinispanKeyGenerator keyGenerator,
+    public InfinispanAuthenticationSessionProvider(KeycloakRequestSession session, InfinispanKeyGenerator keyGenerator,
                                                    Cache<String, SessionEntityWrapper<RootAuthenticationSessionEntity>> cache, int authSessionsLimit, SerializeExecutionsByKey<String> serializer) {
         this.session = session;
         this.keyGenerator = keyGenerator;

@@ -44,7 +44,7 @@ public class KeycloakUriInfo implements UriInfo {
     private URI requestURI;
     private URI baseURI;
 
-    public KeycloakUriInfo(KeycloakSession session, UrlType type, UriInfo delegate) {
+    public KeycloakUriInfo(KeycloakRequestSession session, UrlType type, UriInfo delegate) {
         this.delegate = delegate;
 
         HostnameProvider hostnameProvider = session.getProvider(HostnameProvider.class);

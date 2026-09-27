@@ -41,7 +41,7 @@ import org.keycloak.events.admin.AuthDetails;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resteasy.HttpRequestImpl;
 import org.keycloak.services.resteasy.ResteasyKeycloakSession;
 import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
@@ -175,7 +175,7 @@ public class JBossLoggingEventListenerProviderTest {
     }
 
     private static void test(Map<String, String> config, AdminEvent adminEvent, boolean includeRepresentation, Consumer<String> assertMessage) {
-        KeycloakSession session = createSession(config);
+        KeycloakRequestSession session = createSession(config);
         Logger logger = Logger.getLogger("org.keycloak.events");
         StringWriter sw = new StringWriter();
         Handler handler = addhandler(logger, sw);
@@ -190,7 +190,7 @@ public class JBossLoggingEventListenerProviderTest {
         }
     }
 
-    private static KeycloakSession createSession(Map<String, String> config) {
+    private static KeycloakRequestSession createSession(Map<String, String> config) {
         HttpRequest httpRequest = new HttpRequestImpl(MockHttpRequest.create("GET", URI.create("https://keycloak.org/"), URI.create("https://keycloak.org")));
         Profile.defaults();
         CryptoIntegration.init(CryptoProvider.class.getClassLoader());
@@ -215,7 +215,7 @@ public class JBossLoggingEventListenerProviderTest {
         });
         ResteasyKeycloakSessionFactory sessionFactory = new ResteasyKeycloakSessionFactory();
         sessionFactory.init();
-        KeycloakSession session = new ResteasyKeycloakSession(sessionFactory);
+        KeycloakRequestSession session = new ResteasyKeycloakSession(sessionFactory);
         session.getContext().setHttpRequest(httpRequest);
 
         return session;

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.userprofile.AttributeGroupMetadata;
 import org.keycloak.userprofile.AttributeMetadata;
 import org.keycloak.userprofile.AttributeValidatorMetadata;
@@ -59,7 +59,7 @@ public abstract class AbstractUserProfileBean {
      * @param session
      * @param writeableOnly if true then only writeable (no read-only) attributes are put into template, if false then all readable attributes are there 
      */
-    protected void init(KeycloakSession session, boolean writeableOnly) {
+    protected void init(KeycloakRequestSession session, boolean writeableOnly) {
         UserProfileProvider provider = session.getProvider(UserProfileProvider.class);
         this.profile = createUserProfile(provider);
         this.attributes = toAttributes(profile.getAttributes().getReadable(), writeableOnly);
@@ -68,7 +68,7 @@ public abstract class AbstractUserProfileBean {
     }
 
     /**
-     * Create UserProfile instance of the relevant type. Is called from {@link #init(KeycloakSession, boolean)}.
+     * Create UserProfile instance of the relevant type. Is called from {@link #init(KeycloakRequestSession, boolean)}.
      * 
      * @param provider to create UserProfile from
      * @return user profile instance

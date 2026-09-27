@@ -40,7 +40,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -63,7 +63,7 @@ public class ResourceServerService {
     private final AuthorizationProvider authorization;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private ResourceServer resourceServer;
     private final ClientModel client;
 

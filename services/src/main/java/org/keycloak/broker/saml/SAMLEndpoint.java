@@ -45,7 +45,7 @@ import org.keycloak.events.EventType;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.LoginProtocol;
@@ -152,14 +152,14 @@ public class SAMLEndpoint {
     protected final SAMLIdentityProvider provider;
     private final DestinationValidator destinationValidator;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final ClientConnection clientConnection;
 
     private final HttpHeaders headers;
 
 
-    public SAMLEndpoint(KeycloakSession session, SAMLIdentityProvider provider, SAMLIdentityProviderConfig config, IdentityProvider.AuthenticationCallback callback, DestinationValidator destinationValidator) {
+    public SAMLEndpoint(KeycloakRequestSession session, SAMLIdentityProvider provider, SAMLIdentityProviderConfig config, IdentityProvider.AuthenticationCallback callback, DestinationValidator destinationValidator) {
         this.realm = session.getContext().getRealm();
         this.config = config;
         this.callback = callback;

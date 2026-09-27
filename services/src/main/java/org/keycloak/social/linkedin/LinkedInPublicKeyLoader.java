@@ -21,7 +21,7 @@ import org.keycloak.crypto.PublicKeysWrapper;
 import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.keys.PublicKeyLoader;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.JWKSHttpUtils;
 import org.keycloak.util.JWKSUtils;
 
@@ -34,10 +34,10 @@ import org.keycloak.util.JWKSUtils;
  */
 public class LinkedInPublicKeyLoader implements PublicKeyLoader {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final OIDCIdentityProviderConfig config;
 
-    public LinkedInPublicKeyLoader(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public LinkedInPublicKeyLoader(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         this.session = session;
         this.config = config;
     }

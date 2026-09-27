@@ -28,7 +28,7 @@ import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.provider.AuthenticationRequest;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.IdentityProviderRepresentation;
@@ -52,7 +52,7 @@ public class TestKeycloakOidcIdentityProviderFactory extends KeycloakOIDCIdentit
     }
 
     @Override
-    public KeycloakOIDCIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public KeycloakOIDCIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new KeycloakOIDCIdentityProvider(session, new OIDCIdentityProviderConfig(model)) {
 
             private static final Set<String> usernames = new HashSet<>();

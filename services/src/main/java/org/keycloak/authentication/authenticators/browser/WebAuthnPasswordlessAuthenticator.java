@@ -30,7 +30,7 @@ import org.keycloak.authentication.requiredactions.WebAuthnPasswordlessRegisterF
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.WebAuthnPasswordlessCredentialProvider;
 import org.keycloak.credential.WebAuthnPasswordlessCredentialProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.WebAuthnPolicy;
@@ -45,7 +45,7 @@ import org.keycloak.utils.StringUtil;
  */
 public class WebAuthnPasswordlessAuthenticator extends WebAuthnAuthenticator {
 
-    public WebAuthnPasswordlessAuthenticator(KeycloakSession session) {
+    public WebAuthnPasswordlessAuthenticator(KeycloakRequestSession session) {
         super(session);
     }
 
@@ -65,7 +65,7 @@ public class WebAuthnPasswordlessAuthenticator extends WebAuthnAuthenticator {
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         // ask the user to do required action to register webauthn authenticator
         AuthenticationSessionModel authenticationSession = session.getContext().getAuthenticationSession();
         if (!authenticationSession.getRequiredActions().contains(WebAuthnPasswordlessRegisterFactory.PROVIDER_ID)) {
@@ -74,13 +74,13 @@ public class WebAuthnPasswordlessAuthenticator extends WebAuthnAuthenticator {
     }
 
     @Override
-    public List<RequiredActionFactory> getRequiredActions(KeycloakSession session) {
+    public List<RequiredActionFactory> getRequiredActions(KeycloakRequestSession session) {
         return Collections.singletonList((WebAuthnPasswordlessRegisterFactory)session.getKeycloakSessionFactory().getProviderFactory(RequiredActionProvider.class, WebAuthnPasswordlessRegisterFactory.PROVIDER_ID));
     }
 
 
     @Override
-    public WebAuthnPasswordlessCredentialProvider getCredentialProvider(KeycloakSession session) {
+    public WebAuthnPasswordlessCredentialProvider getCredentialProvider(KeycloakRequestSession session) {
         return (WebAuthnPasswordlessCredentialProvider)session.getProvider(CredentialProvider.class, WebAuthnPasswordlessCredentialProviderFactory.PROVIDER_ID);
     }
 

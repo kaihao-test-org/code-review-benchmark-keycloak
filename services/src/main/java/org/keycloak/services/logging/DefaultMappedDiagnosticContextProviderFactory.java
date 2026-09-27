@@ -8,7 +8,7 @@ import org.keycloak.logging.MappedDiagnosticContextProviderFactory;
 import org.keycloak.logging.MappedDiagnosticContextUtil;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -44,7 +44,7 @@ public class DefaultMappedDiagnosticContextProviderFactory implements MappedDiag
     private Set<String> mdcKeys;
 
     @Override
-    public MappedDiagnosticContextProvider create(KeycloakSession session) {
+    public MappedDiagnosticContextProvider create(KeycloakRequestSession session) {
         // not using session, thus implementing MappedDiagnosticContextProvider here and handling it as singleton is fine
         return this;
     }

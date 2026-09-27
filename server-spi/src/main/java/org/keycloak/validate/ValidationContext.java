@@ -22,7 +22,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Holds information about the validation state.
@@ -30,9 +30,9 @@ import org.keycloak.models.KeycloakSession;
 public class ValidationContext {
 
     /**
-     * Holds the {@link KeycloakSession} in which the validation is performed.
+     * Holds the {@link KeycloakRequestSession} in which the validation is performed.
      */
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     /**
      * Holds the {@link ValidationError} found during validation.
@@ -45,18 +45,18 @@ public class ValidationContext {
     private final Map<String, Object> attributes;
 
     /**
-     * Creates a new {@link ValidationContext} without a {@link KeycloakSession}.
+     * Creates a new {@link ValidationContext} without a {@link KeycloakRequestSession}.
      */
     public ValidationContext() {
         this(null, null);
     }
 
     /**
-     * Creates a new {@link ValidationContext} with a {@link KeycloakSession}.
+     * Creates a new {@link ValidationContext} with a {@link KeycloakRequestSession}.
      *
      * @param session
      */
-    public ValidationContext(KeycloakSession session) {
+    public ValidationContext(KeycloakRequestSession session) {
         // we deliberately use a LinkedHashSet here to retain the order of errors.
         this(session, null);
     }
@@ -67,7 +67,7 @@ public class ValidationContext {
      * @param session
      * @param errors
      */
-    protected ValidationContext(KeycloakSession session, Set<ValidationError> errors) {
+    protected ValidationContext(KeycloakRequestSession session, Set<ValidationError> errors) {
         this.session = session;
         this.errors = errors;
         this.attributes = new HashMap<>();
@@ -109,7 +109,7 @@ public class ValidationContext {
         return attributes;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

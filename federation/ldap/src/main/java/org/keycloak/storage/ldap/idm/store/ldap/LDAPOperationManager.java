@@ -19,7 +19,7 @@ package org.keycloak.storage.ldap.idm.store.ldap;
 
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelException;
 import org.keycloak.storage.ldap.LDAPConfig;
@@ -73,10 +73,10 @@ public class LDAPOperationManager {
 
     private static final Logger perfLogger = Logger.getLogger(LDAPOperationManager.class, "perf");
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final LDAPConfig config;
 
-    public LDAPOperationManager(KeycloakSession session, LDAPConfig config) {
+    public LDAPOperationManager(KeycloakRequestSession session, LDAPConfig config) {
         this.session = session;
         this.config = config;
     }

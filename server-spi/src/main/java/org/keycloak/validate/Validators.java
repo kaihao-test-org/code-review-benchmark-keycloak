@@ -18,7 +18,7 @@
  */
 package org.keycloak.validate;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -27,16 +27,16 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class Validators {
 
     /**
-     * Holds the {@link KeycloakSession}.
+     * Holds the {@link KeycloakRequestSession}.
      */
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     /**
-     * Creates a new {@link Validators} instance with the given {@link KeycloakSession}.
+     * Creates a new {@link Validators} instance with the given {@link KeycloakRequestSession}.
      *
      * @param session
      */
-    public Validators(KeycloakSession session) {
+    public Validators(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -45,7 +45,7 @@ public class Validators {
      *
      * @param id
      * @return
-     * @see #validator(KeycloakSession, String)
+     * @see #validator(KeycloakRequestSession, String)
      */
     public Validator validator(String id) {
         return validator(session, id);
@@ -56,7 +56,7 @@ public class Validators {
      *
      * @param id
      * @return
-     * @see #validatorFactory(KeycloakSession, String)
+     * @see #validatorFactory(KeycloakRequestSession, String)
      */
     public ValidatorFactory validatorFactory(String id) {
         return validatorFactory(session, id);
@@ -68,7 +68,7 @@ public class Validators {
      * @param id
      * @param config
      * @return
-     * @see #validateConfig(KeycloakSession, String, ValidatorConfig)
+     * @see #validateConfig(KeycloakRequestSession, String, ValidatorConfig)
      */
     public ValidationResult validateConfig(String id, ValidatorConfig config) {
         return validateConfig(session, id, config);
@@ -77,13 +77,13 @@ public class Validators {
     /**
      * Look-up up for a built-in or registered {@link Validator} with the given validatorId.
      *
-     * @param session the {@link KeycloakSession}
+     * @param session the {@link KeycloakRequestSession}
      * @param id      the id of the validator
      * @return the {@link Validator} or {@literal null}
      */
-    public static Validator validator(KeycloakSession session, String id) {
+    public static Validator validator(KeycloakRequestSession session, String id) {
         if (session == null) {
-            throw new IllegalArgumentException("KeycloakSession must be not null");
+            throw new IllegalArgumentException("KeycloakRequestSession must be not null");
         }
 
         // Lookup validator in registry
@@ -96,13 +96,13 @@ public class Validators {
      * This is intended for users who want to dynamically create new {@link Validator} instances, validate
      * {@link ValidatorConfig} configurations or create default configurations for a {@link Validator}.
      *
-     * @param session the {@link KeycloakSession}
+     * @param session the {@link KeycloakRequestSession}
      * @param id      the id of the validator
      * @return the {@link Validator} or {@literal null}
      */
-    public static ValidatorFactory validatorFactory(KeycloakSession session, String id) {
+    public static ValidatorFactory validatorFactory(KeycloakRequestSession session, String id) {
         if (session == null) {
-            throw new IllegalArgumentException("KeycloakSession must be not null");
+            throw new IllegalArgumentException("KeycloakRequestSession must be not null");
         }
 
         // Lookup factory in registry
@@ -118,7 +118,7 @@ public class Validators {
      * @param config to be validated
      * @return
      */
-    public static ValidationResult validateConfig(KeycloakSession session, String id, ValidatorConfig config) {
+    public static ValidationResult validateConfig(KeycloakRequestSession session, String id, ValidatorConfig config) {
 
         ValidatorFactory validatorFactory = validatorFactory(session, id);
         if (validatorFactory != null) {

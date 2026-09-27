@@ -17,7 +17,7 @@
  */
 package org.keycloak.protocol.oidc;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Igor</a>
@@ -27,7 +27,7 @@ public class RefreshTokenIntrospectionProviderFactory extends AccessTokenIntrosp
     private static final String REFRESH_TOKEN_TYPE = "refresh_token";
 
     @Override
-    public TokenIntrospectionProvider create(KeycloakSession session) {
+    public TokenIntrospectionProvider create(KeycloakRequestSession session) {
         return new RefreshTokenIntrospectionProvider(session);
     }
 

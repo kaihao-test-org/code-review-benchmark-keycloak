@@ -26,7 +26,7 @@ import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.UserModel;
@@ -71,7 +71,7 @@ public class IdpVerifyAccountLinkActionTokenHandler extends AbstractActionTokenH
         EventBuilder event = tokenContext.getEvent();
         final UriInfo uriInfo = tokenContext.getUriInfo();
         final RealmModel realm = tokenContext.getRealm();
-        final KeycloakSession session = tokenContext.getSession();
+        final KeycloakRequestSession session = tokenContext.getSession();
 
         event.event(EventType.IDENTITY_PROVIDER_LINK_ACCOUNT)
           .detail(Details.EMAIL, user.getEmail())
@@ -140,14 +140,14 @@ public class IdpVerifyAccountLinkActionTokenHandler extends AbstractActionTokenH
         return tokenContext.brokerFlow(null, null, authSession.getAuthNote(AuthenticationProcessor.CURRENT_FLOW_PATH));
     }
 
-    private void setUserVerifiedSingleObject(IdpVerifyAccountLinkActionToken token, RealmModel realm, KeycloakSession session, UserModel user) {
+    private void setUserVerifiedSingleObject(IdpVerifyAccountLinkActionToken token, RealmModel realm, KeycloakRequestSession session, UserModel user) {
         int singleObjectLifespan = realm.getActionTokenGeneratedByUserLifespan();
         String userId = user.getId();
         String idpAlias = token.getIdentityProviderAlias();
         session.singleUseObjects().put(getUserVerifiedSingleObjectKey(userId, idpAlias), singleObjectLifespan, Map.of());
     }
 
-    public static boolean runIfUserVerified(KeycloakSession session, UserModel user, IdentityProviderModel broker, Runnable runnable) {
+    public static boolean runIfUserVerified(KeycloakRequestSession session, UserModel user, IdentityProviderModel broker, Runnable runnable) {
         if (user == null) {
             return false;
         }
@@ -167,7 +167,7 @@ public class IdpVerifyAccountLinkActionTokenHandler extends AbstractActionTokenH
         return "kc.brokering.user.verified." + userId  + "." + idpAlias;
     }
 
-    private Response sendEmailAlreadyVerified(KeycloakSession session, EventBuilder event, UserModel user) {
+    private Response sendEmailAlreadyVerified(KeycloakRequestSession session, EventBuilder event, UserModel user) {
         event.user(user).error(Errors.EMAIL_ALREADY_VERIFIED);
         return session.getProvider(LoginFormsProvider.class)
                 .setAuthenticationSession(session.getContext().getAuthenticationSession())

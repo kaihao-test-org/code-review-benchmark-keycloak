@@ -19,7 +19,7 @@ package org.keycloak.protocol.oidc.utils;
 
 import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.jose.jwk.JSONWebKeySet;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.util.JsonSerialization;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 public class JWKSHttpUtils {
 
-    public static JSONWebKeySet sendJwksRequest(KeycloakSession session, String jwksURI) throws IOException {
+    public static JSONWebKeySet sendJwksRequest(KeycloakRequestSession session, String jwksURI) throws IOException {
         String keySetString = session.getProvider(HttpClientProvider.class).getString(jwksURI);
         return JsonSerialization.readValue(keySetString, JSONWebKeySet.class);
     }

@@ -22,7 +22,7 @@ import org.keycloak.connections.jpa.support.EntityManagers;
 import org.keycloak.exportimport.ExportProvider;
 import org.keycloak.exportimport.UsersExportStrategy;
 import org.keycloak.exportimport.util.ExportImportSessionTask.Mode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -65,7 +65,7 @@ public abstract class MultipleStepsExportProvider<T extends MultipleStepsExportP
             List<RealmModel>[] realms = new List[1];
             new ExportImportSessionTask() {
                 @Override
-                protected void runExportImportTask(KeycloakSession session) throws IOException {
+                protected void runExportImportTask(KeycloakRequestSession session) throws IOException {
                     realms[0] = session.realms().getRealmsStream().collect(Collectors.toList());
                 }
             }.runTask(factory);
@@ -100,7 +100,7 @@ public abstract class MultipleStepsExportProvider<T extends MultipleStepsExportP
         new ExportImportSessionTask() {
 
             @Override
-            protected void runExportImportTask(KeycloakSession session) throws IOException {
+            protected void runExportImportTask(KeycloakRequestSession session) throws IOException {
                 RealmModel realm = session.realms().getRealmByName(realmName);
                 session.getContext().setRealm(realm);
                 RealmRepresentation rep = ExportUtils.exportRealm(session, realm, exportUsersIntoRealmFile, true);
@@ -119,7 +119,7 @@ public abstract class MultipleStepsExportProvider<T extends MultipleStepsExportP
                 }
             }
 
-            private <U> void exportUsers(final String realmName, KeycloakSession session, RealmModel realm, Stream<U> users, boolean federated)
+            private <U> void exportUsers(final String realmName, KeycloakRequestSession session, RealmModel realm, Stream<U> users, boolean federated)
                     throws IOException {
                 final UsersHolder usersHolder = new UsersHolder();
 
@@ -144,7 +144,7 @@ public abstract class MultipleStepsExportProvider<T extends MultipleStepsExportP
                 }
             }
 
-            private <U> void flushUsers(final String realmName, KeycloakSession session, RealmModel realm,
+            private <U> void flushUsers(final String realmName, KeycloakRequestSession session, RealmModel realm,
                     final UsersHolder usersHolder, final Integer countPerPage, List<U> usersBatch, boolean federated)
                     throws IOException {
                 if (federated) {
@@ -164,8 +164,8 @@ public abstract class MultipleStepsExportProvider<T extends MultipleStepsExportP
 
     protected abstract void writeRealm(String fileName, RealmRepresentation rep) throws IOException;
 
-    protected abstract void writeUsers(String fileName, KeycloakSession session, RealmModel realm, List<UserModel> users) throws IOException;
-    protected abstract void writeFederatedUsers(String fileName, KeycloakSession session, RealmModel realm, List<String> users) throws IOException;
+    protected abstract void writeUsers(String fileName, KeycloakRequestSession session, RealmModel realm, List<UserModel> users) throws IOException;
+    protected abstract void writeFederatedUsers(String fileName, KeycloakRequestSession session, RealmModel realm, List<String> users) throws IOException;
 
     public static class UsersHolder {
         int file;

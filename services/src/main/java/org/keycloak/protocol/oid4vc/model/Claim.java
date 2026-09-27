@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.oid4vci.Oid4vcProtocolMapperModel;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.protocol.oid4vc.issuance.mappers.OID4VCMapper;
@@ -59,7 +59,7 @@ public class Claim {
     @JsonProperty("display")
     private List<ClaimDisplay> display;
 
-    public static Optional<Claim> parse(KeycloakSession keycloakSession,
+    public static Optional<Claim> parse(KeycloakRequestSession keycloakSession,
                                         String credentialFormat,
                                         Oid4vcProtocolMapperModel protocolMapper) {
         try {

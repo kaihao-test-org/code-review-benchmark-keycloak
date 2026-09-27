@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.util.JsonSerialization;
 
@@ -93,7 +93,7 @@ public class CredentialRequest {
         return this;
     }
 
-    public Optional<CredentialScopeModel> findCredentialScope(KeycloakSession keycloakSession) {
+    public Optional<CredentialScopeModel> findCredentialScope(KeycloakRequestSession keycloakSession) {
         Map<String, String> searchAttributeMap =
                 Optional.ofNullable(credentialConfigurationId)
                         .map(credentialIdentifier -> {

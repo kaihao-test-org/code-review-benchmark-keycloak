@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.services.clientpolicy.executor;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenManager;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -34,9 +34,9 @@ public class TestEnhancedPluggableTokenManagerExecutor implements ClientPolicyEx
 
     private static final Logger logger = Logger.getLogger(TestEnhancedPluggableTokenManagerExecutor.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public TestEnhancedPluggableTokenManagerExecutor(KeycloakSession session) {
+    public TestEnhancedPluggableTokenManagerExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

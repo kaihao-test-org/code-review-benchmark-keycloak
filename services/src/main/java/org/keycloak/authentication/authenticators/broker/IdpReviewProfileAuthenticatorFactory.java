@@ -21,7 +21,7 @@ import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.idm.IdentityProviderRepresentation;
@@ -41,7 +41,7 @@ public class IdpReviewProfileAuthenticatorFactory implements AuthenticatorFactor
     public static final String UPDATE_PROFILE_ON_FIRST_LOGIN = "update.profile.on.first.login";
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return SINGLETON;
     }
 

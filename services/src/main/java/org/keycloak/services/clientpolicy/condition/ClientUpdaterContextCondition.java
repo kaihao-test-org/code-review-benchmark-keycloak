@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -40,7 +40,7 @@ public class ClientUpdaterContextCondition extends AbstractClientPolicyCondition
 
     private static final Logger logger = Logger.getLogger(ClientUpdaterContextCondition.class);
 
-    public ClientUpdaterContextCondition(KeycloakSession session) {
+    public ClientUpdaterContextCondition(KeycloakRequestSession session) {
         super(session);
     }
 

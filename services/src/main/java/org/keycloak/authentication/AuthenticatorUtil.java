@@ -32,7 +32,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -193,7 +193,7 @@ public class AuthenticatorUtil {
                 context.getAuthenticationSession(), context.getClientConnection(), context.getRequest(), event);
     }
 
-    private static void logoutOtherSessions(KeycloakSession session, RealmModel realm, UserModel user,
+    private static void logoutOtherSessions(KeycloakRequestSession session, RealmModel realm, UserModel user,
             AuthenticationSessionModel authSession, ClientConnection conn, HttpRequest req, EventBuilder event) {
         session.sessions().getUserSessionsStream(realm, user)
                 .filter(s -> !Objects.equals(s.getId(), authSession.getParentSession().getId()))
@@ -213,7 +213,7 @@ public class AuthenticatorUtil {
 
     }
 
-    private static void backchannelLogout(KeycloakSession session, RealmModel realm, ClientConnection conn, HttpRequest req, EventBuilder event, UserSessionModel s) {
+    private static void backchannelLogout(KeycloakRequestSession session, RealmModel realm, ClientConnection conn, HttpRequest req, EventBuilder event, UserSessionModel s) {
         AuthenticationManager.backchannelLogout(session, realm, s, session.getContext().getUri(),
                 conn, req.getHttpHeaders(), true);
 
@@ -227,7 +227,7 @@ public class AuthenticatorUtil {
      * @param session
      * @return all credential providers available
      */
-    public static Stream<CredentialProvider> getCredentialProviders(KeycloakSession session) {
+    public static Stream<CredentialProvider> getCredentialProviders(KeycloakRequestSession session) {
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(CredentialProvider.class)
                 .filter(f -> Types.supports(CredentialProvider.class, f, CredentialProviderFactory.class))
                 .map(f -> session.getProvider(CredentialProvider.class, f.getId()));

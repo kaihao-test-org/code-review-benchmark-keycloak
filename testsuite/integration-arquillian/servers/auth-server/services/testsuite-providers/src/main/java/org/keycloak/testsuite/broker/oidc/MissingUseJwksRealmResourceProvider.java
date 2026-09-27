@@ -17,14 +17,14 @@
 
 package org.keycloak.testsuite.broker.oidc;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 public class MissingUseJwksRealmResourceProvider implements RealmResourceProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public MissingUseJwksRealmResourceProvider(KeycloakSession session) {
+    public MissingUseJwksRealmResourceProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

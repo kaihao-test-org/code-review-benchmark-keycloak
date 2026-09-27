@@ -37,7 +37,7 @@ import org.keycloak.authorization.identity.Identity;
 import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.events.admin.OperationType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.authorization.ResourceOwnerRepresentation;
 import org.keycloak.representations.idm.authorization.ResourceRepresentation;
 import org.keycloak.services.ErrorResponseException;
@@ -49,10 +49,10 @@ public class ResourceService {
 
     private final ResourceServer resourceServer;
     private final ResourceSetService resourceManager;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Identity identity;
 
-    public ResourceService(KeycloakSession session, ResourceServer resourceServer, Identity identity, ResourceSetService resourceManager) {
+    public ResourceService(KeycloakRequestSession session, ResourceServer resourceServer, Identity identity, ResourceSetService resourceManager) {
         this.session = session;
         this.identity = identity;
         this.resourceServer = resourceServer;

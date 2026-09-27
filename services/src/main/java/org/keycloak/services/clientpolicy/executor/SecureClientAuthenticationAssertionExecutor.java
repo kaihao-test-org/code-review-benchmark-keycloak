@@ -24,7 +24,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.services.Urls;
@@ -44,9 +44,9 @@ public class SecureClientAuthenticationAssertionExecutor implements ClientPolicy
 
     private static final Logger logger = Logger.getLogger(SecureClientAuthenticationAssertionExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public SecureClientAuthenticationAssertionExecutor(KeycloakSession session) {
+    public SecureClientAuthenticationAssertionExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -21,7 +21,7 @@ import org.keycloak.authorization.attribute.Attributes;
 import org.keycloak.authorization.identity.Identity;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -37,11 +37,11 @@ public class ClientModelIdentity implements Identity {
     protected final UserModel serviceAccount;
     protected final AccessToken token;
 
-    public ClientModelIdentity(KeycloakSession session, ClientModel client) {
+    public ClientModelIdentity(KeycloakRequestSession session, ClientModel client) {
         this(session, client, null);
     }
 
-    public ClientModelIdentity(KeycloakSession session, ClientModel client, AccessToken token) {
+    public ClientModelIdentity(KeycloakRequestSession session, ClientModel client, AccessToken token) {
         this.realm = session.getContext().getRealm();
         this.client = client;
         this.serviceAccount = session.users().getServiceAccount(client);

@@ -21,7 +21,7 @@ package org.keycloak.authentication.requiredactions;
 import com.webauthn4j.verifier.attestation.trustworthiness.certpath.CertPathTrustworthinessVerifier;
 import org.keycloak.authentication.RequiredActionContext;
 import org.keycloak.credential.WebAuthnPasswordlessCredentialProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.WebAuthnPolicy;
 import org.keycloak.models.credential.WebAuthnCredentialModel;
 
@@ -32,7 +32,7 @@ import org.keycloak.models.credential.WebAuthnCredentialModel;
  */
 public class WebAuthnPasswordlessRegister extends WebAuthnRegister {
 
-    public WebAuthnPasswordlessRegister(KeycloakSession session, CertPathTrustworthinessVerifier certPathtrustVerifier) {
+    public WebAuthnPasswordlessRegister(KeycloakRequestSession session, CertPathTrustworthinessVerifier certPathtrustVerifier) {
         super(session, certPathtrustVerifier);
     }
 

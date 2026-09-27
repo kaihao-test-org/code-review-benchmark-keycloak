@@ -34,7 +34,7 @@ import org.keycloak.crypto.ClientSignatureVerifierProvider;
 import org.keycloak.events.EventType;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.policy.PasswordPolicyProvider;
 import org.keycloak.policy.PasswordPolicyProviderFactory;
@@ -92,9 +92,9 @@ public class ServerInfoAdminResource {
 
     private static final Map<String, List<String>> ENUMS = createEnumsMap(EventType.class, OperationType.class, ResourceType.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public ServerInfoAdminResource(KeycloakSession session) {
+    public ServerInfoAdminResource(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
@@ -40,9 +40,9 @@ import org.keycloak.models.utils.TimeBasedOTP;
 public class OTPCredentialProvider implements CredentialProvider<OTPCredentialModel>, CredentialInputValidator/*, OnUserCache*/ {
     private static final Logger logger = Logger.getLogger(OTPCredentialProvider.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
-    public OTPCredentialProvider(KeycloakSession session) {
+    public OTPCredentialProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

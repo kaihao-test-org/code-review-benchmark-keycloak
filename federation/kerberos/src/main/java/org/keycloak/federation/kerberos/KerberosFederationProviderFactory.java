@@ -26,7 +26,7 @@ import org.keycloak.federation.kerberos.impl.KerberosServerSubjectAuthenticator;
 import org.keycloak.federation.kerberos.impl.KerberosUsernamePasswordAuthenticator;
 import org.keycloak.federation.kerberos.impl.SPNEGOAuthenticator;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
@@ -53,7 +53,7 @@ public class KerberosFederationProviderFactory implements UserStorageProviderFac
     public static final String PROVIDER_NAME = "kerberos";
 
     @Override
-    public KerberosFederationProvider create(KeycloakSession session, ComponentModel model) {
+    public KerberosFederationProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new KerberosFederationProvider(session, new UserStorageProviderModel(model), this);
     }
 
@@ -152,19 +152,19 @@ public class KerberosFederationProviderFactory implements UserStorageProviderFac
     }
 
     @Override
-    public void onCreate(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void onCreate(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         CredentialHelper.setOrReplaceAuthenticationRequirement(session, realm, CredentialRepresentation.KERBEROS,
                 AuthenticationExecutionModel.Requirement.ALTERNATIVE, AuthenticationExecutionModel.Requirement.DISABLED);
     }
 
     @Override
-    public void onUpdate(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    public void onUpdate(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         CredentialHelper.setOrReplaceAuthenticationRequirement(session, realm, CredentialRepresentation.KERBEROS,
                 AuthenticationExecutionModel.Requirement.ALTERNATIVE, AuthenticationExecutionModel.Requirement.DISABLED);
     }
 
     @Override
-    public void preRemove(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public void preRemove(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         CredentialHelper.setOrReplaceAuthenticationRequirement(session, realm, CredentialRepresentation.KERBEROS,
                 AuthenticationExecutionModel.Requirement.DISABLED, null);
     }

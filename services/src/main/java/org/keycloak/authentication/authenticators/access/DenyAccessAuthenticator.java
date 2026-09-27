@@ -22,7 +22,7 @@ import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -63,12 +63,12 @@ public class DenyAccessAuthenticator implements Authenticator {
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return false;
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
 
     }
 

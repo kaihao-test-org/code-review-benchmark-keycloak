@@ -17,14 +17,14 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class AsymmetricSignatureProvider implements SignatureProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String algorithm;
 
-    public AsymmetricSignatureProvider(KeycloakSession session, String algorithm) {
+    public AsymmetricSignatureProvider(KeycloakRequestSession session, String algorithm) {
         this.session = session;
         this.algorithm = algorithm;
     }

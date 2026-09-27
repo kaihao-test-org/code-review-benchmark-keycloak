@@ -20,7 +20,7 @@ package org.keycloak.utils;
 import org.jboss.logging.Logger;
 import org.keycloak.executors.ExecutorsProvider;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
 
@@ -39,7 +39,7 @@ public class ServicesUtils {
 
     private static final Logger logger = Logger.getLogger(ServicesUtils.class);
 
-    public static <T, R> Function<? super T,? extends Stream<? extends R>> timeBound(KeycloakSession session,
+    public static <T, R> Function<? super T,? extends Stream<? extends R>> timeBound(KeycloakRequestSession session,
                                                                                      long timeout,
                                                                                      Function<T, ? extends Stream<R>> func) {
         ExecutorService executor = session.getProvider(ExecutorsProvider.class).getExecutor("storage-provider-threads");
@@ -65,7 +65,7 @@ public class ServicesUtils {
         };
     }
 
-    public static <T, R> Function<? super T, R> timeBoundOne(KeycloakSession session,
+    public static <T, R> Function<? super T, R> timeBoundOne(KeycloakRequestSession session,
                                                                                      long timeout,
                                                                                      Function<T, R> func) {
         ExecutorService executor = session.getProvider(ExecutorsProvider.class).getExecutor("storage-provider-threads");
@@ -91,7 +91,7 @@ public class ServicesUtils {
         };
     }
 
-    public static <T> Consumer<? super T> consumeWithTimeBound(KeycloakSession session,
+    public static <T> Consumer<? super T> consumeWithTimeBound(KeycloakRequestSession session,
                                                              long timeout,
                                                              Consumer<T> func) {
         ExecutorService executor = session.getProvider(ExecutorsProvider.class).getExecutor("storage-provider-threads");

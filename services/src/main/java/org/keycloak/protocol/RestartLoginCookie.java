@@ -25,7 +25,7 @@ import org.keycloak.cookie.CookieProvider;
 import org.keycloak.cookie.CookieType;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.managers.AuthenticationSessionManager;
 import org.keycloak.sessions.AuthenticationSessionModel;
@@ -120,17 +120,17 @@ public class RestartLoginCookie implements Token {
         }
     }
 
-    public static void setRestartCookie(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public static void setRestartCookie(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         RestartLoginCookie restart = new RestartLoginCookie(authSession);
         String encoded = encodeAndEncrypt(session, restart);
         session.getProvider(CookieProvider.class).set(CookieType.AUTH_RESTART, encoded);
     }
 
-    public static void expireRestartCookie(KeycloakSession session) {
+    public static void expireRestartCookie(KeycloakRequestSession session) {
         session.getProvider(CookieProvider.class).expire(CookieType.AUTH_RESTART);
     }
 
-    public static String getRestartCookie(KeycloakSession session){
+    public static String getRestartCookie(KeycloakRequestSession session){
         String cook = session.getProvider(CookieProvider.class).get(CookieType.AUTH_RESTART);
         if (cook ==  null) {
             logger.debug("KC_RESTART cookie doesn't exist");
@@ -139,7 +139,7 @@ public class RestartLoginCookie implements Token {
         return cook;
     }
 
-    public static AuthenticationSessionModel restartSession(KeycloakSession session, RealmModel realm,
+    public static AuthenticationSessionModel restartSession(KeycloakRequestSession session, RealmModel realm,
                                                             RootAuthenticationSessionModel rootSession, String expectedClientId,
                                                             String encodedCookie) throws Exception {
         RestartLoginCookie cookie = decryptAndDecode(session, encodedCookie);
@@ -173,7 +173,7 @@ public class RestartLoginCookie implements Token {
         return authSession;
     }
 
-    private static RestartLoginCookie decryptAndDecode(KeycloakSession session, String encodedToken) {
+    private static RestartLoginCookie decryptAndDecode(KeycloakRequestSession session, String encodedToken) {
         try {
             String sigAlgorithm = session.tokens().signatureAlgorithm(TokenCategory.INTERNAL);
             String algAlgorithm = session.tokens().cekManagementAlgorithm(TokenCategory.INTERNAL);
@@ -189,7 +189,7 @@ public class RestartLoginCookie implements Token {
         }
     }
 
-    private static String encodeAndEncrypt(KeycloakSession session, RestartLoginCookie cookie) {
+    private static String encodeAndEncrypt(KeycloakRequestSession session, RestartLoginCookie cookie) {
         try {
             String sigAlgorithm = session.tokens().signatureAlgorithm(cookie.getCategory());
             String algAlgorithm = session.tokens().cekManagementAlgorithm(cookie.getCategory());

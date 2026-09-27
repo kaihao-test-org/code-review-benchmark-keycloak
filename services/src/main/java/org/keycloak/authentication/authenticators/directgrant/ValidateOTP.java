@@ -24,7 +24,7 @@ import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.OTPCredentialProvider;
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -94,12 +94,12 @@ public class ValidateOTP extends AbstractDirectGrantAuthenticator implements Cre
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return getCredentialProvider(session).isConfiguredFor(realm, user);
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
 
     }
 
@@ -144,7 +144,7 @@ public class ValidateOTP extends AbstractDirectGrantAuthenticator implements Cre
         return PROVIDER_ID;
     }
 
-    public OTPCredentialProvider getCredentialProvider(KeycloakSession session) {
+    public OTPCredentialProvider getCredentialProvider(KeycloakRequestSession session) {
         return (OTPCredentialProvider)session.getProvider(CredentialProvider.class, "keycloak-otp");
     }
 

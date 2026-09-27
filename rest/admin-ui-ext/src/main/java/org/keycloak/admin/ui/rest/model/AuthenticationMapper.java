@@ -8,13 +8,13 @@ import java.util.stream.Stream;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 public class AuthenticationMapper {
     private static final int MAX_USED_BY = 9;
 
-    public static Authentication convertToModel(KeycloakSession session, AuthenticationFlowModel flow, RealmModel realm) {
+    public static Authentication convertToModel(KeycloakRequestSession session, AuthenticationFlowModel flow, RealmModel realm) {
 
         final Authentication authentication = new Authentication();
         authentication.setId(flow.getId());

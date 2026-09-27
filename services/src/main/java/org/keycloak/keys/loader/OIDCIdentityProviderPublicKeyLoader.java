@@ -29,7 +29,7 @@ import org.keycloak.crypto.PublicKeysWrapper;
 import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.keys.PublicKeyLoader;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.JWKSHttpUtils;
 import org.keycloak.util.JWKSUtils;
 
@@ -43,10 +43,10 @@ public class OIDCIdentityProviderPublicKeyLoader implements PublicKeyLoader {
 
     private static final Logger logger = Logger.getLogger(OIDCIdentityProviderPublicKeyLoader.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final OIDCIdentityProviderConfig config;
 
-    public OIDCIdentityProviderPublicKeyLoader(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public OIDCIdentityProviderPublicKeyLoader(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         this.session = session;
         this.config = config;
     }

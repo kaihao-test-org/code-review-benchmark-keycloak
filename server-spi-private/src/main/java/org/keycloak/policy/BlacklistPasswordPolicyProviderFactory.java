@@ -21,7 +21,7 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import java.io.BufferedReader;
@@ -94,7 +94,7 @@ public class BlacklistPasswordPolicyProviderFactory implements PasswordPolicyPro
     private Config.Scope config;
 
     @Override
-    public PasswordPolicyProvider create(KeycloakSession session) {
+    public PasswordPolicyProvider create(KeycloakRequestSession session) {
         if (this.blacklistsBasePath == null) {
             synchronized (this) {
                 if (this.blacklistsBasePath == null) {

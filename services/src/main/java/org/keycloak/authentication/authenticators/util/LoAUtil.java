@@ -41,7 +41,7 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.cache.CachedRealmModel;
 
@@ -157,7 +157,7 @@ public class LoAUtil {
      * @param topFlow
      * @return map as described above. Never returns null, but can return empty map.
      */
-    public static Map<String, Integer> getCredentialTypesToLoAMap(KeycloakSession session, RealmModel realm, AuthenticationFlowModel topFlow) {
+    public static Map<String, Integer> getCredentialTypesToLoAMap(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel topFlow) {
         // Attempt to cache mapping, so it is not needed to compute it multiple times at every authentication
         String cacheKey = "flow:" + topFlow.getId();
         if (realm instanceof CachedRealmModel) {
@@ -184,7 +184,7 @@ public class LoAUtil {
         return result;
     }
 
-    private static void fillCredentialsToLoAMap(KeycloakSession session, RealmModel realm, AuthenticationFlowModel authFlow, Set<String> availableCredentialTypes, AtomicReference<Integer> currentLevel, Map<String, Integer> result) {
+    private static void fillCredentialsToLoAMap(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel authFlow, Set<String> availableCredentialTypes, AtomicReference<Integer> currentLevel, Map<String, Integer> result) {
         realm.getAuthenticationExecutionsStream(authFlow.getId()).forEachOrdered(execution -> {
             if (execution.isAuthenticatorFlow()) {
                 AuthenticationFlowModel subFlow = realm.getAuthenticationFlowById(execution.getFlowId());

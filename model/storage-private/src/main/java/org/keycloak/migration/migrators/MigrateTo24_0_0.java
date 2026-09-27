@@ -22,7 +22,7 @@ package org.keycloak.migration.migrators;
 import org.jboss.logging.Logger;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AuthenticationFlowModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
@@ -45,14 +45,14 @@ public class MigrateTo24_0_0 extends RealmMigration {
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         updateUserProfileSettings(session);
         updateLdapProviderConfig(session);
         createHS512ComponentModelKey(session);
         bindFirstBrokerLoginFlow(session);
     }
 
-    private void updateUserProfileSettings(KeycloakSession session) {
+    private void updateUserProfileSettings(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         boolean isUserProfileEnabled = Boolean.parseBoolean(realm.getAttribute(REALM_USER_PROFILE_ENABLED));
 
@@ -75,7 +75,7 @@ public class MigrateTo24_0_0 extends RealmMigration {
         LOG.debugf("Enabled the declarative user profile to realm %s with support for unmanaged attributes", realm.getName());
     }
 
-    private void updateLdapProviderConfig(final KeycloakSession session) {
+    private void updateLdapProviderConfig(final KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         // ensure `ldapsOnly` value for `useTruststoreSpi` in LDAP providers is migrated to `always`.
         realm.getComponentsStream(realm.getId(), UserStorageProvider.class.getName())
@@ -86,12 +86,12 @@ public class MigrateTo24_0_0 extends RealmMigration {
                 });
     }
 
-    private void createHS512ComponentModelKey(KeycloakSession session) {
+    private void createHS512ComponentModelKey(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         DefaultKeyProviders.createSecretProvider(realm);
     }
 
-    private void bindFirstBrokerLoginFlow(KeycloakSession session) {
+    private void bindFirstBrokerLoginFlow(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         String flowAlias = DefaultAuthenticationFlows.FIRST_BROKER_LOGIN_FLOW;
         AuthenticationFlowModel flow = realm.getFlowByAlias(flowAlias);

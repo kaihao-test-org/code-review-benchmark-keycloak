@@ -5,7 +5,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 /**
@@ -14,9 +14,9 @@ import org.keycloak.services.resource.RealmResourceProvider;
  */
 public class MyCustomRealmResourceProvider  implements RealmResourceProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public MyCustomRealmResourceProvider(KeycloakSession session) {
+    public MyCustomRealmResourceProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

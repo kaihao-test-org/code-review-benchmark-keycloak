@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -96,7 +96,7 @@ public class RoleNameMapper extends AbstractOIDCProtocolMapper implements OIDCAc
     }
 
     @Override
-    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                               UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         // the mapper is always executed and then other role mappers decide if the claims are really set to the token
         setClaim(token, mappingModel, userSession, session, clientSessionCtx);
@@ -104,7 +104,7 @@ public class RoleNameMapper extends AbstractOIDCProtocolMapper implements OIDCAc
     }
 
     @Override
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         // the mapper is always executed and then other role mappers decide if the claims are really set to the token
         setClaim(token, mappingModel, userSession, session, clientSessionCtx);
@@ -112,7 +112,7 @@ public class RoleNameMapper extends AbstractOIDCProtocolMapper implements OIDCAc
     }
 
     @Override
-    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         // the mapper is always executed and then other role mappers decide if the claims are really set to the token
         setClaim(token, mappingModel, userSession, session, clientSessionCtx);
@@ -120,7 +120,7 @@ public class RoleNameMapper extends AbstractOIDCProtocolMapper implements OIDCAc
     }
 
     @Override
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession session,
+    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession session,
                             ClientSessionContext clientSessionCtx) {
         String role = mappingModel.getConfig().get(ROLE_CONFIG);
         String newName = mappingModel.getConfig().get(NEW_ROLE_NAME);

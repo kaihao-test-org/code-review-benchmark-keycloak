@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.condition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.AcrUtils;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class AcrCondition extends AbstractClientPolicyConditionProvider<AcrCondition.Configuration> {
 
-    public AcrCondition(KeycloakSession session) {
+    public AcrCondition(KeycloakRequestSession session) {
         super(session);
     }
 

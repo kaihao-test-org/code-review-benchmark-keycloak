@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -45,7 +45,7 @@ public class AuthenticationFlowSelectorExecutorFactory implements ClientPolicyEx
             ProviderConfigProperty.INTEGER_TYPE, 1);
 
     @Override
-    public AuthenticationFlowSelectorExecutor create(KeycloakSession session) {
+    public AuthenticationFlowSelectorExecutor create(KeycloakRequestSession session) {
         return new AuthenticationFlowSelectorExecutor();
     }
 

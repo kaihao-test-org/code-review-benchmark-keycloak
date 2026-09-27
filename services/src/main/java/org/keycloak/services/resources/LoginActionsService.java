@@ -61,7 +61,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserConsentModel;
 import org.keycloak.models.UserModel;
@@ -149,7 +149,7 @@ public class LoginActionsService {
 
     private final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     private EventBuilder event;
 
@@ -186,7 +186,7 @@ public class LoginActionsService {
         return baseUriBuilder.path(RealmsResource.class).path(RealmsResource.class, "getLoginActionsService");
     }
 
-    public LoginActionsService(KeycloakSession session, EventBuilder event) {
+    public LoginActionsService(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();
@@ -972,7 +972,7 @@ public class LoginActionsService {
         return redirectToAfterBrokerLoginEndpoint(session, realm, session.getContext().getUri(), authSession, firstBrokerLogin);
     }
 
-    public static Response redirectToAfterBrokerLoginEndpoint(KeycloakSession session, RealmModel realm, UriInfo uriInfo, AuthenticationSessionModel authSession, boolean firstBrokerLogin) {
+    public static Response redirectToAfterBrokerLoginEndpoint(KeycloakRequestSession session, RealmModel realm, UriInfo uriInfo, AuthenticationSessionModel authSession, boolean firstBrokerLogin) {
         ClientSessionCode<AuthenticationSessionModel> accessCode = new ClientSessionCode<>(session, realm, authSession);
         authSession.getParentSession().setTimestamp(Time.currentTime());
 

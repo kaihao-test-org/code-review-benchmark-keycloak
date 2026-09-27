@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oid4vc.model;
 
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerWellKnownProvider;
 
 import java.util.List;
@@ -85,7 +85,7 @@ public class CredentialBuildConfig {
     // Needs to fit the provided signing key.
     private String ldpProofType;
 
-    public static CredentialBuildConfig parse(KeycloakSession keycloakSession,
+    public static CredentialBuildConfig parse(KeycloakRequestSession keycloakSession,
                                               SupportedCredentialConfiguration credentialConfiguration,
                                               CredentialScopeModel credentialModel) {
         final String credentialIssuer = Optional.ofNullable(credentialModel.getIssuerDid()).orElse(

@@ -23,15 +23,15 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.keycloak.common.VerificationException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ClientMacSignatureVerifierContext extends MacSignatureVerifierContext {
 
-    public ClientMacSignatureVerifierContext(KeycloakSession session, ClientModel client, String algorithm) throws VerificationException {
+    public ClientMacSignatureVerifierContext(KeycloakRequestSession session, ClientModel client, String algorithm) throws VerificationException {
         super(getKey(session, client, algorithm));
     }
 
-    private static KeyWrapper getKey(KeycloakSession session, ClientModel client, String algorithm) throws VerificationException {
+    private static KeyWrapper getKey(KeycloakRequestSession session, ClientModel client, String algorithm) throws VerificationException {
         if (algorithm == null) algorithm = Algorithm.HS256;
         String clientSecretString = client.getSecret();
         SecretKey clientSecret = new SecretKeySpec(clientSecretString.getBytes(StandardCharsets.UTF_8), JavaAlgorithm.getJavaAlgorithm(algorithm));

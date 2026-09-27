@@ -17,7 +17,7 @@
 
 package org.keycloak.models.jpa;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -44,9 +44,9 @@ public class RoleAdapter implements RoleModel, JpaModel<RoleEntity> {
     protected RoleEntity role;
     protected EntityManager em;
     protected RealmModel realm;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
-    public RoleAdapter(KeycloakSession session, RealmModel realm, EntityManager em, RoleEntity role) {
+    public RoleAdapter(KeycloakRequestSession session, RealmModel realm, EntityManager em, RoleEntity role) {
         this.em = em;
         this.realm = realm;
         this.role = role;

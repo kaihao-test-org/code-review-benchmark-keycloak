@@ -29,7 +29,7 @@ import org.keycloak.crypto.AsymmetricSignatureVerifierContext;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.crypto.ServerECDSASignatureVerifierContext;
 import org.keycloak.crypto.SignatureVerifierContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.CredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.JwtCredentialBuilder;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.LDCredentialBody;
@@ -159,7 +159,7 @@ public class JwtCredentialSignerTest extends OID4VCTest {
 
 
     public static void testSignJwtCredential(
-            KeycloakSession session, String signingKeyId, String algorithm, Map<String, Object> claims) {
+            KeycloakRequestSession session, String signingKeyId, String algorithm, Map<String, Object> claims) {
         CredentialBuildConfig credentialBuildConfig = new CredentialBuildConfig()
                 .setCredentialIssuer(TEST_DID.toString())
                 .setTokenJwsType("JWT")

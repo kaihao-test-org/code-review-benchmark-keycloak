@@ -19,7 +19,7 @@ package org.keycloak.locale;
 import org.jboss.logging.Logger;
 import org.keycloak.cookie.CookieProvider;
 import org.keycloak.cookie.CookieType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
@@ -35,9 +35,9 @@ public class DefaultLocaleSelectorProvider implements LocaleSelectorProvider {
 
     private static final Logger logger = Logger.getLogger(LocaleSelectorProvider.class);
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public DefaultLocaleSelectorProvider(KeycloakSession session) {
+    public DefaultLocaleSelectorProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

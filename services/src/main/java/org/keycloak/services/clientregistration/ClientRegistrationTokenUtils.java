@@ -27,7 +27,7 @@ import org.keycloak.crypto.SignatureVerifierContext;
 import org.keycloak.jose.jws.JWSBuilder;
 import org.keycloak.models.ClientInitialAccessModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.TokenManager.TokenRevocationCheck;
 import org.keycloak.representations.AccessToken;
@@ -44,7 +44,7 @@ public class ClientRegistrationTokenUtils {
     public static final String TYPE_INITIAL_ACCESS_TOKEN = "InitialAccessToken";
     public static final String TYPE_REGISTRATION_ACCESS_TOKEN = "RegistrationAccessToken";
 
-    public static String updateTokenSignature(KeycloakSession session, ClientRegistrationAuth auth) {
+    public static String updateTokenSignature(KeycloakRequestSession session, ClientRegistrationAuth auth) {
         String algorithm = session.tokens().signatureAlgorithm(TokenCategory.INTERNAL);
         SignatureSignerContext signer = session.getProvider(SignatureProvider.class, algorithm).signer();
 
@@ -65,11 +65,11 @@ public class ClientRegistrationTokenUtils {
         }
     }
 
-    public static String updateRegistrationAccessToken(KeycloakSession session, ClientModel client, RegistrationAuth registrationAuth) {
+    public static String updateRegistrationAccessToken(KeycloakRequestSession session, ClientModel client, RegistrationAuth registrationAuth) {
         return updateRegistrationAccessToken(session, session.getContext().getRealm(), client, registrationAuth);
     }
 
-    public static String updateRegistrationAccessToken(KeycloakSession session, RealmModel realm, ClientModel client, RegistrationAuth registrationAuth) {
+    public static String updateRegistrationAccessToken(KeycloakRequestSession session, RealmModel realm, ClientModel client, RegistrationAuth registrationAuth) {
         String id = SecretGenerator.getInstance().generateSecureID();
         client.setRegistrationToken(id);
 
@@ -79,12 +79,12 @@ public class ClientRegistrationTokenUtils {
         return setupToken(regToken, session, realm, id, TYPE_REGISTRATION_ACCESS_TOKEN, 0);
     }
 
-    public static String createInitialAccessToken(KeycloakSession session, RealmModel realm, ClientInitialAccessModel model) {
+    public static String createInitialAccessToken(KeycloakRequestSession session, RealmModel realm, ClientInitialAccessModel model) {
         InitialAccessToken initialToken = new InitialAccessToken();
         return setupToken(initialToken, session, realm, model.getId(), TYPE_INITIAL_ACCESS_TOKEN, model.getExpiration() > 0 ? model.getTimestamp() + model.getExpiration() : 0);
     }
 
-    public static TokenVerification verifyToken(KeycloakSession session, RealmModel realm, String token) {
+    public static TokenVerification verifyToken(KeycloakRequestSession session, RealmModel realm, String token) {
         if (token == null) {
             return TokenVerification.error(new RuntimeException("Missing token"));
         }
@@ -116,7 +116,7 @@ public class ClientRegistrationTokenUtils {
         return TokenVerification.success(kid, jwt);
     }
 
-    private static String setupToken(JsonWebToken jwt, KeycloakSession session, RealmModel realm, String id, String type, long expiration) {
+    private static String setupToken(JsonWebToken jwt, KeycloakRequestSession session, RealmModel realm, String id, String type, long expiration) {
         String issuer = getIssuer(session, realm);
 
         jwt.type(type);
@@ -129,7 +129,7 @@ public class ClientRegistrationTokenUtils {
         return session.tokens().encode(jwt);
     }
 
-    private static String getIssuer(KeycloakSession session, RealmModel realm) {
+    private static String getIssuer(KeycloakRequestSession session, RealmModel realm) {
         return Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName());
     }
 

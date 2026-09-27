@@ -20,7 +20,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -51,11 +51,11 @@ import java.util.stream.Stream;
  * @version $Revision: 1 $
  */
 public abstract class AbstractUserAdapter extends UserModelDefaultMethods {
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected ComponentModel storageProviderModel;
 
-    public AbstractUserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel) {
+    public AbstractUserAdapter(KeycloakRequestSession session, RealmModel realm, ComponentModel storageProviderModel) {
         this.session = session;
         this.realm = realm;
         this.storageProviderModel = storageProviderModel;
@@ -423,7 +423,7 @@ public abstract class AbstractUserAdapter extends UserModelDefaultMethods {
      */
     public abstract static class Streams extends AbstractUserAdapter implements UserModel {
 
-        public Streams(final KeycloakSession session, final RealmModel realm, final ComponentModel storageProviderModel) {
+        public Streams(final KeycloakRequestSession session, final RealmModel realm, final ComponentModel storageProviderModel) {
             super(session, realm, storageProviderModel);
         }
 

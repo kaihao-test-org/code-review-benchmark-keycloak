@@ -21,7 +21,7 @@ package org.keycloak.authentication.authenticators.browser;
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
 /**
@@ -46,7 +46,7 @@ public class PasskeysConditionalUIAuthenticatorFactory extends WebAuthnPasswordl
     }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return new PasskeysConditionalUIAuthenticator(session);
     }
 

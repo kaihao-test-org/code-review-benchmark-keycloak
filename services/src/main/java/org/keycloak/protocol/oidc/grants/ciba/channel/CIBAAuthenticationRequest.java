@@ -30,7 +30,7 @@ import org.keycloak.jose.jwe.JWEException;
 import org.keycloak.jose.jws.JWSBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -58,7 +58,7 @@ public class CIBAAuthenticationRequest extends JsonWebToken {
      * @return the authentication request instance
      * @throws Exception
      */
-    public static CIBAAuthenticationRequest deserialize(KeycloakSession session, String jwe) {
+    public static CIBAAuthenticationRequest deserialize(KeycloakRequestSession session, String jwe) {
         SecretKey aesKey = session.keys().getActiveKey(session.getContext().getRealm(), KeyUse.ENC, Algorithm.AES).getSecretKey();
         SecretKey hmacKey = session.keys().getActiveKey(session.getContext().getRealm(), KeyUse.SIG, Constants.INTERNAL_SIGNATURE_ALGORITHM).getSecretKey();
 
@@ -100,7 +100,7 @@ public class CIBAAuthenticationRequest extends JsonWebToken {
         // for reflection
     }
 
-    public CIBAAuthenticationRequest(KeycloakSession session, UserModel user, ClientModel client) {
+    public CIBAAuthenticationRequest(KeycloakRequestSession session, UserModel user, ClientModel client) {
         id(KeycloakModelUtils.generateId());
         issuedNow();
         RealmModel realm = session.getContext().getRealm();
@@ -151,7 +151,7 @@ public class CIBAAuthenticationRequest extends JsonWebToken {
      * @param session the session
      * @return the JWE
      */
-    public String serialize(KeycloakSession session) {
+    public String serialize(KeycloakRequestSession session) {
         try {
             SignatureProvider signatureProvider = session.getProvider(SignatureProvider.class, Constants.INTERNAL_SIGNATURE_ALGORITHM);
             SignatureSignerContext signer = signatureProvider.signer();

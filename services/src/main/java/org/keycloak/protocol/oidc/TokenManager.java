@@ -49,7 +49,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -149,7 +149,7 @@ public class TokenManager {
         }
     }
 
-    public TokenValidation validateToken(KeycloakSession session, UriInfo uriInfo, ClientConnection connection, RealmModel realm,
+    public TokenValidation validateToken(KeycloakRequestSession session, UriInfo uriInfo, ClientConnection connection, RealmModel realm,
                                          RefreshToken oldToken, HttpHeaders headers, String oldTokenScope) throws OAuthErrorException {
         UserSessionModel userSession = null;
         boolean offline = TokenUtil.TOKEN_TYPE_OFFLINE.equals(oldToken.getType());
@@ -248,7 +248,7 @@ public class TokenManager {
         return new TokenValidation(user, userSession, clientSessionCtx, newToken);
     }
 
-    public static boolean isUserValid(KeycloakSession session, RealmModel realm, AccessToken token, UserModel user) {
+    public static boolean isUserValid(KeycloakRequestSession session, RealmModel realm, AccessToken token, UserModel user) {
         if (user == null) {
             logger.debugf("User does not exists");
             return false;
@@ -271,7 +271,7 @@ public class TokenManager {
     /**
      * Lookup user from the "stateless" token. Stateless token is the token without sessionState filled (token doesn't belong to any userSession)
      */
-    public static UserModel lookupUserFromStatelessToken(KeycloakSession session, RealmModel realm, AccessToken token) {
+    public static UserModel lookupUserFromStatelessToken(KeycloakRequestSession session, RealmModel realm, AccessToken token) {
         // Try to lookup user based on "sub" claim. It should work for most cases with some rare exceptions (EG. OIDC "pairwise" subjects)
         UserModel user = token.getSubject() == null ? null : session.users().getUserById(realm, token.getSubject());
         if (user != null) {
@@ -287,7 +287,7 @@ public class TokenManager {
     }
 
 
-    public AccessTokenResponseBuilder refreshAccessToken(KeycloakSession session, UriInfo uriInfo, ClientConnection connection, RealmModel realm, ClientModel authorizedClient,
+    public AccessTokenResponseBuilder refreshAccessToken(KeycloakRequestSession session, UriInfo uriInfo, ClientConnection connection, RealmModel realm, ClientModel authorizedClient,
                                             String encodedRefreshToken, EventBuilder event, HttpHeaders headers, HttpRequest request, String scopeParameter) throws OAuthErrorException {
         RefreshToken refreshToken = verifyRefreshToken(session, realm, authorizedClient, request, encodedRefreshToken, true);
 
@@ -360,7 +360,7 @@ public class TokenManager {
         return responseBuilder;
     }
 
-    private Function<String, String> transformScopes(KeycloakSession session, Set<String> requestedScopes) {
+    private Function<String, String> transformScopes(KeycloakRequestSession session, Set<String> requestedScopes) {
         return scope -> {
             if (requestedScopes.contains(scope)) {
                 return scope;
@@ -385,7 +385,7 @@ public class TokenManager {
         event.detail(Details.AGE_OF_REFRESH_TOKEN, Long.toString(ageOfRefreshToken));
     }
 
-    private void validateTokenReuseForRefresh(KeycloakSession session, RealmModel realm, RefreshToken refreshToken,
+    private void validateTokenReuseForRefresh(KeycloakRequestSession session, RealmModel realm, RefreshToken refreshToken,
         TokenValidation validation) throws OAuthErrorException {
         if (realm.isRevokeRefreshToken()) {
             AuthenticatedClientSessionModel clientSession = validation.clientSessionCtx.getClientSession();
@@ -406,7 +406,7 @@ public class TokenManager {
     }
 
     // Will throw OAuthErrorException if validation fails
-    public void validateTokenReuse(KeycloakSession session, RealmModel realm, AccessToken refreshToken, AuthenticatedClientSessionModel clientSession, boolean refreshFlag) throws OAuthErrorException {
+    public void validateTokenReuse(KeycloakRequestSession session, RealmModel realm, AccessToken refreshToken, AuthenticatedClientSessionModel clientSession, boolean refreshFlag) throws OAuthErrorException {
         int startupTime = session.getProvider(UserSessionProvider.class).getStartupTime(realm);
         String key = getReuseIdKey(refreshToken);
         String refreshTokenId = clientSession.getRefreshToken(key);
@@ -433,7 +433,7 @@ public class TokenManager {
         }
     }
 
-    public RefreshToken verifyRefreshToken(KeycloakSession session, RealmModel realm, ClientModel client, HttpRequest request, String encodedRefreshToken, boolean checkExpiration) throws OAuthErrorException {
+    public RefreshToken verifyRefreshToken(KeycloakRequestSession session, RealmModel realm, ClientModel client, HttpRequest request, String encodedRefreshToken, boolean checkExpiration) throws OAuthErrorException {
         try {
             RefreshToken refreshToken = toRefreshToken(session, encodedRefreshToken);
 
@@ -486,7 +486,7 @@ public class TokenManager {
         }
     }
 
-    public RefreshToken toRefreshToken(KeycloakSession session, String encodedRefreshToken) throws JWSInputException, OAuthErrorException {
+    public RefreshToken toRefreshToken(KeycloakRequestSession session, String encodedRefreshToken) throws JWSInputException, OAuthErrorException {
         RefreshToken refreshToken = session.tokens().decode(encodedRefreshToken, RefreshToken.class);
         if (refreshToken == null) {
             throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid refresh token");
@@ -494,7 +494,7 @@ public class TokenManager {
         return refreshToken;
     }
 
-    public IDToken verifyIDToken(KeycloakSession session, RealmModel realm, String encodedIDToken) throws OAuthErrorException {
+    public IDToken verifyIDToken(KeycloakRequestSession session, RealmModel realm, String encodedIDToken) throws OAuthErrorException {
         IDToken idToken = session.tokens().decode(encodedIDToken, IDToken.class);
         try {
             TokenVerifier.createWithoutSignature(idToken)
@@ -506,7 +506,7 @@ public class TokenManager {
         return idToken;
     }
 
-    public IDToken verifyIDTokenSignature(KeycloakSession session, String encodedIDToken) throws OAuthErrorException {
+    public IDToken verifyIDTokenSignature(KeycloakRequestSession session, String encodedIDToken) throws OAuthErrorException {
         IDToken idToken = session.tokens().decode(encodedIDToken, IDToken.class);
         if (idToken == null) {
             throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid IDToken");
@@ -514,18 +514,18 @@ public class TokenManager {
         return idToken;
     }
 
-    public AccessToken createClientAccessToken(KeycloakSession session, RealmModel realm, ClientModel client, UserModel user, UserSessionModel userSession,
+    public AccessToken createClientAccessToken(KeycloakRequestSession session, RealmModel realm, ClientModel client, UserModel user, UserSessionModel userSession,
                                                ClientSessionContext clientSessionCtx) {
         AccessToken token = initToken(session, realm, client, user, userSession, clientSessionCtx, session.getContext().getUri());
         token = transformAccessToken(session, token, userSession, clientSessionCtx);
         return token;
     }
 
-    public static ClientSessionContext attachAuthenticationSession(KeycloakSession session, UserSessionModel userSession, AuthenticationSessionModel authSession) {
+    public static ClientSessionContext attachAuthenticationSession(KeycloakRequestSession session, UserSessionModel userSession, AuthenticationSessionModel authSession) {
         return attachAuthenticationSession(session, userSession, authSession, false);
     }
 
-    public static ClientSessionContext attachAuthenticationSession(KeycloakSession session, UserSessionModel userSession,
+    public static ClientSessionContext attachAuthenticationSession(KeycloakRequestSession session, UserSessionModel userSession,
             AuthenticationSessionModel authSession, boolean createTransientIfMissing) {
         ClientModel client = authSession.getClient();
 
@@ -624,7 +624,7 @@ public class TokenManager {
 
 
     /** Return client itself + all default client scopes of client + optional client scopes requested by scope parameter **/
-    public static Stream<ClientScopeModel> getRequestedClientScopes(KeycloakSession session, String scopeParam, ClientModel client, UserModel user) {
+    public static Stream<ClientScopeModel> getRequestedClientScopes(KeycloakRequestSession session, String scopeParam, ClientModel client, UserModel user) {
         if (client == null) {
             return Stream.of();
         }
@@ -659,7 +659,7 @@ public class TokenManager {
                 clientScopes).distinct();
     }
 
-    private static ClientScopeModel tryResolveDynamicClientScope(KeycloakSession session, String scopeParam, UserModel user, String name) {
+    private static ClientScopeModel tryResolveDynamicClientScope(KeycloakRequestSession session, String scopeParam, UserModel user, String name) {
         if (Profile.isFeatureEnabled(Feature.ORGANIZATION)) {
             OrganizationScope orgScope = OrganizationScope.valueOfScope(session, scopeParam);
 
@@ -685,7 +685,7 @@ public class TokenManager {
      * @param client
      * @return
      */
-    public static boolean isValidScope(KeycloakSession session, String scopes, AuthorizationRequestContext authorizationRequestContext, ClientModel client, UserModel user) {
+    public static boolean isValidScope(KeycloakRequestSession session, String scopes, AuthorizationRequestContext authorizationRequestContext, ClientModel client, UserModel user) {
         if (scopes == null) {
             return true;
         }
@@ -744,7 +744,7 @@ public class TokenManager {
         return true;
     }
 
-    public static boolean isValidScope(KeycloakSession session, String scopes, ClientModel client, UserModel user) {
+    public static boolean isValidScope(KeycloakRequestSession session, String scopes, ClientModel client, UserModel user) {
         return isValidScope(session, scopes, null, client, user);
     }
 
@@ -753,7 +753,7 @@ public class TokenManager {
     }
 
     // Check if user still has granted consents to all requested client scopes
-    public static boolean verifyConsentStillAvailable(KeycloakSession session, UserModel user, ClientModel client,
+    public static boolean verifyConsentStillAvailable(KeycloakRequestSession session, UserModel user, ClientModel client,
                                                       Stream<ClientScopeModel> requestedClientScopes) {
         if (!client.isConsentRequired()) {
             return true;
@@ -773,7 +773,7 @@ public class TokenManager {
                 });
     }
 
-    public AccessToken transformAccessToken(KeycloakSession session, AccessToken token,
+    public AccessToken transformAccessToken(KeycloakRequestSession session, AccessToken token,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         AccessToken accessToken = ProtocolMapperUtils.getSortedProtocolMappers(session, clientSessionCtx, mapper -> mapper.getValue() instanceof OIDCAccessTokenMapper)
                 .collect(new TokenCollector<AccessToken>(token) {
@@ -791,7 +791,7 @@ public class TokenManager {
         return accessToken;
     }
 
-    public AccessTokenResponse transformAccessTokenResponse(KeycloakSession session, AccessTokenResponse accessTokenResponse,
+    public AccessTokenResponse transformAccessTokenResponse(KeycloakRequestSession session, AccessTokenResponse accessTokenResponse,
             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
 
         return ProtocolMapperUtils.getSortedProtocolMappers(session, clientSessionCtx, mapper -> mapper.getValue() instanceof OIDCAccessTokenResponseMapper)
@@ -803,7 +803,7 @@ public class TokenManager {
                 });
     }
 
-    public AccessToken transformUserInfoAccessToken(KeycloakSession session, AccessToken token,
+    public AccessToken transformUserInfoAccessToken(KeycloakRequestSession session, AccessToken token,
                                                     UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         return ProtocolMapperUtils.getSortedProtocolMappers(session, clientSessionCtx, mapper -> mapper.getValue() instanceof UserInfoTokenMapper)
                 .collect(new TokenCollector<AccessToken>(token) {
@@ -814,7 +814,7 @@ public class TokenManager {
                 });
     }
 
-    public AccessToken transformIntrospectionAccessToken(KeycloakSession session, AccessToken token,
+    public AccessToken transformIntrospectionAccessToken(KeycloakRequestSession session, AccessToken token,
                                                          UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         return ProtocolMapperUtils.getSortedProtocolMappers(session, clientSessionCtx, mapper -> mapper.getValue() instanceof TokenIntrospectionTokenMapper)
                 .collect(new TokenCollector<AccessToken>(token) {
@@ -953,7 +953,7 @@ public class TokenManager {
 
     }
 
-    public IDToken transformIDToken(KeycloakSession session, IDToken token,
+    public IDToken transformIDToken(KeycloakRequestSession session, IDToken token,
                                     UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         return ProtocolMapperUtils.getSortedProtocolMappers(session, clientSessionCtx, mapper -> mapper.getValue() instanceof OIDCIDTokenMapper)
                 .collect(new TokenCollector<IDToken>(token) {
@@ -963,7 +963,7 @@ public class TokenManager {
                 });
     }
 
-    protected AccessToken initToken(KeycloakSession session, RealmModel realm, ClientModel client, UserModel user, UserSessionModel userSession,
+    protected AccessToken initToken(KeycloakRequestSession session, RealmModel realm, ClientModel client, UserModel user, UserSessionModel userSession,
                                     ClientSessionContext clientSessionCtx, UriInfo uriInfo) {
         AccessToken token = new AccessToken();
 
@@ -1051,7 +1051,7 @@ public class TokenManager {
     }
 
 
-    public AccessTokenResponseBuilder responseBuilder(RealmModel realm, ClientModel client, EventBuilder event, KeycloakSession session,
+    public AccessTokenResponseBuilder responseBuilder(RealmModel realm, ClientModel client, EventBuilder event, KeycloakRequestSession session,
                                                       UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         return new AccessTokenResponseBuilder(realm, client, event, session, userSession, clientSessionCtx);
     }
@@ -1060,7 +1060,7 @@ public class TokenManager {
         RealmModel realm;
         ClientModel client;
         EventBuilder event;
-        KeycloakSession session;
+        KeycloakRequestSession session;
         UserSessionModel userSession;
         ClientSessionContext clientSessionCtx;
 
@@ -1077,7 +1077,7 @@ public class TokenManager {
 
         private AccessTokenResponse response;
 
-        public AccessTokenResponseBuilder(RealmModel realm, ClientModel client, EventBuilder event, KeycloakSession session,
+        public AccessTokenResponseBuilder(RealmModel realm, ClientModel client, EventBuilder event, KeycloakRequestSession session,
                                           UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
             this.realm = realm;
             this.client = client;
@@ -1423,7 +1423,7 @@ public class TokenManager {
             return new NotBeforeCheck(realmModel == null ? 0 : realmModel.getNotBefore());
         }
 
-        public static NotBeforeCheck forModel(KeycloakSession session, RealmModel realmModel, UserModel userModel) {
+        public static NotBeforeCheck forModel(KeycloakRequestSession session, RealmModel realmModel, UserModel userModel) {
             return isLightweightUser(userModel)
               ? new NotBeforeCheck((int) (((LightweightUserAdapter) userModel).getCreatedTimestamp() / 1000L))
               : new NotBeforeCheck(session.users().getNotBeforeOfUser(realmModel, userModel));
@@ -1435,9 +1435,9 @@ public class TokenManager {
      */
     public static class TokenRevocationCheck implements TokenVerifier.Predicate<JsonWebToken> {
 
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
 
-        public TokenRevocationCheck(KeycloakSession session) {
+        public TokenRevocationCheck(KeycloakRequestSession session) {
             this.session = session;
         }
 
@@ -1448,7 +1448,7 @@ public class TokenManager {
         }
     }
 
-    public LogoutTokenValidationContext verifyLogoutToken(KeycloakSession session, String encodedLogoutToken) {
+    public LogoutTokenValidationContext verifyLogoutToken(KeycloakRequestSession session, String encodedLogoutToken) {
         Optional<LogoutToken> logoutTokenOptional = toLogoutToken(encodedLogoutToken);
         if (logoutTokenOptional.isEmpty()) {
             return LogoutTokenValidationCode.DECODE_TOKEN_FAILED.toCtx();
@@ -1512,7 +1512,7 @@ public class TokenManager {
                     });
     }
 
-    private Stream<OIDCIdentityProvider> getOIDCIdentityProviders(LogoutToken logoutToken, KeycloakSession session) {
+    private Stream<OIDCIdentityProvider> getOIDCIdentityProviders(LogoutToken logoutToken, KeycloakRequestSession session) {
         try {
             return session.identityProviders()
                     .getAllStream(Map.of(

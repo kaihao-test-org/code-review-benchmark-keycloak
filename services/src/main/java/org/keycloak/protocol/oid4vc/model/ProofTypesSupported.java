@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.keybinding.ProofValidator;
 import org.keycloak.util.JsonSerialization;
 
@@ -41,7 +41,7 @@ public class ProofTypesSupported {
 
     protected Map<String, SupportedProofTypeData> supportedProofTypes = new HashMap<>();
 
-    public static ProofTypesSupported parse(KeycloakSession keycloakSession,
+    public static ProofTypesSupported parse(KeycloakRequestSession keycloakSession,
                                             List<String> globalSupportedSigningAlgorithms) {
         ProofTypesSupported proofTypesSupported = new ProofTypesSupported();
         keycloakSession.getAllProviders(ProofValidator.class).forEach(proofValidator -> {

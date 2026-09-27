@@ -22,7 +22,7 @@ import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.config.ConfigProviderFactory;
 import org.keycloak.exportimport.ExportImportConfig;
 import org.keycloak.exportimport.ExportImportManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.dblock.DBLockManager;
@@ -77,7 +77,7 @@ public abstract class KeycloakApplication extends Application {
 
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 DBLockManager dbLockManager = new DBLockManager(session);
                 dbLockManager.checkForcedUnlock();
                 DBLockProvider dbLock = dbLockManager.getDBLock();
@@ -115,7 +115,7 @@ public abstract class KeycloakApplication extends Application {
         logger.debug("bootstrap");
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 // TODO what is the purpose of following piece of code? Leaving it as is for now.
                 JtaTransactionManagerLookup lookup = (JtaTransactionManagerLookup) sessionFactory.getProviderFactory(JtaTransactionManagerLookup.class);
                 if (lookup != null) {
@@ -160,7 +160,7 @@ public abstract class KeycloakApplication extends Application {
         return bootstrapState.exportImportManager;
     }
 
-    protected abstract void createTemporaryAdmin(KeycloakSession session);
+    protected abstract void createTemporaryAdmin(KeycloakRequestSession session);
 
     protected void loadConfig() {
 

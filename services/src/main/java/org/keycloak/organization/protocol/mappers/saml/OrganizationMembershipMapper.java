@@ -26,7 +26,7 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.dom.saml.v2.assertion.AttributeStatementType;
 import org.keycloak.dom.saml.v2.assertion.AttributeType;
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserModel;
@@ -59,7 +59,7 @@ public class OrganizationMembershipMapper extends AbstractSAMLProtocolMapper imp
     }
 
     @Override
-    public void transformAttributeStatement(AttributeStatementType attributeStatement, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, AuthenticatedClientSessionModel clientSession) {
+    public void transformAttributeStatement(AttributeStatementType attributeStatement, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, AuthenticatedClientSessionModel clientSession) {
         OrganizationProvider provider = session.getProvider(OrganizationProvider.class);
 
         if (!isEnabledAndOrganizationsPresent(provider)) {

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.RoleModel;
@@ -46,7 +46,7 @@ public class RoleModelTest extends KeycloakModelTest {
     private static List<String> rolesSubset;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -56,7 +56,7 @@ public class RoleModelTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -68,7 +68,7 @@ public class RoleModelTest extends KeycloakModelTest {
     }
 
 
-    private void createRoles(KeycloakSession session, RealmModel realm) {
+    private void createRoles(KeycloakRequestSession session, RealmModel realm) {
         RoleModel mainRole = session.roles().addRealmRole(realm, MAIN_ROLE_NAME);
         mainRoleId = mainRole.getId();
 

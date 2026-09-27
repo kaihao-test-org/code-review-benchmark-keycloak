@@ -30,7 +30,7 @@ import org.keycloak.credential.OTPCredentialProvider;
 import org.keycloak.events.Details;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.OTPPolicy;
@@ -156,7 +156,7 @@ public class UpdateTotp implements RequiredActionProvider, RequiredActionFactory
     }
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -182,7 +182,7 @@ public class UpdateTotp implements RequiredActionProvider, RequiredActionFactory
     }
 
     @Override
-    public String getCredentialType(KeycloakSession session, AuthenticationSessionModel authenticationSession) {
+    public String getCredentialType(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession) {
         return OTPCredentialModel.TYPE;
     }
 

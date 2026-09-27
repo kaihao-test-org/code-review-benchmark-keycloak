@@ -17,7 +17,7 @@
 
 package org.keycloak.migration;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.storage.DatastoreProvider;
@@ -29,11 +29,11 @@ import org.keycloak.storage.datastore.DefaultDatastoreProvider;
  */
 public class MigrationModelManager {
 
-    public static void migrate(KeycloakSession session) {
+    public static void migrate(KeycloakRequestSession session) {
         ((DefaultDatastoreProvider) session.getProvider(DatastoreProvider.class)).getMigrationManager().migrate();
     }
 
-    public static void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public static void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         ((DefaultDatastoreProvider) session.getProvider(DatastoreProvider.class)).getMigrationManager().migrate(realm, rep, skipUserDependent);
     }
 

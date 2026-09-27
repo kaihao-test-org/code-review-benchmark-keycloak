@@ -22,7 +22,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
 import org.keycloak.config.TracingOptions;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.quarkus.runtime.configuration.Configuration;
 import org.keycloak.tracing.TracingProvider;
@@ -33,7 +33,7 @@ public class OTelTracingProviderFactory implements TracingProviderFactory {
     private static OpenTelemetry OTEL_SINGLETON;
 
     @Override
-    public TracingProvider create(KeycloakSession session) {
+    public TracingProvider create(KeycloakRequestSession session) {
         if (OTEL_SINGLETON == null) {
             OTEL_SINGLETON = CDI.current().select(OpenTelemetry.class).get();
         }

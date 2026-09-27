@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.Provider;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.utils.KeycloakSessionUtil;
@@ -50,7 +50,7 @@ public interface Cors extends Provider {
     String ACCESS_CONTROL_ALLOW_ORIGIN_WILDCARD = "*";
 
     static Cors builder() {
-        KeycloakSession session = KeycloakSessionUtil.getKeycloakSession();
+        KeycloakRequestSession session = KeycloakSessionUtil.getKeycloakSession();
         return session.getProvider(Cors.class);
     }
 
@@ -62,7 +62,7 @@ public interface Cors extends Provider {
 
     Cors allowAllOrigins();
 
-    Cors allowedOrigins(KeycloakSession session, ClientModel client);
+    Cors allowedOrigins(KeycloakRequestSession session, ClientModel client);
 
     Cors allowedOrigins(AccessToken token);
 

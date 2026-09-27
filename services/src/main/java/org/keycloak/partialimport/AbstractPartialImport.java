@@ -17,7 +17,7 @@
 
 package org.keycloak.partialimport;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.PartialImportRepresentation;
 import org.keycloak.services.ErrorResponse;
@@ -40,17 +40,17 @@ public abstract class AbstractPartialImport<T> implements PartialImport<T> {
 
     public abstract List<T> getRepList(PartialImportRepresentation partialImportRep);
     public abstract String getName(T resourceRep);
-    public abstract String getModelId(RealmModel realm, KeycloakSession session, T resourceRep);
-    public abstract boolean exists(RealmModel realm, KeycloakSession session, T resourceRep);
+    public abstract String getModelId(RealmModel realm, KeycloakRequestSession session, T resourceRep);
+    public abstract boolean exists(RealmModel realm, KeycloakRequestSession session, T resourceRep);
     public abstract String existsMessage(RealmModel realm, T resourceRep);
     public abstract ResourceType getResourceType();
-    public abstract void remove(RealmModel realm, KeycloakSession session, T resourceRep);
-    public abstract void create(RealmModel realm, KeycloakSession session, T resourceRep);
+    public abstract void remove(RealmModel realm, KeycloakRequestSession session, T resourceRep);
+    public abstract void create(RealmModel realm, KeycloakRequestSession session, T resourceRep);
 
     @Override
     public void prepare(PartialImportRepresentation partialImportRep,
                          RealmModel realm,
-                         KeycloakSession session) {
+                         KeycloakRequestSession session) {
         List<T> repList = getRepList(partialImportRep);
         if ((repList == null) || repList.isEmpty()) return;
 
@@ -82,14 +82,14 @@ public abstract class AbstractPartialImport<T> implements PartialImport<T> {
     }
 
     @Override
-    public void removeOverwrites(RealmModel realm, KeycloakSession session) {
+    public void removeOverwrites(RealmModel realm, KeycloakRequestSession session) {
         for (T resourceRep : toOverwrite) {
             remove(realm, session, resourceRep);
         }
     }
 
     @Override
-    public PartialImportResults doImport(PartialImportRepresentation partialImportRep, RealmModel realm, KeycloakSession session) {
+    public PartialImportResults doImport(PartialImportRepresentation partialImportRep, RealmModel realm, KeycloakRequestSession session) {
         PartialImportResults results = new PartialImportResults();
         List<T> repList = getRepList(partialImportRep);
         if ((repList == null) || repList.isEmpty()) return results;

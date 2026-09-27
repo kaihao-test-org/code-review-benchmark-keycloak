@@ -38,7 +38,7 @@ import org.junit.Test;
 import org.keycloak.dom.saml.v2.assertion.AssertionType;
 import org.keycloak.dom.saml.v2.assertion.NameIDType;
 import org.keycloak.dom.saml.v2.protocol.ResponseType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.saml.SAML2LoginResponseBuilder;
 import org.keycloak.saml.SAMLRequestParser;
 import org.keycloak.saml.common.constants.JBossSAMLConstants;
@@ -118,7 +118,7 @@ public class SamlEncryptionTest {
                 .nameIdentifier(JBossSAMLURIConstants.NAMEID_FORMAT_UNSPECIFIED.get(), "nameId");
         ResponseType samlModel = builder.buildModel();
 
-        KeycloakSession session = new ResteasyKeycloakSession(new ResteasyKeycloakSessionFactory());
+        KeycloakRequestSession session = new ResteasyKeycloakSession(new ResteasyKeycloakSessionFactory());
         JaxrsSAML2BindingBuilder bindingBuilder = new JaxrsSAML2BindingBuilder(session);
         if (alg != null) {
             bindingBuilder.encryptionAlgorithm(alg);

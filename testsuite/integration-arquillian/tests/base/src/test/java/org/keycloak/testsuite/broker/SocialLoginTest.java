@@ -17,7 +17,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderMapperSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.representations.AccessTokenResponse;
@@ -218,7 +218,7 @@ public class SocialLoginTest extends AbstractKeycloakTest {
         return true;
     }
 
-    public static void setupClientExchangePermissions(KeycloakSession session) {
+    public static void setupClientExchangePermissions(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(REALM);
         ClientModel client = session.clients().getClientByClientId(realm, EXCHANGE_CLIENT);
         // lazy init

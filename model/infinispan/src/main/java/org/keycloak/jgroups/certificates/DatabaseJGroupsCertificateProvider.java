@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Retry;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.spi.infinispan.JGroupsCertificateProvider;
@@ -160,11 +160,11 @@ public class DatabaseJGroupsCertificateProvider implements JGroupsCertificatePro
         return secondsLeft > 0 ? Duration.ofSeconds(secondsLeft) : Duration.ZERO;
     }
 
-    private static Optional<String> loadCertificateFromDatabase(KeycloakSession session) {
+    private static Optional<String> loadCertificateFromDatabase(KeycloakRequestSession session) {
         return session.getProvider(ServerConfigStorageProvider.class).find(CERTIFICATE_ID);
     }
 
-    private void replaceCertificateFromDatabase(KeycloakSession session) {
+    private void replaceCertificateFromDatabase(KeycloakRequestSession session) {
         var storage = session.getProvider(ServerConfigStorageProvider.class);
         storage.replace(CERTIFICATE_ID, currentCertificate::isSameAlias, this::generateSelfSignedCertificate);
     }
@@ -187,7 +187,7 @@ public class DatabaseJGroupsCertificateProvider implements JGroupsCertificatePro
         }
     }
 
-    private JGroupsCertificate loadOrCreateCertificate(KeycloakSession session) {
+    private JGroupsCertificate loadOrCreateCertificate(KeycloakRequestSession session) {
         var storage = session.getProvider(ServerConfigStorageProvider.class);
         return fromJson(storage.loadOrCreate(CERTIFICATE_ID, this::generateSelfSignedCertificate));
     }

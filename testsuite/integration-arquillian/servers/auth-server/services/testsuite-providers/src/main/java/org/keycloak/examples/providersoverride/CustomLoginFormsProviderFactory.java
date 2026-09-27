@@ -21,7 +21,7 @@ package org.keycloak.examples.providersoverride;
 
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.forms.login.freemarker.FreeMarkerLoginFormsProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * This has same providerID like built-in ValidateUsername provider. But it should be called in favour of ValidateUsername even
@@ -30,7 +30,7 @@ import org.keycloak.models.KeycloakSession;
 public class CustomLoginFormsProviderFactory extends FreeMarkerLoginFormsProviderFactory {
 
     @Override
-    public LoginFormsProvider create(KeycloakSession session) {
+    public LoginFormsProvider create(KeycloakRequestSession session) {
         return new CustomLoginFormsProvider(session);
     }
 

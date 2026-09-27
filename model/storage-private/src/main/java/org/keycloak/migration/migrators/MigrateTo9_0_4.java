@@ -21,7 +21,7 @@ import java.util.UUID;
 import org.jboss.logging.Logger;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -37,12 +37,12 @@ public class MigrateTo9_0_4 implements Migration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(this::checkAuthConfigNullAlias);
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
     }
 
     protected void checkAuthConfigNullAlias(RealmModel realm) {

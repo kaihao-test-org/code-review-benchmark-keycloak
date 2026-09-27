@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserLoginFailureProvider;
@@ -48,7 +48,7 @@ public class RemoteLoginFailureTest extends KeycloakModelTest {
     private List<String> userIds;
 
     @Override
-    public void createEnvironment(KeycloakSession session) {
+    public void createEnvironment(KeycloakRequestSession session) {
         RealmModel realm = createRealm(session, "remote-login-failure-test");
         session.getContext().setRealm(realm);
         realm.setDefaultRole(session.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -66,7 +66,7 @@ public class RemoteLoginFailureTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -249,7 +249,7 @@ public class RemoteLoginFailureTest extends KeycloakModelTest {
         return inComittedTransaction(RemoteLoginFailureTest::getInfinispanConnectionProviderWithSession);
     }
 
-    private static InfinispanConnectionProvider getInfinispanConnectionProviderWithSession(KeycloakSession session) {
+    private static InfinispanConnectionProvider getInfinispanConnectionProviderWithSession(KeycloakRequestSession session) {
         return session.getProvider(InfinispanConnectionProvider.class);
     }
 

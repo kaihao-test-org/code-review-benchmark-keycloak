@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RoleModel;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -39,7 +39,7 @@ public class ClientRolesCondition extends AbstractClientPolicyConditionProvider<
 
     private static final Logger logger = Logger.getLogger(ClientRolesCondition.class);
 
-    public ClientRolesCondition(KeycloakSession session) {
+    public ClientRolesCondition(KeycloakRequestSession session) {
         super(session);
     }
 

@@ -23,7 +23,7 @@ import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -45,7 +45,7 @@ public class MigrateTo8_0_0  implements Migration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         // Perform basic realm migration first (non multi-factor authentication)
         session.realms().getRealmsStream().forEach(this::migrateRealmCommon);
         // Moreover, for multi-factor authentication migrate optional execution of realm flows to subflows
@@ -53,7 +53,7 @@ public class MigrateTo8_0_0  implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealmCommon(realm);
         // No-additional-op for multi-factor authentication besides the basic migrateRealmCommon() in previous statement
         // Migration of optional authentication executions was already handled in RepresentationToModel.importRealm

@@ -39,7 +39,7 @@ import org.keycloak.authorization.jpa.entities.ResourceEntity;
 import org.keycloak.authorization.fgap.evaluation.partial.PartialEvaluationContext;
 import org.keycloak.authorization.fgap.evaluation.partial.PartialEvaluationStorageProvider;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.jpa.entities.UserGroupMembershipEntity;
@@ -49,12 +49,12 @@ import org.keycloak.models.jpa.entities.UserGroupMembershipEntity;
  */
 public interface JpaUserPartialEvaluationProvider extends PartialEvaluationStorageProvider {
 
-    KeycloakSession getSession();
+    KeycloakRequestSession getSession();
     EntityManager getEntityManager();
 
     @Override
     default List<Predicate> getFilters(PartialEvaluationContext context) {
-        KeycloakSession session = getSession();
+        KeycloakRequestSession session = getSession();
 
         if (Profile.isFeatureEnabled(Profile.Feature.ADMIN_FINE_GRAINED_AUTHZ)) {
             // support for FGAP v1, remove once v1 is removed
@@ -171,7 +171,7 @@ public interface JpaUserPartialEvaluationProvider extends PartialEvaluationStora
      * @deprecated remove once FGAP v1 is removed
      */
     @Deprecated
-    private Predicate getFilterByGroupMembership(KeycloakSession session, PartialEvaluationContext context, Set<String> groupIds) {
+    private Predicate getFilterByGroupMembership(KeycloakRequestSession session, PartialEvaluationContext context, Set<String> groupIds) {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<?> query = context.criteriaQuery();

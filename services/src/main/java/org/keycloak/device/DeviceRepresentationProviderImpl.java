@@ -2,7 +2,7 @@ package org.keycloak.device;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.account.DeviceRepresentation;
 import ua_parser.Client;
 import ua_parser.Parser;
@@ -14,11 +14,11 @@ public class DeviceRepresentationProviderImpl implements DeviceRepresentationPro
     private static final int USER_AGENT_MAX_LENGTH = 512;
     private final Parser parser;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private DeviceRepresentation deviceRepresentation;
 
-    DeviceRepresentationProviderImpl(KeycloakSession session, Parser parser) {
+    DeviceRepresentationProviderImpl(KeycloakRequestSession session, Parser parser) {
         this.session = session;
         this.parser = parser;
     }

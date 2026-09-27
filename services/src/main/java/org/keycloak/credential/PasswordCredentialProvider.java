@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.util.Time;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.models.AbstractKeycloakTransaction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
@@ -58,7 +58,7 @@ public class PasswordCredentialProvider implements CredentialProvider<PasswordCr
     private static final String METER_VALIDATION_OUTCOME_ERROR_TAG_VALUE = "error";
 
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private final Meter.MeterProvider<Counter> meterProvider;
     private final boolean withAlgorithmInMetric;
     private final boolean metricsEnabled;
@@ -66,7 +66,7 @@ public class PasswordCredentialProvider implements CredentialProvider<PasswordCr
     private final boolean withHashingStrengthInMetric;
     private final boolean withOutcomeInMetric;
 
-    public PasswordCredentialProvider(KeycloakSession session, Meter.MeterProvider<Counter> meterProvider, boolean metricsEnabled,
+    public PasswordCredentialProvider(KeycloakRequestSession session, Meter.MeterProvider<Counter> meterProvider, boolean metricsEnabled,
                                       boolean withRealmInMetric, boolean withAlgorithmInMetric, boolean withHashingStrengthInMetric, boolean withOutcomeInMetric) {
         this.session = session;
         this.meterProvider = meterProvider;
@@ -271,7 +271,7 @@ public class PasswordCredentialProvider implements CredentialProvider<PasswordCr
         return value == null ? "" : value;
     }
 
-    private void rehashPasswordIfRequired(KeycloakSession session, RealmModel realm, UserModel user, CredentialInput input, PasswordCredentialModel password) {
+    private void rehashPasswordIfRequired(KeycloakRequestSession session, RealmModel realm, UserModel user, CredentialInput input, PasswordCredentialModel password) {
         PasswordPolicy passwordPolicy = realm.getPasswordPolicy();
         PasswordHashProvider provider;
         if (passwordPolicy != null && passwordPolicy.getHashAlgorithm() != null) {
@@ -291,7 +291,7 @@ public class PasswordCredentialProvider implements CredentialProvider<PasswordCr
                 protected void commitImpl() {
                     try {
                         KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), session.getContext(),
-                                (KeycloakSession s) -> refreshPassword(s, hashAlgorithm, iterations, input.getChallengeResponse(),
+                                (KeycloakRequestSession s) -> refreshPassword(s, hashAlgorithm, iterations, input.getChallengeResponse(),
                                         password.getId(), password.getCreatedDate(), password.getUserLabel(), user.getId()));
                     } catch (ModelException e) {
                         logger.info("Error re-hashing the password in a different transaction", e);
@@ -306,7 +306,7 @@ public class PasswordCredentialProvider implements CredentialProvider<PasswordCr
         }
     }
 
-    private static void refreshPassword(KeycloakSession s, String hashAlgorithm, int iterations, String challenge,
+    private static void refreshPassword(KeycloakRequestSession s, String hashAlgorithm, int iterations, String challenge,
             String passwordId, Long passwordDate, String passwordLabel, String userId) {
         PasswordCredentialModel newPassword = ((hashAlgorithm != null)
                 ? s.getProvider(PasswordHashProvider.class, hashAlgorithm)

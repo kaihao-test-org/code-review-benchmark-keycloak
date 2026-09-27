@@ -66,7 +66,7 @@ import org.keycloak.authorization.store.ScopeStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -274,7 +274,7 @@ public class PolicyEvaluationService {
     private static class CloseableKeycloakIdentity extends KeycloakIdentity {
         private UserSessionModel userSession;
 
-        public CloseableKeycloakIdentity(AccessToken accessToken, KeycloakSession keycloakSession, UserSessionModel userSession) {
+        public CloseableKeycloakIdentity(AccessToken accessToken, KeycloakRequestSession keycloakSession, UserSessionModel userSession) {
             super(accessToken, keycloakSession);
             this.userSession = userSession;
         }
@@ -307,7 +307,7 @@ public class PolicyEvaluationService {
     }
 
     private CloseableKeycloakIdentity createIdentity(PolicyEvaluationRequest representation) {
-        KeycloakSession keycloakSession = this.authorization.getKeycloakSession();
+        KeycloakRequestSession keycloakSession = this.authorization.getKeycloakSession();
         RealmModel realm = keycloakSession.getContext().getRealm();
         AccessToken accessToken = null;
 

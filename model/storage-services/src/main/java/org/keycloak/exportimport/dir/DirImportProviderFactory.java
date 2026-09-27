@@ -22,7 +22,7 @@ import org.keycloak.exportimport.ExportImportConfig;
 import org.keycloak.exportimport.ImportProvider;
 import org.keycloak.exportimport.ImportProviderFactory;
 import org.keycloak.exportimport.Strategy;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -46,7 +46,7 @@ public class DirImportProviderFactory implements ImportProviderFactory {
     private Config.Scope config;
 
     @Override
-    public ImportProvider create(KeycloakSession session, Map<String, String> overrides) {
+    public ImportProvider create(KeycloakRequestSession session, Map<String, String> overrides) {
         Strategy strategy = Enum.valueOf(Strategy.class, System.getProperty(ExportImportConfig.STRATEGY, config.get(STRATEGY, DEFAULT_STRATEGY.toString())));
         String realmName = System.getProperty(ExportImportConfig.REALM_NAME, config.get(REALM_NAME));
         String dir = overrides.getOrDefault(ExportImportConfig.DIR, System.getProperty(ExportImportConfig.DIR, config.get(DIR)));

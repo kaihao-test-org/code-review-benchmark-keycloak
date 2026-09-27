@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class ClasspathThemeResourceProviderFactory implements ThemeResourceProviderFactory, ThemeResourceProvider {
@@ -30,7 +30,7 @@ public class ClasspathThemeResourceProviderFactory implements ThemeResourceProvi
     }
 
     @Override
-    public ThemeResourceProvider create(KeycloakSession session) {
+    public ThemeResourceProvider create(KeycloakRequestSession session) {
         return this;
     }
 

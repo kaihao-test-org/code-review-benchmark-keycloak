@@ -34,7 +34,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -58,7 +58,7 @@ public class DefaultClientSessionContext implements ClientSessionContext {
 
     private final AuthenticatedClientSessionModel clientSession;
     private final Set<ClientScopeModel> requestedScopes;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private Set<ClientScopeModel> allowedClientScopes;
 
@@ -73,7 +73,7 @@ public class DefaultClientSessionContext implements ClientSessionContext {
     private Set<String> clientScopeIds;
     private String scopeString;
 
-    private DefaultClientSessionContext(AuthenticatedClientSessionModel clientSession, Set<ClientScopeModel> requestedScopes, KeycloakSession session) {
+    private DefaultClientSessionContext(AuthenticatedClientSessionModel clientSession, Set<ClientScopeModel> requestedScopes, KeycloakRequestSession session) {
         this.requestedScopes = requestedScopes;
         this.clientSession = clientSession;
         this.session = session;
@@ -84,12 +84,12 @@ public class DefaultClientSessionContext implements ClientSessionContext {
     /**
      * Useful if we want to "re-compute" client scopes based on the scope parameter
      */
-    public static DefaultClientSessionContext fromClientSessionScopeParameter(AuthenticatedClientSessionModel clientSession, KeycloakSession session) {
+    public static DefaultClientSessionContext fromClientSessionScopeParameter(AuthenticatedClientSessionModel clientSession, KeycloakRequestSession session) {
         return fromClientSessionAndScopeParameter(clientSession, clientSession.getNote(OAuth2Constants.SCOPE), session);
     }
 
 
-    public static DefaultClientSessionContext fromClientSessionAndScopeParameter(AuthenticatedClientSessionModel clientSession, String scopeParam, KeycloakSession session) {
+    public static DefaultClientSessionContext fromClientSessionAndScopeParameter(AuthenticatedClientSessionModel clientSession, String scopeParam, KeycloakRequestSession session) {
         Stream<ClientScopeModel> requestedScopes;
         if (Profile.isFeatureEnabled(Profile.Feature.DYNAMIC_SCOPES)) {
             session.getContext().setClient(clientSession.getClient());
@@ -101,7 +101,7 @@ public class DefaultClientSessionContext implements ClientSessionContext {
     }
 
 
-    public static DefaultClientSessionContext fromClientSessionAndClientScopes(AuthenticatedClientSessionModel clientSession, Set<ClientScopeModel> requestedScopes, KeycloakSession session) {
+    public static DefaultClientSessionContext fromClientSessionAndClientScopes(AuthenticatedClientSessionModel clientSession, Set<ClientScopeModel> requestedScopes, KeycloakRequestSession session) {
         return new DefaultClientSessionContext(clientSession, requestedScopes, session);
     }
 

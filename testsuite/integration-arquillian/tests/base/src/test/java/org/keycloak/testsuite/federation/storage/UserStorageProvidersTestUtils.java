@@ -3,7 +3,7 @@ package org.keycloak.testsuite.federation.storage;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.reflections.Types;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -23,18 +23,18 @@ public class UserStorageProvidersTestUtils {
         return model.isEnabled();
     }
 
-    private static UserStorageProviderFactory getUserStorageProviderFactory(UserStorageProviderModel model, KeycloakSession session) {
+    private static UserStorageProviderFactory getUserStorageProviderFactory(UserStorageProviderModel model, KeycloakRequestSession session) {
         return (UserStorageProviderFactory) session.getKeycloakSessionFactory()
                 .getProviderFactory(UserStorageProvider.class, model.getProviderId());
     }
 
-    public static <T> Stream<T> getEnabledStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getEnabledStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .filter(UserStorageProviderModel::isEnabled)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getUserStorageProviderFactory(model, session))));
     }
 
-    public static UserStorageProvider getStorageProviderInstance(KeycloakSession session, UserStorageProviderModel model, UserStorageProviderFactory factory) {
+    public static UserStorageProvider getStorageProviderInstance(KeycloakRequestSession session, UserStorageProviderModel model, UserStorageProviderFactory factory) {
         UserStorageProvider instance = (UserStorageProvider)session.getAttribute(model.getId());
         if (instance != null) return instance;
         instance = factory.create(session, model);
@@ -46,7 +46,7 @@ public class UserStorageProvidersTestUtils {
         return instance;
     }
 
-    public static <T> Stream<UserStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakSession session, Class<T> type) {
+    public static <T> Stream<UserStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakRequestSession session, Class<T> type) {
         return ((StorageProviderRealmModel) realm).getUserStorageProvidersStream()
                 .filter(model -> {
                     UserStorageProviderFactory factory = getUserStorageProviderFactory(model, session);
@@ -60,7 +60,7 @@ public class UserStorageProvidersTestUtils {
                 });
     }
 
-    public static UserStorageProvider getStorageProvider(KeycloakSession session, RealmModel realm, String componentId) {
+    public static UserStorageProvider getStorageProvider(KeycloakRequestSession session, RealmModel realm, String componentId) {
         ComponentModel model = realm.getComponent(componentId);
         if (model == null) return null;
         UserStorageProviderModel storageModel = new UserStorageProviderModel(model);
@@ -71,7 +71,7 @@ public class UserStorageProvidersTestUtils {
         return getStorageProviderInstance(session, storageModel, factory);
     }
 
-    public static <T> Stream<T> getStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getUserStorageProviderFactory(model, session))));
     }

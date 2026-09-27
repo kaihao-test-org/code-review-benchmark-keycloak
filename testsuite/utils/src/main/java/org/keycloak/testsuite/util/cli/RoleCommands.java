@@ -19,7 +19,7 @@ package org.keycloak.testsuite.util.cli;
 
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -40,21 +40,21 @@ public class RoleCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             rolePrefix = getArg(0);
             roleContainer = getArg(1);
             int first = getIntArg(2);
             int count = getIntArg(3);
             int batchCount = getIntArg(4);
 
-            BatchTaskRunner.runInBatches(first, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakSession bathcSession, int firstInThisIteration, int countInThisIteration) -> {
+            BatchTaskRunner.runInBatches(first, count, batchCount, session.getKeycloakSessionFactory(), (KeycloakRequestSession bathcSession, int firstInThisIteration, int countInThisIteration) -> {
                 createRolesInBatch(session, roleContainer, rolePrefix, firstInThisIteration, countInThisIteration);
             });
 
             log.infof("Command finished. All roles from %s to %s created", rolePrefix + first, rolePrefix + (first + count - 1));
         }
 
-        private void createRolesInBatch(KeycloakSession session, String roleContainer, String rolePrefix, int first, int count) {
+        private void createRolesInBatch(KeycloakRequestSession session, String roleContainer, String rolePrefix, int first, int count) {
             RoleContainerModel container = getRoleContainer(session, roleContainer);
 
             int last = first + count;
@@ -65,7 +65,7 @@ public class RoleCommands {
             log.infof("Roles from %s to %s created", rolePrefix + first, rolePrefix + (last - 1));
         }
 
-        private RoleContainerModel getRoleContainer(KeycloakSession session, String roleContainer) {
+        private RoleContainerModel getRoleContainer(KeycloakRequestSession session, String roleContainer) {
             String[] parts = roleContainer.split("/");
             String realmName = parts[0];
 

@@ -45,7 +45,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
@@ -119,7 +119,7 @@ public class OID4VCIssuerEndpoint {
     public static final String CREDENTIAL_OFFER_PATH = "credential-offer/";
     public static final String RESPONSE_TYPE_IMG_PNG = "image/png";
     public static final String CREDENTIAL_OFFER_URI_CODE_SCOPE = "credential-offer";
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AppAuthManager.BearerTokenAuthenticator bearerTokenAuthenticator;
     private final TimeProvider timeProvider;
 
@@ -141,7 +141,7 @@ public class OID4VCIssuerEndpoint {
      */
     private final Map<String, CredentialBuilder> credentialBuilders;
 
-    public OID4VCIssuerEndpoint(KeycloakSession session,
+    public OID4VCIssuerEndpoint(KeycloakRequestSession session,
                                 Map<String, CredentialBuilder> credentialBuilders,
                                 AppAuthManager.BearerTokenAuthenticator authenticator,
                                 TimeProvider timeProvider,
@@ -153,7 +153,7 @@ public class OID4VCIssuerEndpoint {
         this.preAuthorizedCodeLifeSpan = preAuthorizedCodeLifeSpan;
     }
 
-    public OID4VCIssuerEndpoint(KeycloakSession keycloakSession) {
+    public OID4VCIssuerEndpoint(KeycloakRequestSession keycloakSession) {
         this.session = keycloakSession;
         this.bearerTokenAuthenticator = new AppAuthManager.BearerTokenAuthenticator(keycloakSession);
         this.timeProvider = new OffsetTimeProvider();
@@ -171,7 +171,7 @@ public class OID4VCIssuerEndpoint {
      *
      * @return a map of the created credential builders with their supported formats as keys.
      */
-    private Map<String, CredentialBuilder> loadCredentialBuilders(KeycloakSession keycloakSession) {
+    private Map<String, CredentialBuilder> loadCredentialBuilders(KeycloakRequestSession keycloakSession) {
         KeycloakSessionFactory keycloakSessionFactory = keycloakSession.getKeycloakSessionFactory();
         return keycloakSessionFactory.getProviderFactoriesStream(CredentialBuilder.class)
                                      .map(factory -> (CredentialBuilderFactory) factory)

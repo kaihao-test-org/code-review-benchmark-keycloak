@@ -27,7 +27,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -89,7 +89,7 @@ public class OID4VCLoginProtocolFactory implements LoginProtocolFactory, OID4VCE
 
 
     @Override
-    public Object createProtocolEndpoint(KeycloakSession keycloakSession, EventBuilder event) {
+    public Object createProtocolEndpoint(KeycloakRequestSession keycloakSession, EventBuilder event) {
         return new OID4VCIssuerEndpoint(keycloakSession);
     }
 
@@ -143,7 +143,7 @@ public class OID4VCLoginProtocolFactory implements LoginProtocolFactory, OID4VCE
     }
 
     @Override
-    public LoginProtocol create(KeycloakSession session) {
+    public LoginProtocol create(KeycloakRequestSession session) {
         return null;
     }
 

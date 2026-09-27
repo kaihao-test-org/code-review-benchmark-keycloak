@@ -22,7 +22,7 @@ package org.keycloak.migration.migrators;
 import org.jboss.logging.Logger;
 import org.keycloak.connections.jpa.support.EntityManagers;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -31,7 +31,7 @@ public abstract class RealmMigration implements Migration {
     private static final Logger LOG = Logger.getLogger(RealmMigration.class);
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(realm -> {
             // empty out the persistence context for each realm
             EntityManagers.flush(session, true);
@@ -51,10 +51,10 @@ public abstract class RealmMigration implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep,
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep,
             boolean skipUserDependent) {
         migrateRealm(session, realm);
     }
 
-    public abstract void migrateRealm(KeycloakSession session, RealmModel realm);
+    public abstract void migrateRealm(KeycloakRequestSession session, RealmModel realm);
 }

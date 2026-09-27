@@ -34,7 +34,7 @@ import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.authorization.policy.provider.PolicyProviderFactory;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -73,7 +73,7 @@ public class GroupPolicyProviderFactory implements PolicyProviderFactory<GroupPo
     }
 
     @Override
-    public PolicyProvider create(KeycloakSession session) {
+    public PolicyProvider create(KeycloakRequestSession session) {
         return provider;
     }
 
@@ -194,7 +194,7 @@ public class GroupPolicyProviderFactory implements PolicyProviderFactory<GroupPo
 
     private GroupModel getGroup(AuthorizationProvider authorization, GroupDefinition definition) {
         RealmModel realm = authorization.getRealm();
-        KeycloakSession session = authorization.getKeycloakSession();
+        KeycloakRequestSession session = authorization.getKeycloakSession();
         GroupProvider groups = session.groups();
 
         if (definition.getId() != null) {

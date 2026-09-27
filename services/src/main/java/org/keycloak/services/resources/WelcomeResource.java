@@ -42,7 +42,7 @@ import org.keycloak.common.util.SecretGenerator;
 import org.keycloak.cookie.CookieProvider;
 import org.keycloak.cookie.CookieType;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.services.managers.ApplianceBootstrap;
@@ -77,7 +77,7 @@ public class WelcomeResource {
     private AtomicBoolean shouldBootstrap;
 
     @Context
-    KeycloakSession session;
+    KeycloakRequestSession session;
 
     /**
      * Welcome page of Keycloak
@@ -269,7 +269,7 @@ public class WelcomeResource {
         return shouldBootstrap.get();
     }
 
-    public static boolean isLocal(KeycloakSession session) {
+    public static boolean isLocal(KeycloakRequestSession session) {
         ClientConnection clientConnection = session.getContext().getConnection();
         String remoteAddress = clientConnection.getRemoteAddr();
         String localAddress = clientConnection.getLocalAddr();

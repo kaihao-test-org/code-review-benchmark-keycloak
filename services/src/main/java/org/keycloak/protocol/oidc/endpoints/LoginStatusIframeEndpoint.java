@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.endpoints;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.UriUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.WebOriginsUtils;
 import org.keycloak.services.Urls;
@@ -46,9 +46,9 @@ public class LoginStatusIframeEndpoint {
 
     private static final Logger logger = Logger.getLogger(LoginStatusIframeEndpoint.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public LoginStatusIframeEndpoint(KeycloakSession session) {
+    public LoginStatusIframeEndpoint(KeycloakRequestSession session) {
         this.session = session;
     }
 

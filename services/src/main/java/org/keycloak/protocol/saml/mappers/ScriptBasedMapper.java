@@ -119,7 +119,7 @@ public class ScriptBasedMapper extends AbstractSAMLProtocolMapper implements SAM
      */
     @Override
     public void transformAttributeStatement(AttributeStatementType attributeStatement, ProtocolMapperModel mappingModel,
-                                            KeycloakSession session, UserSessionModel userSession,
+                                            KeycloakRequestSession session, UserSessionModel userSession,
                                             AuthenticatedClientSessionModel clientSession) {
         UserModel user = userSession.getUser();
         String scriptSource = getScriptCode(mappingModel);
@@ -168,7 +168,7 @@ public class ScriptBasedMapper extends AbstractSAMLProtocolMapper implements SAM
     }
 
     @Override
-    public void validateConfig(KeycloakSession session, RealmModel realm, ProtocolMapperContainerModel client, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
+    public void validateConfig(KeycloakRequestSession session, RealmModel realm, ProtocolMapperContainerModel client, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
 
         String scriptCode = getScriptCode(mapperModel);
         if (scriptCode == null) {

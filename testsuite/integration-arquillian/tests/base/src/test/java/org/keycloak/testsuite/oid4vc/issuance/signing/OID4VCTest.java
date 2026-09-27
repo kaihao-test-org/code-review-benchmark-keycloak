@@ -43,7 +43,7 @@ import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.jose.jwk.JWKBuilder;
 import org.keycloak.jose.jws.JWSBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.oid4vc.OID4VCLoginProtocolFactory;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerEndpoint;
@@ -319,7 +319,7 @@ public abstract class OID4VCTest extends AbstractTestRealmKeycloakTest {
         return protocolMapperRepresentation;
     }
 
-    public static KeyWrapper getKeyFromSession(KeycloakSession keycloakSession) {
+    public static KeyWrapper getKeyFromSession(KeycloakRequestSession keycloakSession) {
         // we only set one key to the realm, thus can just take the first one
         // if run inside the testsuite, configure is called separated from the test itself, thus we cannot just take
         // the key from the `configureTestRealm` method.
@@ -333,7 +333,7 @@ public abstract class OID4VCTest extends AbstractTestRealmKeycloakTest {
         return kw;
     }
 
-    public static String getKeyIdFromSession(KeycloakSession keycloakSession) {
+    public static String getKeyIdFromSession(KeycloakRequestSession keycloakSession) {
         return getKeyFromSession(keycloakSession).getKid();
     }
 

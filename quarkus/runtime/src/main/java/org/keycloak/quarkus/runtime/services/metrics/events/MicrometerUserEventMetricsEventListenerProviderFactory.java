@@ -25,7 +25,7 @@ import org.bouncycastle.util.Strings;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
@@ -47,7 +47,7 @@ public class MicrometerUserEventMetricsEventListenerProviderFactory implements E
     private Meter.MeterProvider<Counter> meterProvider;
 
     @Override
-    public EventListenerProvider create(KeycloakSession session) {
+    public EventListenerProvider create(KeycloakRequestSession session) {
         return new MicrometerUserEventMetricsEventListenerProvider(session, withIdp, withRealm, withClientId, events, meterProvider);
     }
 

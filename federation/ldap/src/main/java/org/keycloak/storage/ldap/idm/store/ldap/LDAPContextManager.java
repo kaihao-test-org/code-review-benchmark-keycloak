@@ -1,7 +1,7 @@
 package org.keycloak.storage.ldap.idm.store.ldap;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.storage.ldap.LDAPConfig;
 import org.keycloak.tracing.TracingProvider;
@@ -31,7 +31,7 @@ public final class LDAPContextManager implements AutoCloseable {
 
     private static final Logger logger = Logger.getLogger(LDAPContextManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final LDAPConfig ldapConfig;
     private StartTlsResponse tlsResponse;
 
@@ -49,12 +49,12 @@ public final class LDAPContextManager implements AutoCloseable {
 
     private LdapContext ldapContext;
 
-    public LDAPContextManager(KeycloakSession session, LDAPConfig connectionProperties) {
+    public LDAPContextManager(KeycloakRequestSession session, LDAPConfig connectionProperties) {
         this.session = session;
         this.ldapConfig = connectionProperties;
     }
 
-    public static LDAPContextManager create(KeycloakSession session, LDAPConfig connectionProperties) {
+    public static LDAPContextManager create(KeycloakRequestSession session, LDAPConfig connectionProperties) {
         return new LDAPContextManager(session, connectionProperties);
     }
 

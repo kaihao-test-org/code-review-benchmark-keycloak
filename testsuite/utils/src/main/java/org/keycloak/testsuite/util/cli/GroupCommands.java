@@ -1,7 +1,7 @@
 package org.keycloak.testsuite.util.cli;
 
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 public class GroupCommands {
@@ -17,7 +17,7 @@ public class GroupCommands {
         }
 
         @Override
-        protected void doRunCommand(KeycloakSession session) {
+        protected void doRunCommand(KeycloakRequestSession session) {
             groupPrefix = getArg(0);
             realmName = getArg(1);
             int first = getIntArg(2);
@@ -30,7 +30,7 @@ public class GroupCommands {
                     + (first + count - 1));
         }
 
-        private void createGroupsInBatch(KeycloakSession session, int first, int count) {
+        private void createGroupsInBatch(KeycloakRequestSession session, int first, int count) {
             RealmModel realm = session.realms().getRealmByName(realmName);
             if (realm == null) {
                 log.errorf("Unknown realm: %s", realmName);

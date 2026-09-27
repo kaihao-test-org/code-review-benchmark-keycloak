@@ -30,7 +30,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -81,7 +81,7 @@ public class AcrProtocolMapper extends AbstractOIDCProtocolMapper implements OID
     }
 
     @Override
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession,
+    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession,
                             ClientSessionContext clientSessionCtx) {
         AuthenticatedClientSessionModel clientSession = clientSessionCtx.getClientSession();
         String acr = getAcr(clientSession);

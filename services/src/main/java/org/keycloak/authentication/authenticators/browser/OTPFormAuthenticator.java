@@ -30,7 +30,7 @@ import org.keycloak.credential.OTPCredentialProviderFactory;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -143,19 +143,19 @@ public class OTPFormAuthenticator extends AbstractUsernameFormAuthenticator impl
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return user.credentialManager().isConfiguredFor(getCredentialProvider(session).getType());
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         AuthenticationSessionModel authenticationSession = session.getContext().getAuthenticationSession();
         if (!authenticationSession.getRequiredActions().contains(UserModel.RequiredAction.CONFIGURE_TOTP.name())) {
             authenticationSession.addRequiredAction(UserModel.RequiredAction.CONFIGURE_TOTP);
         }
     }
 
-    public List<RequiredActionFactory> getRequiredActions(KeycloakSession session) {
+    public List<RequiredActionFactory> getRequiredActions(KeycloakRequestSession session) {
         return Collections.singletonList((UpdateTotp)session.getKeycloakSessionFactory().getProviderFactory(RequiredActionProvider.class, UserModel.RequiredAction.CONFIGURE_TOTP.name()));
     }
 
@@ -165,7 +165,7 @@ public class OTPFormAuthenticator extends AbstractUsernameFormAuthenticator impl
     }
 
     @Override
-    public OTPCredentialProvider getCredentialProvider(KeycloakSession session) {
+    public OTPCredentialProvider getCredentialProvider(KeycloakRequestSession session) {
         return (OTPCredentialProvider)session.getProvider(CredentialProvider.class, OTPCredentialProviderFactory.PROVIDER_ID);
     }
 

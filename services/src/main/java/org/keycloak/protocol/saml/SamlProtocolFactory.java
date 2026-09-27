@@ -23,7 +23,7 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -59,12 +59,12 @@ public class SamlProtocolFactory extends AbstractLoginProtocolFactory {
     private DestinationValidator destinationValidator;
 
     @Override
-    public Object createProtocolEndpoint(KeycloakSession session, EventBuilder event) {
+    public Object createProtocolEndpoint(KeycloakRequestSession session, EventBuilder event) {
         return new SamlService(session, event, destinationValidator);
     }
 
     @Override
-    public LoginProtocol create(KeycloakSession session) {
+    public LoginProtocol create(KeycloakRequestSession session) {
         return new SamlProtocol().setSession(session);
     }
 

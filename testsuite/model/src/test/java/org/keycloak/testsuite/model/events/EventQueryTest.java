@@ -22,7 +22,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventStoreProvider;
 import org.keycloak.events.EventType;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.testsuite.model.KeycloakModelTest;
 import org.keycloak.testsuite.model.RequireProvider;
@@ -46,7 +46,7 @@ public class EventQueryTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "realm");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -54,7 +54,7 @@ public class EventQueryTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);
@@ -68,7 +68,7 @@ public class EventQueryTest extends KeycloakModelTest {
         });
     }
 
-    private Event createAuthEventForUser(KeycloakSession session, RealmModel realm, String user) {
+    private Event createAuthEventForUser(KeycloakRequestSession session, RealmModel realm, String user) {
         return new EventBuilder(realm, session, DummyClientConnection.DUMMY_CONNECTION)
                 .event(EventType.LOGIN)
                 .user(user)

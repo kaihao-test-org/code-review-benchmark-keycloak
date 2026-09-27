@@ -1,6 +1,6 @@
 package org.keycloak.admin.ui.rest;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resources.admin.AdminEventBuilder;
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
@@ -8,12 +8,12 @@ import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 import jakarta.ws.rs.Path;
 
 public final class AdminExtResource {
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private RealmModel realm;
     private AdminPermissionEvaluator auth;
     private AdminEventBuilder adminEvent;
 
-    public AdminExtResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public AdminExtResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.realm = realm;
         this.auth = auth;

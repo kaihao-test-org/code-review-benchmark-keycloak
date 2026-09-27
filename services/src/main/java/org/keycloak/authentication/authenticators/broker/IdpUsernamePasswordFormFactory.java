@@ -20,7 +20,7 @@ package org.keycloak.authentication.authenticators.broker;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.authenticators.browser.UsernamePasswordForm;
 import org.keycloak.authentication.authenticators.browser.UsernamePasswordFormFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
@@ -31,7 +31,7 @@ public class IdpUsernamePasswordFormFactory extends UsernamePasswordFormFactory 
     public static final UsernamePasswordForm IDP_SINGLETON = new IdpUsernamePasswordForm();
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return IDP_SINGLETON;
     }
 

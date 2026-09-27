@@ -28,7 +28,7 @@ import org.keycloak.authentication.RequiredActionProvider;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
@@ -41,7 +41,7 @@ public class AuthenticationManagementResource extends RoleMappingResource {
 
     private static final Logger logger = Logger.getLogger(AuthenticationManagementResource.class);
 
-    public AuthenticationManagementResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth) {
+    public AuthenticationManagementResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth) {
         super(session, realm, auth);
     }
 

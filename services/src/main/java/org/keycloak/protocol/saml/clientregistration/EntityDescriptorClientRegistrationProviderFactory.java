@@ -18,7 +18,7 @@
 package org.keycloak.protocol.saml.clientregistration;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.clientregistration.ClientRegistrationProvider;
 import org.keycloak.services.clientregistration.ClientRegistrationProviderFactory;
@@ -31,7 +31,7 @@ public class EntityDescriptorClientRegistrationProviderFactory implements Client
     public static final String ID = "saml2-entity-descriptor";
 
     @Override
-    public ClientRegistrationProvider create(KeycloakSession session) {
+    public ClientRegistrationProvider create(KeycloakRequestSession session) {
         return new EntityDescriptorClientRegistrationProvider(session);
     }
 

@@ -26,14 +26,14 @@ import org.keycloak.broker.oidc.mappers.AbstractJsonUserAttributeMapper;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenExchangeContext;
 
 import java.io.IOException;
 
 public class OAuth2IdentityProvider extends AbstractOAuth2IdentityProvider<OAuth2IdentityProviderConfig> {
 
-    public OAuth2IdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
+    public OAuth2IdentityProvider(KeycloakRequestSession session, OAuth2IdentityProviderConfig config) {
         super(session, config);
     }
 

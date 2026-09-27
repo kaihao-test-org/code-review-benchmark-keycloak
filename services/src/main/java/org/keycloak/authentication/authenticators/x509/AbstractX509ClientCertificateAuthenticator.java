@@ -41,7 +41,7 @@ import org.keycloak.jose.jws.crypto.HashUtils;
 import org.keycloak.crypto.HashException;
 import org.keycloak.crypto.JavaAlgorithm;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.x509.X509ClientCertificateLookup;
@@ -103,7 +103,7 @@ public abstract class AbstractX509ClientCertificateAuthenticator implements Auth
 
     protected static class CertificateValidatorConfigBuilder {
 
-        static CertificateValidator.CertificateValidatorBuilder fromConfig(KeycloakSession session, X509AuthenticatorConfigModel config) throws Exception {
+        static CertificateValidator.CertificateValidatorBuilder fromConfig(KeycloakRequestSession session, X509AuthenticatorConfigModel config) throws Exception {
 
             CertificateValidator.CertificateValidatorBuilder builder = new CertificateValidator.CertificateValidatorBuilder();
             return builder
@@ -132,7 +132,7 @@ public abstract class AbstractX509ClientCertificateAuthenticator implements Auth
     }
 
     // The method is purely for purposes of facilitating the unit testing
-    public CertificateValidator.CertificateValidatorBuilder certificateValidationParameters(KeycloakSession session, X509AuthenticatorConfigModel config) throws Exception {
+    public CertificateValidator.CertificateValidatorBuilder certificateValidationParameters(KeycloakRequestSession session, X509AuthenticatorConfigModel config) throws Exception {
         return CertificateValidatorConfigBuilder.fromConfig(session, config);
     }
 
@@ -307,11 +307,11 @@ public abstract class AbstractX509ClientCertificateAuthenticator implements Auth
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return true;
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
     }
 }

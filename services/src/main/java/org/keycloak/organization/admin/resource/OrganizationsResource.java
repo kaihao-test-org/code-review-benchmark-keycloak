@@ -45,7 +45,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.OrganizationModel;
@@ -67,14 +67,14 @@ import org.keycloak.utils.StringUtil;
 @Extension(name = KeycloakOpenAPI.Profiles.ADMIN, value = "")
 public class OrganizationsResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final OrganizationProvider provider;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
     private static final Logger logger = Logger.getLogger(OrganizationsResource.class);
 
-    public OrganizationsResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public OrganizationsResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.provider = session == null ? null : session.getProvider(OrganizationProvider.class);
         this.auth = auth;

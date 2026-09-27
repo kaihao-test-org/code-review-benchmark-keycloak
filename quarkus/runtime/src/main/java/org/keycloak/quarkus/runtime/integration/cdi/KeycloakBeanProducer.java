@@ -19,7 +19,7 @@ package org.keycloak.quarkus.runtime.integration.cdi;
 
 import io.quarkus.arc.Unremovable;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.quarkus.runtime.transaction.TransactionalSessionHandler;
 import org.keycloak.utils.KeycloakSessionUtil;
 
@@ -32,11 +32,11 @@ import jakarta.enterprise.inject.Disposes;
 public class KeycloakBeanProducer implements TransactionalSessionHandler {
 
     @RequestScoped
-    public KeycloakSession getKeycloakSession() {
+    public KeycloakRequestSession getKeycloakSession() {
         return create();
     }
 
-    void dispose(@Disposes KeycloakSession session) {
+    void dispose(@Disposes KeycloakRequestSession session) {
         KeycloakSessionUtil.setKeycloakSession(null);
         close(session);
     }

@@ -26,7 +26,7 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author Petter Lysne (petterlysne at hotmail dot com)
@@ -39,7 +39,7 @@ public class PayPalIdentityProvider extends AbstractOAuth2IdentityProvider<PayPa
 	public static final String PROFILE_RESOURCE = "/oauth2/token/userinfo?schema=openid";
 	public static final String DEFAULT_SCOPE = "openid profile email";
 
-	public PayPalIdentityProvider(KeycloakSession session, PayPalIdentityProviderConfig config) {
+	public PayPalIdentityProvider(KeycloakRequestSession session, PayPalIdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(config.targetSandbox() ? "https://www.sandbox.paypal.com/signin/authorize" : AUTH_URL);
 		config.setTokenUrl((config.targetSandbox() ? "https://api.sandbox.paypal.com/v1" : BASE_URL) + TOKEN_RESOURCE);

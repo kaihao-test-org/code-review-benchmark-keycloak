@@ -25,7 +25,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocolService;
 import org.keycloak.services.managers.Auth;
@@ -62,12 +62,12 @@ public abstract class AbstractSecuredLocalService {
     protected final ClientConnection clientConnection;
     protected String stateChecker;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final HttpRequest request;
     protected Auth auth;
 
-    public AbstractSecuredLocalService(KeycloakSession session, ClientModel client) {
+    public AbstractSecuredLocalService(KeycloakRequestSession session, ClientModel client) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.clientConnection = session.getContext().getConnection();

@@ -17,18 +17,18 @@
 package org.keycloak.validation;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.oidc.OIDCClientRepresentation;
 
 import jakarta.ws.rs.BadRequestException;
 
 public class ValidationUtil {
 
-    public static void validateClient(KeycloakSession session, ClientModel client, boolean create, ErrorHandler errorHandler) throws BadRequestException {
+    public static void validateClient(KeycloakRequestSession session, ClientModel client, boolean create, ErrorHandler errorHandler) throws BadRequestException {
         validateClient(session, client, null, create, errorHandler);
     }
 
-    public static void validateClient(KeycloakSession session, ClientModel client, OIDCClientRepresentation oidcClient, boolean create, ErrorHandler errorHandler) throws BadRequestException {
+    public static void validateClient(KeycloakRequestSession session, ClientModel client, OIDCClientRepresentation oidcClient, boolean create, ErrorHandler errorHandler) throws BadRequestException {
         ClientValidationProvider provider = session.getProvider(ClientValidationProvider.class);
         if (provider != null) {
             ValidationContext.Event event = create ? ValidationContext.Event.CREATE : ValidationContext.Event.UPDATE;

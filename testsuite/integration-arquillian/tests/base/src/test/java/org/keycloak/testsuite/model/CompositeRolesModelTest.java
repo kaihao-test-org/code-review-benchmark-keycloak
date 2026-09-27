@@ -22,7 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -98,11 +98,11 @@ public class CompositeRolesModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testNoClientID(KeycloakSession session) {
+    public void testNoClientID(KeycloakRequestSession session) {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Unknown client specification in scope mappings: some-client");
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session1) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session1) -> {
             try {
                 //RealmManager manager = new RealmManager(session1);
                 RealmRepresentation rep = loadJson(getClass().getResourceAsStream("/model/testrealm-noclient-id.json"), RealmRepresentation.class);
@@ -117,9 +117,9 @@ public class CompositeRolesModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testComposites(KeycloakSession session) {
+    public void testComposites(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession session5) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession session5) -> {
 
             RealmModel realm = session5.realms().getRealmByName("TestComposites");
             session5.getContext().setRealm(realm);

@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.SystemClientUtil;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.services.messages.Messages;
@@ -37,7 +37,7 @@ import org.keycloak.sessions.AuthenticationSessionModel;
  */
 public class LogoutUtil {
 
-    public static Response sendResponseAfterLogoutFinished(KeycloakSession session, AuthenticationSessionModel logoutSession) {
+    public static Response sendResponseAfterLogoutFinished(KeycloakRequestSession session, AuthenticationSessionModel logoutSession) {
         String redirectUri = logoutSession.getAuthNote(OIDCLoginProtocol.LOGOUT_REDIRECT_URI);
         if (redirectUri != null) {
             URI finalRedirectUri = getRedirectUriWithAttachedState(redirectUri, logoutSession);

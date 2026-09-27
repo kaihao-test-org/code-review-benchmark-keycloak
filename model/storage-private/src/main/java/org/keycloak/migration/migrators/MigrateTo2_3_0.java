@@ -19,7 +19,7 @@ package org.keycloak.migration.migrators;
 
 
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.RealmRepresentation;
 
@@ -31,7 +31,7 @@ public class MigrateTo2_3_0 implements Migration {
     public static final ModelVersion VERSION = new ModelVersion("2.3.0");
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms().getRealmsStream().forEach(this::migrateRealm);
     }
 
@@ -42,7 +42,7 @@ public class MigrateTo2_3_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealm(realm);
     }
 

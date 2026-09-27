@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -45,7 +45,7 @@ public class JBossLoggingEventListenerProviderFactory implements EventListenerPr
     private boolean includeRepresentation;
 
     @Override
-    public EventListenerProvider create(KeycloakSession session) {
+    public EventListenerProvider create(KeycloakRequestSession session) {
         return new JBossLoggingEventListenerProvider(session, logger, successLevel, errorLevel, quotes, sanitize, includeRepresentation);
     }
 

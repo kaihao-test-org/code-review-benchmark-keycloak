@@ -46,7 +46,7 @@ import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.AccessToken;
@@ -526,7 +526,7 @@ public class UserManagedPermissionServiceTest extends AbstractResourceServerTest
         getTestingClient().server().run((RunOnServer) UserManagedPermissionServiceTest::testRemovePolicyWhenOwnerDeleted);
     }
 
-    private static void testRemovePolicyWhenOwnerDeleted(KeycloakSession session) {
+    private static void testRemovePolicyWhenOwnerDeleted(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName("authz-test");
         ClientModel client = realm.getClientByClientId("resource-server-test");
         AuthorizationProvider provider = session.getProvider(AuthorizationProvider.class);
@@ -952,7 +952,7 @@ public class UserManagedPermissionServiceTest extends AbstractResourceServerTest
         getTestingClient().server().run((RunOnServer) UserManagedPermissionServiceTest::testRemovePoliciesOnResourceDelete);
     }
 
-    private static void testRemovePoliciesOnResourceDelete(KeycloakSession session) {
+    private static void testRemovePoliciesOnResourceDelete(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName("authz-test");
         ClientModel client = realm.getClientByClientId("resource-server-test");
         AuthorizationProvider provider = session.getProvider(AuthorizationProvider.class);

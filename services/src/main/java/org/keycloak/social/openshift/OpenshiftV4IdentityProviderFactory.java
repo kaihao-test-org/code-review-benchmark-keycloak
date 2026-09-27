@@ -3,7 +3,7 @@ package org.keycloak.social.openshift;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class OpenshiftV4IdentityProviderFactory extends AbstractIdentityProvider
     }
 
     @Override
-    public OpenshiftV4IdentityProvider create(KeycloakSession keycloakSession, IdentityProviderModel identityProviderModel) {
+    public OpenshiftV4IdentityProvider create(KeycloakRequestSession keycloakSession, IdentityProviderModel identityProviderModel) {
         return new OpenshiftV4IdentityProvider(keycloakSession, new OpenshiftV4IdentityProviderConfig(identityProviderModel));
     }
 

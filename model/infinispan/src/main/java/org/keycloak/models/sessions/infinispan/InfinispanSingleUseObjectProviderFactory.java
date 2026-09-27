@@ -33,7 +33,7 @@ import org.keycloak.Config;
 import org.keycloak.common.util.Time;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.SingleUseObjectProviderFactory;
@@ -70,12 +70,12 @@ public class InfinispanSingleUseObjectProviderFactory implements SingleUseObject
     }
 
     @Override
-    public InfinispanSingleUseObjectProvider create(KeycloakSession session) {
+    public InfinispanSingleUseObjectProvider create(KeycloakRequestSession session) {
         initialize(session);
         return new InfinispanSingleUseObjectProvider(session, singleUseObjectCache, persistRevokedTokens);
     }
 
-    static Supplier<BasicCache<String, SingleUseObjectValueEntity>> getSingleUseObjectCache(KeycloakSession session) {
+    static Supplier<BasicCache<String, SingleUseObjectValueEntity>> getSingleUseObjectCache(KeycloakRequestSession session) {
         InfinispanConnectionProvider connections = session.getProvider(InfinispanConnectionProvider.class);
         Cache cache = connections.getCache(InfinispanConnectionProvider.ACTION_TOKEN_CACHE);
         return () -> cache;
@@ -86,7 +86,7 @@ public class InfinispanSingleUseObjectProviderFactory implements SingleUseObject
         persistRevokedTokens = config.getBoolean(CONFIG_PERSIST_REVOKED_TOKENS, DEFAULT_PERSIST_REVOKED_TOKENS);
     }
 
-    private void initialize(KeycloakSession session) {
+    private void initialize(KeycloakRequestSession session) {
         if (persistRevokedTokens && !initialized) {
             synchronized (this) {
                 if (!initialized) {
@@ -122,7 +122,7 @@ public class InfinispanSingleUseObjectProviderFactory implements SingleUseObject
                 if (event instanceof PostMigrationEvent pme) {
                     KeycloakSessionFactory sessionFactory = pme.getFactory();
                     setupClearExpiredRevokedTokensScheduledTask(sessionFactory);
-                    try (KeycloakSession session = sessionFactory.create()) {
+                    try (KeycloakRequestSession session = sessionFactory.create()) {
                         // load sessions during startup, not on first request to avoid congestion
                         initialize(session);
                     }

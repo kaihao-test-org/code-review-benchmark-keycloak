@@ -45,7 +45,7 @@ import org.keycloak.models.Constants;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OAuth2DeviceConfig;
@@ -147,14 +147,14 @@ import static org.keycloak.models.utils.StripSecretsUtils.stripSecrets;
  * @author Alexander Schwartz
  */
 public class DefaultExportImportManager implements ExportImportManager {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private static final Logger logger = Logger.getLogger(DefaultExportImportManager.class);
 
-    public static class Batcher implements Consumer<KeycloakSession> {
+    public static class Batcher implements Consumer<KeycloakRequestSession> {
         private int count;
 
         @Override
-        public void accept(KeycloakSession session) {
+        public void accept(KeycloakRequestSession session) {
             // TODO: determine what a good number is here
             // There actually doesn't seem to be much difference with setting this
             // higher - the important part is to clear the contexts - which could be even more optimal
@@ -165,7 +165,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         };
     }
 
-    public DefaultExportImportManager(KeycloakSession session) {
+    public DefaultExportImportManager(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -572,7 +572,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         }
     }
 
-    private static Map<String, ClientModel> createClients(KeycloakSession session, ModelVersion version, RealmRepresentation rep, RealmModel realm, Map<String, String> mappedFlows) {
+    private static Map<String, ClientModel> createClients(KeycloakRequestSession session, ModelVersion version, RealmRepresentation rep, RealmModel realm, Map<String, String> mappedFlows) {
         Map<String, ClientModel> appMap = new HashMap<>();
         final boolean samlEncryptionAttributes = version != null && version.lessThan(new ModelVersion(26, 4, 0));
         for (ClientRepresentation resourceRep : rep.getClients()) {
@@ -607,7 +607,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         return appMap;
     }
 
-    private static void importIdentityProviders(RealmRepresentation rep, RealmModel newRealm, KeycloakSession session) {
+    private static void importIdentityProviders(RealmRepresentation rep, RealmModel newRealm, KeycloakRequestSession session) {
         if (rep.getIdentityProviders() != null) {
             for (IdentityProviderRepresentation representation : rep.getIdentityProviders()) {
                 session.identityProviders().create(RepresentationToModel.toModel(newRealm, representation, session));
@@ -615,7 +615,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         }
     }
 
-    private static void importIdentityProviderMappers(RealmRepresentation rep, KeycloakSession session) {
+    private static void importIdentityProviderMappers(RealmRepresentation rep, KeycloakRequestSession session) {
         if (rep.getIdentityProviderMappers() != null) {
             for (IdentityProviderMapperRepresentation representation : rep.getIdentityProviderMappers()) {
                 session.identityProviders().createMapper(RepresentationToModel.toModel(representation));
@@ -1044,7 +1044,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         return value;
     }
 
-    private static void convertDeprecatedApplications(KeycloakSession session, RealmRepresentation realm) {
+    private static void convertDeprecatedApplications(KeycloakRequestSession session, RealmRepresentation realm) {
         if (realm.getApplications() != null || realm.getOauthClients() != null) {
             if (realm.getClients() == null) {
                 realm.setClients(new LinkedList<ClientRepresentation>());
@@ -1169,7 +1169,7 @@ public class DefaultExportImportManager implements ExportImportManager {
     }
 
 
-    public static void importUserFederationProvidersAndMappers(KeycloakSession session, RealmRepresentation rep, RealmModel newRealm) {
+    public static void importUserFederationProvidersAndMappers(KeycloakRequestSession session, RealmRepresentation rep, RealmModel newRealm) {
         // providers to convert to component model
         Set<String> convertSet = new HashSet<>();
         convertSet.add(LDAPConstants.LDAP_PROVIDER);
@@ -1420,7 +1420,7 @@ public class DefaultExportImportManager implements ExportImportManager {
 
         return webAuthnPolicy;
     }
-    public static Map<String, String> importAuthenticationFlows(KeycloakSession session, RealmModel newRealm, RealmRepresentation rep) {
+    public static Map<String, String> importAuthenticationFlows(KeycloakRequestSession session, RealmModel newRealm, RealmRepresentation rep) {
         Map<String, String> mappedFlows = new HashMap<>();
 
         if (rep.getAuthenticatorConfig() != null) {
@@ -1536,7 +1536,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         return mappedFlows;
     }
 
-    private static AuthenticationExecutionModel toModel(KeycloakSession session, RealmModel realm, AuthenticationFlowModel parentFlow, AuthenticationExecutionExportRepresentation rep) {
+    private static AuthenticationExecutionModel toModel(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel parentFlow, AuthenticationExecutionExportRepresentation rep) {
         AuthenticationExecutionModel model = new AuthenticationExecutionModel();
         if (rep.getAuthenticatorConfig() != null) {
             AuthenticatorConfigModel config = new DeployedConfigurationsManager(session).getAuthenticatorConfigByAlias(realm, rep.getAuthenticatorConfig());
@@ -1606,7 +1606,7 @@ public class DefaultExportImportManager implements ExportImportManager {
     }
 
 
-    public static void importRealmAuthorizationSettings(RealmRepresentation rep, RealmModel newRealm, KeycloakSession session) {
+    public static void importRealmAuthorizationSettings(RealmRepresentation rep, RealmModel newRealm, KeycloakRequestSession session) {
         if (rep.getClients() != null) {
             rep.getClients().forEach(clientRepresentation -> {
                 ClientModel client = newRealm.getClientByClientId(clientRepresentation.getClientId());
@@ -1615,7 +1615,7 @@ public class DefaultExportImportManager implements ExportImportManager {
         }
     }
 
-    public static void importFederatedUser(KeycloakSession session, RealmModel newRealm, UserRepresentation userRep) {
+    public static void importFederatedUser(KeycloakRequestSession session, RealmModel newRealm, UserRepresentation userRep) {
         UserFederatedStorageProvider federatedStorage = UserStorageUtil.userFederatedStorage(session);
         if (userRep.getAttributes() != null) {
             for (Map.Entry<String, List<String>> entry : userRep.getAttributes().entrySet()) {

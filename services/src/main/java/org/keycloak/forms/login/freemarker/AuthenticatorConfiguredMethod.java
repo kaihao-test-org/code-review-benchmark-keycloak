@@ -20,7 +20,7 @@ package org.keycloak.forms.login.freemarker;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import org.keycloak.authentication.Authenticator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
@@ -31,9 +31,9 @@ import java.util.List;
 public class AuthenticatorConfiguredMethod implements TemplateMethodModelEx {
     private final RealmModel realm;
     private final UserModel user;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public AuthenticatorConfiguredMethod(RealmModel realm, UserModel user, KeycloakSession session) {
+    public AuthenticatorConfiguredMethod(RealmModel realm, UserModel user, KeycloakRequestSession session) {
         this.realm = realm;
         this.user = user;
         this.session = session;

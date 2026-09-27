@@ -37,7 +37,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.Constants;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -173,7 +173,7 @@ public class UpdatePassword implements RequiredActionProvider, RequiredActionFac
     }
 
     @Override
-    public RequiredActionProvider create(KeycloakSession session) {
+    public RequiredActionProvider create(KeycloakRequestSession session) {
         return new UpdatePassword();
     }
 
@@ -204,7 +204,7 @@ public class UpdatePassword implements RequiredActionProvider, RequiredActionFac
     }
 
     @Override
-    public int getMaxAuthAge(KeycloakSession session) {
+    public int getMaxAuthAge(KeycloakRequestSession session) {
         if (session == null) {
             // session is null, support for legacy implementation, fallback to default maxAuthAge
             return Constants.KC_ACTION_MAX_AGE;

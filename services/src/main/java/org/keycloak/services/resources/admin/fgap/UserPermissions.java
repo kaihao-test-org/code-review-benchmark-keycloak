@@ -32,7 +32,7 @@ import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.authorization.Permission;
 
@@ -70,14 +70,14 @@ class UserPermissions implements UserPermissionEvaluator, UserPermissionManageme
     private static final String VIEW_PERMISSION_USERS = "view.permission.users";
     private static final String USERS_RESOURCE = "Users";
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private final AuthorizationProvider authz;
     protected final MgmtPermissions root;
     protected final PolicyStore policyStore;
     protected final ResourceStore resourceStore;
     private boolean grantIfNoPermission = false;
 
-    UserPermissions(KeycloakSession session, AuthorizationProvider authz, MgmtPermissions root) {
+    UserPermissions(KeycloakRequestSession session, AuthorizationProvider authz, MgmtPermissions root) {
         this.session = session;
         this.authz = authz;
         this.root = root;

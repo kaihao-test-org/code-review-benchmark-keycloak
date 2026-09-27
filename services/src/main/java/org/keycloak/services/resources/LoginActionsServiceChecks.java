@@ -28,7 +28,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.SingleUseObjectKeyModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.UserModel;
@@ -119,7 +119,7 @@ public class LoginActionsServiceChecks {
      *  Verifies whether the user given by ID both exists in the current realm. If yes,
      *  it optionally also injects the user using the given function (e.g. into session context).
      */
-    public static void checkIsUserValid(KeycloakSession session, RealmModel realm, String userId, Consumer<UserModel> userSetter, EventBuilder event) throws VerificationException {
+    public static void checkIsUserValid(KeycloakRequestSession session, RealmModel realm, String userId, Consumer<UserModel> userSetter, EventBuilder event) throws VerificationException {
         UserModel user = userId == null ? null : session.users().getUserById(realm, userId);
 
         if (user == null) {
@@ -166,7 +166,7 @@ public class LoginActionsServiceChecks {
      * Verifies whether the client denoted by client ID in token's {@code iss} ({@code issuedFor})
      * field both exists and is enabled.
      */
-    public static void checkIsClientValid(KeycloakSession session, ClientModel client) throws VerificationException {
+    public static void checkIsClientValid(KeycloakRequestSession session, ClientModel client) throws VerificationException {
         if (client == null) {
             throw new ExplainedVerificationException(Errors.CLIENT_NOT_FOUND, Messages.UNKNOWN_LOGIN_REQUESTER);
         }

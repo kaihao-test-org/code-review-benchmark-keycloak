@@ -19,7 +19,7 @@ package org.keycloak.storage.ldap.mappers;
 
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -108,7 +108,7 @@ public class UserAttributeLDAPStorageMapperFactory extends AbstractLDAPStorageMa
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         checkMandatoryConfigAttribute(UserAttributeLDAPStorageMapper.USER_MODEL_ATTRIBUTE, "User Model Attribute", config);
         checkMandatoryConfigAttribute(UserAttributeLDAPStorageMapper.LDAP_ATTRIBUTE, "LDAP Attribute", config);
 

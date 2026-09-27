@@ -19,7 +19,7 @@ package org.keycloak.forms.login.freemarker.model;
 import java.util.stream.Stream;
 
 import jakarta.ws.rs.core.MultivaluedMap;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.userprofile.UserProfile;
 import org.keycloak.userprofile.UserProfileContext;
@@ -28,7 +28,7 @@ import org.keycloak.userprofile.UserProfileProvider;
 public class EmailBean extends AbstractUserProfileBean {
 
 	private final UserModel user;
-	public EmailBean(UserModel user, MultivaluedMap<String, String> formData, KeycloakSession session) {
+	public EmailBean(UserModel user, MultivaluedMap<String, String> formData, KeycloakRequestSession session) {
 		super(formData);
 		this.user = user;
 		init(session, false);

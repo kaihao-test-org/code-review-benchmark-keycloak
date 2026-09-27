@@ -17,7 +17,7 @@
 
 package org.keycloak.services.resteasy;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.DefaultKeycloakContext;
 import org.keycloak.services.DefaultKeycloakSession;
 import org.keycloak.services.DefaultKeycloakSessionFactory;
@@ -29,7 +29,7 @@ public class ResteasyKeycloakSession extends DefaultKeycloakSession {
     }
 
     @Override
-    protected DefaultKeycloakContext createKeycloakContext(KeycloakSession session) {
+    protected DefaultKeycloakContext createKeycloakContext(KeycloakRequestSession session) {
         return new ResteasyKeycloakContext(session);
     }
 

@@ -23,7 +23,7 @@ import org.keycloak.authorization.model.Policy;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.common.Profile;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.authorization.DecisionStrategy;
@@ -69,7 +69,7 @@ public class AuthzCleanupTest {
         runOnServer.run(AuthzCleanupTest::setup);
     }
 
-    public static void setup(KeycloakSession session) {
+    public static void setup(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(realmName);
         session.getContext().setRealm(realm);
         AuthorizationProvider authz = session.getProvider(AuthorizationProvider.class);

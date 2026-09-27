@@ -24,7 +24,7 @@ import java.util.Map;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.session.UserSessionPersisterProvider;
@@ -41,14 +41,14 @@ import java.util.UUID;
  */
 public class AuthenticatedClientSessionAdapter implements AuthenticatedClientSessionModel {
 
-    private final KeycloakSession kcSession;
+    private final KeycloakRequestSession kcSession;
     private AuthenticatedClientSessionEntity entity;
     private final ClientModel client;
     private final SessionsChangelogBasedTransaction<UUID, AuthenticatedClientSessionEntity> clientSessionUpdateTx;
     private UserSessionModel userSession;
     private boolean offline;
 
-    public AuthenticatedClientSessionAdapter(KeycloakSession kcSession,
+    public AuthenticatedClientSessionAdapter(KeycloakRequestSession kcSession,
                                              AuthenticatedClientSessionEntity entity, ClientModel client, UserSessionModel userSession,
                                              SessionsChangelogBasedTransaction<UUID, AuthenticatedClientSessionEntity> clientSessionUpdateTx, boolean offline) {
         if (userSession == null) {

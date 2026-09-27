@@ -8,17 +8,17 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 
 import java.util.Map;
 
 public class TimeOffSetRealmResourceProvider implements RealmResourceProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String KEY_OFFSET = "offset";
 
-    public TimeOffSetRealmResourceProvider(KeycloakSession session) {
+    public TimeOffSetRealmResourceProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

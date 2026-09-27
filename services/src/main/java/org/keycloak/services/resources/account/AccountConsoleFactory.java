@@ -3,7 +3,7 @@ package org.keycloak.services.resources.account;
 import java.io.IOException;
 import org.keycloak.Config.Scope;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resource.AccountResourceProvider;
@@ -21,7 +21,7 @@ public class AccountConsoleFactory implements AccountResourceProviderFactory {
   }
 
   @Override
-  public AccountResourceProvider create(KeycloakSession session) {
+  public AccountResourceProvider create(KeycloakRequestSession session) {
     RealmModel realm = session.getContext().getRealm();
     ClientModel client = getAccountManagementClient(realm);
     Theme theme = getTheme(session);
@@ -37,7 +37,7 @@ public class AccountConsoleFactory implements AccountResourceProviderFactory {
   @Override
   public void close() {}
 
-  static Theme getTheme(KeycloakSession session) {
+  static Theme getTheme(KeycloakRequestSession session) {
     try {
       return session.theme().getTheme(Theme.Type.ACCOUNT);
     } catch (IOException e) {

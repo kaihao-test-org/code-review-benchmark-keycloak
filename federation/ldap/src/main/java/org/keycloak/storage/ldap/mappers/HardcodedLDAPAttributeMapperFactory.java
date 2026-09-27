@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -73,7 +73,7 @@ public class HardcodedLDAPAttributeMapperFactory extends AbstractLDAPStorageMapp
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         ConfigurationValidationHelper.check(config)
                 .checkRequired(HardcodedLDAPAttributeMapper.LDAP_ATTRIBUTE_NAME, "LDAP Attribute Name")
                 .checkRequired(HardcodedLDAPAttributeMapper.LDAP_ATTRIBUTE_VALUE, "LDAP Attribute Value");

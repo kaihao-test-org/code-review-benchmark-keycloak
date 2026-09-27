@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.userprofile.UserProfile;
 import org.keycloak.userprofile.UserProfileContext;
@@ -17,7 +17,7 @@ public class VerifyProfileBean extends AbstractUserProfileBean {
 
     private final UserModel user;
 
-    public VerifyProfileBean(UserModel user, MultivaluedMap<String, String> formData, KeycloakSession session) {
+    public VerifyProfileBean(UserModel user, MultivaluedMap<String, String> formData, KeycloakRequestSession session) {
         super(formData);
         this.user = user;
         init(session, false);

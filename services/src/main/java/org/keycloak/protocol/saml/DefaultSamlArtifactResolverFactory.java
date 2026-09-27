@@ -1,7 +1,7 @@
 package org.keycloak.protocol.saml;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class DefaultSamlArtifactResolverFactory implements ArtifactResolverFactory {
@@ -12,7 +12,7 @@ public class DefaultSamlArtifactResolverFactory implements ArtifactResolverFacto
     private DefaultSamlArtifactResolver artifactResolver;
 
     @Override
-    public DefaultSamlArtifactResolver create(KeycloakSession session) {
+    public DefaultSamlArtifactResolver create(KeycloakRequestSession session) {
         return artifactResolver;
     }
 

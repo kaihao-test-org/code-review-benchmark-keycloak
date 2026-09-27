@@ -54,7 +54,7 @@ import org.keycloak.http.HttpResponse;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
@@ -160,7 +160,7 @@ public class SamlService extends AuthorizationEndpointBase {
 
     private final DestinationValidator destinationValidator;
 
-    public SamlService(KeycloakSession session, EventBuilder event, DestinationValidator destinationValidator) {
+    public SamlService(KeycloakRequestSession session, EventBuilder event, DestinationValidator destinationValidator) {
         super(session, event);
         this.destinationValidator = destinationValidator;
     }
@@ -172,7 +172,7 @@ public class SamlService extends AuthorizationEndpointBase {
         // and we want to turn it off.
         protected boolean redirectToAuthentication;
 
-        protected abstract Response error(KeycloakSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters);
+        protected abstract Response error(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters);
 
         protected Response basicChecks(String samlRequest, String samlResponse, String artifact) {
             logger.tracef("basicChecks(%s, %s, %s)%s", samlRequest, samlResponse, artifact, getShortStackTrace());
@@ -730,10 +730,10 @@ public class SamlService extends AuthorizationEndpointBase {
         /**
          * KEYCLOAK-12616, KEYCLOAK-12944: construct the expected destination URI using the configured base URI.
          *
-         * @param session a reference to the {@link KeycloakSession}.
+         * @param session a reference to the {@link KeycloakRequestSession}.
          * @return the constructed {@link URI}.
          */
-        protected URI getExpectedDestinationUri(final KeycloakSession session) {
+        protected URI getExpectedDestinationUri(final KeycloakRequestSession session) {
             final String realmName = session.getContext().getRealm().getName();
             final URI baseUri = session.getContext().getUri().getBaseUri();
             return Urls.samlRequestEndpoint(baseUri, realmName);
@@ -774,7 +774,7 @@ public class SamlService extends AuthorizationEndpointBase {
     protected class PostBindingProtocol extends BindingProtocol {
 
         @Override
-        protected Response error(KeycloakSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
+        protected Response error(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
             return ErrorPage.error(session, authenticationSession, status, message, parameters);
         }
 
@@ -819,7 +819,7 @@ public class SamlService extends AuthorizationEndpointBase {
     protected class RedirectBindingProtocol extends BindingProtocol {
 
         @Override
-        protected Response error(KeycloakSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
+        protected Response error(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
             return ErrorPage.error(session, authenticationSession, status, message, parameters);
         }
 
@@ -915,7 +915,7 @@ public class SamlService extends AuthorizationEndpointBase {
 
     }
 
-    public static String getIDPMetadataDescriptor(UriInfo uriInfo, KeycloakSession session, RealmModel realm) {
+    public static String getIDPMetadataDescriptor(UriInfo uriInfo, KeycloakRequestSession session, RealmModel realm) {
         try {
             List<KeyWrapper> keys = session.keys().getKeysStream(realm, KeyUse.SIG, Algorithm.RS256)
                     .sorted(SamlService::compareKeys)
@@ -1034,7 +1034,7 @@ public class SamlService extends AuthorizationEndpointBase {
      * @param relayState Optional relay state - free field as per SAML specification
      * @return The auth session model or null if there is no SAML url is found
      */
-    public AuthenticationSessionModel getOrCreateLoginSessionForIdpInitiatedSso(KeycloakSession session, RealmModel realm, ClientModel client, String relayState) {
+    public AuthenticationSessionModel getOrCreateLoginSessionForIdpInitiatedSso(KeycloakRequestSession session, RealmModel realm, ClientModel client, String relayState) {
         String[] bindingProperties = getUrlAndBindingForIdpInitiatedSso(client);
         if (bindingProperties == null) {
             return null;
@@ -1380,7 +1380,7 @@ public class SamlService extends AuthorizationEndpointBase {
         }
 
         @Override
-        public void run(KeycloakSession session){
+        public void run(KeycloakRequestSession session){
             // Initialize context
             session.getContext().setHttpRequest(request);
             session.getContext().setHttpResponse(response);

@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 
 import org.jboss.logging.Logger;
 import org.keycloak.common.constants.KerberosConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:jstephen@redhat.com.com">Justin Stephenson</a>
@@ -31,7 +31,7 @@ public class IpatuuraAuthenticator {
 
     private static final Logger logger = Logger.getLogger(IpatuuraAuthenticator.class);
 
-    public String getToken(KeycloakSession session) {
+    public String getToken(KeycloakRequestSession session) {
         HttpHeaders headers = session.getContext().getHttpRequest().getHttpHeaders();
 
         String authHeader = headers.getRequestHeaders().getFirst(HttpHeaders.AUTHORIZATION);

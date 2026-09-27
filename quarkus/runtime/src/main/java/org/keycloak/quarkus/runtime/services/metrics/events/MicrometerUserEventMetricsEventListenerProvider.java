@@ -28,7 +28,7 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerTransaction;
 import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public class MicrometerUserEventMetricsEventListenerProvider implements EventLis
             new EventListenerTransaction(null, this::countEvent);
     private final Meter.MeterProvider<Counter> meterProvider;
 
-    public MicrometerUserEventMetricsEventListenerProvider(KeycloakSession session, boolean withIdp, boolean withRealm, boolean withClientId, HashSet<String> events, Meter.MeterProvider<Counter> meterProvider) {
+    public MicrometerUserEventMetricsEventListenerProvider(KeycloakRequestSession session, boolean withIdp, boolean withRealm, boolean withClientId, HashSet<String> events, Meter.MeterProvider<Counter> meterProvider) {
         this.withIdp = withIdp;
         this.withRealm = withRealm;
         this.withClientId = withClientId;

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.PairwiseSubMapperUtils;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.ServicesLogger;
@@ -47,10 +47,10 @@ public class TrustedHostClientRegistrationPolicy implements ClientRegistrationPo
 
     private static final Logger logger = Logger.getLogger(TrustedHostClientRegistrationPolicy.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ComponentModel componentModel;
 
-    public TrustedHostClientRegistrationPolicy(KeycloakSession session, ComponentModel componentModel) {
+    public TrustedHostClientRegistrationPolicy(KeycloakRequestSession session, ComponentModel componentModel) {
         this.session = session;
         this.componentModel = componentModel;
     }

@@ -2,7 +2,7 @@ package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperContainerModel;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -57,7 +57,7 @@ public abstract class AbstractPairwiseSubMapper extends AbstractOIDCProtocolMapp
      * @param mapperModel
      * @throws ProtocolMapperConfigException if configuration provided in mapperModel is not valid
      */
-    public void validateAdditionalConfig(KeycloakSession session, RealmModel realm, ProtocolMapperContainerModel mapperContainer, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
+    public void validateAdditionalConfig(KeycloakRequestSession session, RealmModel realm, ProtocolMapperContainerModel mapperContainer, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
     }
 
     @Override
@@ -66,30 +66,30 @@ public abstract class AbstractPairwiseSubMapper extends AbstractOIDCProtocolMapp
     }
 
     @Override
-    public IDToken transformIDToken(IDToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public IDToken transformIDToken(IDToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         setIDTokenSubject(token, generateSub(mappingModel, getSectorIdentifier(clientSessionCtx.getClientSession().getClient(), mappingModel), userSession.getUser().getId()));
         return token;
     }
 
     @Override
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         setAccessTokenSubject(token, generateSub(mappingModel, getSectorIdentifier(clientSessionCtx.getClientSession().getClient(), mappingModel), userSession.getUser().getId()));
         return token;
     }
 
     @Override
-    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         setAccessTokenSubject(token, generateSub(mappingModel, getSectorIdentifier(clientSessionCtx.getClientSession().getClient(), mappingModel), userSession.getUser().getId()));
         return token;
     }
 
     @Override
-    public LogoutToken transformLogoutToken(LogoutToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public LogoutToken transformLogoutToken(LogoutToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         setLogoutTokenSubject(token, generateSub(mappingModel, getSectorIdentifier(clientSessionCtx.getClientSession().getClient(), mappingModel), userSession.getUser().getId()));
         return token;
     }
     @Override
-    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
+    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session, UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         setUserInfoTokenSubject(token, generateSub(mappingModel, getSectorIdentifier(clientSessionCtx.getClientSession().getClient(), mappingModel), userSession.getUser().getId()));
         return token;
     }
@@ -127,7 +127,7 @@ public abstract class AbstractPairwiseSubMapper extends AbstractOIDCProtocolMapp
     }
 
     @Override
-    public final void validateConfig(KeycloakSession session, RealmModel realm, ProtocolMapperContainerModel mapperContainer, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
+    public final void validateConfig(KeycloakRequestSession session, RealmModel realm, ProtocolMapperContainerModel mapperContainer, ProtocolMapperModel mapperModel) throws ProtocolMapperConfigException {
         ClientModel client = null;
         if (mapperContainer instanceof ClientModel) {
             client = (ClientModel) mapperContainer;

@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.condition;
 
 import org.keycloak.OAuth2Constants;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantType;
 import org.keycloak.protocol.oidc.grants.PreAuthorizedCodeGrantTypeFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -39,7 +39,7 @@ public class GrantTypeConditionFactory extends AbstractClientPolicyConditionProv
     public static final String GRANT_TYPES = "grant_types";
 
     @Override
-    public GrantTypeCondition create(KeycloakSession session) {
+    public GrantTypeCondition create(KeycloakRequestSession session) {
         return new GrantTypeCondition(session);
     }
 

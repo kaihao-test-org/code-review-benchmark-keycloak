@@ -40,7 +40,7 @@ import org.keycloak.models.AdminRoles;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -773,7 +773,7 @@ public class OfflineTokenTest extends AbstractKeycloakTest {
         assertEquals(TokenUtil.TOKEN_TYPE_OFFLINE, offlineToken.getType());
         assertNull(offlineToken.getExp());
 
-        String offlineUserSessionId = testingClient.server().fetch((KeycloakSession session) ->
+        String offlineUserSessionId = testingClient.server().fetch((KeycloakRequestSession session) ->
                 session.sessions().getOfflineUserSession(session.realms().getRealmByName("test"), offlineToken.getSessionState()).getId(), String.class);
 
         // logout offline session

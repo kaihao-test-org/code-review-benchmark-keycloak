@@ -18,7 +18,7 @@ package org.keycloak.broker.oidc;
 
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentation;
 import org.keycloak.util.JsonSerialization;
 
@@ -38,7 +38,7 @@ public class OIDCIdentityProviderFactory extends AbstractIdentityProviderFactory
     }
 
     @Override
-    public OIDCIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public OIDCIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new OIDCIdentityProvider(session, new OIDCIdentityProviderConfig(model));
     }
 
@@ -53,11 +53,11 @@ public class OIDCIdentityProviderFactory extends AbstractIdentityProviderFactory
     }
 
     @Override
-    public Map<String, String> parseConfig(KeycloakSession session, String config) {
+    public Map<String, String> parseConfig(KeycloakRequestSession session, String config) {
         return parseOIDCConfig(session, config);
     }
 
-    protected static Map<String, String> parseOIDCConfig(KeycloakSession session, String configString) {
+    protected static Map<String, String> parseOIDCConfig(KeycloakRequestSession session, String configString) {
         OIDCConfigurationRepresentation rep;
         try {
             rep = JsonSerialization.readValue(configString, OIDCConfigurationRepresentation.class);

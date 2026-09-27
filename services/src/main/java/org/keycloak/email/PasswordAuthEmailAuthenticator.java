@@ -2,7 +2,7 @@ package org.keycloak.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.Transport;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.vault.VaultStringSecret;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class PasswordAuthEmailAuthenticator implements EmailAuthenticator {
 
     @Override
-    public void connect(KeycloakSession session, Map<String, String> config, Transport transport) throws EmailException {
+    public void connect(KeycloakRequestSession session, Map<String, String> config, Transport transport) throws EmailException {
         try (VaultStringSecret vaultStringSecret = session.vault().getStringSecret(config.get("password"))) {
             transport.connect(config.get("user"), vaultStringSecret.get().orElse(config.get("password")));
         } catch (MessagingException e) {

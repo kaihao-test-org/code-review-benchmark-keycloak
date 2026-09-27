@@ -20,7 +20,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 import static org.keycloak.provider.ProviderConfigProperty.LIST_TYPE;
@@ -52,7 +52,7 @@ public class GeneratedEcdsaKeyProviderFactory extends AbstractGeneratedEcKeyProv
             .build();
 
     @Override
-    public KeyProvider create(KeycloakSession session, ComponentModel model) {
+    public KeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new GeneratedEcdsaKeyProvider(session.getContext().getRealm(), model);
     }
 

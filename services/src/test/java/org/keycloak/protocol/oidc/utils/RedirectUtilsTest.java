@@ -28,7 +28,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.common.crypto.CryptoProvider;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resteasy.HttpRequestImpl;
 import org.keycloak.services.resteasy.ResteasyKeycloakSession;
 import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
@@ -40,7 +40,7 @@ import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
  */
 public class RedirectUtilsTest {
 
-    private static KeycloakSession session;
+    private static KeycloakRequestSession session;
 
     @BeforeClass
     public static void beforeClass() {

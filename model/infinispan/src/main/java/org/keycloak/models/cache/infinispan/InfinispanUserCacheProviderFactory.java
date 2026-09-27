@@ -23,7 +23,7 @@ import org.keycloak.Config;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.cache.UserCache;
 import org.keycloak.models.cache.UserCacheProviderFactory;
@@ -44,12 +44,12 @@ public class InfinispanUserCacheProviderFactory implements UserCacheProviderFact
 
 
     @Override
-    public UserCache create(KeycloakSession session) {
+    public UserCache create(KeycloakRequestSession session) {
         lazyInit(session);
         return new UserCacheSession(userCache, session);
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (userCache == null) {
             synchronized (this) {
                 if (userCache == null) {

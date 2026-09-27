@@ -26,7 +26,7 @@ import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserModel;
@@ -60,7 +60,7 @@ public class ConcurrentAuthzTest extends KeycloakModelTest {
     private String adminId;
 
     @Override
-    protected void createEnvironment(KeycloakSession s) {
+    protected void createEnvironment(KeycloakRequestSession s) {
         RealmModel realm = createRealm(s, "test");
         s.getContext().setRealm(realm);
         realm.setDefaultRole(s.roles().addRealmRole(realm, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + realm.getName()));
@@ -81,7 +81,7 @@ public class ConcurrentAuthzTest extends KeycloakModelTest {
     }
 
     @Override
-    protected void cleanEnvironment(KeycloakSession s) {
+    protected void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);

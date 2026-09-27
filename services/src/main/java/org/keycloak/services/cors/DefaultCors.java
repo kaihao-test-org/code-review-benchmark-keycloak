@@ -30,7 +30,7 @@ import org.keycloak.common.util.CollectionUtil;
 import org.keycloak.common.util.UriUtils;
 import org.keycloak.http.HttpResponse;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.utils.WebOriginsUtils;
 import org.keycloak.representations.AccessToken;
 
@@ -43,7 +43,7 @@ public class DefaultCors implements Cors {
 
     private final HttpRequest request;
     private final HttpResponse response;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private ResponseBuilder builder;
     private Set<String> allowedOrigins;
     private Set<String> allowedMethods;
@@ -52,7 +52,7 @@ public class DefaultCors implements Cors {
     private boolean preflight;
     private boolean auth;
 
-    DefaultCors(KeycloakSession session) {
+    DefaultCors(KeycloakRequestSession session) {
         this.session = session;
         this.request = session.getContext().getHttpRequest();
         this.response = session.getContext().getHttpResponse();
@@ -83,7 +83,7 @@ public class DefaultCors implements Cors {
     }
 
     @Override
-    public Cors allowedOrigins(KeycloakSession session, ClientModel client) {
+    public Cors allowedOrigins(KeycloakRequestSession session, ClientModel client) {
         if (client != null) {
             allowedOrigins = WebOriginsUtils.resolveValidWebOrigins(session, client);
         }

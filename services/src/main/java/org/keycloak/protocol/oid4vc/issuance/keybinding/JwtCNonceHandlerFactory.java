@@ -18,7 +18,7 @@
 
 package org.keycloak.protocol.oid4vc.issuance.keybinding;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author Pascal Knüppel
@@ -28,7 +28,7 @@ public class JwtCNonceHandlerFactory implements CNonceHandlerFactory {
     public static final String PROVIDER_ID = "oid4vci-jwt-c-nonce-builder";
 
     @Override
-    public CNonceHandler create(KeycloakSession session) {
+    public CNonceHandler create(KeycloakRequestSession session) {
         return new JwtCNonceHandler(session);
     }
 

@@ -22,7 +22,7 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputUpdater;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -55,10 +55,10 @@ public class FailableHardcodedStorageProvider implements UserStorageProvider, Us
     public static boolean fail;
 
     protected ComponentModel model;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected boolean componentFail;
 
-    public FailableHardcodedStorageProvider(ComponentModel model, KeycloakSession session) {
+    public FailableHardcodedStorageProvider(ComponentModel model, KeycloakRequestSession session) {
         this.model = model;
         this.session = session;
         componentFail = isInFailMode(model);

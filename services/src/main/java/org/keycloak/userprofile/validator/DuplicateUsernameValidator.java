@@ -19,7 +19,7 @@ package org.keycloak.userprofile.validator;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -60,7 +60,7 @@ public class DuplicateUsernameValidator implements SimpleValidator {
         if (Validation.isBlank(value))
             return context;
 
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         UserModel existing = session.users().getUserByUsername(session.getContext().getRealm(), value);
         UserModel user = UserProfileAttributeValidationContext.from(context).getAttributeContext().getUser();
         String valueLowercased = value.toLowerCase();

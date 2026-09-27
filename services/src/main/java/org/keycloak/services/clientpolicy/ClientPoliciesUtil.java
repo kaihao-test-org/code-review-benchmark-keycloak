@@ -37,7 +37,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.JsonConfigComponentModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
@@ -78,7 +78,7 @@ public class ClientPoliciesUtil {
         return is;
     }
 
-    public static List<ClientProfileRepresentation> readGlobalClientProfilesRepresentation(KeycloakSession session, String name) throws ClientPolicyException {
+    public static List<ClientProfileRepresentation> readGlobalClientProfilesRepresentation(KeycloakRequestSession session, String name) throws ClientPolicyException {
         if (name == null) {
             return Collections.emptyList();
         }
@@ -89,7 +89,7 @@ public class ClientPoliciesUtil {
         }
     }
 
-    public static List<ClientPolicyRepresentation> readGlobalClientPoliciesRepresentation(KeycloakSession session, String name,
+    public static List<ClientPolicyRepresentation> readGlobalClientPoliciesRepresentation(KeycloakRequestSession session, String name,
             List<ClientProfileRepresentation> profiles) throws ClientPolicyException {
         if (name == null) {
             return Collections.emptyList();
@@ -105,7 +105,7 @@ public class ClientPoliciesUtil {
      * gets existing client profiles in a realm as representation.
      * not return null.
      */
-    static ClientProfilesRepresentation getClientProfilesRepresentation(KeycloakSession session, RealmModel realm) throws ClientPolicyException {
+    static ClientProfilesRepresentation getClientProfilesRepresentation(KeycloakRequestSession session, RealmModel realm) throws ClientPolicyException {
         String profilesJson = getClientProfilesJsonString(realm);
 
         // deserialize existing profiles (json -> representation)
@@ -118,7 +118,7 @@ public class ClientPoliciesUtil {
     /**
      * Gets existing client profile of given name with resolved executor providers. It can be profile from realm or from global client profiles.
      */
-    static ClientProfile getClientProfileModel(KeycloakSession session, RealmModel realm, ClientProfilesRepresentation profilesRep, List<ClientProfileRepresentation> globalClientProfiles, String profileName) throws ClientPolicyException {
+    static ClientProfile getClientProfileModel(KeycloakRequestSession session, RealmModel realm, ClientProfilesRepresentation profilesRep, List<ClientProfileRepresentation> globalClientProfiles, String profileName) throws ClientPolicyException {
         // Obtain profiles from realm
         List<ClientProfileRepresentation> profiles = profilesRep.getProfiles();
         if (profiles == null) {
@@ -156,7 +156,7 @@ public class ClientPoliciesUtil {
         return profileModel;
     }
 
-    private static ClientPolicyExecutorProvider getExecutorProvider(KeycloakSession session, RealmModel realm, String providerId, JsonNode config) {
+    private static ClientPolicyExecutorProvider getExecutorProvider(KeycloakRequestSession session, RealmModel realm, String providerId, JsonNode config) {
         ComponentModel componentModel = new JsonConfigComponentModel(ClientPolicyExecutorProvider.class, realm.getId(), providerId, config);
         ClientPolicyExecutorProvider executorProvider = session.getComponentProvider(ClientPolicyExecutorProvider.class, componentModel.getId(), sessionFactory -> componentModel);
         if (executorProvider == null) {
@@ -174,7 +174,7 @@ public class ClientPoliciesUtil {
      * it is loaded from json file enclosed in keycloak's binary.
      * not return null.
      */
-    static List<ClientProfileRepresentation> getValidatedGlobalClientProfilesRepresentation(KeycloakSession session, InputStream is) throws ClientPolicyException {
+    static List<ClientProfileRepresentation> getValidatedGlobalClientProfilesRepresentation(KeycloakRequestSession session, InputStream is) throws ClientPolicyException {
         // load builtin client profiles representation
         ClientProfilesRepresentation proposedProfilesRep = null;
         try {
@@ -231,7 +231,7 @@ public class ClientPoliciesUtil {
      * it is loaded from json file enclosed in keycloak's binary.
      * not return null.
      */
-    static List<ClientPolicyRepresentation> getValidatedGlobalClientPoliciesRepresentation(KeycloakSession session, InputStream is, List<ClientProfileRepresentation> profiles) throws ClientPolicyException {
+    static List<ClientPolicyRepresentation> getValidatedGlobalClientPoliciesRepresentation(KeycloakRequestSession session, InputStream is, List<ClientProfileRepresentation> profiles) throws ClientPolicyException {
         ClientPoliciesRepresentation proposedPoliciesRep = null;
         try {
             proposedPoliciesRep = JsonSerialization.readValue(is, ClientPoliciesRepresentation.class);
@@ -274,7 +274,7 @@ public class ClientPoliciesUtil {
      * it can be constructed by merging proposed client profiles with existing client profiles.
      * not return null.
      */
-    static ClientProfilesRepresentation getValidatedClientProfilesForUpdate(KeycloakSession session, RealmModel realm,
+    static ClientProfilesRepresentation getValidatedClientProfilesForUpdate(KeycloakRequestSession session, RealmModel realm,
                                                                                    ClientProfilesRepresentation proposedProfilesRep, List<ClientProfileRepresentation> globalClientProfiles) throws ClientPolicyException {
         if (realm == null) {
             throw new ClientPolicyException("realm not specified.");
@@ -344,7 +344,7 @@ public class ClientPoliciesUtil {
      * check whether the proposed executor's provider can be found in keycloak's ClientPolicyExecutorProvider list.
      * not return null.
      */
-    private static boolean isValidExecutor(KeycloakSession session, ClientPolicyExecutorRepresentation executorRep) {
+    private static boolean isValidExecutor(KeycloakRequestSession session, ClientPolicyExecutorRepresentation executorRep) {
         String executorProviderId = executorRep.getExecutorProviderId();
         Set<String> providerSet = session.listProviderIds(ClientPolicyExecutorProvider.class);
         if (providerSet != null && providerSet.contains(executorProviderId)) {
@@ -365,7 +365,7 @@ public class ClientPoliciesUtil {
      * get existing client policies in a realm as representation.
      * not return null.
      */
-    static ClientPoliciesRepresentation getClientPoliciesRepresentation(KeycloakSession session, RealmModel realm) throws ClientPolicyException {
+    static ClientPoliciesRepresentation getClientPoliciesRepresentation(KeycloakRequestSession session, RealmModel realm) throws ClientPolicyException {
         // get existing policies json
         String policiesJson = getClientPoliciesJsonString(realm);
 
@@ -376,12 +376,12 @@ public class ClientPoliciesUtil {
         return convertClientPoliciesJsonToRepresentation(policiesJson);
     }
 
-    static List<ClientProfileRepresentation> getGlobalClientProfiles(KeycloakSession session) {
+    static List<ClientProfileRepresentation> getGlobalClientProfiles(KeycloakRequestSession session) {
         SecurityProfileProvider securityProfile = session.getProvider(SecurityProfileProvider.class);
         return securityProfile.getDefaultClientProfiles();
     }
 
-    static List<ClientPolicyRepresentation> getGlobalClientPolicies(KeycloakSession session) {
+    static List<ClientPolicyRepresentation> getGlobalClientPolicies(KeycloakRequestSession session) {
         SecurityProfileProvider securityProfile = session.getProvider(SecurityProfileProvider.class);
         return securityProfile.getDefaultClientPolicies();
     }
@@ -390,7 +390,7 @@ public class ClientPoliciesUtil {
      * Gets existing enabled client policies in a realm.
      * not return null.
      */
-    static List<ClientPolicy> getEnabledClientPolicies(KeycloakSession session, RealmModel realm) {
+    static List<ClientPolicy> getEnabledClientPolicies(KeycloakRequestSession session, RealmModel realm) {
         // get the global policies defined in the security profile
         List<ClientPolicyRepresentation> policiesRep = new ArrayList<>(getGlobalClientPolicies(session));
 
@@ -446,7 +446,7 @@ public class ClientPoliciesUtil {
         return policyList;
     }
 
-    private static ClientPolicyConditionProvider getConditionProvider(KeycloakSession session, RealmModel realm, String providerId, JsonNode config) {
+    private static ClientPolicyConditionProvider getConditionProvider(KeycloakRequestSession session, RealmModel realm, String providerId, JsonNode config) {
         ComponentModel componentModel = new JsonConfigComponentModel(ClientPolicyConditionProvider.class, realm.getId(), providerId, config);
         ClientPolicyConditionProvider conditionProvider = session.getComponentProvider(ClientPolicyConditionProvider.class, componentModel.getId(), sessionFactory -> componentModel);
         if (conditionProvider == null) {
@@ -492,7 +492,7 @@ public class ClientPoliciesUtil {
      * @return The validated policies
      * @throws ClientPolicyException Some error in the policies
      */
-    static private List<ClientPolicyRepresentation> validatePolicies(KeycloakSession session, List<ClientPolicyRepresentation> proposedPoliciesRepList,
+    static private List<ClientPolicyRepresentation> validatePolicies(KeycloakRequestSession session, List<ClientPolicyRepresentation> proposedPoliciesRepList,
             List<ClientProfileRepresentation> profiles, List<ClientPolicyRepresentation> globalPolicies) throws ClientPolicyException {
 
         // empty policies is valid
@@ -569,7 +569,7 @@ public class ClientPoliciesUtil {
      * @param realm
      * @param proposedPoliciesRep
      */
-    static ClientPoliciesRepresentation getValidatedClientPoliciesForUpdate(KeycloakSession session, RealmModel realm,
+    static ClientPoliciesRepresentation getValidatedClientPoliciesForUpdate(KeycloakRequestSession session, RealmModel realm,
             ClientPoliciesRepresentation proposedPoliciesRep, List<ClientProfileRepresentation> existingGlobalProfiles,
             List<ClientPolicyRepresentation> existingGlobalPolicies) throws ClientPolicyException {
         if (realm == null) {
@@ -594,7 +594,7 @@ public class ClientPoliciesUtil {
      * check whether the proposed condition's provider can be found in keycloak's ClientPolicyConditionProvider list.
      * not return null.
      */
-    private static boolean isValidCondition(KeycloakSession session, String conditionProviderId) {
+    private static boolean isValidCondition(KeycloakRequestSession session, String conditionProviderId) {
         Set<String> providerSet = session.listProviderIds(ClientPolicyConditionProvider.class);
         if (providerSet != null && providerSet.contains(conditionProviderId)) {
             return true;
@@ -603,7 +603,7 @@ public class ClientPoliciesUtil {
         return false;
     }
 
-    private static void validateConditionConfig(KeycloakSession session, ClientPolicyConditionRepresentation conditionRep) throws ClientPolicyException {
+    private static void validateConditionConfig(KeycloakRequestSession session, ClientPolicyConditionRepresentation conditionRep) throws ClientPolicyException {
         ClientPolicyConditionProviderFactory factory = getClientPolicyConditionFactory(session, conditionRep.getConditionProviderId());
         try {
             factory.validateConfiguration(session, session.getContext().getRealm(), conditionRep);
@@ -613,7 +613,7 @@ public class ClientPoliciesUtil {
         }
     }
 
-    private static ClientPolicyConditionProviderFactory getClientPolicyConditionFactory(KeycloakSession session, String providerId) {
+    private static ClientPolicyConditionProviderFactory getClientPolicyConditionFactory(KeycloakRequestSession session, String providerId) {
         Class<? extends Provider> provider = session.getProviderClass(ClientPolicyConditionProvider.class.getName());
         if (provider == null) {
             throw new IllegalArgumentException("Invalid provider type '" + ClientPolicyConditionProvider.class.getName() + "'");

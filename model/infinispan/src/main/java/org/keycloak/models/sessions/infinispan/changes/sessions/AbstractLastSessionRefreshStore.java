@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.keycloak.common.util.Time;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Abstract "store" for bulk sending of the updates related to lastSessionRefresh
@@ -44,7 +44,7 @@ public abstract class AbstractLastSessionRefreshStore {
     }
 
 
-    public void putLastSessionRefresh(KeycloakSession kcSession, String sessionId, String realmId, int lastSessionRefresh) {
+    public void putLastSessionRefresh(KeycloakRequestSession kcSession, String sessionId, String realmId, int lastSessionRefresh) {
         lastSessionRefreshes.put(sessionId, new SessionData(realmId, lastSessionRefresh));
 
         // Assume that lastSessionRefresh is same or close to current time
@@ -52,7 +52,7 @@ public abstract class AbstractLastSessionRefreshStore {
     }
 
 
-    void checkSendingMessage(KeycloakSession kcSession, int currentTime) {
+    void checkSendingMessage(KeycloakRequestSession kcSession, int currentTime) {
         if (lastSessionRefreshes.size() >= maxCount || lastRun + maxIntervalBetweenMessagesSeconds <= currentTime) {
             Map<String, SessionData> refreshesToSend = prepareSendingMessage();
 
@@ -93,5 +93,5 @@ public abstract class AbstractLastSessionRefreshStore {
      * @param kcSession
      * @param refreshesToSend Key is userSession ID, SessionData are data about the session
      */
-    protected abstract void sendMessage(KeycloakSession kcSession, Map<String, SessionData> refreshesToSend);
+    protected abstract void sendMessage(KeycloakRequestSession kcSession, Map<String, SessionData> refreshesToSend);
 }

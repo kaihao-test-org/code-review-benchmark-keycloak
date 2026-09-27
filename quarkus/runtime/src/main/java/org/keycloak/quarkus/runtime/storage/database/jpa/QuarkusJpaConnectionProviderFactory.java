@@ -46,7 +46,7 @@ import org.keycloak.connections.jpa.updater.JpaUpdaterProvider;
 import org.keycloak.connections.jpa.util.JpaUtils;
 import org.keycloak.migration.MigrationModelManager;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.dblock.DBLockManager;
 import org.keycloak.models.dblock.DBLockProvider;
@@ -71,7 +71,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
     private Map<String, String> operationalInfo;
 
     @Override
-    public JpaConnectionProvider create(KeycloakSession session) {
+    public JpaConnectionProvider create(KeycloakRequestSession session) {
         logger.trace("Create QuarkusJpaConnectionProvider");
         return new DefaultJpaConnectionProvider(createEntityManager(entityManagerFactory, session));
     }
@@ -81,7 +81,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         return "quarkus";
     }
 
-    private void addSpecificNamedQueries(KeycloakSession session) {
+    private void addSpecificNamedQueries(KeycloakRequestSession session) {
         EntityManager em = createEntityManager(entityManagerFactory, session);
 
         try {
@@ -106,7 +106,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         String schema = getSchema();
         boolean schemaChanged;
 
-        try (Connection connection = getConnection(); KeycloakSession session = factory.create()) {
+        try (Connection connection = getConnection(); KeycloakRequestSession session = factory.create()) {
             try {
                 try (Statement statement = connection.createStatement()) {
                     try (ResultSet rs = statement.executeQuery(String.format(SQL_GET_LATEST_VERSION, getSchema(schema)))) {
@@ -192,12 +192,12 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         }
     }
 
-    private void initSchema(KeycloakSession session) {
+    private void initSchema(KeycloakRequestSession session) {
         logger.debug("Calling migrateModel");
         migrateModel(session);
     }
 
-    private void migrateModel(KeycloakSession session) {
+    private void migrateModel(KeycloakRequestSession session) {
         try {
             MigrationModelManager.migrate(session);
         } catch (Exception e) {
@@ -228,7 +228,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         }
     }
 
-    private boolean createOrUpdateSchema(String schema, String version, Connection connection, KeycloakSession session) {
+    private boolean createOrUpdateSchema(String schema, String version, Connection connection, KeycloakRequestSession session) {
         MigrationStrategy strategy = getMigrationStrategy();
         boolean initializeEmpty = config.getBoolean("initializeEmpty", true);
         File databaseUpdateFile = getDatabaseUpdateFile();
@@ -273,7 +273,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         return requiresMigration;
     }
 
-    private void update(Connection connection, String schema, KeycloakSession session, JpaUpdaterProvider updater) {
+    private void update(Connection connection, String schema, KeycloakRequestSession session, JpaUpdaterProvider updater) {
         DBLockManager dbLockManager = new DBLockManager(session);
         DBLockProvider dbLock2 = dbLockManager.getDBLock();
         dbLock2.waitForLock(DBLockProvider.Namespace.DATABASE);
@@ -284,7 +284,7 @@ public class QuarkusJpaConnectionProviderFactory extends AbstractJpaConnectionPr
         }
     }
 
-    private void export(Connection connection, String schema, File databaseUpdateFile, KeycloakSession session,
+    private void export(Connection connection, String schema, File databaseUpdateFile, KeycloakRequestSession session,
             JpaUpdaterProvider updater) {
         DBLockManager dbLockManager = new DBLockManager(session);
         DBLockProvider dbLock2 = dbLockManager.getDBLock();

@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.connections.infinispan.InfinispanUtil;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -53,7 +53,7 @@ public class RemoteStickySessionEncoderProviderFactory implements StickySessionE
     private volatile StickySessionEncoderProvider provider;
 
     @Override
-    public StickySessionEncoderProvider create(KeycloakSession session) {
+    public StickySessionEncoderProvider create(KeycloakRequestSession session) {
         return shouldAttachRoute ? provider : NO_ROUTER_PROVIDER;
     }
 
@@ -107,7 +107,7 @@ public class RemoteStickySessionEncoderProviderFactory implements StickySessionE
         log.debugf("Should attach route to the sticky session cookie: %b", shouldAttachRoute);
     }
 
-    private static String getRoute(KeycloakSession session) {
+    private static String getRoute(KeycloakRequestSession session) {
         return InfinispanUtil.getTopologyInfo(session).getMyNodeName();
     }
 

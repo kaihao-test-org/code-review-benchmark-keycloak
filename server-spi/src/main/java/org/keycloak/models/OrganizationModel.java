@@ -52,11 +52,11 @@ public interface OrganizationModel {
     interface OrganizationMembershipEvent extends ProviderEvent {
         OrganizationModel getOrganization();
         UserModel getUser();
-        KeycloakSession getSession();
+        KeycloakRequestSession getSession();
     }
 
     interface OrganizationMemberJoinEvent extends OrganizationMembershipEvent {
-        static void fire(OrganizationModel organization, UserModel user, KeycloakSession session) {
+        static void fire(OrganizationModel organization, UserModel user, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new OrganizationModel.OrganizationMemberJoinEvent() {
                 @Override
                 public UserModel getUser() {
@@ -69,7 +69,7 @@ public interface OrganizationModel {
                 }
 
                 @Override
-                public KeycloakSession getSession() {
+                public KeycloakRequestSession getSession() {
                     return session;
                 }
             });
@@ -77,7 +77,7 @@ public interface OrganizationModel {
     }
 
     interface OrganizationMemberLeaveEvent extends OrganizationMembershipEvent {
-        static void fire(OrganizationModel organization, UserModel user, KeycloakSession session) {
+        static void fire(OrganizationModel organization, UserModel user, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new OrganizationModel.OrganizationMemberLeaveEvent() {
                 @Override
                 public UserModel getUser() {
@@ -90,7 +90,7 @@ public interface OrganizationModel {
                 }
 
                 @Override
-                public KeycloakSession getSession() {
+                public KeycloakRequestSession getSession() {
                     return session;
                 }
             });

@@ -19,7 +19,7 @@ package org.keycloak.models.cache.infinispan;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.cache.infinispan.entities.CachedGroup;
@@ -41,12 +41,12 @@ public class GroupAdapter implements GroupModel {
 
     protected final CachedGroup cached;
     protected final RealmCacheSession cacheSession;
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
     protected final RealmModel realm;
     private final Supplier<GroupModel> modelSupplier;
     protected volatile GroupModel updated;
 
-    public GroupAdapter(CachedGroup cached, RealmCacheSession cacheSession, KeycloakSession keycloakSession, RealmModel realm) {
+    public GroupAdapter(CachedGroup cached, RealmCacheSession cacheSession, KeycloakRequestSession keycloakSession, RealmModel realm) {
         this.cached = cached;
         this.cacheSession = cacheSession;
         this.keycloakSession = keycloakSession;

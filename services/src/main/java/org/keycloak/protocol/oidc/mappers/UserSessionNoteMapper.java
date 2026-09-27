@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionNoteDescriptor;
@@ -90,7 +90,7 @@ public class UserSessionNoteMapper extends AbstractOIDCProtocolMapper implements
 
     @Override
     protected void setClaim(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel, UserSessionModel userSession,
-                            KeycloakSession keycloakSession, ClientSessionContext clientSessionCtx) {
+                            KeycloakRequestSession keycloakSession, ClientSessionContext clientSessionCtx) {
 
         String noteName = mappingModel.getConfig().get(ProtocolMapperUtils.USER_SESSION_NOTE);
         String noteValue = userSession.getNote(noteName);

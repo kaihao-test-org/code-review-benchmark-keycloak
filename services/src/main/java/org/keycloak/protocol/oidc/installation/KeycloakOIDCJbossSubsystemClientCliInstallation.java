@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.installation;
 import static org.keycloak.protocol.util.ClientCliInstallationUtil.quote;
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class KeycloakOIDCJbossSubsystemClientCliInstallation implements ClientInstallationProvider {
 
     @Override
-    public Response generateInstallation(KeycloakSession session, RealmModel realm, ClientModel client, URI baseUri) {
+    public Response generateInstallation(KeycloakRequestSession session, RealmModel realm, ClientModel client, URI baseUri) {
         String deploymentName = "WAR MODULE NAME.war";
         StringBuilder builder = new StringBuilder();
         
@@ -91,7 +91,7 @@ public class KeycloakOIDCJbossSubsystemClientCliInstallation implements ClientIn
     }
 
     @Override
-    public ClientInstallationProvider create(KeycloakSession session) {
+    public ClientInstallationProvider create(KeycloakRequestSession session) {
         return this;
     }
 

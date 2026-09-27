@@ -1,6 +1,6 @@
 package org.keycloak.transaction;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakTransaction;
 import org.keycloak.models.KeycloakTransactionManager;
 import org.keycloak.services.ErrorPage;
@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Response;
  */
 public class AsyncResponseTransaction implements KeycloakTransaction {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AsyncResponse responseToFinishInTransaction;
     private final Response responseToSend;
 
@@ -26,15 +26,15 @@ public class AsyncResponseTransaction implements KeycloakTransaction {
      * {@code responseToFinishInTransaction} with given Response {@code responseToSend}. The transaction is enlisted 
      * to {@link KeycloakTransactionManager}.
      *
-     * @param session Current KeycloakSession
+     * @param session Current KeycloakRequestSession
      * @param responseToFinishInTransaction AsyncResponse to be resumed on {@link KeycloakTransactionManager} commit/rollback.
      * @param responseToSend Response to be sent
      */
-    public static void finishAsyncResponseInTransaction(KeycloakSession session, AsyncResponse responseToFinishInTransaction, Response responseToSend) {
+    public static void finishAsyncResponseInTransaction(KeycloakRequestSession session, AsyncResponse responseToFinishInTransaction, Response responseToSend) {
         session.getTransactionManager().enlistAfterCompletion(new AsyncResponseTransaction(session, responseToFinishInTransaction, responseToSend));
     }
     
-    private AsyncResponseTransaction(KeycloakSession session, AsyncResponse responseToFinishInTransaction, Response responseToSend) {
+    private AsyncResponseTransaction(KeycloakRequestSession session, AsyncResponse responseToFinishInTransaction, Response responseToSend) {
         this.session = session;
         this.responseToFinishInTransaction = responseToFinishInTransaction;
         this.responseToSend = responseToSend;

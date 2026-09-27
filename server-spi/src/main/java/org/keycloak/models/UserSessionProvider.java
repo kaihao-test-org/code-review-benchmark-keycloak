@@ -33,9 +33,9 @@ public interface UserSessionProvider extends Provider {
 
     /**
      * Returns currently used Keycloak session.
-     * @return {@link KeycloakSession}
+     * @return {@link KeycloakRequestSession}
      */
-    KeycloakSession getKeycloakSession();
+    KeycloakRequestSession getKeycloakSession();
 
     AuthenticatedClientSessionModel createClientSession(RealmModel realm, ClientModel client, UserSessionModel userSession);
 

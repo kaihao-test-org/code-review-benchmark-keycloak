@@ -13,7 +13,7 @@ import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +33,7 @@ public class OpenshiftV4IdentityProvider extends AbstractOAuth2IdentityProvider<
     public static final String DEFAULT_SCOPE = "user:info";
     private static final String KUBEADM_NAME = "kube:admin";
 
-    public OpenshiftV4IdentityProvider(KeycloakSession session, OpenshiftV4IdentityProviderConfig config) {
+    public OpenshiftV4IdentityProvider(KeycloakRequestSession session, OpenshiftV4IdentityProviderConfig config) {
         super(session, config);
         final String baseUrl = Optional.ofNullable(config.getBaseUrl()).orElse(BASE_URL);
         Map<String, Object> oauthDescriptor = getAuthJson(session, config.getBaseUrl());
@@ -43,7 +43,7 @@ public class OpenshiftV4IdentityProvider extends AbstractOAuth2IdentityProvider<
         config.setUserInfoUrl(baseUrl + PROFILE_RESOURCE);
     }
 
-    Map<String, Object> getAuthJson(KeycloakSession session, String baseUrl) {
+    Map<String, Object> getAuthJson(KeycloakRequestSession session, String baseUrl) {
         try {
             InputStream response = getOauthMetadataInputStream(session, baseUrl);
             Map<String, Object> map = mapMetadata(response);
@@ -53,7 +53,7 @@ public class OpenshiftV4IdentityProvider extends AbstractOAuth2IdentityProvider<
         }
     }
 
-    InputStream getOauthMetadataInputStream(KeycloakSession session, String baseUrl) throws IOException {
+    InputStream getOauthMetadataInputStream(KeycloakRequestSession session, String baseUrl) throws IOException {
         HttpClient httpClient = session.getProvider(HttpClientProvider.class).getHttpClient();
         HttpGet getRequest = new HttpGet(baseUrl + OPENSHIFT_OAUTH_METADATA_ENDPOINT);
         getRequest.addHeader("accept", "application/json");

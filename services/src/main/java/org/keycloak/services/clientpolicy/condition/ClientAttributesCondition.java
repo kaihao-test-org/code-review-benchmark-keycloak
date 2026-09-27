@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.condition;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.MapperTypeSerializer;
 import org.keycloak.representations.idm.ClientPolicyConditionConfigurationRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -37,7 +37,7 @@ public class ClientAttributesCondition extends AbstractClientPolicyConditionProv
 
     private static final Logger logger = Logger.getLogger(ClientAttributesCondition.class);
 
-    public ClientAttributesCondition(KeycloakSession session) {
+    public ClientAttributesCondition(KeycloakRequestSession session) {
         super(session);
     }
 

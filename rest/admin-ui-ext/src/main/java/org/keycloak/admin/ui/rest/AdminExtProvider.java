@@ -2,7 +2,7 @@ package org.keycloak.admin.ui.rest;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
@@ -12,7 +12,7 @@ import org.keycloak.services.resources.admin.ext.AdminRealmResourceProviderFacto
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 
 public final class AdminExtProvider implements AdminRealmResourceProviderFactory, AdminRealmResourceProvider, EnvironmentDependentProviderFactory {
-    public AdminRealmResourceProvider create(KeycloakSession session) {
+    public AdminRealmResourceProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -29,7 +29,7 @@ public final class AdminExtProvider implements AdminRealmResourceProviderFactory
         return "ui-ext";
     }
 
-    public Object getResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public Object getResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         return new AdminExtResource(session, realm, auth, adminEvent);
     }
 

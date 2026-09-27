@@ -23,7 +23,7 @@ import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.common.Profile;
 import org.keycloak.common.Profile.Feature;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
 /**
@@ -39,7 +39,7 @@ public class InstagramIdentityProviderFactory extends AbstractIdentityProviderFa
     }
 
     @Override
-    public InstagramIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public InstagramIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new InstagramIdentityProvider(session, new OAuth2IdentityProviderConfig(model));
     }
 

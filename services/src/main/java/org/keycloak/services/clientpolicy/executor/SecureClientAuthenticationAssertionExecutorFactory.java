@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -32,7 +32,7 @@ public class SecureClientAuthenticationAssertionExecutorFactory implements Clien
     public static final String PROVIDER_ID = "secure-client-authentication-assertion";
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SecureClientAuthenticationAssertionExecutor(session);
     }
 

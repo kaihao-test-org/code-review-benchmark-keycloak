@@ -2,7 +2,7 @@ package org.keycloak.credential;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
 public class RecoveryAuthnCodesCredentialProviderFactory
@@ -16,7 +16,7 @@ public class RecoveryAuthnCodesCredentialProviderFactory
     }
 
     @Override
-    public RecoveryAuthnCodesCredentialProvider create(KeycloakSession session) {
+    public RecoveryAuthnCodesCredentialProvider create(KeycloakRequestSession session) {
         return new RecoveryAuthnCodesCredentialProvider(session);
     }
 

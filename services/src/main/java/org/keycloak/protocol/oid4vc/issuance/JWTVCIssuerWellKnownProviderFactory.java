@@ -17,7 +17,7 @@
 package org.keycloak.protocol.oid4vc.issuance;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oid4vc.OID4VCEnvironmentProviderFactory;
 import org.keycloak.wellknown.WellKnownProvider;
@@ -35,7 +35,7 @@ public class JWTVCIssuerWellKnownProviderFactory implements WellKnownProviderFac
     public static final String PROVIDER_ID = "jwt-vc-issuer";
 
     @Override
-    public WellKnownProvider create(KeycloakSession session) {
+    public WellKnownProvider create(KeycloakRequestSession session) {
         return new JWTVCIssuerWellKnownProvider(session);
     }
 

@@ -37,7 +37,7 @@ import org.keycloak.events.Event;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.freemarker.model.UrlBean;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -54,7 +54,7 @@ import org.keycloak.theme.freemarker.FreeMarkerProvider;
  */
 public class FreeMarkerEmailTemplateProvider implements EmailTemplateProvider {
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     /**
      * authenticationSession can be null for some email sendings, it is filled only for email sendings performed as part of the authentication session (email verification, password reset, broker link
      * etc.)!
@@ -65,7 +65,7 @@ public class FreeMarkerEmailTemplateProvider implements EmailTemplateProvider {
     protected UserModel user;
     protected final Map<String, Object> attributes = new HashMap<>();
 
-    public FreeMarkerEmailTemplateProvider(KeycloakSession session) {
+    public FreeMarkerEmailTemplateProvider(KeycloakRequestSession session) {
         this.session = session;
         this.freeMarker = session.getProvider(FreeMarkerProvider.class);
     }

@@ -28,7 +28,7 @@ import org.keycloak.authentication.FormActionFactory;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
@@ -51,7 +51,7 @@ public class CredentialHelper {
 
     private static final Logger logger = Logger.getLogger(CredentialHelper.class);
 
-    public static void setOrReplaceAuthenticationRequirement(KeycloakSession session, RealmModel realm, String type, AuthenticationExecutionModel.Requirement requirement, AuthenticationExecutionModel.Requirement currentRequirement) {
+    public static void setOrReplaceAuthenticationRequirement(KeycloakRequestSession session, RealmModel realm, String type, AuthenticationExecutionModel.Requirement requirement, AuthenticationExecutionModel.Requirement currentRequirement) {
         realm.getAuthenticationFlowsStream().forEach(flow -> realm.getAuthenticationExecutionsStream(flow.getId())
                 .filter(exe -> {
                     ConfigurableAuthenticatorFactory factory = getConfigurableAuthenticatorFactory(session, exe.getAuthenticator());
@@ -73,7 +73,7 @@ public class CredentialHelper {
                 }));
     }
 
-    public static ConfigurableAuthenticatorFactory getConfigurableAuthenticatorFactory(KeycloakSession session, String providerId) {
+    public static ConfigurableAuthenticatorFactory getConfigurableAuthenticatorFactory(KeycloakRequestSession session, String providerId) {
         ConfigurableAuthenticatorFactory factory = (AuthenticatorFactory)session.getKeycloakSessionFactory().getProviderFactory(Authenticator.class, providerId);
         if (factory == null) {
             factory = (FormActionFactory)session.getKeycloakSessionFactory().getProviderFactory(FormAction.class, providerId);
@@ -89,7 +89,7 @@ public class CredentialHelper {
      *
      * @return true if credential was successfully created either in the user storage or Keycloak DB. False if error happened (EG. during HOTP validation)
      */
-    public static boolean createOTPCredential(KeycloakSession session, RealmModel realm, UserModel user, String totpCode, OTPCredentialModel credentialModel) {
+    public static boolean createOTPCredential(KeycloakRequestSession session, RealmModel realm, UserModel user, String totpCode, OTPCredentialModel credentialModel) {
         CredentialProvider otpCredentialProvider = session.getProvider(CredentialProvider.class, "keycloak-otp");
         String totpSecret = credentialModel.getOTPSecretData().getValue();
 
@@ -112,7 +112,7 @@ public class CredentialHelper {
     /**
      * Create RecoveryCodes credential either in userStorage or local storage (Keycloak DB)
      */
-    public static void createRecoveryCodesCredential(KeycloakSession session, RealmModel realm, UserModel user, RecoveryAuthnCodesCredentialModel credentialModel, List<String> generatedCodes) {
+    public static void createRecoveryCodesCredential(KeycloakRequestSession session, RealmModel realm, UserModel user, RecoveryAuthnCodesCredentialModel credentialModel, List<String> generatedCodes) {
         var recoveryCodeCredentialProvider = session.getProvider(CredentialProvider.class, "keycloak-recovery-authn-codes");
         String recoveryCodesJson;
         try {

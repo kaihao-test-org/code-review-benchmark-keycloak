@@ -2,7 +2,7 @@ package org.keycloak.protocol.docker.installation;
 
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.ClientInstallationProvider;
@@ -15,7 +15,7 @@ import java.net.URI;
 public class DockerVariableOverrideInstallationProvider implements ClientInstallationProvider {
 
     @Override
-    public ClientInstallationProvider create(final KeycloakSession session) {
+    public ClientInstallationProvider create(final KeycloakRequestSession session) {
         return this;
     }
 
@@ -41,7 +41,7 @@ public class DockerVariableOverrideInstallationProvider implements ClientInstall
 
     // TODO "auth" is not guaranteed to be the endpoint, fix it
     @Override
-    public Response generateInstallation(final KeycloakSession session, final RealmModel realm, final ClientModel client, final URI serverBaseUri) {
+    public Response generateInstallation(final KeycloakRequestSession session, final RealmModel realm, final ClientModel client, final URI serverBaseUri) {
         final StringBuilder builder = new StringBuilder()
                 .append("-e REGISTRY_AUTH_TOKEN_REALM=").append(serverBaseUri).append("/realms/").append(realm.getName()).append("/protocol/").append(DockerAuthV2Protocol.LOGIN_PROTOCOL).append("/auth \\\n")
                 .append("-e REGISTRY_AUTH_TOKEN_SERVICE=").append(client.getClientId()).append(" \\\n")

@@ -19,7 +19,7 @@ package org.keycloak.testsuite.model.transaction;
 
 import org.junit.Test;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.testsuite.model.KeycloakModelTest;
@@ -35,7 +35,7 @@ public class StorageTransactionTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    protected void createEnvironment(KeycloakSession s) {
+    protected void createEnvironment(KeycloakRequestSession s) {
         RealmModel r = s.realms().createRealm("1");
         s.getContext().setRealm(r);
         r.setDefaultRole(s.roles().addRealmRole(r, Constants.DEFAULT_ROLES_ROLE_PREFIX + "-" + r.getName()));
@@ -47,7 +47,7 @@ public class StorageTransactionTest extends KeycloakModelTest {
     }
 
     @Override
-    protected void cleanEnvironment(KeycloakSession s) {
+    protected void cleanEnvironment(KeycloakRequestSession s) {
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
         s.realms().removeRealm(realmId);

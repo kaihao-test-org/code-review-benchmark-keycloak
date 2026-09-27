@@ -21,7 +21,7 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputUpdater;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.credential.CredentialModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.PasswordCredentialModel;
@@ -55,10 +55,10 @@ public class PassThroughFederatedUserStorageProvider implements
     public static final Set<String> CREDENTIAL_TYPES = Collections.singleton(PasswordCredentialModel.TYPE);
     public static final String PASSTHROUGH_USERNAME = "passthrough";
     public static final String INITIAL_PASSWORD = "secret";
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private ComponentModel component;
 
-    public PassThroughFederatedUserStorageProvider(KeycloakSession session, ComponentModel component) {
+    public PassThroughFederatedUserStorageProvider(KeycloakRequestSession session, ComponentModel component) {
         this.session = session;
         this.component = component;
     }

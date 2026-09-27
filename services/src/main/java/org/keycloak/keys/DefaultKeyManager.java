@@ -23,7 +23,7 @@ import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderFactory;
 
@@ -48,10 +48,10 @@ public class DefaultKeyManager implements KeyManager {
 
     private static final Logger logger = Logger.getLogger(DefaultKeyManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Map<String, List<KeyProvider>> providersMap = new HashMap<>();
 
-    public DefaultKeyManager(KeycloakSession session) {
+    public DefaultKeyManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

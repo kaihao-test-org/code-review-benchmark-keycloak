@@ -22,7 +22,7 @@ import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.SecretGenerator;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.sessions.infinispan.changes.RootAuthenticationSessionUpdateTask;
 import org.keycloak.models.sessions.infinispan.entities.AuthenticationSessionEntity;
@@ -42,7 +42,7 @@ public class RootAuthenticationSessionAdapter implements RootAuthenticationSessi
 
     private static final Logger log = Logger.getLogger(RootAuthenticationSessionAdapter.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final int authSessionsLimit;
     private final InfinispanAuthenticationSessionProvider provider;
@@ -52,7 +52,7 @@ public class RootAuthenticationSessionAdapter implements RootAuthenticationSessi
     private final static Comparator<Map.Entry<String, AuthenticationSessionEntity>> TIMESTAMP_COMPARATOR =
             Comparator.comparingInt(e -> e.getValue().getTimestamp());
 
-    public RootAuthenticationSessionAdapter(KeycloakSession session, InfinispanAuthenticationSessionProvider provider, RealmModel realm, RootAuthenticationSessionEntity entity, int authSessionsLimit) {
+    public RootAuthenticationSessionAdapter(KeycloakRequestSession session, InfinispanAuthenticationSessionProvider provider, RealmModel realm, RootAuthenticationSessionEntity entity, int authSessionsLimit) {
         this.session = session;
         this.provider = provider;
         this.entity = entity;

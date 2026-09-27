@@ -34,7 +34,7 @@ import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
@@ -86,11 +86,11 @@ public class IdentityProviderResource {
 
     private final AdminPermissionEvaluator auth;
     private final RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final IdentityProviderModel identityProviderModel;
     private final AdminEventBuilder adminEvent;
 
-    public IdentityProviderResource(AdminPermissionEvaluator auth, RealmModel realm, KeycloakSession session, IdentityProviderModel identityProviderModel, AdminEventBuilder adminEvent) {
+    public IdentityProviderResource(AdminPermissionEvaluator auth, RealmModel realm, KeycloakRequestSession session, IdentityProviderModel identityProviderModel, AdminEventBuilder adminEvent) {
         this.realm = realm;
         this.session = session;
         this.identityProviderModel = identityProviderModel;
@@ -183,7 +183,7 @@ public class IdentityProviderResource {
         }
     }
 
-    private void updateIdpFromRep(IdentityProviderRepresentation providerRep, RealmModel realm, KeycloakSession session) {
+    private void updateIdpFromRep(IdentityProviderRepresentation providerRep, RealmModel realm, KeycloakRequestSession session) {
 
         if (!identityProviderModel.getInternalId().equals(providerRep.getInternalId())) {
             providerRep.setInternalId(identityProviderModel.getInternalId());
@@ -211,7 +211,7 @@ public class IdentityProviderResource {
         }
     }
 
-    private static void updateUsersAfterProviderAliasChange(Stream<UserModel> users, String oldProviderId, String newProviderId, RealmModel realm, KeycloakSession session) {
+    private static void updateUsersAfterProviderAliasChange(Stream<UserModel> users, String oldProviderId, String newProviderId, RealmModel realm, KeycloakRequestSession session) {
         users.forEach(user -> {
             FederatedIdentityModel federatedIdentity = session.users().getFederatedIdentity(realm, user, oldProviderId);
             if (federatedIdentity != null) {

@@ -19,7 +19,7 @@ package org.keycloak.tracing;
 
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class NoopTracingProviderFactory implements TracingProviderFactory {
@@ -27,7 +27,7 @@ public class NoopTracingProviderFactory implements TracingProviderFactory {
     private static TracingProvider SINGLETON;
 
     @Override
-    public TracingProvider create(KeycloakSession session) {
+    public TracingProvider create(KeycloakRequestSession session) {
         if (SINGLETON == null) {
             SINGLETON = new NoopTracingProvider();
         }

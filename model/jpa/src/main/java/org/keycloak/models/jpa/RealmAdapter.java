@@ -63,7 +63,7 @@ public class RealmAdapter implements StorageProviderRealmModel, JpaModel<RealmEn
     protected static final Logger logger = Logger.getLogger(RealmAdapter.class);
     protected RealmEntity realm;
     protected EntityManager em;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     @Override
     public Long getClientsCount() {
@@ -73,7 +73,7 @@ public class RealmAdapter implements StorageProviderRealmModel, JpaModel<RealmEn
     private PasswordPolicy passwordPolicy;
     private OTPPolicy otpPolicy;
 
-    public RealmAdapter(KeycloakSession session, EntityManager em, RealmEntity realm) {
+    public RealmAdapter(KeycloakRequestSession session, EntityManager em, RealmEntity realm) {
         this.session = session;
         this.em = em;
         this.realm = realm;
@@ -1252,7 +1252,7 @@ public class RealmAdapter implements StorageProviderRealmModel, JpaModel<RealmEn
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });

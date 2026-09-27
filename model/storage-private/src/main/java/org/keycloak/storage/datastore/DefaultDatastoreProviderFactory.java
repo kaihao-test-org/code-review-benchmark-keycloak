@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.Config.Scope;
 import org.keycloak.migration.MigrationModelManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.PostMigrationEvent;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -59,7 +59,7 @@ public class DefaultDatastoreProviderFactory implements DatastoreProviderFactory
     private Runnable onClose;
 
     @Override
-    public DatastoreProvider create(KeycloakSession session) {
+    public DatastoreProvider create(KeycloakRequestSession session) {
         return new DefaultDatastoreProvider(this, session);
     }
 
@@ -128,7 +128,7 @@ public class DefaultDatastoreProviderFactory implements DatastoreProviderFactory
     }
 
     public static void setupScheduledTasks(final KeycloakSessionFactory sessionFactory) {
-        try (KeycloakSession session = sessionFactory.create()) {
+        try (KeycloakRequestSession session = sessionFactory.create()) {
             TimerProvider timer = session.getProvider(TimerProvider.class);
             if (timer != null) {
                 scheduleTasks(sessionFactory, timer, getScheduledInterval());
@@ -154,7 +154,7 @@ public class DefaultDatastoreProviderFactory implements DatastoreProviderFactory
     }
 
     public static void setupClearExpiredRevokedTokensScheduledTask(KeycloakSessionFactory sessionFactory) {
-        try (KeycloakSession session = sessionFactory.create()) {
+        try (KeycloakRequestSession session = sessionFactory.create()) {
             TimerProvider timer = session.getProvider(TimerProvider.class);
             if (timer != null) {
                 scheduleTask(timer, sessionFactory, new ClearExpiredRevokedTokens(), getScheduledInterval());

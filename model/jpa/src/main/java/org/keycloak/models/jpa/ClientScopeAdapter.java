@@ -18,7 +18,7 @@
 package org.keycloak.models.jpa;
 
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -42,12 +42,12 @@ import java.util.stream.Stream;
  */
 public class ClientScopeAdapter implements ClientScopeModel, JpaModel<ClientScopeEntity> {
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected EntityManager em;
     protected ClientScopeEntity entity;
 
-    public ClientScopeAdapter(RealmModel realm, EntityManager em, KeycloakSession session, ClientScopeEntity entity) {
+    public ClientScopeAdapter(RealmModel realm, EntityManager em, KeycloakRequestSession session, ClientScopeEntity entity) {
         this.session = session;
         this.realm = realm;
         this.em = em;

@@ -18,7 +18,7 @@
 package org.keycloak.services.resources.admin;
 
 import org.keycloak.events.admin.OperationType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.cache.CacheCrlProvider;
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
@@ -31,9 +31,9 @@ public class ClearCrlCacheResource {
     protected final RealmModel realm;
     private final AdminEventBuilder adminEvent;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ClearCrlCacheResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ClearCrlCacheResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();

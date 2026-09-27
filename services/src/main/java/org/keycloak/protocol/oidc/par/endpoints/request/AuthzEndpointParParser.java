@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -42,12 +42,12 @@ public class AuthzEndpointParParser extends AuthzEndpointRequestParser {
 
     private static final Logger logger = Logger.getLogger(AuthzEndpointParParser.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ClientModel client;
     private Map<String, String> requestParams;
     private String invalidRequestMessage = null;
 
-    public AuthzEndpointParParser(KeycloakSession session, ClientModel client, String requestUri) {
+    public AuthzEndpointParParser(KeycloakRequestSession session, ClientModel client, String requestUri) {
         super(session);
         this.session = session;
         this.client = client;

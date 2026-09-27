@@ -2,7 +2,7 @@ package org.keycloak.services.x509;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.truststore.TruststoreProvider;
 import org.keycloak.truststore.TruststoreProviderFactory;
@@ -55,7 +55,7 @@ public class NginxProxySslClientCertificateLookupFactory extends AbstractClientC
     }
 
     @Override
-    public X509ClientCertificateLookup create(KeycloakSession session) {
+    public X509ClientCertificateLookup create(KeycloakRequestSession session) {
         loadKeycloakTrustStore(session);
         if (trustProxyVerification) {
             return new NginxProxyTrustedClientCertificateLookup(sslClientCertHttpHeader,
@@ -75,7 +75,7 @@ public class NginxProxySslClientCertificateLookupFactory extends AbstractClientC
      *
      * @param kcSession keycloak session
      */
-    private void loadKeycloakTrustStore(KeycloakSession kcSession) {
+    private void loadKeycloakTrustStore(KeycloakRequestSession kcSession) {
 
         if (isTruststoreLoaded){
             return;

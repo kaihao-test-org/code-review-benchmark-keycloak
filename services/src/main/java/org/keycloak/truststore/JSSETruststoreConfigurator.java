@@ -21,7 +21,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -33,7 +33,7 @@ public class JSSETruststoreConfigurator {
     private volatile javax.net.ssl.SSLSocketFactory sslFactory;
     private volatile TrustManager[] tm;
 
-    public JSSETruststoreConfigurator(KeycloakSession session) {
+    public JSSETruststoreConfigurator(KeycloakRequestSession session) {
         KeycloakSessionFactory factory = session.getKeycloakSessionFactory();
         TruststoreProviderFactory truststoreFactory = (TruststoreProviderFactory) factory.getProviderFactory(TruststoreProvider.class, "file");
 

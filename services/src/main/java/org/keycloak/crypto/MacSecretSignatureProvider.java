@@ -17,14 +17,14 @@
 package org.keycloak.crypto;
 
 import org.keycloak.common.VerificationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class MacSecretSignatureProvider implements SignatureProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String algorithm;
 
-    public MacSecretSignatureProvider(KeycloakSession session, String algorithm) {
+    public MacSecretSignatureProvider(KeycloakRequestSession session, String algorithm) {
         this.session = session;
         this.algorithm = algorithm;
     }

@@ -21,7 +21,7 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.common.util.SecretGenerator;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.SubjectCredentialManager;
@@ -84,11 +84,11 @@ public class LightweightUserAdapter extends AbstractInMemoryUserAdapter {
           : id.substring(ID_PREFIX.length());
     }
 
-    public LightweightUserAdapter(KeycloakSession session, String id) {
+    public LightweightUserAdapter(KeycloakRequestSession session, String id) {
         super(session, null, ID_PREFIX + (id == null ? SecretGenerator.getInstance().randomString(16) : id));
     }
 
-    public LightweightUserAdapter(KeycloakSession session, RealmModel realm, String id) {
+    public LightweightUserAdapter(KeycloakRequestSession session, RealmModel realm, String id) {
         super(session, realm, ID_PREFIX + (id == null ? SecretGenerator.getInstance().randomString(16) : id));
     }
 
@@ -101,7 +101,7 @@ public class LightweightUserAdapter extends AbstractInMemoryUserAdapter {
     protected LightweightUserAdapter() {
     }
 
-    public static LightweightUserAdapter fromString(KeycloakSession session, RealmModel realm, String serializedForm) {
+    public static LightweightUserAdapter fromString(KeycloakRequestSession session, RealmModel realm, String serializedForm) {
         if (serializedForm == null) {
             return null;
         }

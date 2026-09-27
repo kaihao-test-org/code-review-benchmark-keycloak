@@ -22,7 +22,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -56,12 +56,12 @@ public class GeneratedAesKeyProviderFactory extends AbstractGeneratedSecretKeyPr
             .build();
 
     @Override
-    public GeneratedAesKeyProvider create(KeycloakSession session, ComponentModel model) {
+    public GeneratedAesKeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new GeneratedAesKeyProvider(model);
     }
 
     @Override
-    public boolean createFallbackKeys(KeycloakSession session, KeyUse keyUse, String algorithm) {
+    public boolean createFallbackKeys(KeycloakRequestSession session, KeyUse keyUse, String algorithm) {
         if (keyUse.equals(KeyUse.ENC) && algorithm.equals(Algorithm.AES)) {
             RealmModel realm = session.getContext().getRealm();
 

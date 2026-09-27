@@ -22,7 +22,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
 import org.keycloak.protocol.saml.JaxrsSAML2BindingBuilder;
@@ -58,7 +58,7 @@ public class SamlEcpProfileService extends SamlService {
     private static final String NS_PREFIX_SAML_PROTOCOL = "samlp";
     private static final String NS_PREFIX_SAML_ASSERTION = "saml";
 
-    public SamlEcpProfileService(KeycloakSession session, EventBuilder event, DestinationValidator destinationValidator) {
+    public SamlEcpProfileService(KeycloakRequestSession session, EventBuilder event, DestinationValidator destinationValidator) {
         super(session, event, destinationValidator);
     }
 
@@ -71,7 +71,7 @@ public class SamlEcpProfileService extends SamlService {
             return new PostBindingProtocol() {
 
                 @Override
-                protected Response error(KeycloakSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
+                protected Response error(KeycloakRequestSession session, AuthenticationSessionModel authenticationSession, Response.Status status, String message, Object... parameters) {
                     return Soap.createFault().code("error").reason(message).build();
                 }
 

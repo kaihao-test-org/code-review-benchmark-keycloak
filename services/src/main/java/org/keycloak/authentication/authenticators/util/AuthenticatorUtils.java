@@ -40,7 +40,7 @@ import static org.keycloak.authentication.authenticators.browser.AbstractUsernam
 public final class AuthenticatorUtils {
     private static final Logger logger = Logger.getLogger(AuthenticatorUtils.class);
 
-    public static String getDisabledByBruteForceEventError(BruteForceProtector protector, KeycloakSession session, RealmModel realm, UserModel user) {
+    public static String getDisabledByBruteForceEventError(BruteForceProtector protector, KeycloakRequestSession session, RealmModel realm, UserModel user) {
         if (realm.isBruteForceProtected()) {
             if (protector.isPermanentlyLockedOut(session, realm, user)) {
                 return Errors.USER_DISABLED;

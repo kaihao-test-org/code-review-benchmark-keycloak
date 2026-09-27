@@ -63,7 +63,7 @@ import org.keycloak.models.GroupModel.GroupPathChangeEvent;
 import org.keycloak.models.GroupModel.GroupUpdatedEvent;
 import org.keycloak.models.GroupModel.Type;
 import org.keycloak.models.GroupProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelValidationException;
@@ -93,12 +93,12 @@ import org.keycloak.protocol.oidc.OIDCLoginProtocol;
  */
 public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientScopeProvider, GroupProvider, RoleProvider, DeploymentStateProvider {
     protected static final Logger logger = Logger.getLogger(JpaRealmProvider.class);
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected EntityManager em;
     private Set<String> clientSearchableAttributes;
     private Set<String> groupSearchableAttributes;
 
-    public JpaRealmProvider(KeycloakSession session, EntityManager em, Set<String> clientSearchableAttributes, Set<String> groupSearchableAttributes) {
+    public JpaRealmProvider(KeycloakRequestSession session, EntityManager em, Set<String> clientSearchableAttributes, Set<String> groupSearchableAttributes) {
         this.session = session;
         this.em = em;
         this.clientSearchableAttributes = clientSearchableAttributes;
@@ -129,7 +129,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
                 return adapter;
             }
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
             	return session;
             }
         });
@@ -227,7 +227,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });
@@ -483,7 +483,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         };
@@ -800,7 +800,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         };
@@ -1126,7 +1126,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
             }
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
         });
@@ -1181,7 +1181,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
         session.getKeycloakSessionFactory().publish(new ClientScopeModel.ClientScopeCreatedEvent() {
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
 
@@ -1212,7 +1212,7 @@ public class JpaRealmProvider implements RealmProvider, ClientProvider, ClientSc
         session.getKeycloakSessionFactory().publish(new ClientScopeModel.ClientScopeRemovedEvent() {
 
             @Override
-            public KeycloakSession getKeycloakSession() {
+            public KeycloakRequestSession getKeycloakSession() {
                 return session;
             }
 

@@ -20,7 +20,7 @@ package org.keycloak.testsuite.model;
 import org.junit.Assert;
 import org.junit.Test;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -49,7 +49,7 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
 
     private static final String REALM_ATTRIBUTE = "test-realm";
 
-    public static void createObjects(KeycloakSession session, RealmModel realm) {
+    public static void createObjects(KeycloakRequestSession session, RealmModel realm) {
         RealmModel sessionRealm = session.getContext().getRealm();
         session.getContext().setRealm(realm);
         final List<String> realmNameList = Collections.singletonList(realm.getName());
@@ -73,11 +73,11 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testUsers(KeycloakSession session) {
+    public void testUsers(KeycloakRequestSession session) {
         AtomicReference<UserModel> r1user1Atomic = new AtomicReference<>();
 
-        String[] res = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakSession sessionTestUser1) -> {
-            KeycloakSession currentSession = sessionTestUser1;
+        String[] res = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTestUser1) -> {
+            KeycloakRequestSession currentSession = sessionTestUser1;
 
             RealmModel realm1 = currentSession.realms().createRealm(KeycloakModelUtils.generateId(), "realm1");
             currentSession.getContext().setRealm(realm1);
@@ -120,8 +120,8 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
         String id1 = res[0];
         String id2 = res[1];
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionTestUser2) -> {
-            KeycloakSession currentSession = sessionTestUser2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTestUser2) -> {
+            KeycloakRequestSession currentSession = sessionTestUser2;
 
             RealmModel realm1 = currentSession.realms().getRealm(id1);
             currentSession.getContext().setRealm(realm1);
@@ -139,8 +139,8 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
             }
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionTestUser3) -> {
-            KeycloakSession currentSession = sessionTestUser3;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTestUser3) -> {
+            KeycloakRequestSession currentSession = sessionTestUser3;
 
             RealmModel realm2 = currentSession.realms().getRealm(id2);
             currentSession.getContext().setRealm(realm2);
@@ -160,9 +160,9 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testGetById(KeycloakSession session) {
-        String[] res = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakSession sessionById) -> {
-            KeycloakSession currentSession = sessionById;
+    public void testGetById(KeycloakRequestSession session) {
+        String[] res = KeycloakModelUtils.runJobInTransactionWithResult(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionById) -> {
+            KeycloakRequestSession currentSession = sessionById;
 
             RealmModel realm1 = currentSession.realms().createRealm(KeycloakModelUtils.generateId(), "realm1");
             currentSession.getContext().setRealm(realm1);
@@ -236,8 +236,8 @@ public class MultipleRealmsTest extends AbstractTestRealmKeycloakTest {
         assertThat(attr.collect(Collectors.toList()), containsInAnyOrder(realm.getName()));
     }
 
-    private void removeRealm(KeycloakSession session, String realmId) {
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionTestUser3) -> {
+    private void removeRealm(KeycloakRequestSession session, String realmId) {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionTestUser3) -> {
             RealmModel realm = sessionTestUser3.realms().getRealm(realmId);
             sessionTestUser3.getContext().setRealm(realm);
             sessionTestUser3.realms().removeRealm(realmId);

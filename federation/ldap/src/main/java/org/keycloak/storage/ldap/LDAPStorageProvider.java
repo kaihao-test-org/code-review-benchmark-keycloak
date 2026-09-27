@@ -52,7 +52,7 @@ import org.keycloak.federation.kerberos.impl.KerberosUsernamePasswordAuthenticat
 import org.keycloak.federation.kerberos.impl.SPNEGOAuthenticator;
 import org.keycloak.models.CredentialValidationOutput;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
@@ -123,7 +123,7 @@ public class LDAPStorageProvider implements UserStorageProvider,
     public static final List<String> INTERNAL_ATTRIBUTES = List.of(UserModel.LOCALE);
 
     protected LDAPStorageProviderFactory factory;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected UserStorageProviderModel model;
     protected LDAPIdentityStore ldapIdentityStore;
     protected EditMode editMode;
@@ -139,7 +139,7 @@ public class LDAPStorageProvider implements UserStorageProvider,
 
     protected final Set<String> supportedCredentialTypes = new HashSet<>();
 
-    public LDAPStorageProvider(LDAPStorageProviderFactory factory, KeycloakSession session, ComponentModel model, LDAPIdentityStore ldapIdentityStore) {
+    public LDAPStorageProvider(LDAPStorageProviderFactory factory, KeycloakRequestSession session, ComponentModel model, LDAPIdentityStore ldapIdentityStore) {
         this.factory = factory;
         this.session = session;
         this.model = new UserStorageProviderModel(model);
@@ -161,7 +161,7 @@ public class LDAPStorageProvider implements UserStorageProvider,
         this.updater = updater;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 
@@ -661,7 +661,7 @@ public class LDAPStorageProvider implements UserStorageProvider,
         return importUserFromLDAP(session, realm, ldapUser);
     }
 
-    protected UserModel importUserFromLDAP(KeycloakSession session, RealmModel realm, LDAPObject ldapUser) {
+    protected UserModel importUserFromLDAP(KeycloakRequestSession session, RealmModel realm, LDAPObject ldapUser) {
         return importUserFromLDAP(session, realm, ldapUser, ImportType.FORCED);
     }
 
@@ -696,7 +696,7 @@ public class LDAPStorageProvider implements UserStorageProvider,
         NOT_FORCED_RETURN_EXISTING  // the import is not forced and existing user is returned
     };
 
-    protected UserModel importUserFromLDAP(KeycloakSession session, RealmModel realm, LDAPObject ldapUser, ImportType importType) {
+    protected UserModel importUserFromLDAP(KeycloakRequestSession session, RealmModel realm, LDAPObject ldapUser, ImportType importType) {
         String ldapUsername = LDAPUtils.getUsername(ldapUser, ldapIdentityStore.getConfig());
         LDAPUtils.checkUuid(ldapUser, ldapIdentityStore.getConfig());
         if (importType == null) {

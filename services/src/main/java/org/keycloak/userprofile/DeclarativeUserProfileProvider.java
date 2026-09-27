@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.managers.AuthenticationManager;
@@ -82,7 +82,7 @@ public class DeclarativeUserProfileProvider implements UserProfileProvider {
             return true;
         }
 
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         String requestedScopes = AuthenticationManager.getRequestedScopes(session);
         ClientModel client = session.getContext().getClient();
 
@@ -91,12 +91,12 @@ public class DeclarativeUserProfileProvider implements UserProfileProvider {
                 .anyMatch(configuredScopes::contains);
     }
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String providerId;
     private final Map<UserProfileContext, UserProfileMetadata> contextualMetadataRegistry;
     protected final UPConfig parsedDefaultRawConfig;
 
-    public DeclarativeUserProfileProvider(KeycloakSession session, DeclarativeUserProfileProviderFactory factory) {
+    public DeclarativeUserProfileProvider(KeycloakRequestSession session, DeclarativeUserProfileProviderFactory factory) {
         this.session = session;
         this.providerId = factory.getId();
         this.contextualMetadataRegistry = factory.getContextualMetadataRegistry();
@@ -173,7 +173,7 @@ public class DeclarativeUserProfileProvider implements UserProfileProvider {
      * @param metadata the profile metadata
      * @return the metadata
      */
-    protected UserProfileMetadata configureUserProfile(UserProfileMetadata metadata, KeycloakSession session) {
+    protected UserProfileMetadata configureUserProfile(UserProfileMetadata metadata, KeycloakRequestSession session) {
         UserProfileContext context = metadata.getContext();
         UserProfileMetadata decoratedMetadata = metadata.clone();
         ComponentModel component = getComponentModel().orElse(null);
@@ -511,7 +511,7 @@ public class DeclarativeUserProfileProvider implements UserProfileProvider {
     public void close() {
     }
 
-    private Function<UserProfileContext, UserProfileMetadata> createUserDefinedProfileDecorator(KeycloakSession session, UserProfileMetadata decoratedMetadata, ComponentModel component) {
+    private Function<UserProfileContext, UserProfileMetadata> createUserDefinedProfileDecorator(KeycloakRequestSession session, UserProfileMetadata decoratedMetadata, ComponentModel component) {
         return (c) -> {
             UPConfig parsedConfig = getConfigFromComponentModel(component);
 

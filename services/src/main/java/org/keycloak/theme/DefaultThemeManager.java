@@ -20,7 +20,7 @@ package org.keycloak.theme;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.StringPropertyReplacer;
 import org.keycloak.common.util.SystemEnvProperties;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.ThemeManager;
 
@@ -52,10 +52,10 @@ public class DefaultThemeManager implements ThemeManager {
     private static final Logger log = Logger.getLogger(DefaultThemeManager.class);
 
     private final DefaultThemeManagerFactory factory;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private List<ThemeProvider> providers;
 
-    public DefaultThemeManager(DefaultThemeManagerFactory factory, KeycloakSession session) {
+    public DefaultThemeManager(DefaultThemeManagerFactory factory, KeycloakRequestSession session) {
         this.factory = factory;
         this.session = session;
     }

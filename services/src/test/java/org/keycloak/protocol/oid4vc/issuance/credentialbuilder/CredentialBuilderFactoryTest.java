@@ -14,13 +14,13 @@ import org.keycloak.common.Profile.Feature;
 import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.common.crypto.CryptoProvider;
 import org.keycloak.common.profile.CommaSeparatedListProfileConfigResolver;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.resteasy.ResteasyKeycloakSession;
 import org.keycloak.services.resteasy.ResteasyKeycloakSessionFactory;
 
 public class CredentialBuilderFactoryTest {
 
-    private static KeycloakSession session;
+    private static KeycloakRequestSession session;
 
     @BeforeClass
     public static void beforeClass() {

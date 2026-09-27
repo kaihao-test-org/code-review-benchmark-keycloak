@@ -17,7 +17,7 @@
 
 package org.keycloak.services.clientregistration;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientRepresentation;
 
 /**
@@ -25,7 +25,7 @@ import org.keycloak.representations.idm.ClientRepresentation;
  */
 public class DefaultClientRegistrationContext extends AbstractClientRegistrationContext {
 
-    public DefaultClientRegistrationContext(KeycloakSession session, ClientRepresentation client, ClientRegistrationProvider provider) {
+    public DefaultClientRegistrationContext(KeycloakRequestSession session, ClientRepresentation client, ClientRegistrationProvider provider) {
         super(session, client, provider);
     }
 

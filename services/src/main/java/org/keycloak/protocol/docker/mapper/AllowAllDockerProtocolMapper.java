@@ -1,7 +1,7 @@
 package org.keycloak.protocol.docker.mapper;
 
 import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.docker.DockerAuthV2Protocol;
@@ -37,7 +37,7 @@ public class AllowAllDockerProtocolMapper extends DockerAuthV2ProtocolMapper imp
 
     @Override
     public DockerResponseToken transformDockerResponseToken(final DockerResponseToken responseToken, final ProtocolMapperModel mappingModel,
-                                                            final KeycloakSession session, final UserSessionModel userSession, final AuthenticatedClientSessionModel clientSession) {
+                                                            final KeycloakRequestSession session, final UserSessionModel userSession, final AuthenticatedClientSessionModel clientSession) {
 
         responseToken.getAccessItems().clear();
 

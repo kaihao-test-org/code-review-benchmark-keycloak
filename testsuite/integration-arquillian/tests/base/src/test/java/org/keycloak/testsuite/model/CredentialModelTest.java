@@ -2,7 +2,7 @@ package org.keycloak.testsuite.model;
 
 import org.junit.Test;
 import org.keycloak.credential.CredentialModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.OTPCredentialModel;
@@ -29,12 +29,12 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testCredentialCRUD(KeycloakSession session) throws Exception {
+    public void testCredentialCRUD(KeycloakRequestSession session) throws Exception {
         AtomicReference<String> passwordId = new AtomicReference<>();
         AtomicReference<String> otp1Id = new AtomicReference<>();
         AtomicReference<String> otp2Id = new AtomicReference<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
 
@@ -54,7 +54,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
         });
 
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");
@@ -74,7 +74,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
             Assert.assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");
@@ -88,7 +88,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
             Assert.assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), null));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");
@@ -102,7 +102,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
             Assert.assertTrue(user.credentialManager().moveStoredCredentialTo(passwordId.get(), otp1Id.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");
@@ -116,7 +116,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
             Assert.assertTrue(user.credentialManager().moveStoredCredentialTo(otp2Id.get(), passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");
@@ -130,7 +130,7 @@ public class CredentialModelTest extends AbstractTestRealmKeycloakTest {
             Assert.assertTrue(user.credentialManager().removeStoredCredentialById(passwordId.get()));
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession currentSession) -> {
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession currentSession) -> {
             RealmModel realm = currentSession.realms().getRealmByName("test");
             currentSession.getContext().setRealm(realm);
             UserModel user = currentSession.users().getUserByUsername(realm, "test-user@localhost");

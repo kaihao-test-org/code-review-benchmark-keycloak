@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -281,7 +281,7 @@ public class LDAPMSADFullNameTest extends AbstractLDAPTest {
     }
 
 
-    private static void assertUser(KeycloakSession session, LDAPTestContext ctx, UserModel user, String expectedUsername, String expectedFirstName, String expectedLastName, boolean expectedEnabled, String expectedDn) {
+    private static void assertUser(KeycloakRequestSession session, LDAPTestContext ctx, UserModel user, String expectedUsername, String expectedFirstName, String expectedLastName, boolean expectedEnabled, String expectedDn) {
         Assert.assertNotNull(user);
         Assert.assertNotNull(user.getFederationLink());
         Assert.assertEquals(user.getFederationLink(), ctx.getLdapModel().getId());
@@ -293,7 +293,7 @@ public class LDAPMSADFullNameTest extends AbstractLDAPTest {
     }
 
 
-    private static void assertDnStartsWith(KeycloakSession session, LDAPTestContext ctx, UserModel user, String expectedRDn) {
+    private static void assertDnStartsWith(KeycloakRequestSession session, LDAPTestContext ctx, UserModel user, String expectedRDn) {
         String usersDn = ctx.getLdapProvider().getLdapIdentityStore().getConfig().getUsersDn();
         String userDN = user.getFirstAttribute(LDAPConstants.LDAP_ENTRY_DN);
         Assert.assertTrue(userDN.equalsIgnoreCase(expectedRDn + "," + usersDn));

@@ -44,7 +44,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.forms.login.freemarker.model.WebAuthnAuthenticatorsBean;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.WebAuthnPolicy;
@@ -68,9 +68,9 @@ import static org.keycloak.services.messages.Messages.*;
 public class WebAuthnAuthenticator implements Authenticator, CredentialValidator<WebAuthnCredentialProvider> {
 
     private static final Logger logger = Logger.getLogger(WebAuthnAuthenticator.class);
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public WebAuthnAuthenticator(KeycloakSession session) {
+    public WebAuthnAuthenticator(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -272,12 +272,12 @@ public class WebAuthnAuthenticator implements Authenticator, CredentialValidator
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return user.credentialManager().isConfiguredFor(getCredentialType());
     }
 
     @Override
-    public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
+    public void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         // ask the user to do required action to register webauthn authenticator
         AuthenticationSessionModel authenticationSession = session.getContext().getAuthenticationSession();
         if (!authenticationSession.getRequiredActions().contains(WebAuthnRegisterFactory.PROVIDER_ID)) {
@@ -286,7 +286,7 @@ public class WebAuthnAuthenticator implements Authenticator, CredentialValidator
     }
 
     @Override
-    public List<RequiredActionFactory> getRequiredActions(KeycloakSession session) {
+    public List<RequiredActionFactory> getRequiredActions(KeycloakRequestSession session) {
         return Collections.singletonList((WebAuthnRegisterFactory)session.getKeycloakSessionFactory().getProviderFactory(RequiredActionProvider.class, WebAuthnRegisterFactory.PROVIDER_ID));
     }
 
@@ -296,7 +296,7 @@ public class WebAuthnAuthenticator implements Authenticator, CredentialValidator
     }
 
     @Override
-    public WebAuthnCredentialProvider getCredentialProvider(KeycloakSession session) {
+    public WebAuthnCredentialProvider getCredentialProvider(KeycloakRequestSession session) {
         return (WebAuthnCredentialProvider)session.getProvider(CredentialProvider.class, WebAuthnCredentialProviderFactory.PROVIDER_ID);
     }
 

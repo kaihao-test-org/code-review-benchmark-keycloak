@@ -47,7 +47,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.undertow.api.UndertowWebArchive;
 import org.keycloak.common.util.reflections.Reflections;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.DefaultKeycloakSessionFactory;
 import org.keycloak.services.managers.ApplianceBootstrap;
 import org.keycloak.services.resources.KeycloakApplication;
@@ -223,7 +223,7 @@ public class KeycloakOnUndertow implements DeployableContainer<KeycloakOnUnderto
     }
 
     protected void setupDevConfig() {
-        try (KeycloakSession session = sessionFactory.create()) {
+        try (KeycloakRequestSession session = sessionFactory.create()) {
             session.getTransactionManager().begin();
             if (new ApplianceBootstrap(session).isNoMasterUser()) {
                 new ApplianceBootstrap(session).createMasterRealmUser("admin", "admin");

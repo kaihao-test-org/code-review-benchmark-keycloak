@@ -18,7 +18,7 @@
 package org.keycloak.testsuite.domainextension.rest;
 
 import org.jboss.resteasy.reactive.NoCache;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.testsuite.domainextension.CompanyRepresentation;
 import org.keycloak.testsuite.domainextension.spi.ExampleService;
 
@@ -35,9 +35,9 @@ import java.util.List;
 
 public class CompanyResource {
 
-	private final KeycloakSession session;
+	private final KeycloakRequestSession session;
 	
-	public CompanyResource(KeycloakSession session) {
+	public CompanyResource(KeycloakRequestSession session) {
 		this.session = session;
 	}
 

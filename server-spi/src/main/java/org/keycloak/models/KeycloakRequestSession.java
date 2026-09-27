@@ -32,7 +32,7 @@ import java.util.function.Function;
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
-public interface KeycloakSession extends AutoCloseable {
+public interface KeycloakRequestSession extends AutoCloseable {
 
     KeycloakContext getContext();
 
@@ -40,7 +40,7 @@ public interface KeycloakSession extends AutoCloseable {
 
     /**
      * Get dedicated provider instance of provider type clazz that was created for this session.  If one hasn't been created yet,
-     * find the factory and allocate by calling ProviderFactory.create(KeycloakSession).  The provider to use is determined
+     * find the factory and allocate by calling ProviderFactory.create(KeycloakRequestSession).  The provider to use is determined
      * by the "provider" config entry in keycloak-server boot configuration. (keycloak-server.json)
      *
      *
@@ -54,7 +54,7 @@ public interface KeycloakSession extends AutoCloseable {
     /**
      * Get dedicated provider instance for a specific provider factory of id of provider type clazz that was created for this session.
      * If one hasn't been created yet,
-     * find the factory and allocate by calling ProviderFactory.create(KeycloakSession).
+     * find the factory and allocate by calling ProviderFactory.create(KeycloakRequestSession).
 
      * @param clazz
      * @param id
@@ -139,7 +139,7 @@ public interface KeycloakSession extends AutoCloseable {
     KeycloakSessionFactory getKeycloakSessionFactory();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return
@@ -148,7 +148,7 @@ public interface KeycloakSession extends AutoCloseable {
     RealmProvider realms();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return
@@ -157,7 +157,7 @@ public interface KeycloakSession extends AutoCloseable {
     ClientProvider clients();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return Currently used ClientScopeProvider instance.
@@ -174,7 +174,7 @@ public interface KeycloakSession extends AutoCloseable {
     GroupProvider groups();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return
@@ -183,7 +183,7 @@ public interface KeycloakSession extends AutoCloseable {
     RoleProvider roles();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return
@@ -192,7 +192,7 @@ public interface KeycloakSession extends AutoCloseable {
     UserSessionProvider sessions();
 
     /**
-     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakSession
+     * Returns a managed provider instance.  Will start a provider transaction.  This transaction is managed by the KeycloakRequestSession
      * transaction.
      *
      * @return {@link UserLoginFailureProvider}

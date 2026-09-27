@@ -55,7 +55,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserCredentialModel;
@@ -131,7 +131,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class TestingResourceProvider implements RealmResourceProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Map<String, TimerProvider.TimerTaskContext> suspendedTimerTasks;
 
     private final HttpRequest request;
@@ -143,7 +143,7 @@ public class TestingResourceProvider implements RealmResourceProvider {
         return this;
     }
 
-    public TestingResourceProvider(KeycloakSession session, TestingResourceProviderFactory factory, Map<String, TimerProvider.TimerTaskContext> suspendedTimerTasks) {
+    public TestingResourceProvider(KeycloakRequestSession session, TestingResourceProviderFactory factory, Map<String, TimerProvider.TimerTaskContext> suspendedTimerTasks) {
         this.session = session;
         this.factory = factory;
         this.suspendedTimerTasks = suspendedTimerTasks;
@@ -788,7 +788,7 @@ public class TestingResourceProvider implements RealmResourceProvider {
                                        @QueryParam("testMethodName") String testMethodName) throws Exception {
         try {
             Class testClass = TestClassLoader.getInstance().loadClass(testClassName);
-            Method testMethod = testClass.getDeclaredMethod(testMethodName, KeycloakSession.class);
+            Method testMethod = testClass.getDeclaredMethod(testMethodName, KeycloakRequestSession.class);
 
             Object test = testClass.newInstance();
             testMethod.invoke(test, session);

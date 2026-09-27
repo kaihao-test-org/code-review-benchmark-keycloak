@@ -23,7 +23,7 @@ import java.util.Optional;
 
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.protocol.oidc.utils.OIDCResponseMode;
@@ -44,10 +44,10 @@ public class SecureResponseTypeExecutor implements ClientPolicyExecutorProvider<
 
     private static final Logger logger = Logger.getLogger(SecureResponseTypeExecutor.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public SecureResponseTypeExecutor(KeycloakSession session) {
+    public SecureResponseTypeExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

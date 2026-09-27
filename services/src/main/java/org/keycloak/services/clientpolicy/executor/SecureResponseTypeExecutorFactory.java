@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -42,7 +42,7 @@ public class SecureResponseTypeExecutorFactory implements ClientPolicyExecutorPr
             ALLOW_TOKEN_RESPONSE_TYPE, "Allow-token-response-type", "If On, then it allows an access token returned from authorization endpoint in hybrid flow.", ProviderConfigProperty.BOOLEAN_TYPE, false);
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SecureResponseTypeExecutor(session);
     }
 

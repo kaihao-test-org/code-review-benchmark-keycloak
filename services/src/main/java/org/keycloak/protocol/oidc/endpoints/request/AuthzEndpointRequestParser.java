@@ -22,7 +22,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.constants.AdapterConstants;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.LoginProtocol;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.OIDCProviderConfig;
@@ -102,7 +102,7 @@ public abstract class AuthzEndpointRequestParser {
         KNOWN_REQ_PARAMS.add(OAuth2Constants.CLIENT_SECRET);
     }
 
-    protected AuthzEndpointRequestParser(KeycloakSession keycloakSession) {
+    protected AuthzEndpointRequestParser(KeycloakRequestSession keycloakSession) {
         OIDCLoginProtocol loginProtocol = (OIDCLoginProtocol) keycloakSession.getProvider(LoginProtocol.class, OIDCLoginProtocol.LOGIN_PROTOCOL);
         OIDCProviderConfig config = loginProtocol.getConfig();
         this.additionalReqParamsMaxNumber = config.getAdditionalReqParamsMaxNumber();

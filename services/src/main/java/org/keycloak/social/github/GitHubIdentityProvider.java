@@ -34,7 +34,7 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenExchangeContext;
 import org.keycloak.services.ErrorResponseException;
 import org.keycloak.util.BasicAuthHelper;
@@ -84,7 +84,7 @@ public class GitHubIdentityProvider extends AbstractOAuth2IdentityProvider imple
     private final String profileUrl;
     private final String emailUrl;
 
-    public GitHubIdentityProvider(KeycloakSession session, OAuth2IdentityProviderConfig config) {
+    public GitHubIdentityProvider(KeycloakRequestSession session, OAuth2IdentityProviderConfig config) {
         super(session, config);
 
         String baseUrl = getUrlFromConfig(config, BASE_URL_KEY, DEFAULT_BASE_URL);

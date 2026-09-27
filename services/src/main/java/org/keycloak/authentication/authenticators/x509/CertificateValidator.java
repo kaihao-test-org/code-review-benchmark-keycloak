@@ -75,7 +75,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.crl.CrlStorageProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.truststore.TruststoreProvider;
 import org.keycloak.utils.CRLUtils;
 import org.keycloak.utils.OCSPProvider;
@@ -176,11 +176,11 @@ public class CertificateValidator {
 
     public static class BouncyCastleOCSPChecker extends OCSPChecker {
 
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
         private final String responderUri;
         private final X509Certificate responderCert;
 
-        BouncyCastleOCSPChecker(KeycloakSession session, String responderUri, X509Certificate responderCert) {
+        BouncyCastleOCSPChecker(KeycloakRequestSession session, String responderUri, X509Certificate responderCert) {
             this.session = session;
             this.responderUri = responderUri;
             this.responderCert = responderCert;
@@ -239,7 +239,7 @@ public class CertificateValidator {
 
         private final List<CRLLoaderImpl> delegates;
 
-        public CRLListLoader(KeycloakSession session, String cRLConfigValue, boolean abortIfNonUpdated) {
+        public CRLListLoader(KeycloakRequestSession session, String cRLConfigValue, boolean abortIfNonUpdated) {
             String[] delegatePaths = Constants.CFG_DELIMITER_PATTERN.split(cRLConfigValue);
             this.delegates = Arrays.stream(delegatePaths)
                     .map(cRLPath -> new CRLFileLoader(session, cRLPath, abortIfNonUpdated))
@@ -259,16 +259,16 @@ public class CertificateValidator {
 
     public static class CRLFileLoader extends CRLLoaderImpl {
 
-        private final KeycloakSession session;
+        private final KeycloakRequestSession session;
         private final String cRLPath;
         private final LdapContext ldapContext;
         private final boolean abortIfNonUpdated;
 
-        public CRLFileLoader(KeycloakSession session, String cRLPath, boolean abortIfNonUpdated) {
+        public CRLFileLoader(KeycloakRequestSession session, String cRLPath, boolean abortIfNonUpdated) {
             this(session, cRLPath, abortIfNonUpdated, new LdapContext());
         }
 
-        public CRLFileLoader(KeycloakSession session, String cRLPath, boolean abortIfNonUpdated, LdapContext ldapContext) {
+        public CRLFileLoader(KeycloakRequestSession session, String cRLPath, boolean abortIfNonUpdated, LdapContext ldapContext) {
             this.session = session;
             this.cRLPath = cRLPath;
             this.abortIfNonUpdated = abortIfNonUpdated;
@@ -405,7 +405,7 @@ public class CertificateValidator {
         }
     }
 
-    KeycloakSession session;
+    KeycloakRequestSession session;
     X509Certificate[] _certChain;
     int _keyUsageBits;
     List<String> _extendedKeyUsage;
@@ -434,7 +434,7 @@ public class CertificateValidator {
                                    boolean oCSPCheckingEnabled,
                                    boolean ocspFailOpen,
                                    OCSPChecker ocspChecker,
-                                   KeycloakSession session,
+                                   KeycloakRequestSession session,
                                    boolean timestampValidationEnabled,
                                    boolean trustValidationEnabled) {
         _certChain = certChain;
@@ -762,7 +762,7 @@ public class CertificateValidator {
         }
     }
 
-    private static void checkRevocationStatusUsingCRL(X509Certificate[] certs, CRLLoaderImpl crLoader, KeycloakSession session) throws GeneralSecurityException {
+    private static void checkRevocationStatusUsingCRL(X509Certificate[] certs, CRLLoaderImpl crLoader, KeycloakRequestSession session) throws GeneralSecurityException {
         Collection<X509CRL> crlColl = crLoader.getX509CRLs();
         if (crlColl != null && !crlColl.isEmpty()) {
             for (X509CRL it : crlColl) {
@@ -781,7 +781,7 @@ public class CertificateValidator {
         return new ArrayList<>();
     }
 
-    private static void checkRevocationStatusUsingCRLDistributionPoints(X509Certificate[] certs, KeycloakSession session, boolean abortIfNonUpdated) throws GeneralSecurityException {
+    private static void checkRevocationStatusUsingCRLDistributionPoints(X509Certificate[] certs, KeycloakRequestSession session, boolean abortIfNonUpdated) throws GeneralSecurityException {
 
         List<String> distributionPoints = getCRLDistributionPoints(certs[0]);
         if (distributionPoints == null || distributionPoints.isEmpty()) {
@@ -818,7 +818,7 @@ public class CertificateValidator {
         // instances of CertificateValidator type. The design is an adaption of
         // the approach described in http://programmers.stackexchange.com/questions/252067/learning-to-write-dsls-utilities-for-unit-tests-and-am-worried-about-extensablit
 
-        KeycloakSession session;
+        KeycloakRequestSession session;
         int _keyUsageBits;
         List<String> _extendedKeyUsage;
         List<String> _certificatePolicy;
@@ -1062,7 +1062,7 @@ public class CertificateValidator {
             }
         }
 
-        public CertificateValidatorBuilder session(KeycloakSession session) {
+        public CertificateValidatorBuilder session(KeycloakRequestSession session) {
             this.session = session;
             return this;
         }

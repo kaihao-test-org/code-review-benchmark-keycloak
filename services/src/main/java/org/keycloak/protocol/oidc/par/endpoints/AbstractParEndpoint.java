@@ -27,7 +27,7 @@ import org.keycloak.OAuthErrorException;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.AuthorizeClientUtil;
 import org.keycloak.services.CorsErrorResponseException;
@@ -35,13 +35,13 @@ import org.keycloak.services.cors.Cors;
 
 public abstract class AbstractParEndpoint {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final EventBuilder event;
     protected final RealmModel realm;
     protected Cors cors;
     protected ClientModel client;
 
-    public AbstractParEndpoint(KeycloakSession session, EventBuilder event) {
+    public AbstractParEndpoint(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.event = event;
         realm = session.getContext().getRealm();

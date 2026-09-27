@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -38,7 +38,7 @@ public class SecureSigningAlgorithmForSignedJwtExecutorFactory implements Client
             "then the algorithm on the JWT from specified client assertion is always checked regardless of the value of this switch", ProviderConfigProperty.BOOLEAN_TYPE, false);
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SecureSigningAlgorithmForSignedJwtExecutor(session);
     }
 

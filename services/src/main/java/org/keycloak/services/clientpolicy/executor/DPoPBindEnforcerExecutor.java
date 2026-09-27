@@ -24,7 +24,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.Profile.Feature;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.representations.AccessToken;
@@ -48,10 +48,10 @@ public class DPoPBindEnforcerExecutor implements ClientPolicyExecutorProvider<DP
 
     private static final Logger logger = Logger.getLogger(DPoPBindEnforcerExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public DPoPBindEnforcerExecutor(KeycloakSession session) {
+    public DPoPBindEnforcerExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

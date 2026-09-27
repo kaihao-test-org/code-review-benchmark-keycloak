@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.session.UserSessionPersisterProvider;
@@ -41,7 +41,7 @@ public class LoadPersistentSessionsCommand extends AbstractCommand {
     }
 
     @Override
-    protected void doRunCommand(KeycloakSession session) {
+    protected void doRunCommand(KeycloakRequestSession session) {
         final int workersCount = getIntArg(0);
         final int limit = getIntArg(1);
         //int workersCount = 8;

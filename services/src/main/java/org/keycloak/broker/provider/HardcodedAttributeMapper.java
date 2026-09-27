@@ -19,7 +19,7 @@ package org.keycloak.broker.provider;
 
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -92,14 +92,14 @@ public class HardcodedAttributeMapper extends AbstractIdentityProviderMapper {
     }
 
     @Override
-    public void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
         String attribute = mapperModel.getConfig().get(ATTRIBUTE);
         String attributeValue = mapperModel.getConfig().get(ATTRIBUTE_VALUE);
         context.setUserAttribute(attribute, attributeValue);
     }
 
     @Override
-    public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
         String attribute = mapperModel.getConfig().get(ATTRIBUTE);
         String attributeValue = mapperModel.getConfig().get(ATTRIBUTE_VALUE);
         user.setSingleAttribute(attribute, attributeValue);

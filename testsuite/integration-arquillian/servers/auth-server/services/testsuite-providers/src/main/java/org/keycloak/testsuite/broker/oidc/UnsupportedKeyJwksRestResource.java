@@ -29,7 +29,7 @@ import org.keycloak.crypto.KeyType;
 import org.keycloak.jose.jwk.JSONWebKeySet;
 import org.keycloak.jose.jwk.JWK;
 import org.keycloak.jose.jwk.JWKBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import jakarta.ws.rs.GET;
@@ -40,9 +40,9 @@ import jakarta.ws.rs.core.Response;
 
 public class UnsupportedKeyJwksRestResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public UnsupportedKeyJwksRestResource(KeycloakSession session) {
+    public UnsupportedKeyJwksRestResource(KeycloakRequestSession session) {
         this.session = session;
     }
 

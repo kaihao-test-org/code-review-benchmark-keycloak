@@ -17,7 +17,7 @@
 
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserProvider;
 import org.keycloak.storage.datastore.DefaultDatastoreProvider;
 
@@ -25,7 +25,7 @@ import org.keycloak.storage.datastore.DefaultDatastoreProvider;
  * @author Alexander Schwartz
  */
 public class UserStoragePrivateUtil {
-    public static UserProvider userLocalStorage(KeycloakSession session) {
+    public static UserProvider userLocalStorage(KeycloakRequestSession session) {
         return ((DefaultDatastoreProvider) session.getProvider(DatastoreProvider.class)).userLocalStorage();
     }
 }

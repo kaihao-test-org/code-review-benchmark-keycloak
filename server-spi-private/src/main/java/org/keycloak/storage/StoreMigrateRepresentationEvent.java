@@ -16,7 +16,7 @@
  */
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderEvent;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -28,23 +28,23 @@ import org.keycloak.representations.idm.RealmRepresentation;
  */
 public class StoreMigrateRepresentationEvent implements ProviderEvent {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
     private final RealmRepresentation rep;
     private final boolean skipUserDependent;
 
-    public StoreMigrateRepresentationEvent(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public StoreMigrateRepresentationEvent(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         this.session = session;
         this.realm = realm;
         this.rep = rep;
         this.skipUserDependent = skipUserDependent;
     }
 
-    public static void fire(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public static void fire(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         session.getKeycloakSessionFactory().publish(new StoreMigrateRepresentationEvent(session, realm, rep, skipUserDependent));
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

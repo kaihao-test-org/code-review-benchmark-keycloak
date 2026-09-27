@@ -31,7 +31,7 @@ import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.crypto.SignatureSignerContext;
 import org.keycloak.jose.jws.JWSBuilder;
 import org.keycloak.jose.jws.JWSInput;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.IDToken;
 import org.keycloak.representations.RefreshToken;
@@ -122,6 +122,6 @@ public class OfflineTokenMigrationTest extends AbstractTestRealmKeycloakTest {
         Assert.assertEquals(200, response.getStatusCode());
     }
 
-    public interface OfflineTokenConverter extends Serializable, BiFunction<KeycloakSession, String, String> {
+    public interface OfflineTokenConverter extends Serializable, BiFunction<KeycloakRequestSession, String, String> {
     }
 }

@@ -24,7 +24,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderStorageProvider;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrderedModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -56,11 +56,11 @@ public class IdentityProviderBean {
 
     protected AuthenticationFlowContext context;
     protected List<IdentityProvider> providers;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected URI baseURI;
 
-    public IdentityProviderBean(KeycloakSession session, RealmModel realm, URI baseURI, AuthenticationFlowContext context) {
+    public IdentityProviderBean(KeycloakRequestSession session, RealmModel realm, URI baseURI, AuthenticationFlowContext context) {
         this.session = session;
         this.realm = realm;
         this.baseURI = baseURI;
@@ -80,7 +80,7 @@ public class IdentityProviderBean {
         return this.providers;
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return this.session;
     }
 
@@ -143,11 +143,11 @@ public class IdentityProviderBean {
      * is the {@code FIRST_BROKER_LOGIN_PATH}, so we should retrieve the IDP they used for login and filter it out of the list
      * of IDPs that are available for login. (GHI #14173).
      *
-     * @param session a reference to the {@link KeycloakSession}.
+     * @param session a reference to the {@link KeycloakRequestSession}.
      * @param context a reference to the {@link AuthenticationFlowContext}.
      * @return the alias of the IDP used for login before linking a new IDP to the user's account (if any).
      */
-    protected String getExistingIDP(KeycloakSession session, AuthenticationFlowContext context) {
+    protected String getExistingIDP(KeycloakRequestSession session, AuthenticationFlowContext context) {
 
         String existingIDPAlias = null;
         if (context != null) {
@@ -173,13 +173,13 @@ public class IdentityProviderBean {
      * </p>
      * Returning an empty set essentially narrows the list of available IDPs to zero, so no IDPs will be shown for login.
      *
-     * @param session a reference to the {@link KeycloakSession}.
+     * @param session a reference to the {@link KeycloakRequestSession}.
      * @param realm a reference to the realm.
      * @param context a reference to the {@link AuthenticationFlowContext}.
      * @return a {@link Set} containing the aliases of the IDPs that should be available for login. An empty set indicates
      * that no IDPs should be available.
      */
-    protected Set<String> getLinkedBrokerAliases(KeycloakSession session, RealmModel realm, AuthenticationFlowContext context) {
+    protected Set<String> getLinkedBrokerAliases(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowContext context) {
         Set<String> result = null;
         if (context != null) {
             UserModel currentUser = context.getUser();

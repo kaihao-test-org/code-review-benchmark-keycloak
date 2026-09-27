@@ -19,17 +19,17 @@ package org.keycloak.crl.infinispan;
 
 import org.infinispan.Cache;
 import org.keycloak.cluster.ClusterProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.CacheCrlProvider;
 import org.keycloak.models.cache.infinispan.ClearCacheEvent;
 
 public class InfinispanCacheCrlProvider implements CacheCrlProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final Cache<String, X509CRLEntry> crlCache;
 
-    public InfinispanCacheCrlProvider(KeycloakSession session, Cache<String, X509CRLEntry> crlCache) {
+    public InfinispanCacheCrlProvider(KeycloakRequestSession session, Cache<String, X509CRLEntry> crlCache) {
         this.session = session;
         this.crlCache = crlCache;
     }

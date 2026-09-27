@@ -18,7 +18,7 @@
 package org.keycloak.authentication;
 
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionConfigModel;
 import org.keycloak.policy.MaxAuthAgePasswordPolicyProviderFactory;
@@ -92,7 +92,7 @@ public interface RequiredActionFactory extends ProviderFactory<RequiredActionPro
      * @param realm
      * @param model
      */
-    default void validateConfig(KeycloakSession session, RealmModel realm, RequiredActionConfigModel model) {
+    default void validateConfig(KeycloakRequestSession session, RealmModel realm, RequiredActionConfigModel model) {
         if (model.getConfigValue(Constants.MAX_AUTH_AGE_KEY) == null) {
             return;
         }

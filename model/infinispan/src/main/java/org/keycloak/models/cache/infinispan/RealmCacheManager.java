@@ -19,7 +19,7 @@ package org.keycloak.models.cache.infinispan;
 
 import org.infinispan.Cache;
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.infinispan.events.InvalidationEvent;
 import org.keycloak.models.cache.infinispan.entities.Revisioned;
 import org.keycloak.models.cache.infinispan.events.RealmCacheInvalidationEvent;
@@ -134,7 +134,7 @@ public class RealmCacheManager extends CacheManager {
      * Instead of each request loading the realm in parallel, this lets the first request load the realm, and all
      * other requests will use the cached realm, which is much more efficient.
      */
-    public <T> T computeSerialized(KeycloakSession session, String id, BiFunction<String, KeycloakSession, T> compute) {
+    public <T> T computeSerialized(KeycloakRequestSession session, String id, BiFunction<String, KeycloakRequestSession, T> compute) {
         // this locking is only to ensure that if there is a computation for the same id in the "synchronized" block below,
         // it will have the same object instance to lock the current execution until the other is finished.
         ReentrantLock lock = cacheInteractions.computeIfAbsent(id, s -> new ReentrantLock());

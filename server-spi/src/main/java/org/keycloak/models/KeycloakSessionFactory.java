@@ -36,7 +36,7 @@ import java.util.stream.Stream;
  */
 public interface KeycloakSessionFactory extends ProviderEventManager, InvalidationHandler {
 
-    KeycloakSession create();
+    KeycloakRequestSession create();
 
     Set<Spi> getSpis();
 

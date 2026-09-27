@@ -19,7 +19,7 @@ package org.keycloak.protocol.oidc.grants.ciba.channel;
 
 import java.util.List;
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -34,7 +34,7 @@ public class HttpAuthenticationChannelProviderFactory implements AuthenticationC
     protected String httpAuthenticationChannelUri;
 
     @Override
-    public AuthenticationChannelProvider create(KeycloakSession session) {
+    public AuthenticationChannelProvider create(KeycloakRequestSession session) {
         return new HttpAuthenticationChannelProvider(session, httpAuthenticationChannelUri);
     }
 

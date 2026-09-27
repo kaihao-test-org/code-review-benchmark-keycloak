@@ -177,7 +177,7 @@ public class ModelToRepresentation {
     }
 
     @Deprecated
-    public static Stream<GroupRepresentation> toGroupHierarchy(KeycloakSession session, RealmModel realm, boolean full) {
+    public static Stream<GroupRepresentation> toGroupHierarchy(KeycloakRequestSession session, RealmModel realm, boolean full) {
         return session.groups().getTopLevelGroupsStream(realm, null, null)
                 .map(g -> toGroupHierarchy(g, full));
     }
@@ -223,11 +223,11 @@ public class ModelToRepresentation {
         return group.getSubGroupsStream().findAny().isPresent();
     }
 
-    public static UserRepresentation toRepresentation(KeycloakSession session, RealmModel realm, UserModel user) {
+    public static UserRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return toRepresentation(session, realm, user, new UserRepresentation(), true);
     }
 
-    public static UserRepresentation toRepresentation(KeycloakSession session, RealmModel realm, UserModel user, UserRepresentation rep, boolean setUserAttributes) {
+    public static UserRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, UserModel user, UserRepresentation rep, boolean setUserAttributes) {
         rep.setId(user.getId());
         if (setUserAttributes) {
             rep.setUsername(user.getUsername());
@@ -388,11 +388,11 @@ public class ModelToRepresentation {
         return rep;
     }
 
-    public static RealmRepresentation toRepresentation(KeycloakSession session, RealmModel realm, boolean internal) {
+    public static RealmRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, boolean internal) {
         return toRepresentation(session, realm, internal, false);
     }
 
-    public static RealmRepresentation toRepresentation(KeycloakSession session, RealmModel realm, boolean internal, boolean export) {
+    public static RealmRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, boolean internal, boolean export) {
         RealmRepresentation rep = new RealmRepresentation();
         rep.setId(realm.getId());
         rep.setRealm(realm.getName());
@@ -624,11 +624,11 @@ public class ModelToRepresentation {
         return a;
     }
 
-    public static void exportGroups(KeycloakSession session, RealmModel realm, RealmRepresentation rep) {
+    public static void exportGroups(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep) {
         rep.setGroups(toGroupHierarchy(session, realm, true).collect(Collectors.toList()));
     }
 
-    public static void exportAuthenticationFlows(KeycloakSession session, RealmModel realm, RealmRepresentation rep) {
+    public static void exportAuthenticationFlows(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep) {
         List<AuthenticationFlowRepresentation> authenticationFlows = realm.getAuthenticationFlowsStream()
                 .sorted(AuthenticationFlowModel.AuthenticationFlowComparator.SINGLETON)
                 .map(flow -> toRepresentation(session, realm, flow))
@@ -766,7 +766,7 @@ public class ModelToRepresentation {
     }
 
 
-    public static ClientRepresentation toRepresentation(ClientModel clientModel, KeycloakSession session) {
+    public static ClientRepresentation toRepresentation(ClientModel clientModel, KeycloakRequestSession session) {
         ClientRepresentation rep = new ClientRepresentation();
         rep.setId(clientModel.getId());
         String providerId = StorageId.resolveProviderId(clientModel);
@@ -840,7 +840,7 @@ public class ModelToRepresentation {
         return rep;
     }
 
-    private static boolean isRealmClient(String clientId, RealmModel realm, KeycloakSession session) {
+    private static boolean isRealmClient(String clientId, RealmModel realm, KeycloakRequestSession session) {
         final String realmClientSuffix = "-realm";
 
         if (clientId == null) {
@@ -958,7 +958,7 @@ public class ModelToRepresentation {
         return consentRep;
     }
 
-    public static AuthenticationFlowRepresentation toRepresentation(KeycloakSession session, RealmModel realm, AuthenticationFlowModel model) {
+    public static AuthenticationFlowRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel model) {
         AuthenticationFlowRepresentation rep = new AuthenticationFlowRepresentation();
         rep.setId(model.getId());
         rep.setBuiltIn(model.isBuiltIn());
@@ -971,7 +971,7 @@ public class ModelToRepresentation {
         return rep;
     }
 
-    public static AuthenticationExecutionExportRepresentation toRepresentation(KeycloakSession session, RealmModel realm, AuthenticationExecutionModel model) {
+    public static AuthenticationExecutionExportRepresentation toRepresentation(KeycloakRequestSession session, RealmModel realm, AuthenticationExecutionModel model) {
         AuthenticationExecutionExportRepresentation rep = new AuthenticationExecutionExportRepresentation();
         if (model.getAuthenticatorConfig() != null) {
             AuthenticatorConfigModel config = new DeployedConfigurationsManager(session).getAuthenticatorConfig(realm, model.getAuthenticatorConfig());
@@ -1045,7 +1045,7 @@ public class ModelToRepresentation {
         return propRep;
     }
 
-    public static ComponentRepresentation toRepresentation(KeycloakSession session, ComponentModel component, boolean internal) {
+    public static ComponentRepresentation toRepresentation(KeycloakRequestSession session, ComponentModel component, boolean internal) {
         ComponentRepresentation rep = toRepresentationWithoutConfig(component);
         if (!internal) {
             return stripSecrets(session, rep);
@@ -1153,7 +1153,7 @@ public class ModelToRepresentation {
 
         owner.setId(model.getOwner());
 
-        KeycloakSession keycloakSession = authorization.getKeycloakSession();
+        KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
         RealmModel realm = authorization.getRealm();
 
         if (owner.getId().equals(resourceServer.getClientId())) {
@@ -1207,7 +1207,7 @@ public class ModelToRepresentation {
 
         if (returnNames) {
             representation.setResourceName(resource.getName());
-            KeycloakSession keycloakSession = authorization.getKeycloakSession();
+            KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
             RealmModel realm = authorization.getRealm();
             UserModel userOwner = keycloakSession.users().getUserById(realm, ticket.getOwner());
             UserModel requester = keycloakSession.users().getUserById(realm, ticket.getRequester());
@@ -1232,7 +1232,7 @@ public class ModelToRepresentation {
         return representation;
     }
 
-    public static ResourceServerRepresentation toResourceServerRepresentation(KeycloakSession session, ClientModel client) {
+    public static ResourceServerRepresentation toResourceServerRepresentation(KeycloakRequestSession session, ClientModel client) {
         AuthorizationProviderFactory providerFactory = (AuthorizationProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(AuthorizationProvider.class);
         AuthorizationProvider authorization = providerFactory.create(session, client.getRealm());
         StoreFactory storeFactory = authorization.getStoreFactory();

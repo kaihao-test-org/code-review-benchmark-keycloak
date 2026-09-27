@@ -20,7 +20,7 @@ package org.keycloak.services.clientregistration.policy.impl;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.clientregistration.ClientRegistrationContext;
 import org.keycloak.services.clientregistration.ClientRegistrationProvider;
 import org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy;
@@ -33,10 +33,10 @@ public class ScopeClientRegistrationPolicy implements ClientRegistrationPolicy {
 
     private static final Logger logger = Logger.getLogger(ScopeClientRegistrationPolicy.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final ComponentModel componentModel;
 
-    public ScopeClientRegistrationPolicy(KeycloakSession session, ComponentModel componentModel) {
+    public ScopeClientRegistrationPolicy(KeycloakRequestSession session, ComponentModel componentModel) {
         this.session = session;
         this.componentModel = componentModel;
     }

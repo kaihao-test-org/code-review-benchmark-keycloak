@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.jboss.resteasy.core.ResteasyContext;
 import org.keycloak.common.ClientConnection;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 
@@ -49,7 +49,7 @@ public class UndertowRequestFilter implements Filter {
         ClientConnection connection = createClientConnection(request);
         KeycloakModelUtils.runJobInTransaction(factory, session -> {
             try {
-                ResteasyContext.pushContext(KeycloakSession.class, session);
+                ResteasyContext.pushContext(KeycloakRequestSession.class, session);
                 session.getContext().setConnection(connection);
                 filterChain.doFilter(servletRequest, servletResponse);
             } catch (Exception e) {

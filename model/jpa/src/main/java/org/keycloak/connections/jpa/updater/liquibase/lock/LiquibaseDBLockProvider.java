@@ -25,7 +25,7 @@ import org.keycloak.common.util.Retry;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.connections.jpa.JpaConnectionProviderFactory;
 import org.keycloak.connections.jpa.updater.liquibase.conn.LiquibaseConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.dblock.DBLockProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
 
@@ -44,14 +44,14 @@ public class LiquibaseDBLockProvider implements DBLockProvider {
 
 
     private final LiquibaseDBLockProviderFactory factory;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private CustomLockService lockService;
     private Connection dbConnection;
     private boolean initialized = false;
     private Namespace namespaceLocked = null;
 
-    public LiquibaseDBLockProvider(LiquibaseDBLockProviderFactory factory, KeycloakSession session) {
+    public LiquibaseDBLockProvider(LiquibaseDBLockProviderFactory factory, KeycloakRequestSession session) {
         this.factory = factory;
         this.session = session;
     }

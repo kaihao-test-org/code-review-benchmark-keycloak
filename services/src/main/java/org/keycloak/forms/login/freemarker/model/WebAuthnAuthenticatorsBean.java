@@ -18,7 +18,7 @@ package org.keycloak.forms.login.freemarker.model;
 import com.webauthn4j.data.AuthenticatorTransport;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.CollectionUtil;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.WebAuthnCredentialModel;
@@ -36,7 +36,7 @@ public class WebAuthnAuthenticatorsBean {
 
     private final List<WebAuthnAuthenticatorBean> authenticators;
 
-    public WebAuthnAuthenticatorsBean(KeycloakSession session, RealmModel realm, UserModel user, String credentialType) {
+    public WebAuthnAuthenticatorsBean(KeycloakRequestSession session, RealmModel realm, UserModel user, String credentialType) {
         // should consider multiple credentials in the future, but only single credential supported now.
         this.authenticators = user.credentialManager().getStoredCredentialsByTypeStream(credentialType)
                 .map(WebAuthnCredentialModel::createFromCredentialModel)

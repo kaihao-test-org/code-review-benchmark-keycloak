@@ -17,7 +17,7 @@
 
 package org.keycloak.storage.ldap.idm.store.ldap;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import javax.naming.NamingException;
 import javax.naming.ldap.Control;
@@ -25,12 +25,12 @@ import javax.naming.ldap.InitialLdapContext;
 import java.util.Hashtable;
 
 /**
- * A {@link InitialLdapContext} that binds instances of this class with the {@link KeycloakSession} so that any resource
+ * A {@link InitialLdapContext} that binds instances of this class with the {@link KeycloakRequestSession} so that any resource
  * acquired during the session lifetime is closed when the session is closed.
  */
 public final class SessionBoundInitialLdapContext extends InitialLdapContext {
 
-    public SessionBoundInitialLdapContext(KeycloakSession session, Hashtable<?, ?> environment, Control[] connCtls) throws NamingException {
+    public SessionBoundInitialLdapContext(KeycloakRequestSession session, Hashtable<?, ?> environment, Control[] connCtls) throws NamingException {
         super(environment, connCtls);
         session.enlistForClose(() -> {
                 try {

@@ -26,7 +26,7 @@ import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.light.LightweightUserAdapter;
@@ -55,7 +55,7 @@ public class IdpCreateUserIfUniqueAuthenticator extends AbstractIdpAuthenticator
     @Override
     protected void authenticateImpl(AuthenticationFlowContext context, SerializedBrokeredIdentityContext serializedCtx, BrokeredIdentityContext brokerContext) {
 
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = context.getRealm();
 
         if (context.getAuthenticationSession().getAuthNote(EXISTING_USER_INFO) != null) {
@@ -179,7 +179,7 @@ public class IdpCreateUserIfUniqueAuthenticator extends AbstractIdpAuthenticator
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return true;
     }
 

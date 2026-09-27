@@ -23,7 +23,7 @@ import org.keycloak.exportimport.AbstractFileBasedImportProvider;
 import org.keycloak.exportimport.Strategy;
 import org.keycloak.exportimport.util.ExportImportSessionTask;
 import org.keycloak.exportimport.util.ImportUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.util.JsonSerialization;
@@ -61,7 +61,7 @@ public class SingleFileImportProvider extends AbstractFileBasedImportProvider {
         new ExportImportSessionTask() {
 
             @Override
-            protected void runExportImportTask(KeycloakSession session) {
+            protected void runExportImportTask(KeycloakRequestSession session) {
                 ImportUtils.importRealms(session, realmReps.values(), strategy);
             }
 

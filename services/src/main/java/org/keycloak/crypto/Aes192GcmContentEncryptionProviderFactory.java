@@ -18,7 +18,7 @@
 package org.keycloak.crypto;
 
 import org.keycloak.jose.jwe.JWEConstants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class Aes192GcmContentEncryptionProviderFactory implements ContentEncryptionProviderFactory {
     public static final String ID = JWEConstants.A192GCM;
@@ -29,7 +29,7 @@ public class Aes192GcmContentEncryptionProviderFactory implements ContentEncrypt
     }
 
     @Override
-    public ContentEncryptionProvider create(KeycloakSession session) {
+    public ContentEncryptionProvider create(KeycloakRequestSession session) {
         return new AesGcmContentEncryptionProvider(session, ID);
     }
 

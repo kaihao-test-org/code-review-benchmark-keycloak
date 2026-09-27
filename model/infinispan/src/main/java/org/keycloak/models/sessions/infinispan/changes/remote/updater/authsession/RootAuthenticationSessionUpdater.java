@@ -20,7 +20,7 @@ import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.SecretGenerator;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.sessions.infinispan.AuthenticationSessionAdapter;
 import org.keycloak.models.sessions.infinispan.SessionEntityUpdater;
@@ -48,7 +48,7 @@ public class RootAuthenticationSessionUpdater extends BaseUpdater<String, RootAu
     private final List<Consumer<RootAuthenticationSessionEntity>> changes;
 
     private RealmModel realm;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
 
     private int authSessionsLimit;
@@ -62,7 +62,7 @@ public class RootAuthenticationSessionUpdater extends BaseUpdater<String, RootAu
         changes = new ArrayList<>(4);
     }
 
-    public synchronized void initialize(KeycloakSession session, RealmModel realm, int authSessionsLimit) {
+    public synchronized void initialize(KeycloakRequestSession session, RealmModel realm, int authSessionsLimit) {
         this.session = session;
         this.realm = realm;
         this.authSessionsLimit = authSessionsLimit;

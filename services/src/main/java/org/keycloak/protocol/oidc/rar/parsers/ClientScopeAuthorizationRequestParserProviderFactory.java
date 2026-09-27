@@ -17,7 +17,7 @@
 package org.keycloak.protocol.oidc.rar.parsers;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.rar.AuthorizationRequestParserProvider;
 import org.keycloak.protocol.oidc.rar.AuthorizationRequestParserProviderFactory;
@@ -31,7 +31,7 @@ public class ClientScopeAuthorizationRequestParserProviderFactory implements Aut
     public static final String CLIENT_SCOPE_PARSER_ID = "client-scope";
 
     @Override
-    public AuthorizationRequestParserProvider create(KeycloakSession session) {
+    public AuthorizationRequestParserProvider create(KeycloakRequestSession session) {
         return new ClientScopeAuthorizationRequestParser(session.getContext().getClient());
     }
 

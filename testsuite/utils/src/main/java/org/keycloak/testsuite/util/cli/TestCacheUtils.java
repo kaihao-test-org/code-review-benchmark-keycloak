@@ -20,7 +20,7 @@ package org.keycloak.testsuite.util.cli;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 
@@ -31,7 +31,7 @@ import java.util.Collections;
  */
 public class TestCacheUtils {
 
-    public static void cacheRealmWithEverything(KeycloakSession session, String realmName) {
+    public static void cacheRealmWithEverything(KeycloakRequestSession session, String realmName) {
         RealmModel realm  = session.realms().getRealmByName(realmName);
 
         realm.getClientsStream().forEach(c -> {
@@ -61,7 +61,7 @@ public class TestCacheUtils {
         });
     }
 
-    private static void cacheRoles(KeycloakSession session, RealmModel realm, RoleContainerModel roleContainer) {
+    private static void cacheRoles(KeycloakRequestSession session, RealmModel realm, RoleContainerModel roleContainer) {
         roleContainer.getRolesStream().forEach(role -> {
             realm.getRoleById(role.getId());
             roleContainer.getRole(role.getName());

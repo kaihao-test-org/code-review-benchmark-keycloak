@@ -19,7 +19,7 @@ package org.keycloak.policy;
 
 import org.keycloak.Config;
 import org.keycloak.credential.hash.PasswordHashProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
@@ -30,12 +30,12 @@ import org.keycloak.models.UserModel;
  */
 public class HashAlgorithmPasswordPolicyProviderFactory implements PasswordPolicyProviderFactory, PasswordPolicyProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
     private String defaultHashAlgorithm;
 
     @Override
-    public PasswordPolicyProvider create(KeycloakSession session) {
+    public PasswordPolicyProvider create(KeycloakRequestSession session) {
         this.session = session;
         return this;
     }

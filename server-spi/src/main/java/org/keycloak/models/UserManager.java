@@ -22,9 +22,9 @@ package org.keycloak.models;
  */
 public class UserManager {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public UserManager(KeycloakSession session) {
+    public UserManager(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -47,7 +47,7 @@ public class UserManager {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
 

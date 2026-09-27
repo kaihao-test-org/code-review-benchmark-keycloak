@@ -29,7 +29,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
@@ -77,11 +77,11 @@ public class ClientScopeResource {
     private AdminPermissionEvaluator auth;
     private AdminEventBuilder adminEvent;
     protected ClientScopeModel clientScope;
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected static Pattern dynamicScreenPattern = Pattern.compile("[^\\s\\*]*\\*{1}[^\\s\\*]*");
     protected final static Pattern scopeNamePattern = Pattern.compile("[\\x21\\x23-\\x5B\\x5D-\\x7E]+");
 
-    public ClientScopeResource(RealmModel realm, AdminPermissionEvaluator auth, ClientScopeModel clientScope, KeycloakSession session, AdminEventBuilder adminEvent) {
+    public ClientScopeResource(RealmModel realm, AdminPermissionEvaluator auth, ClientScopeModel clientScope, KeycloakRequestSession session, AdminEventBuilder adminEvent) {
         this.realm = realm;
         this.auth = auth;
         this.clientScope = clientScope;
@@ -239,7 +239,7 @@ public class ClientScopeResource {
         }
     }
 
-    public static void validateClientScopeProtocol(KeycloakSession session, String protocol)
+    public static void validateClientScopeProtocol(KeycloakRequestSession session, String protocol)
             throws ErrorResponseException {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
         Set<String> acceptedProtocols = sessionFactory.getProviderFactoriesStream(LoginProtocol.class)

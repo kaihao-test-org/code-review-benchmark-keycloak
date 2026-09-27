@@ -19,7 +19,7 @@ package org.keycloak.migration.migrators;
 
 import org.keycloak.Config;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 /**
@@ -33,7 +33,7 @@ public class MigrateTo1_9_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(Config.getAdminRealm());
         if (realm != null && realm.getDisplayNameHtml() != null && realm.getDisplayNameHtml().equals("<strong>Keycloak</strong>")) {
             realm.setDisplayNameHtml("<div class=\"kc-logo-text\"><span>Keycloak</span></div>");

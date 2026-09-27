@@ -26,7 +26,7 @@ import jakarta.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
 import org.keycloak.health.LoadBalancerCheckProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.MediaType;
 
 import java.util.Set;
@@ -47,7 +47,7 @@ public class LoadBalancerResource {
     protected static final Logger logger = Logger.getLogger(LoadBalancerResource.class);
 
     @Context
-    KeycloakSession session;
+    KeycloakRequestSession session;
 
     /**
      * Return the status for a load balancer in a multi-site setup if this Keycloak site should receive traffic.

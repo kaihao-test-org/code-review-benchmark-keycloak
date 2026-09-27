@@ -18,7 +18,7 @@
 package org.keycloak.protocol;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserModel;
@@ -129,10 +129,10 @@ public class ProtocolMapperUtils {
     /**
      * Find the builtin locale mapper.
      *
-     * @param session A KeycloakSession
+     * @param session A KeycloakRequestSession
      * @return The builtin locale mapper.
      */
-    public static ProtocolMapperModel findLocaleMapper(KeycloakSession session) {
+    public static ProtocolMapperModel findLocaleMapper(KeycloakRequestSession session) {
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(LoginProtocol.class)
                 .map(LoginProtocolFactory.class::cast)
                 .map(factory -> factory.getBuiltinMappers().get(OIDCLoginProtocolFactory.LOCALE))
@@ -143,11 +143,11 @@ public class ProtocolMapperUtils {
     }
 
 
-    public static Stream<Entry<ProtocolMapperModel, ProtocolMapper>> getSortedProtocolMappers(KeycloakSession session, ClientSessionContext ctx) {
+    public static Stream<Entry<ProtocolMapperModel, ProtocolMapper>> getSortedProtocolMappers(KeycloakRequestSession session, ClientSessionContext ctx) {
         return getSortedProtocolMappers(session, ctx, entry -> true);
     }
 
-    public static Stream<Entry<ProtocolMapperModel, ProtocolMapper>> getSortedProtocolMappers(KeycloakSession session, ClientSessionContext ctx, Predicate<Entry<ProtocolMapperModel, ProtocolMapper>> filter) {
+    public static Stream<Entry<ProtocolMapperModel, ProtocolMapper>> getSortedProtocolMappers(KeycloakRequestSession session, ClientSessionContext ctx, Predicate<Entry<ProtocolMapperModel, ProtocolMapper>> filter) {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
 
         Stream<Entry<ProtocolMapperModel, ProtocolMapper>> protocolMapperStream = //
@@ -174,7 +174,7 @@ public class ProtocolMapperUtils {
         return priority;
     }
 
-    public static boolean isEnabled(KeycloakSession session, ProtocolMapperModel mapper) {
+    public static boolean isEnabled(KeycloakRequestSession session, ProtocolMapperModel mapper) {
         return session.getKeycloakSessionFactory().getProviderFactory(ProtocolMapper.class, mapper.getProtocolMapper()) != null;
     }
 }

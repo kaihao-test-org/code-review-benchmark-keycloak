@@ -19,7 +19,7 @@
 
 package org.keycloak.testsuite.user.profile;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.userprofile.DeclarativeUserProfileProviderFactory;
 
 /**
@@ -30,7 +30,7 @@ public class CustomUserProfileProviderFactory extends DeclarativeUserProfileProv
     public static final String ID = "custom-user-profile";
 
     @Override
-    public CustomUserProfileProvider create(KeycloakSession session) {
+    public CustomUserProfileProvider create(KeycloakRequestSession session) {
         return new CustomUserProfileProvider(session, this);
     }
 

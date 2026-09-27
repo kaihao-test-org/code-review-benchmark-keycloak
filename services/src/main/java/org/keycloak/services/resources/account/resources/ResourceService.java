@@ -38,7 +38,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.authorization.model.PermissionTicket;
 import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.models.AccountRoles;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserProvider;
@@ -55,7 +55,7 @@ public class ResourceService extends AbstractResourceService {
     private final org.keycloak.authorization.model.Resource resource;
     private final ResourceServer resourceServer;
 
-    ResourceService(org.keycloak.authorization.model.Resource resource, KeycloakSession session, UserModel user,
+    ResourceService(org.keycloak.authorization.model.Resource resource, KeycloakRequestSession session, UserModel user,
             Auth auth, HttpRequest request) {
         super(session, user, auth, request);
         this.resource = resource;

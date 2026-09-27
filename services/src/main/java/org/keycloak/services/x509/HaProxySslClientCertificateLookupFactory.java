@@ -18,7 +18,7 @@
 
 package org.keycloak.services.x509;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:brat000012001@gmail.com">Peter Nalyvayko</a>
@@ -30,7 +30,7 @@ public class HaProxySslClientCertificateLookupFactory extends AbstractClientCert
 
     private final static String PROVIDER = "haproxy";
     @Override
-    public X509ClientCertificateLookup create(KeycloakSession session) {
+    public X509ClientCertificateLookup create(KeycloakRequestSession session) {
         return new HaProxySslClientCertificateLookup(sslClientCertHttpHeader,
                 sslChainHttpHeaderPrefix, certificateChainLength);
     }

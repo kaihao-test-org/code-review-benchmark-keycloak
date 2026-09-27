@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -53,7 +53,7 @@ public class LocalDateValidator extends AbstractStringValidator implements Confi
     @Override
     protected void doValidate(String value, String inputHint, ValidationContext context, ValidatorConfig config) {
         UserModel user = (UserModel) context.getAttributes().get(UserModel.class.getName());
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         KeycloakContext keycloakContext = session.getContext();
         Locale locale = keycloakContext.resolveLocale(user);
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, locale);
@@ -68,7 +68,7 @@ public class LocalDateValidator extends AbstractStringValidator implements Confi
     }
 
     @Override
-    public ValidationResult validateConfig(KeycloakSession session, ValidatorConfig config) {
+    public ValidationResult validateConfig(KeycloakRequestSession session, ValidatorConfig config) {
         return ValidationResult.OK;
     }
 

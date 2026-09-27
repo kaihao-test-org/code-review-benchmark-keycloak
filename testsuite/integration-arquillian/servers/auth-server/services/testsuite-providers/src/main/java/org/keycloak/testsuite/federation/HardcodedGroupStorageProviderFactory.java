@@ -17,7 +17,7 @@
 package org.keycloak.testsuite.federation;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 import org.keycloak.storage.group.GroupStorageProviderFactory;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class HardcodedGroupStorageProviderFactory implements GroupStorageProviderFactory<HardcodedGroupStorageProvider> {
     @Override
-    public HardcodedGroupStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public HardcodedGroupStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new HardcodedGroupStorageProvider(new GroupStorageProviderModel(model));
     }
 

@@ -19,7 +19,7 @@
 package org.keycloak.migration.migrators;
 
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientPoliciesRepresentation;
@@ -34,13 +34,13 @@ public class MigrateTo14_0_0 implements Migration {
     public static final ModelVersion VERSION = new ModelVersion("14.0.0");
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         session.realms()
                 .getRealmsStream()
                 .forEach(realm -> migrateRealm(session, realm));
     }
 
-    private void migrateRealm(KeycloakSession session, RealmModel realm) {
+    private void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         try {
             session.clientPolicy().updateClientProfiles(realm, new ClientProfilesRepresentation());
             session.clientPolicy().updateClientPolicies(realm, new ClientPoliciesRepresentation());

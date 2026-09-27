@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -40,13 +40,13 @@ public class InfinispanOrganizationProvider implements OrganizationProvider {
     private static final String ORG_COUNT_KEY_SUFFIX = ".org.count";
     private static final String ORG_MEMBERS_COUNT_KEY_SUFFIX = ".members.count";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final UserCacheSession userCache;
     private OrganizationProvider orgDelegate;
     private final RealmCacheSession realmCache;
     private final Map<String, OrganizationAdapter> managedOrganizations = new HashMap<>();
 
-    public InfinispanOrganizationProvider(KeycloakSession session) {
+    public InfinispanOrganizationProvider(KeycloakRequestSession session) {
         this.session = session;
         this.realmCache = (RealmCacheSession) session.getProvider(CacheRealmProvider.class);
         this.userCache = (UserCacheSession) session.getProvider(UserCache.class);

@@ -30,7 +30,7 @@ import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.authorization.ResourceType;
@@ -63,7 +63,7 @@ public class UserPolicyProvider implements PolicyProvider, PartialEvaluationPoli
     }
 
     @Override
-    public Stream<Policy> getPermissions(KeycloakSession session, ResourceType resourceType, UserModel subject) {
+    public Stream<Policy> getPermissions(KeycloakRequestSession session, ResourceType resourceType, UserModel subject) {
         AuthorizationProvider provider = session.getProvider(AuthorizationProvider.class);
         RealmModel realm = session.getContext().getRealm();
         ClientModel adminPermissionsClient = realm.getAdminPermissionsClient();
@@ -75,7 +75,7 @@ public class UserPolicyProvider implements PolicyProvider, PartialEvaluationPoli
     }
 
     @Override
-    public boolean evaluate(KeycloakSession session, Policy policy, UserModel adminUser) {
+    public boolean evaluate(KeycloakRequestSession session, Policy policy, UserModel adminUser) {
         return policy.getConfig().getOrDefault("users", "").contains(adminUser.getId());
     }
 

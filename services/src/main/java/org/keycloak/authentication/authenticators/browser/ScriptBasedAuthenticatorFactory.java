@@ -21,7 +21,7 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
 import org.keycloak.common.Profile;
 import org.keycloak.models.AuthenticationExecutionModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -52,7 +52,7 @@ public class ScriptBasedAuthenticatorFactory implements AuthenticatorFactory, En
     static final ScriptBasedAuthenticator SINGLETON = new ScriptBasedAuthenticator();
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
 
         /*
          would be great to have the actual authenticatorId here in order to initialize the authenticator in the ctor with

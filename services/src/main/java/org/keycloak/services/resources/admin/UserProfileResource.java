@@ -39,7 +39,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.UserProfileMetadata;
 import org.keycloak.services.ErrorResponse;
@@ -56,12 +56,12 @@ import org.keycloak.representations.userprofile.config.UPConfig;
 @Extension(name = KeycloakOpenAPI.Profiles.ADMIN, value = "")
 public class UserProfileResource {
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     protected final AdminEventBuilder adminEvent;
     protected final RealmModel realm;
     private final AdminPermissionEvaluator auth;
 
-    public UserProfileResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public UserProfileResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;

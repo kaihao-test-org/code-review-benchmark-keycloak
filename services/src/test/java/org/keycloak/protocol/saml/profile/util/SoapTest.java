@@ -45,7 +45,7 @@ import org.keycloak.common.crypto.CryptoProvider;
 import org.keycloak.dom.saml.v2.SAML2Object;
 import org.keycloak.dom.saml.v2.assertion.NameIDType;
 import org.keycloak.dom.saml.v2.protocol.LogoutRequestType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.saml.SAML2LogoutRequestBuilder;
 import org.keycloak.saml.common.constants.JBossSAMLURIConstants;
 import org.keycloak.saml.common.exceptions.ConfigurationException;
@@ -114,7 +114,7 @@ public class SoapTest {
         CryptoIntegration.init(CryptoProvider.class.getClassLoader());
         ResteasyKeycloakSessionFactory sessionFactory = new ResteasyKeycloakSessionFactory();
         sessionFactory.init();
-        KeycloakSession session = new ResteasyKeycloakSession(sessionFactory);
+        KeycloakRequestSession session = new ResteasyKeycloakSession(sessionFactory);
 
         SOAPMessage soapResponse = Soap.createMessage()
                 .addMimeHeader("SOAPAction", "http://www.oasis-open.org/committees/security")
@@ -161,7 +161,7 @@ public class SoapTest {
         });
         ResteasyKeycloakSessionFactory sessionFactory = new ResteasyKeycloakSessionFactory();
         sessionFactory.init();
-        KeycloakSession session = new ResteasyKeycloakSession(sessionFactory);
+        KeycloakRequestSession session = new ResteasyKeycloakSession(sessionFactory);
 
         SOAPException ex = Assert.assertThrows(SOAPException.class, () -> {
             Soap.createMessage()

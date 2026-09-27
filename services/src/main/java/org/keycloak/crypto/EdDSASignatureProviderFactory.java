@@ -16,7 +16,7 @@
  */
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:takashi.norimatsu.ws@hitachi.com">Takashi Norimatsu</a>
@@ -31,7 +31,7 @@ public class EdDSASignatureProviderFactory implements SignatureProviderFactory {
     }
 
     @Override
-    public SignatureProvider create(KeycloakSession session) {
+    public SignatureProvider create(KeycloakRequestSession session) {
         return new EdDSASignatureProvider(session);
     }
 

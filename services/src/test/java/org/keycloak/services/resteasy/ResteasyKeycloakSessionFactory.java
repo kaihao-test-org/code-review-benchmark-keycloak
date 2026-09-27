@@ -17,13 +17,13 @@
 
 package org.keycloak.services.resteasy;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.DefaultKeycloakSessionFactory;
 
 public class ResteasyKeycloakSessionFactory extends DefaultKeycloakSessionFactory {
 
     @Override
-    public KeycloakSession create() {
+    public KeycloakRequestSession create() {
         return new ResteasyKeycloakSession(this);
     }
 

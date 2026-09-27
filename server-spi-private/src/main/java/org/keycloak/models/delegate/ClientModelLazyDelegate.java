@@ -18,7 +18,7 @@ package org.keycloak.models.delegate;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelIllegalStateException;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -49,7 +49,7 @@ public class ClientModelLazyDelegate implements ClientModel {
             this.id = id;
         }
 
-        public WithId(KeycloakSession session, RealmModel realm, String id) {
+        public WithId(KeycloakRequestSession session, RealmModel realm, String id) {
             super(() -> session.clients().getClientById(realm, id));
             this.id = id;
         }

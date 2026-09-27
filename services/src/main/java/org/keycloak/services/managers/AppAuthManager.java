@@ -22,7 +22,7 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.Profile;
 import org.keycloak.common.util.ObjectUtil;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import jakarta.ws.rs.core.HttpHeaders;
@@ -43,7 +43,7 @@ public class AppAuthManager extends AuthenticationManager {
     private static final Pattern WHITESPACES = Pattern.compile("\\s+");
 
     @Override
-    public AuthResult authenticateIdentityCookie(KeycloakSession session, RealmModel realm) {
+    public AuthResult authenticateIdentityCookie(KeycloakRequestSession session, RealmModel realm) {
         AuthResult authResult = super.authenticateIdentityCookie(session, realm);
         if (authResult == null) return null;
         // refresh the cookies!
@@ -128,7 +128,7 @@ public class AppAuthManager extends AuthenticationManager {
     }
 
     public static class BearerTokenAuthenticator {
-        private KeycloakSession session;
+        private KeycloakRequestSession session;
         private RealmModel realm;
         private UriInfo uriInfo;
         private ClientConnection connection;
@@ -136,11 +136,11 @@ public class AppAuthManager extends AuthenticationManager {
         private String tokenString;
         private String audience;
 
-        public BearerTokenAuthenticator(KeycloakSession session) {
+        public BearerTokenAuthenticator(KeycloakRequestSession session) {
             this.session = session;
         }
 
-        public BearerTokenAuthenticator setSession(KeycloakSession session) {
+        public BearerTokenAuthenticator setSession(KeycloakRequestSession session) {
             this.session = session;
             return this;
         }

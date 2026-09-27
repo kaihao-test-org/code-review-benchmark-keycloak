@@ -18,7 +18,7 @@ package org.keycloak.forms.login.freemarker.model;
 
 import org.keycloak.authentication.otp.OTPApplicationProvider;
 import org.keycloak.credential.CredentialModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  */
 public class TotpBean {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private final RealmModel realm;
     private final String totpSecret;
     private final String totpSecretEncoded;
@@ -49,11 +49,11 @@ public class TotpBean {
     private final List<String> supportedApplications;
     private final UserModel user;
 
-    public TotpBean(KeycloakSession session, RealmModel realm, UserModel user, UriBuilder uriBuilder) {
+    public TotpBean(KeycloakRequestSession session, RealmModel realm, UserModel user, UriBuilder uriBuilder) {
         this(session, realm, user, uriBuilder, null);
     }
 
-    public TotpBean(KeycloakSession session, RealmModel realm, UserModel user, UriBuilder uriBuilder, String secret) {
+    public TotpBean(KeycloakRequestSession session, RealmModel realm, UserModel user, UriBuilder uriBuilder, String secret) {
         this.session = session;
         this.realm = realm;
         this.user = user;

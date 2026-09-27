@@ -17,7 +17,7 @@
 
 package org.keycloak.services;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.OAuth2ErrorRepresentation;
 import org.keycloak.utils.KeycloakSessionUtil;
 
@@ -56,7 +56,7 @@ public class ErrorResponseException extends WebApplicationException {
 
     @Override
     public Response getResponse() {
-        KeycloakSession session = KeycloakSessionUtil.getKeycloakSession();
+        KeycloakRequestSession session = KeycloakSessionUtil.getKeycloakSession();
         if (session != null) {
             // This has to happen, since calling getResponse() with non-null result leads to
             // directly returning the result instead of

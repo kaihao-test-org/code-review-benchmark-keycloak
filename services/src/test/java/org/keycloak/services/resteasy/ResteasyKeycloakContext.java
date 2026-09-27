@@ -20,12 +20,12 @@ package org.keycloak.services.resteasy;
 import org.jboss.resteasy.core.ResteasyContext;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.DefaultKeycloakContext;
 
 public class ResteasyKeycloakContext extends DefaultKeycloakContext {
 
-    public ResteasyKeycloakContext(KeycloakSession session) {
+    public ResteasyKeycloakContext(KeycloakRequestSession session) {
         super(session);
     }
 

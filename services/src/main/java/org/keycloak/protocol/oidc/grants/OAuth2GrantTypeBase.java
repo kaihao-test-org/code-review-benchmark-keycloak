@@ -37,7 +37,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -71,7 +71,7 @@ public abstract class OAuth2GrantTypeBase implements OAuth2GrantType {
 
     protected OAuth2GrantType.Context context;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected RealmModel realm;
     protected ClientModel client;
     protected OIDCAdvancedConfigWrapper clientConfig;

@@ -24,7 +24,7 @@ import org.keycloak.connections.httpclient.DefaultHttpClientFactory;
 import org.keycloak.connections.httpclient.HttpClientBuilder;
 import org.keycloak.connections.httpclient.HttpClientFactory;
 import org.keycloak.connections.httpclient.HttpClientProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.Provider;
 import org.keycloak.quarkus.runtime.configuration.Configuration;
@@ -46,7 +46,7 @@ public class OTelHttpClientFactory extends DefaultHttpClientFactory implements E
     }
 
     @Override
-    public HttpClientProvider create(KeycloakSession session) {
+    public HttpClientProvider create(KeycloakRequestSession session) {
         if (BUILDER_SINGLETON == null) {
             BUILDER_SINGLETON = new OTelHttpClientBuilder((OTelTracingProvider) session.getProvider(TracingProvider.class));
         }

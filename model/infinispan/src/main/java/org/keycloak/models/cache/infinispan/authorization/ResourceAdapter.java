@@ -23,7 +23,7 @@ import org.keycloak.authorization.model.ResourceServer;
 import org.keycloak.authorization.model.Scope;
 import org.keycloak.authorization.store.PermissionTicketStore;
 import org.keycloak.authorization.store.PolicyStore;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.infinispan.LazyModel;
 import org.keycloak.models.cache.infinispan.authorization.entities.CachedResource;
 
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 public class ResourceAdapter implements Resource, CachedModel<Resource> {
 
     private final Supplier<Resource> modelSupplier;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected final CachedResource cached;
     protected final StoreFactoryCacheSession cacheSession;
     protected Resource updated;

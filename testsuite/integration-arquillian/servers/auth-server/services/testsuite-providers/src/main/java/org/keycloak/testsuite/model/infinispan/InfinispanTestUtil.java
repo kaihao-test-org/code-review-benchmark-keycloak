@@ -21,7 +21,7 @@ package org.keycloak.testsuite.model.infinispan;
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.logging.Logger;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import static org.keycloak.connections.infinispan.InfinispanUtil.setTimeServiceToKeycloakTime;
 
@@ -38,7 +38,7 @@ public class InfinispanTestUtil {
      * Set Keycloak test TimeService to infinispan cacheManager. This will cause that infinispan will be aware of Keycloak Time offset, which is useful
      * for testing that infinispan entries are expired after moving Keycloak time forward with {@link org.keycloak.common.util.Time#setOffset} .
      */
-    public static void setTestingTimeService(KeycloakSession session) {
+    public static void setTestingTimeService(KeycloakRequestSession session) {
         // Testing timeService already set. This shouldn't happen if this utility is properly used
         if (origTimeService != null) {
             throw new IllegalStateException("Calling setTestingTimeService when testing TimeService was already set");
@@ -52,7 +52,7 @@ public class InfinispanTestUtil {
         }
     }
 
-    public static void revertTimeService(KeycloakSession session) {
+    public static void revertTimeService(KeycloakRequestSession session) {
         // Testing timeService not set. This shouldn't happen if this utility is properly used
         InfinispanConnectionProvider ispnProvider = session.getProvider(InfinispanConnectionProvider.class);
         if (ispnProvider != null) {

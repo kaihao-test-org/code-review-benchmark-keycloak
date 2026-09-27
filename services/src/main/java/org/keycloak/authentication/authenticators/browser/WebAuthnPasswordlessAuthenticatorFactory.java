@@ -19,7 +19,7 @@
 package org.keycloak.authentication.authenticators.browser;
 
 import org.keycloak.authentication.Authenticator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.credential.WebAuthnCredentialModel;
 
 /**
@@ -45,7 +45,7 @@ public class WebAuthnPasswordlessAuthenticatorFactory extends WebAuthnAuthentica
     }
 
     @Override
-    public Authenticator create(KeycloakSession session) {
+    public Authenticator create(KeycloakRequestSession session) {
         return new WebAuthnPasswordlessAuthenticator(session);
     }
 

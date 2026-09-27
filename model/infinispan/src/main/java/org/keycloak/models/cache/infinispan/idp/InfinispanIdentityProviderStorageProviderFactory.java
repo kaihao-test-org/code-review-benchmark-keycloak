@@ -19,7 +19,7 @@ package org.keycloak.models.cache.infinispan.idp;
 import org.keycloak.Config;
 import org.keycloak.models.IdentityProviderStorageProvider;
 import org.keycloak.models.IdentityProviderStorageProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class InfinispanIdentityProviderStorageProviderFactory implements IdentityProviderStorageProviderFactory<IdentityProviderStorageProvider> {
@@ -27,7 +27,7 @@ public class InfinispanIdentityProviderStorageProviderFactory implements Identit
     public static final String PROVIDER_ID = "infinispan";
 
     @Override
-    public IdentityProviderStorageProvider create(KeycloakSession session) {
+    public IdentityProviderStorageProvider create(KeycloakRequestSession session) {
         return new InfinispanIdentityProviderStorageProvider(session);
     }
 

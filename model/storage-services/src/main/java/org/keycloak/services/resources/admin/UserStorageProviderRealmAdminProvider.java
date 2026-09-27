@@ -18,7 +18,7 @@
 package org.keycloak.services.resources.admin;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resources.admin.ext.AdminRealmResourceProvider;
@@ -28,7 +28,7 @@ import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
 public class UserStorageProviderRealmAdminProvider implements AdminRealmResourceProviderFactory, AdminRealmResourceProvider {
 
     @Override
-    public AdminRealmResourceProvider create(KeycloakSession session) {
+    public AdminRealmResourceProvider create(KeycloakRequestSession session) {
         return this;
     }
 
@@ -50,7 +50,7 @@ public class UserStorageProviderRealmAdminProvider implements AdminRealmResource
     }
 
     @Override
-    public Object getResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public Object getResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         return new UserStorageProviderResource(session, auth, adminEvent);
     }
 

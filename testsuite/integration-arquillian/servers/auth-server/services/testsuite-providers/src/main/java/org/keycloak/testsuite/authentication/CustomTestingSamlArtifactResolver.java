@@ -2,7 +2,7 @@ package org.keycloak.testsuite.authentication;
 
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.saml.ArtifactResolver;
 
 import java.io.ByteArrayInputStream;
@@ -23,7 +23,7 @@ public class CustomTestingSamlArtifactResolver implements ArtifactResolver {
     public static List<String> list = new ArrayList<>();
 
     @Override
-    public ClientModel selectSourceClient(KeycloakSession session, String artifact) {
+    public ClientModel selectSourceClient(KeycloakRequestSession session, String artifact) {
         return null;
     }
 

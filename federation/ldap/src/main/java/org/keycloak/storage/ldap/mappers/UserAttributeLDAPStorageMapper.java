@@ -19,7 +19,7 @@ package org.keycloak.storage.ldap.mappers;
 
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
@@ -157,7 +157,7 @@ public class UserAttributeLDAPStorageMapper extends AbstractLDAPStorageMapper {
     }
 
     // throw ModelDuplicateException if there is different user in model with same email
-    protected void checkDuplicateEmail(String userModelAttrName, String email, RealmModel realm, KeycloakSession session, UserModel user) {
+    protected void checkDuplicateEmail(String userModelAttrName, String email, RealmModel realm, KeycloakRequestSession session, UserModel user) {
         if (email == null || realm.isDuplicateEmailsAllowed()) return;
         if (UserModel.EMAIL.equalsIgnoreCase(userModelAttrName)) {
             // lowercase before search
@@ -178,7 +178,7 @@ public class UserAttributeLDAPStorageMapper extends AbstractLDAPStorageMapper {
         }
     }
 
-    protected void checkDuplicateUsername(String userModelAttrName, String username, RealmModel realm, KeycloakSession session, UserModel user) {
+    protected void checkDuplicateUsername(String userModelAttrName, String username, RealmModel realm, KeycloakRequestSession session, UserModel user) {
         // only if working in USERNAME attribute
         if (UserModel.USERNAME.equalsIgnoreCase(userModelAttrName)) {
             if (username == null || username.isEmpty()) {

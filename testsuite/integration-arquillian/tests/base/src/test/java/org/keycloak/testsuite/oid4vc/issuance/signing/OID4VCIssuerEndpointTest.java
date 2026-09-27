@@ -45,7 +45,7 @@ import org.keycloak.constants.Oid4VciConstants;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerEndpoint;
 import org.keycloak.protocol.oid4vc.issuance.OID4VCIssuerWellKnownProviderFactory;
@@ -121,7 +121,7 @@ public abstract class OID4VCIssuerEndpointTest extends OID4VCTest {
         return true;
     }
 
-    protected static String prepareSessionCode(KeycloakSession session, AppAuthManager.BearerTokenAuthenticator authenticator, String note) {
+    protected static String prepareSessionCode(KeycloakRequestSession session, AppAuthManager.BearerTokenAuthenticator authenticator, String note) {
         AuthenticationManager.AuthResult authResult = authenticator.authenticate();
         UserSessionModel userSessionModel = authResult.getSession();
         AuthenticatedClientSessionModel authenticatedClientSessionModel = userSessionModel.getAuthenticatedClientSessionByClient(
@@ -144,7 +144,7 @@ public abstract class OID4VCIssuerEndpointTest extends OID4VCTest {
         return oauthCode;
     }
 
-    protected static OID4VCIssuerEndpoint prepareIssuerEndpoint(KeycloakSession session,
+    protected static OID4VCIssuerEndpoint prepareIssuerEndpoint(KeycloakRequestSession session,
                                                                 AppAuthManager.BearerTokenAuthenticator authenticator) {
         JwtCredentialBuilder jwtCredentialBuilder = new JwtCredentialBuilder(
                 new StaticTimeProvider(1000));
@@ -159,7 +159,7 @@ public abstract class OID4VCIssuerEndpointTest extends OID4VCTest {
     }
 
     protected static OID4VCIssuerEndpoint prepareIssuerEndpoint(
-            KeycloakSession session,
+            KeycloakRequestSession session,
             AppAuthManager.BearerTokenAuthenticator authenticator,
             Map<String, CredentialBuilder> credentialBuilders
     ) {

@@ -35,7 +35,7 @@ import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.device.DeviceActivityManager;
 import org.keycloak.models.AccountRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -50,12 +50,12 @@ import org.keycloak.services.managers.AuthenticationManager;
  */
 public class SessionResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final Auth auth;
     private final RealmModel realm;
     private final UserModel user;
 
-    public SessionResource(KeycloakSession session, Auth auth) {
+    public SessionResource(KeycloakRequestSession session, Auth auth) {
         this.session = session;
         this.auth = auth;
         this.realm = auth.getRealm();

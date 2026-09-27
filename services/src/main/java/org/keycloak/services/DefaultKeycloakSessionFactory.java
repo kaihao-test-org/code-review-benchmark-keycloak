@@ -40,7 +40,7 @@ import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentFactoryProvider;
 import org.keycloak.component.ComponentFactoryProviderFactory;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ThemeManager;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
@@ -409,7 +409,7 @@ public abstract class DefaultKeycloakSessionFactory implements KeycloakSessionFa
     }
 
     @Override
-    public void invalidate(KeycloakSession session, InvalidableObjectType type, Object... ids) {
+    public void invalidate(KeycloakRequestSession session, InvalidableObjectType type, Object... ids) {
         factoriesMap.values().stream()
           .map(Map::values)
           .flatMap(Collection::stream)

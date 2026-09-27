@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc.par.endpoints.request;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.endpoints.request.AuthorizationEndpointRequest;
 import org.keycloak.protocol.oidc.endpoints.request.AuthzEndpointRequestObjectParser;
 
@@ -29,7 +29,7 @@ import org.keycloak.protocol.oidc.endpoints.request.AuthzEndpointRequestObjectPa
  */
 public class ParEndpointRequestObjectParser extends AuthzEndpointRequestObjectParser {
 
-    public ParEndpointRequestObjectParser(KeycloakSession session, String requestObject, ClientModel client) {
+    public ParEndpointRequestObjectParser(KeycloakRequestSession session, String requestObject, ClientModel client) {
         super(session, requestObject, client);
     }
 

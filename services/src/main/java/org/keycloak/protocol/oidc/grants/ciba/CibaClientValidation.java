@@ -22,7 +22,7 @@ import org.keycloak.crypto.SignatureProvider;
 import org.keycloak.jose.jws.Algorithm;
 import org.keycloak.models.CibaConfig;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.validation.ValidationContext;
 
 import static org.keycloak.common.util.UriUtils.checkUrl;
@@ -68,7 +68,7 @@ public class CibaClientValidation {
         }
     }
 
-    private static boolean isSupportedBackchannelAuthenticationRequestSigningAlg(KeycloakSession session, String alg) {
+    private static boolean isSupportedBackchannelAuthenticationRequestSigningAlg(KeycloakRequestSession session, String alg) {
         // Consider removing 'none' . Not sure if we should allow him based on the CIBA specification...
         if (Algorithm.none.name().equals(alg)) {
             return true;

@@ -17,7 +17,7 @@
 
 package org.keycloak.testsuite.runonserver;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.Serializable;
 import java.util.function.Function;
@@ -27,6 +27,6 @@ import java.util.function.Function;
  */
 public interface FetchOnServer extends Serializable {
 
-    Object run(KeycloakSession session);
+    Object run(KeycloakRequestSession session);
 
 }

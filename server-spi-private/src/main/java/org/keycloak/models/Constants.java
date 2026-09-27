@@ -141,7 +141,7 @@ public final class Constants {
     public static final String OFFLINE_ACCESS_SCOPE_CONSENT_TEXT = "${offlineAccessScopeConsentText}";
 
     /**
-     * If set as an attribute in the {@link KeycloakSession}, indicates that the storage should batch write operations.
+     * If set as an attribute in the {@link KeycloakRequestSession}, indicates that the storage should batch write operations.
      */
     public static final String STORAGE_BATCH_ENABLED = "org.keycloak.storage.batch_enabled";
 

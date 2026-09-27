@@ -34,7 +34,7 @@ import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RealmProvider;
 import org.keycloak.models.UserModel;
@@ -75,7 +75,7 @@ public class SessionTimeoutsTest extends KeycloakModelTest {
     private String realmId;
 
     @Override
-    public void createEnvironment(KeycloakSession s) {
+    public void createEnvironment(KeycloakRequestSession s) {
         super.createEnvironment(s);
 
         RealmModel realm = createRealm(s, "test");
@@ -90,7 +90,7 @@ public class SessionTimeoutsTest extends KeycloakModelTest {
     }
 
     @Override
-    public void cleanEnvironment(KeycloakSession s) {
+    public void cleanEnvironment(KeycloakRequestSession s) {
         InfinispanTestUtil.revertTimeService(s);
         RealmModel realm = s.realms().getRealm(realmId);
         s.getContext().setRealm(realm);
@@ -99,7 +99,7 @@ public class SessionTimeoutsTest extends KeycloakModelTest {
         super.cleanEnvironment(s);
     }
 
-    protected static UserSessionModel createUserSession(KeycloakSession session, RealmModel realm, UserModel user, boolean offline) {
+    protected static UserSessionModel createUserSession(KeycloakRequestSession session, RealmModel realm, UserModel user, boolean offline) {
         UserSessionModel userSession = session.sessions().createUserSession(UUID.randomUUID().toString(), realm, user, "user1", "127.0.0.1",
                 "form", true, null, null, UserSessionModel.SessionPersistenceState.PERSISTENT);
         if (offline) {
@@ -108,7 +108,7 @@ public class SessionTimeoutsTest extends KeycloakModelTest {
         return userSession;
     }
 
-    protected static AuthenticatedClientSessionModel createClientSession(KeycloakSession session, String realmId, ClientModel client,
+    protected static AuthenticatedClientSessionModel createClientSession(KeycloakRequestSession session, String realmId, ClientModel client,
             UserSessionModel userSession, String redirect, String state) {
         RealmModel realm = session.realms().getRealm(realmId);
         AuthenticatedClientSessionModel clientSession = session.sessions().createClientSession(realm, client, userSession);
@@ -122,7 +122,7 @@ public class SessionTimeoutsTest extends KeycloakModelTest {
         return clientSession;
     }
 
-    protected static UserSessionModel getUserSession(KeycloakSession session, RealmModel realm, String id, boolean offline) {
+    protected static UserSessionModel getUserSession(KeycloakRequestSession session, RealmModel realm, String id, boolean offline) {
         return offline
                 ? session.sessions().getOfflineUserSession(realm, id)
                 : session.sessions().getUserSession(realm, id);

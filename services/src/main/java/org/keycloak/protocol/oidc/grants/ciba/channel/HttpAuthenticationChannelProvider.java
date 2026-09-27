@@ -26,7 +26,7 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.cors.Cors;
@@ -39,14 +39,14 @@ public class HttpAuthenticationChannelProvider implements AuthenticationChannelP
 
     public static final String AUTHENTICATION_CHANNEL_ID = "authentication_channel_id";
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected MultivaluedMap<String, String> formParams;
     protected RealmModel realm;
     protected Map<String, String> clientAuthAttributes;
     protected Cors cors;
     protected final String httpAuthenticationChannelUri;
 
-    public HttpAuthenticationChannelProvider(KeycloakSession session, String httpAuthenticationRequestUri) {
+    public HttpAuthenticationChannelProvider(KeycloakRequestSession session, String httpAuthenticationRequestUri) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.httpAuthenticationChannelUri = httpAuthenticationRequestUri;

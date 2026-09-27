@@ -9,16 +9,16 @@ import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.headers.SecurityHeadersProvider;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.StringUtil;
 
 public class FrontChannelLogoutHandler {
 
-    public static FrontChannelLogoutHandler current(KeycloakSession session) {
+    public static FrontChannelLogoutHandler current(KeycloakRequestSession session) {
         return (FrontChannelLogoutHandler) session.getAttribute(FrontChannelLogoutHandler.class.getName());
     }
 
-    public static FrontChannelLogoutHandler currentOrCreate(KeycloakSession session, AuthenticatedClientSessionModel clientSession) {
+    public static FrontChannelLogoutHandler currentOrCreate(KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession) {
         FrontChannelLogoutHandler current = current(session);
 
         if (current == null) {
@@ -28,14 +28,14 @@ public class FrontChannelLogoutHandler {
         return current;
     }
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final String sid;
     private final String issuer;
     private final List<ClientInfo> clients = new ArrayList<>();
 
     private String logoutRedirectUri;
 
-    private FrontChannelLogoutHandler(KeycloakSession session, AuthenticatedClientSessionModel clientSession) {
+    private FrontChannelLogoutHandler(KeycloakRequestSession session, AuthenticatedClientSessionModel clientSession) {
         this.session = session;
         this.sid = clientSession.getUserSession().getId();
         this.issuer = clientSession.getNote(OIDCLoginProtocol.ISSUER);

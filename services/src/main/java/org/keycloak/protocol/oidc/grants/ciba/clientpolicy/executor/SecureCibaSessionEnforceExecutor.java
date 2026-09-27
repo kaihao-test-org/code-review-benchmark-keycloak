@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.grants.ciba.clientpolicy.context.BackchannelAuthenticationRequestContext;
 import org.keycloak.protocol.oidc.grants.ciba.endpoints.request.BackchannelAuthenticationEndpointRequest;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
@@ -36,9 +36,9 @@ public class SecureCibaSessionEnforceExecutor implements ClientPolicyExecutorPro
 
     private static final Logger logger = Logger.getLogger(SecureCibaSessionEnforceExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public SecureCibaSessionEnforceExecutor(KeycloakSession session) {
+    public SecureCibaSessionEnforceExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

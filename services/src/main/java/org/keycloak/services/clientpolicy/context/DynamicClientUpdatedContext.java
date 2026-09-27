@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.context;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.services.clientpolicy.ClientPolicyEvent;
@@ -27,7 +27,7 @@ public class DynamicClientUpdatedContext extends AbstractDynamicClientCRUDContex
 
     private final ClientModel updatedClient;
 
-    public DynamicClientUpdatedContext(KeycloakSession session, ClientModel updatedClient, JsonWebToken token, RealmModel realm) {
+    public DynamicClientUpdatedContext(KeycloakRequestSession session, ClientModel updatedClient, JsonWebToken token, RealmModel realm) {
         super(session, token, realm);
         this.updatedClient = updatedClient;
     }

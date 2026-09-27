@@ -2,7 +2,7 @@ package org.keycloak.credential;
 
 import org.jboss.logging.Logger;
 import org.keycloak.authentication.requiredactions.RecoveryAuthnCodesAction;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.UserModel;
@@ -24,9 +24,9 @@ public class RecoveryAuthnCodesCredentialProvider
 
     private static final Logger logger = Logger.getLogger(RecoveryAuthnCodesCredentialProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public RecoveryAuthnCodesCredentialProvider(KeycloakSession session) {
+    public RecoveryAuthnCodesCredentialProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

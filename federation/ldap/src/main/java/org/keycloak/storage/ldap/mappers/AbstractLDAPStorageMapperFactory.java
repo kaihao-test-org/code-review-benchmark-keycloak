@@ -20,7 +20,7 @@ package org.keycloak.storage.ldap.mappers;
 import org.keycloak.Config;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.storage.ldap.LDAPStorageProvider;
@@ -39,7 +39,7 @@ public abstract class AbstractLDAPStorageMapperFactory implements LDAPStorageMap
     }
 
     @Override
-    public LDAPStorageMapper create(KeycloakSession session, ComponentModel model) {
+    public LDAPStorageMapper create(KeycloakRequestSession session, ComponentModel model) {
         // LDAPStorageProvider is in the session already as mappers are always called from it
         String ldapProviderModelId = model.getParentId();
         LDAPStorageProvider ldapProvider = (LDAPStorageProvider) session.getAttribute(ldapProviderModelId);

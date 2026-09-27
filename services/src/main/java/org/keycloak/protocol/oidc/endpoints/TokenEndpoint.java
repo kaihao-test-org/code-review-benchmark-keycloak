@@ -37,7 +37,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -74,7 +74,7 @@ public class TokenEndpoint {
     private Map<String, String> clientAuthAttributes;
     private OIDCAdvancedConfigWrapper clientConfig;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final HttpRequest request;
 
@@ -93,7 +93,7 @@ public class TokenEndpoint {
 
     private Cors cors;
 
-    public TokenEndpoint(KeycloakSession session, TokenManager tokenManager, EventBuilder event) {
+    public TokenEndpoint(KeycloakRequestSession session, TokenManager tokenManager, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.tokenManager = tokenManager;

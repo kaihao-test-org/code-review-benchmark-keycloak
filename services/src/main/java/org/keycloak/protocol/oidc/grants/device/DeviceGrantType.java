@@ -33,7 +33,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.OAuth2DeviceCodeModel;
 import org.keycloak.models.OAuth2DeviceUserCodeModel;
@@ -95,7 +95,7 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         return baseUri.getBaseUriBuilder().path(RealmsResource.class).path("{realm}").path("device").path("status");
     }
 
-    public static Response denyOAuth2DeviceAuthorization(AuthenticationSessionModel authSession, LoginProtocol.Error error, KeycloakSession session) {
+    public static Response denyOAuth2DeviceAuthorization(AuthenticationSessionModel authSession, LoginProtocol.Error error, KeycloakRequestSession session) {
         KeycloakContext context = session.getContext();
         RealmModel realm = context.getRealm();
         KeycloakUriInfo uri = context.getUri();
@@ -116,7 +116,7 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         ).build();
     }
 
-    public static Response approveOAuth2DeviceAuthorization(AuthenticationSessionModel authSession, AuthenticatedClientSessionModel clientSession, KeycloakSession session) {
+    public static Response approveOAuth2DeviceAuthorization(AuthenticationSessionModel authSession, AuthenticatedClientSessionModel clientSession, KeycloakRequestSession session) {
         KeycloakContext context = session.getContext();
         RealmModel realm = context.getRealm();
         KeycloakUriInfo uriInfo = context.getUri();
@@ -145,7 +145,7 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         return flow != null;
     }
 
-    public static OAuth2DeviceCodeModel getDeviceByDeviceCode(KeycloakSession session, RealmModel realm, ClientModel client, EventBuilder event, String deviceCode) {
+    public static OAuth2DeviceCodeModel getDeviceByDeviceCode(KeycloakRequestSession session, RealmModel realm, ClientModel client, EventBuilder event, String deviceCode) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         Map<String, String> notes = singleUseStore.get(OAuth2DeviceCodeModel.createKey(deviceCode));
         OAuth2DeviceCodeModel deviceCodeModel = notes != null ? OAuth2DeviceCodeModel.fromCache(realm, deviceCode, notes) : null;
@@ -163,7 +163,7 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         return deviceCodeModel;
     }
 
-    public static boolean isDeviceCodeDeniedForDeviceVerificationFlow(KeycloakSession session, RealmModel realm, AuthenticationSessionModel authSession) {
+    public static boolean isDeviceCodeDeniedForDeviceVerificationFlow(KeycloakRequestSession session, RealmModel realm, AuthenticationSessionModel authSession) {
         if (DeviceGrantType.isOAuth2DeviceVerificationFlow(authSession)) {
             String verifiedUserCode = authSession.getClientNote(DeviceGrantType.OAUTH2_DEVICE_VERIFIED_USER_CODE);
             OAuth2DeviceCodeModel deviceCodeModel = DeviceEndpoint.getDeviceByUserCode(session, realm, verifiedUserCode);
@@ -174,22 +174,22 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         return false;
     }
 
-    public static void removeDeviceByDeviceCode(KeycloakSession session, String deviceCode) {
+    public static void removeDeviceByDeviceCode(KeycloakRequestSession session, String deviceCode) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         singleUseStore.remove(OAuth2DeviceCodeModel.createKey(deviceCode));
     }
 
-    public static void removeDeviceByUserCode(KeycloakSession session, RealmModel realm, String userCode) {
+    public static void removeDeviceByUserCode(KeycloakRequestSession session, RealmModel realm, String userCode) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         singleUseStore.remove(OAuth2DeviceUserCodeModel.createKey(realm, userCode));
     }
 
-    public static boolean isPollingAllowed(KeycloakSession session, OAuth2DeviceCodeModel deviceCodeModel) {
+    public static boolean isPollingAllowed(KeycloakRequestSession session, OAuth2DeviceCodeModel deviceCodeModel) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         return singleUseStore.putIfAbsent(deviceCodeModel.serializePollingKey(), deviceCodeModel.getPollingInterval());
     }
 
-    public static boolean approveUserCode(KeycloakSession session, RealmModel realm, String userCode, String userSessionId, Map<String, String> additionalParams) {
+    public static boolean approveUserCode(KeycloakRequestSession session, RealmModel realm, String userCode, String userSessionId, Map<String, String> additionalParams) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         OAuth2DeviceCodeModel deviceCodeModel = DeviceEndpoint.getDeviceByUserCode(session, realm, userCode);
 
@@ -201,7 +201,7 @@ public class DeviceGrantType extends OAuth2GrantTypeBase {
         return false;
     }
 
-    public static boolean denyUserCode(KeycloakSession session, RealmModel realm, String userCode) {
+    public static boolean denyUserCode(KeycloakRequestSession session, RealmModel realm, String userCode) {
         SingleUseObjectProvider singleUseStore = session.singleUseObjects();
         OAuth2DeviceCodeModel deviceCodeModel = DeviceEndpoint.getDeviceByUserCode(session, realm, userCode);
 

@@ -30,7 +30,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.util.Time;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.SingleUseObjectProviderFactory;
 import org.keycloak.models.session.RevokedToken;
@@ -67,7 +67,7 @@ public class RemoteInfinispanSingleUseObjectProviderFactory implements SingleUse
     private volatile boolean persistRevokedTokens;
 
     @Override
-    public RemoteInfinispanSingleUseObjectProvider create(KeycloakSession session) {
+    public RemoteInfinispanSingleUseObjectProvider create(KeycloakRequestSession session) {
         assert cache != null;
         return new RemoteInfinispanSingleUseObjectProvider(createAndEnlistTransaction(session), createRevokeTokenConsumer(session));
     }
@@ -142,21 +142,21 @@ public class RemoteInfinispanSingleUseObjectProviderFactory implements SingleUse
         }
     }
 
-    private SingleUseObjectTransaction createAndEnlistTransaction(KeycloakSession session) {
+    private SingleUseObjectTransaction createAndEnlistTransaction(KeycloakRequestSession session) {
         var tx = new SingleUseObjectTransaction(cache);
         session.getTransactionManager().enlistAfterCompletion(tx);
         return tx;
     }
 
-    private RevokedTokenPersisterProvider getRevokedTokenPersisterProvider(KeycloakSession session) {
+    private RevokedTokenPersisterProvider getRevokedTokenPersisterProvider(KeycloakRequestSession session) {
         return session.getProvider(RevokedTokenPersisterProvider.class);
     }
 
-    private RevokeTokenConsumer createRevokeTokenConsumer(KeycloakSession session) {
+    private RevokeTokenConsumer createRevokeTokenConsumer(KeycloakRequestSession session) {
         return persistRevokedTokens ? getRevokedTokenPersisterProvider(session)::revokeToken : VOLATILE_REVOKE_TOKEN;
     }
 
-    private void preloadRevokedTokens(KeycloakSession session) {
+    private void preloadRevokedTokens(KeycloakRequestSession session) {
         var provider = getRevokedTokenPersisterProvider(session);
         if (cache.get(LOADED) == null) {
             logger.debug("Preloading revoked tokens from database.");

@@ -24,7 +24,7 @@ import org.keycloak.authentication.authenticators.broker.AbstractIdpAuthenticato
 import org.keycloak.authentication.authenticators.broker.util.SerializedBrokeredIdentityContext;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
 
@@ -38,7 +38,7 @@ public final class UsernameForm extends UsernamePasswordForm {
         super();
     }
 
-    public UsernameForm(KeycloakSession session) {
+    public UsernameForm(KeycloakRequestSession session) {
         super(session);
     }
 
@@ -88,7 +88,7 @@ public final class UsernameForm extends UsernamePasswordForm {
      * @return {@code true} if the context user has federated IDPs that can be used for authentication; {@code false} otherwise.
      */
     private boolean hasLinkedBrokers(AuthenticationFlowContext context) {
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         UserModel user = context.getUser();
         if (user == null) {
             return false;

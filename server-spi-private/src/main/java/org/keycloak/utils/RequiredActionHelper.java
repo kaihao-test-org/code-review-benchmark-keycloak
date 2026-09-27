@@ -18,7 +18,7 @@ package org.keycloak.utils;
 
 import org.keycloak.authentication.RequiredActionFactory;
 import org.keycloak.authentication.RequiredActionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.utils.Base32;
@@ -33,7 +33,7 @@ public class RequiredActionHelper {
 
     private RequiredActionHelper() {}
 
-    public static RequiredActionFactory getConfigurableRequiredActionFactory(KeycloakSession session, String providerId) {
+    public static RequiredActionFactory getConfigurableRequiredActionFactory(KeycloakRequestSession session, String providerId) {
         RequiredActionFactory providerFactory = (RequiredActionFactory)session.getKeycloakSessionFactory().getProviderFactory(RequiredActionProvider.class, providerId);
 
         if (providerFactory == null) {
@@ -48,7 +48,7 @@ public class RequiredActionHelper {
         return null;
     }
 
-    public static RequiredActionFactory lookupConfigurableRequiredActionFactory(KeycloakSession session, String providerId) {
+    public static RequiredActionFactory lookupConfigurableRequiredActionFactory(KeycloakRequestSession session, String providerId) {
 
         RequiredActionFactory factory = getConfigurableRequiredActionFactory(session, providerId);
 

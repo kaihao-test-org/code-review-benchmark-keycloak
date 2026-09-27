@@ -21,7 +21,7 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -47,7 +47,7 @@ public class DummyUserFederationProvider implements UserStorageProvider,
         CredentialInputValidator {
 
     private final Map<String, UserModel> users;
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private ComponentModel component;
 
     // Hardcoded password of test-user
@@ -58,7 +58,7 @@ public class DummyUserFederationProvider implements UserStorageProvider,
 
 
 
-    public DummyUserFederationProvider(KeycloakSession session, ComponentModel component, Map<String, UserModel> users) {
+    public DummyUserFederationProvider(KeycloakRequestSession session, ComponentModel component, Map<String, UserModel> users) {
         this.users = users;
         this.session = session;
         this.component = component;

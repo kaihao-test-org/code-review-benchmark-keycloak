@@ -27,7 +27,7 @@ import org.keycloak.keys.PublicKeyLoader;
 import org.keycloak.keys.PublicKeyStorageProvider;
 import org.keycloak.keys.PublicKeyStorageUtils;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 import java.security.PublicKey;
@@ -39,7 +39,7 @@ public class PublicKeyStorageManager {
 
     private static final Logger logger = Logger.getLogger(PublicKeyStorageManager.class);
 
-    public static PublicKey getClientPublicKey(KeycloakSession session, ClientModel client, JWSInput input) {
+    public static PublicKey getClientPublicKey(KeycloakRequestSession session, ClientModel client, JWSInput input) {
         KeyWrapper keyWrapper = getClientPublicKeyWrapper(session, client, input);
         PublicKey publicKey = null;
         if (keyWrapper != null) {
@@ -48,7 +48,7 @@ public class PublicKeyStorageManager {
         return publicKey;
     }
 
-    public static KeyWrapper getClientPublicKeyWrapper(KeycloakSession session, ClientModel client, JWSInput input) {
+    public static KeyWrapper getClientPublicKeyWrapper(KeycloakRequestSession session, ClientModel client, JWSInput input) {
         String kid = input.getHeader().getKeyId();
         String alg = input.getHeader().getRawAlgorithm();
         PublicKeyStorageProvider keyStorage = session.getProvider(PublicKeyStorageProvider.class);
@@ -57,14 +57,14 @@ public class PublicKeyStorageManager {
         return keyStorage.getPublicKey(modelKey, kid, alg, loader);
     }
 
-    public static KeyWrapper getClientPublicKeyWrapper(KeycloakSession session, ClientModel client, JWK.Use keyUse, String algAlgorithm) {
+    public static KeyWrapper getClientPublicKeyWrapper(KeycloakRequestSession session, ClientModel client, JWK.Use keyUse, String algAlgorithm) {
         PublicKeyStorageProvider keyStorage = session.getProvider(PublicKeyStorageProvider.class);
         String modelKey = PublicKeyStorageUtils.getClientModelCacheKey(client.getRealm().getId(), client.getId(), keyUse);
         ClientPublicKeyLoader loader = new ClientPublicKeyLoader(session, client, keyUse);
         return keyStorage.getFirstPublicKey(modelKey, algAlgorithm, loader);
     }
 
-    public static KeyWrapper getIdentityProviderKeyWrapper(KeycloakSession session, RealmModel realm, OIDCIdentityProviderConfig idpConfig, JWSInput input) {
+    public static KeyWrapper getIdentityProviderKeyWrapper(KeycloakRequestSession session, RealmModel realm, OIDCIdentityProviderConfig idpConfig, JWSInput input) {
         boolean keyIdSetInConfiguration = idpConfig.getPublicKeySignatureVerifierKeyId() != null
           && ! idpConfig.getPublicKeySignatureVerifierKeyId().trim().isEmpty();
 

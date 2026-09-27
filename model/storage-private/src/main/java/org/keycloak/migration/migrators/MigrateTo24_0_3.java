@@ -21,7 +21,7 @@ package org.keycloak.migration.migrators;
 
 import org.jboss.logging.Logger;
 import org.keycloak.migration.ModelVersion;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultRequiredActions;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -41,7 +41,7 @@ public class MigrateTo24_0_3 extends RealmMigration {
     }
 
     @Override
-    public void migrateRealm(KeycloakSession session, RealmModel realm) {
+    public void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         DefaultRequiredActions.addDeleteCredentialAction(realm);
     }
 }

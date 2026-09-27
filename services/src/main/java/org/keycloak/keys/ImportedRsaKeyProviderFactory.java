@@ -20,7 +20,7 @@ package org.keycloak.keys;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class ImportedRsaKeyProviderFactory extends AbstractImportedRsaKeyProvide
             .build();
 
     @Override
-    public KeyProvider create(KeycloakSession session, ComponentModel model) {
+    public KeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         if (model.getConfig().get(Attributes.KEY_USE) == null) {
             // for backward compatibility : it allows "enc" key use for "rsa" provider
             model.put(Attributes.KEY_USE, KeyUse.SIG.name());

@@ -23,7 +23,7 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -52,12 +52,12 @@ public class GeneratedEddsaKeyProviderFactory extends AbstractEddsaKeyProviderFa
             .build();
 
     @Override
-    public KeyProvider create(KeycloakSession session, ComponentModel model) {
+    public KeyProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new GeneratedEddsaKeyProvider(session.getContext().getRealm(), model);
     }
 
     @Override
-    public boolean createFallbackKeys(KeycloakSession session, KeyUse keyUse, String algorithm) {
+    public boolean createFallbackKeys(KeycloakRequestSession session, KeyUse keyUse, String algorithm) {
         if (keyUse.equals(KeyUse.SIG) && algorithm.equals(Algorithm.EdDSA)) {
             RealmModel realm = session.getContext().getRealm();
 
@@ -96,7 +96,7 @@ public class GeneratedEddsaKeyProviderFactory extends AbstractEddsaKeyProviderFa
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
         super.validateConfiguration(session, realm, model);
 
         ConfigurationValidationHelper.check(model).checkList(EDDSA_ELLIPTIC_CURVE_PROPERTY, false);

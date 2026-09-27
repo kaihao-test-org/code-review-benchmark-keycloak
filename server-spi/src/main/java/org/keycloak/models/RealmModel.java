@@ -38,36 +38,36 @@ public interface RealmModel extends RoleContainerModel {
 
     interface RealmCreationEvent extends ProviderEvent {
         RealmModel getCreatedRealm();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface RealmPostCreateEvent extends ProviderEvent {
         RealmModel getCreatedRealm();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface RealmRemovedEvent extends ProviderEvent {
         RealmModel getRealm();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface IdentityProviderUpdatedEvent extends ProviderEvent {
         RealmModel getRealm();
         IdentityProviderModel getUpdatedIdentityProvider();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface IdentityProviderRemovedEvent extends ProviderEvent {
         RealmModel getRealm();
         IdentityProviderModel getRemovedIdentityProvider();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface RealmAttributeUpdateEvent extends ProviderEvent {
         RealmModel getRealm();
         String getAttributeName();
         String getAttributeValue();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     @Override
@@ -745,7 +745,7 @@ public interface RealmModel extends RoleContainerModel {
 
     @Deprecated
     /**
-     * @deprecated It is now preferable to use {@link GroupProvider} from a {@link KeycloakSession}
+     * @deprecated It is now preferable to use {@link GroupProvider} from a {@link KeycloakRequestSession}
      * Returns top level groups as a stream.
      * @return Stream of {@link GroupModel}. Never returns {@code null}.
      */
@@ -753,7 +753,7 @@ public interface RealmModel extends RoleContainerModel {
 
     @Deprecated
     /**
-     * @deprecated It is now preferable to use {@link GroupProvider} from a {@link KeycloakSession}
+     * @deprecated It is now preferable to use {@link GroupProvider} from a {@link KeycloakRequestSession}
      * Returns top level groups as a stream.
      * @param first {@code Integer} Index of the first desired group. Ignored if negative or {@code null}.
      * @param max {@code Integer} Maximum number of returned groups. Ignored if negative or {@code null}.

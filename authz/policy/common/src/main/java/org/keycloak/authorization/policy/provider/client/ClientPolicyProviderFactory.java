@@ -37,7 +37,7 @@ import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.ResourceServerStore;
 import org.keycloak.authorization.store.StoreFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.ClientModel.ClientRemovedEvent;
@@ -107,7 +107,7 @@ public class ClientPolicyProviderFactory implements PolicyProviderFactory<Client
     }
 
     @Override
-    public PolicyProvider create(KeycloakSession session) {
+    public PolicyProvider create(KeycloakRequestSession session) {
         return provider;
     }
 
@@ -120,7 +120,7 @@ public class ClientPolicyProviderFactory implements PolicyProviderFactory<Client
     public void postInit(KeycloakSessionFactory factory) {
         factory.register(event -> {
             if (event instanceof ClientRemovedEvent) {
-                KeycloakSession keycloakSession = ((ClientRemovedEvent) event).getKeycloakSession();
+                KeycloakRequestSession keycloakSession = ((ClientRemovedEvent) event).getKeycloakSession();
                 AuthorizationProvider provider = keycloakSession.getProvider(AuthorizationProvider.class);
                 StoreFactory storeFactory = provider.getStoreFactory();
                 PolicyStore policyStore = storeFactory.getPolicyStore();
@@ -183,7 +183,7 @@ public class ClientPolicyProviderFactory implements PolicyProviderFactory<Client
                 throw new RuntimeException("Error while updating policy [" + policy.getName()  + "]. Client [" + id + "] could not be found.");
             }
 
-            updatedClients.add(client.getId());
+            updatedClients.add(id);
         }
 
         try {

@@ -35,7 +35,7 @@ import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
@@ -70,9 +70,9 @@ public class BackwardsCompatibilityUserStorage implements UserLookupProvider, Us
 
     protected final Map<String, MyUser> users;
     protected final ComponentModel model;
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public BackwardsCompatibilityUserStorage(KeycloakSession session, ComponentModel model, Map<String, MyUser> users) {
+    public BackwardsCompatibilityUserStorage(KeycloakRequestSession session, ComponentModel model, Map<String, MyUser> users) {
         this.session = session;
         this.model = model;
         this.users = users;

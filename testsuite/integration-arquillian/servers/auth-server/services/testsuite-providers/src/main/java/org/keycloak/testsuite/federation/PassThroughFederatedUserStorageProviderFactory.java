@@ -17,7 +17,7 @@
 package org.keycloak.testsuite.federation;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.storage.UserStorageProviderFactory;
 
 /**
@@ -29,7 +29,7 @@ public class PassThroughFederatedUserStorageProviderFactory implements UserStora
     public static final String PROVIDER_ID = "pass-through-federated";
 
     @Override
-    public PassThroughFederatedUserStorageProvider create(KeycloakSession session, ComponentModel model) {
+    public PassThroughFederatedUserStorageProvider create(KeycloakRequestSession session, ComponentModel model) {
         return new PassThroughFederatedUserStorageProvider(session, model);
     }
 

@@ -25,7 +25,7 @@ import org.keycloak.authorization.util.Tokens;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -54,20 +54,20 @@ public class KeycloakIdentity implements Identity {
 
     protected final AccessToken accessToken;
     protected final RealmModel realm;
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
     protected final Attributes attributes;
     private final boolean resourceServer;
     private final String id;
 
-    public KeycloakIdentity(KeycloakSession keycloakSession) {
+    public KeycloakIdentity(KeycloakRequestSession keycloakSession) {
         this(Tokens.getAccessToken(keycloakSession), keycloakSession);
     }
 
-    public KeycloakIdentity(KeycloakSession keycloakSession, IDToken token) {
+    public KeycloakIdentity(KeycloakRequestSession keycloakSession, IDToken token) {
         this(token, keycloakSession, keycloakSession.getContext().getRealm());
     }
 
-    public KeycloakIdentity(IDToken token, KeycloakSession keycloakSession, RealmModel realm) {
+    public KeycloakIdentity(IDToken token, KeycloakRequestSession keycloakSession, RealmModel realm) {
         if (token == null) {
             throw new ErrorResponseException("invalid_bearer_token", "Could not obtain bearer access_token from request.", Status.FORBIDDEN);
         }
@@ -180,11 +180,11 @@ public class KeycloakIdentity implements Identity {
         this.attributes = Attributes.from(attributes);
     }
 
-    public KeycloakIdentity(AccessToken accessToken, KeycloakSession keycloakSession) {
+    public KeycloakIdentity(AccessToken accessToken, KeycloakRequestSession keycloakSession) {
         this(accessToken, keycloakSession, keycloakSession.getContext().getRealm());
     }
 
-    public KeycloakIdentity(AccessToken accessToken, KeycloakSession keycloakSession, RealmModel realm) {
+    public KeycloakIdentity(AccessToken accessToken, KeycloakRequestSession keycloakSession, RealmModel realm) {
         if (accessToken == null) {
             throw new ErrorResponseException("invalid_bearer_token", "Could not obtain bearer access_token from request.", Status.FORBIDDEN);
         }

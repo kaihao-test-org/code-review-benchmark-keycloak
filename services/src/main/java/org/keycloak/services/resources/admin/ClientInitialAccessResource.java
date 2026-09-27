@@ -27,7 +27,7 @@ import org.keycloak.http.HttpResponse;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.ClientInitialAccessModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientInitialAccessCreatePresentation;
 import org.keycloak.representations.idm.ClientInitialAccessPresentation;
@@ -62,9 +62,9 @@ public class ClientInitialAccessResource {
     private final RealmModel realm;
     private final AdminEventBuilder adminEvent;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
-    public ClientInitialAccessResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ClientInitialAccessResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();

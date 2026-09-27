@@ -22,7 +22,7 @@ import org.keycloak.common.util.reflections.Types;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.StorageProviderRealmModel;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
@@ -47,7 +47,7 @@ import static org.keycloak.utils.StreamsUtil.paginatedStream;
 public class ClientStorageManager implements ClientProvider {
     private static final Logger logger = Logger.getLogger(ClientStorageManager.class);
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     private long clientStorageProviderTimeout;
 
@@ -66,7 +66,7 @@ public class ClientStorageManager implements ClientProvider {
         return new ClientStorageProviderModel(model);
     }
 
-    public static ClientStorageProvider getStorageProvider(KeycloakSession session, RealmModel realm, String componentId) {
+    public static ClientStorageProvider getStorageProvider(KeycloakRequestSession session, RealmModel realm, String componentId) {
         ComponentModel model = realm.getComponent(componentId);
         if (model == null) return null;
         ClientStorageProviderModel storageModel = new ClientStorageProviderModel(model);
@@ -78,7 +78,7 @@ public class ClientStorageManager implements ClientProvider {
     }
 
 
-    private static <T> Stream<ClientStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakSession session, Class<T> type) {
+    private static <T> Stream<ClientStorageProviderModel> getStorageProviders(RealmModel realm, KeycloakRequestSession session, Class<T> type) {
         return ((StorageProviderRealmModel) realm).getClientStorageProvidersStream()
                 .filter(model -> {
                     ClientStorageProviderFactory factory = getClientStorageProviderFactory(model, session);
@@ -92,7 +92,7 @@ public class ClientStorageManager implements ClientProvider {
                 });
     }
 
-    public static ClientStorageProvider getStorageProviderInstance(KeycloakSession session, ClientStorageProviderModel model, ClientStorageProviderFactory factory) {
+    public static ClientStorageProvider getStorageProviderInstance(KeycloakRequestSession session, ClientStorageProviderModel model, ClientStorageProviderFactory factory) {
         ClientStorageProvider instance = (ClientStorageProvider)session.getAttribute(model.getId());
         if (instance != null) return instance;
         instance = factory.create(session, model);
@@ -105,29 +105,29 @@ public class ClientStorageManager implements ClientProvider {
     }
 
 
-    public static <T> Stream<T> getStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getClientStorageProviderFactory(model, session))));
     }
 
-    private static ClientStorageProviderFactory getClientStorageProviderFactory(ClientStorageProviderModel model, KeycloakSession session) {
+    private static ClientStorageProviderFactory getClientStorageProviderFactory(ClientStorageProviderModel model, KeycloakRequestSession session) {
         return (ClientStorageProviderFactory) session.getKeycloakSessionFactory()
                 .getProviderFactory(ClientStorageProvider.class, model.getProviderId());
     }
 
 
-    public static <T> Stream<T> getEnabledStorageProviders(KeycloakSession session, RealmModel realm, Class<T> type) {
+    public static <T> Stream<T> getEnabledStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<T> type) {
         return getStorageProviders(realm, session, type)
                 .filter(ClientStorageProviderModel::isEnabled)
                 .map(model -> type.cast(getStorageProviderInstance(session, model, getClientStorageProviderFactory(model, session))));
     }
 
-    public static boolean hasEnabledStorageProviders(KeycloakSession session, RealmModel realm, Class<?> type) {
+    public static boolean hasEnabledStorageProviders(KeycloakRequestSession session, RealmModel realm, Class<?> type) {
         return getStorageProviders(realm, session, type).anyMatch(ClientStorageProviderModel::isEnabled);
     }
 
 
-    public ClientStorageManager(KeycloakSession session, long clientStorageProviderTimeout) {
+    public ClientStorageManager(KeycloakRequestSession session, long clientStorageProviderTimeout) {
         this.session = session;
         this.clientStorageProviderTimeout = clientStorageProviderTimeout;
     }

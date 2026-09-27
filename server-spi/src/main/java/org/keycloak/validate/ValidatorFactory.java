@@ -16,7 +16,7 @@
  */
 package org.keycloak.validate;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderFactory;
 
 /**
@@ -27,13 +27,13 @@ public interface ValidatorFactory extends ProviderFactory<Validator> {
     /**
      * Validates the given validation config.
      * <p>
-     * Implementations can use the {@link KeycloakSession} to validate the given {@link ValidatorConfig}.
+     * Implementations can use the {@link KeycloakRequestSession} to validate the given {@link ValidatorConfig}.
      *
-     * @param session the {@link KeycloakSession}
+     * @param session the {@link KeycloakRequestSession}
      * @param config  the config to be validated
      * @return the validation result
      */
-    default ValidationResult validateConfig(KeycloakSession session, ValidatorConfig config) {
+    default ValidationResult validateConfig(KeycloakRequestSession session, ValidatorConfig config) {
         return ValidationResult.OK;
     }
 

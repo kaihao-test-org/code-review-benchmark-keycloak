@@ -20,7 +20,7 @@ import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.representations.OIDCConfigurationRepresentation;
 import org.keycloak.util.JsonSerialization;
@@ -44,7 +44,7 @@ public class OAuth2IdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public OAuth2IdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public OAuth2IdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new OAuth2IdentityProvider(session, createConfig(model));
     }
 
@@ -78,7 +78,7 @@ public class OAuth2IdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public Map<String, String> parseConfig(KeycloakSession session, String rawConfig) {
+    public Map<String, String> parseConfig(KeycloakRequestSession session, String rawConfig) {
         OIDCConfigurationRepresentation rep;
         try {
             rep = JsonSerialization.readValue(rawConfig, OIDCConfigurationRepresentation.class);

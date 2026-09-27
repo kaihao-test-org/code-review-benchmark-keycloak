@@ -47,7 +47,7 @@ import org.keycloak.models.ClientProvider;
 import org.keycloak.models.Constants;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.GroupRemovedEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.RealmModel;
@@ -117,7 +117,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         ));
     }
 
-    public Resource getOrCreateResource(KeycloakSession session, ResourceServer resourceServer, String policyType, String resourceType, String id) {
+    public Resource getOrCreateResource(KeycloakRequestSession session, ResourceServer resourceServer, String policyType, String resourceType, String id) {
         if (!supportsAuthorizationSchema(session, resourceServer)) {
             return null;
         }
@@ -156,7 +156,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return resource;
     }
 
-    public Resource getResourceTypeResource(KeycloakSession session, ResourceServer resourceServer, String resourceType) {
+    public Resource getResourceTypeResource(KeycloakRequestSession session, ResourceServer resourceServer, String resourceType) {
         if (!supportsAuthorizationSchema(session, resourceServer)) {
             return null;
         }
@@ -176,7 +176,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return resourceStore.findByName(resourceServer, type.getType());
     }
 
-    public boolean isSupportedPolicyType(KeycloakSession session, ResourceServer resourceServer, String type) {
+    public boolean isSupportedPolicyType(KeycloakRequestSession session, ResourceServer resourceServer, String type) {
         if (!supportsAuthorizationSchema(session, resourceServer)) {
             return true;
         }
@@ -188,7 +188,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return realm.getAdminPermissionsClient() != null && realm.getAdminPermissionsClient().getId().equals(id);
     }
 
-    private boolean supportsAuthorizationSchema(KeycloakSession session, ResourceServer resourceServer) {
+    private boolean supportsAuthorizationSchema(KeycloakRequestSession session, ResourceServer resourceServer) {
         RealmModel realm = session.getContext().getRealm();
 
         if (!isAdminPermissionsEnabled(realm)) {
@@ -198,26 +198,26 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return isAdminPermissionClient(realm, resourceServer.getId());
     }
 
-    public void throwExceptionIfAdminPermissionClient(KeycloakSession session, String id) {
+    public void throwExceptionIfAdminPermissionClient(KeycloakRequestSession session, String id) {
         if (isAdminPermissionClient(session.getContext().getRealm(), id)) {
             throw new ModelValidationException("Not supported for this client.");
         }
     }
 
-    private Optional<GroupModel> resolveGroup(KeycloakSession session, String id) {
+    private Optional<GroupModel> resolveGroup(KeycloakRequestSession session, String id) {
         RealmModel realm = session.getContext().getRealm();
 
         return Optional.ofNullable(session.groups().getGroupById(realm, id));
     }
 
-    private Optional<RoleModel> resolveRole(KeycloakSession session, String id) {
+    private Optional<RoleModel> resolveRole(KeycloakRequestSession session, String id) {
         RealmModel realm = session.getContext().getRealm();
         RoleModel role = session.roles().getRoleById(realm, id);
 
         return Optional.ofNullable(role);
     }
 
-    private Optional<UserModel> resolveUser(KeycloakSession session, String id) {
+    private Optional<UserModel> resolveUser(KeycloakRequestSession session, String id) {
         RealmModel realm = session.getContext().getRealm();
         UserModel user = session.users().getUserById(realm, id);
 
@@ -228,7 +228,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return Optional.ofNullable(user);
     }
 
-    private Optional<ClientModel> resolveClient(KeycloakSession session, String id) {
+    private Optional<ClientModel> resolveClient(KeycloakRequestSession session, String id) {
         RealmModel realm = session.getContext().getRealm();
         ClientModel client = session.clients().getClientById(realm, id);
 
@@ -239,12 +239,12 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return Optional.ofNullable(client);
     }
 
-    private StoreFactory getStoreFactory(KeycloakSession session) {
+    private StoreFactory getStoreFactory(KeycloakRequestSession session) {
         AuthorizationProvider authzProvider = session.getProvider(AuthorizationProvider.class);
         return authzProvider.getStoreFactory();
     }
 
-    public void throwExceptionIfResourceTypeOrScopesNotProvided(KeycloakSession session, ResourceServer resourceServer, AbstractPolicyRepresentation rep) {
+    public void throwExceptionIfResourceTypeOrScopesNotProvided(KeycloakRequestSession session, ResourceServer resourceServer, AbstractPolicyRepresentation rep) {
         if (!supportsAuthorizationSchema(session, resourceServer)) {
             return;
         }
@@ -258,7 +258,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         }
     }
 
-    public Scope getScope(KeycloakSession session, ResourceServer resourceServer, String resourceType, String id) {
+    public Scope getScope(KeycloakRequestSession session, ResourceServer resourceServer, String resourceType, String id) {
         StoreFactory storeFactory = getStoreFactory(session);
 
         Scope scope = Optional.ofNullable(storeFactory.getScopeStore().findById(resourceServer, id))
@@ -275,7 +275,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return scope;
     }
 
-    public void init(KeycloakSession session, RealmModel realm) {
+    public void init(KeycloakRequestSession session, RealmModel realm) {
         ClientProvider clients = session.clients();
         ClientModel client = realm.getAdminPermissionsClient();
 
@@ -359,7 +359,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         }
     }
 
-    public String getResourceName(KeycloakSession session, Policy policy, Resource resource) {
+    public String getResourceName(KeycloakRequestSession session, Policy policy, Resource resource) {
         ResourceServer resourceServer = policy.getResourceServer();
 
         if (supportsAuthorizationSchema(session, resourceServer)) {
@@ -369,7 +369,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return resource.getDisplayName();
     }
 
-    public String getResourceName(KeycloakSession session, ResourceServer resourceServer, String resourceType, String resourceName) {
+    public String getResourceName(KeycloakRequestSession session, ResourceServer resourceServer, String resourceType, String resourceName) {
         if (resourceType == null) {
             return resourceName;
         }
@@ -395,7 +395,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         return resourceName;
     }
 
-    public void addUResourceTypeResource(KeycloakSession session, ResourceServer resourceServer, Policy policy, String resourceType) {
+    public void addUResourceTypeResource(KeycloakRequestSession session, ResourceServer resourceServer, Policy policy, String resourceType) {
         Resource resourceTypeResource = getResourceTypeResource(session, resourceServer, resourceType);
 
         if (resourceTypeResource != null) {
@@ -444,15 +444,15 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
         }
     }
 
-    public List<Predicate> applyAuthorizationFilters(KeycloakSession session, ResourceType resourceType, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
+    public List<Predicate> applyAuthorizationFilters(KeycloakRequestSession session, ResourceType resourceType, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
         return applyAuthorizationFilters(session, resourceType, null, realm, builder, queryBuilder, path);
     }
 
-    public List<Predicate> applyAuthorizationFilters(KeycloakSession session, ResourceType resourceType, PartialEvaluationStorageProvider evaluator, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
+    public List<Predicate> applyAuthorizationFilters(KeycloakRequestSession session, ResourceType resourceType, PartialEvaluationStorageProvider evaluator, RealmModel realm, CriteriaBuilder builder, CriteriaQuery<?> queryBuilder, Path<?> path) {
         return partialEvaluator.getPredicates(session, resourceType, evaluator, realm, builder, queryBuilder, path);
     }
 
-    public PolicyEvaluator getPolicyEvaluator(KeycloakSession session, ResourceServer resourceServer) {
+    public PolicyEvaluator getPolicyEvaluator(KeycloakRequestSession session, ResourceServer resourceServer) {
         if (resourceServer == null) {
             return null;
         }
@@ -492,7 +492,7 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
      * @param session the session. If {@code null}, authorization is enabled when executing the code block
      * @param runnable the runnable to execute
      */
-    public static void runWithoutAuthorization(KeycloakSession session, Runnable runnable) {
+    public static void runWithoutAuthorization(KeycloakRequestSession session, Runnable runnable) {
         if (isSkipEvaluation(session)) {
             runnable.run();
             return;
@@ -512,9 +512,9 @@ public class AdminPermissionsSchema extends AuthorizationSchema {
      * @param session the session
      * @return {@code true} if authorization is disabled. Otherwise, returns {@code false}.
      * Otherwise, {@code false}.
-     * @see AdminPermissionsSchema#runWithoutAuthorization(KeycloakSession, Runnable)
+     * @see AdminPermissionsSchema#runWithoutAuthorization(KeycloakRequestSession, Runnable)
      */
-    public static boolean isSkipEvaluation(KeycloakSession session) {
+    public static boolean isSkipEvaluation(KeycloakRequestSession session) {
         if (session == null) {
             return true;
         }

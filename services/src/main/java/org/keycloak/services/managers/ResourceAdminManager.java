@@ -31,7 +31,7 @@ import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.constants.AdapterConstants;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelIllegalStateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -68,18 +68,18 @@ public class ResourceAdminManager {
     private static final Logger logger = Logger.getLogger(ResourceAdminManager.class);
     private static final String CLIENT_SESSION_HOST_PROPERTY = "${application.session.host}";
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public ResourceAdminManager(KeycloakSession session) {
+    public ResourceAdminManager(KeycloakRequestSession session) {
         this.session = session;
     }
 
-    public static String resolveUri(KeycloakSession session, String rootUrl, String uri) {
+    public static String resolveUri(KeycloakRequestSession session, String rootUrl, String uri) {
         return ResolveRelative.resolveRelativeUri(session, rootUrl, uri);
 
    }
 
-    public static String getManagementUrl(KeycloakSession session, ClientModel client) {
+    public static String getManagementUrl(KeycloakRequestSession session, ClientModel client) {
         String mgmtUrl = client.getManagementUrl();
         if (mgmtUrl == null || mgmtUrl.equals("")) {
             return null;
@@ -180,7 +180,7 @@ public class ResourceAdminManager {
         }
     }
 
-    public static String getBackchannelLogoutUrl(KeycloakSession session, ClientModel client) {
+    public static String getBackchannelLogoutUrl(KeycloakRequestSession session, ClientModel client) {
         String backchannelLogoutUrl = OIDCAdvancedConfigWrapper.fromClientModel(client).getBackchannelLogoutUrl();
         if (backchannelLogoutUrl == null || backchannelLogoutUrl.equals("")) {
             return null;

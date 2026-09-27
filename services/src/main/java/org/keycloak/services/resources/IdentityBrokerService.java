@@ -58,7 +58,7 @@ import org.keycloak.models.Constants;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.IdentityProviderSyncMode;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -140,7 +140,7 @@ public class IdentityBrokerService implements IdentityProvider.AuthenticationCal
 
     private final RealmModel realmModel;
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final ClientConnection clientConnection;
 
@@ -151,7 +151,7 @@ public class IdentityBrokerService implements IdentityProvider.AuthenticationCal
     private EventBuilder event;
 
 
-    public IdentityBrokerService(KeycloakSession session) {
+    public IdentityBrokerService(KeycloakRequestSession session) {
         this.session = session;
         this.clientConnection= session.getContext().getConnection();
         realmModel = session.getContext().getRealm();
@@ -1321,7 +1321,7 @@ public class IdentityBrokerService implements IdentityProvider.AuthenticationCal
         throw ErrorResponse.error(message, Response.Status.NOT_FOUND);
     }
 
-    public static IdentityProvider<?> getIdentityProvider(KeycloakSession session, String alias) {
+    public static IdentityProvider<?> getIdentityProvider(KeycloakRequestSession session, String alias) {
         IdentityProviderModel identityProviderModel = session.identityProviders().getByAlias(alias);
 
         if (identityProviderModel != null) {
@@ -1337,7 +1337,7 @@ public class IdentityBrokerService implements IdentityProvider.AuthenticationCal
         throw new IdentityBrokerException("Identity Provider [" + alias + "] not found.");
     }
 
-    private static IdentityProviderFactory<?> getIdentityProviderFactory(KeycloakSession session, IdentityProviderModel model) {
+    private static IdentityProviderFactory<?> getIdentityProviderFactory(KeycloakRequestSession session, IdentityProviderModel model) {
         if (model == null) {
             return null;
         }

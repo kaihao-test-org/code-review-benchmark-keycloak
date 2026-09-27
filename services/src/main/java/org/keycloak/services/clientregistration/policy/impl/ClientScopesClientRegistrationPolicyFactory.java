@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.clientregistration.policy.AbstractClientRegistrationPolicyFactory;
@@ -46,7 +46,7 @@ public class ClientScopesClientRegistrationPolicyFactory extends AbstractClientR
     public static final String ALLOW_DEFAULT_SCOPES = "allow-default-scopes";
 
     @Override
-    public ClientRegistrationPolicy create(KeycloakSession session, ComponentModel model) {
+    public ClientRegistrationPolicy create(KeycloakRequestSession session, ComponentModel model) {
         return new ClientScopesClientRegistrationPolicy(session, model);
     }
 
@@ -56,7 +56,7 @@ public class ClientScopesClientRegistrationPolicyFactory extends AbstractClientR
     }
 
     @Override
-    public List<ProviderConfigProperty> getConfigProperties(KeycloakSession session) {
+    public List<ProviderConfigProperty> getConfigProperties(KeycloakRequestSession session) {
         List<ProviderConfigProperty> configProps = new LinkedList<>();
 
         ProviderConfigProperty property;
@@ -83,7 +83,7 @@ public class ClientScopesClientRegistrationPolicyFactory extends AbstractClientR
         return configProperties;
     }
 
-    private List<String> getClientScopes(KeycloakSession session) {
+    private List<String> getClientScopes(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         if (realm == null) {
             return Collections.emptyList();
@@ -98,7 +98,7 @@ public class ClientScopesClientRegistrationPolicyFactory extends AbstractClientR
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel config) throws ComponentValidationException {
         List<String> allowedScopesConfig = config.getConfig().getList(ClientScopesClientRegistrationPolicyFactory.ALLOWED_CLIENT_SCOPES);
         if (!getClientScopes(session).containsAll(allowedScopesConfig)) {
             throw new ComponentValidationException("Client scopes not allowed: " + allowedScopesConfig);

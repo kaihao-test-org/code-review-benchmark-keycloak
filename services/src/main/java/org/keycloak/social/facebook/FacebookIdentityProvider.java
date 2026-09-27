@@ -30,7 +30,7 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.TokenExchangeContext;
 import org.keycloak.saml.common.util.StringUtil;
 import org.keycloak.services.ErrorResponseException;
@@ -49,7 +49,7 @@ public class FacebookIdentityProvider extends AbstractOAuth2IdentityProvider<Fac
 	public static final String DEFAULT_SCOPE = "email";
 	protected static final String PROFILE_URL_FIELDS_SEPARATOR = ",";
 
-	public FacebookIdentityProvider(KeycloakSession session, FacebookIdentityProviderConfig config) {
+	public FacebookIdentityProvider(KeycloakRequestSession session, FacebookIdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(AUTH_URL);
 		config.setTokenUrl(TOKEN_URL);

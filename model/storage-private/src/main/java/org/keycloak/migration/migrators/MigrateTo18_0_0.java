@@ -23,7 +23,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.migration.MigrationProvider;
 import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -43,18 +43,18 @@ public class MigrateTo18_0_0 implements Migration {
     }
 
     @Override
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         if (Profile.isFeatureEnabled(Profile.Feature.STEP_UP_AUTHENTICATION)) {
             session.realms().getRealmsStream().forEach(realm -> migrateRealm(session, realm));
         }
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         migrateRealm(session, realm);
     }
 
-    protected void migrateRealm(KeycloakSession session, RealmModel realm) {
+    protected void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         if (Profile.isFeatureEnabled(Profile.Feature.STEP_UP_AUTHENTICATION)) {
             MigrationProvider migrationProvider = session.getProvider(MigrationProvider.class);
 

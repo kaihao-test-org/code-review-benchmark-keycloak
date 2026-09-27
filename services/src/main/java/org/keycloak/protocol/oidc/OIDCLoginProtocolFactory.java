@@ -27,7 +27,7 @@ import org.keycloak.events.EventBuilder;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -139,7 +139,7 @@ public class OIDCLoginProtocolFactory extends AbstractLoginProtocolFactory {
     }
 
     @Override
-    public LoginProtocol create(KeycloakSession session) {
+    public LoginProtocol create(KeycloakRequestSession session) {
         return new OIDCLoginProtocol(this.providerConfig).setSession(session);
     }
 
@@ -486,7 +486,7 @@ public class OIDCLoginProtocolFactory extends AbstractLoginProtocolFactory {
     }
 
     @Override
-    public Object createProtocolEndpoint(KeycloakSession session, EventBuilder event) {
+    public Object createProtocolEndpoint(KeycloakRequestSession session, EventBuilder event) {
         return new OIDCLoginProtocolService(session, event);
     }
 

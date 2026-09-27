@@ -34,7 +34,7 @@ import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.sessions.AuthenticationSessionModel;
@@ -51,10 +51,10 @@ public class AcrStore {
 
     private static final Logger logger = Logger.getLogger(AcrStore.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AuthenticationSessionModel authSession;
 
-    public AcrStore(KeycloakSession session, AuthenticationSessionModel authSession) {
+    public AcrStore(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
         this.session = session;
         this.authSession = authSession;
     }

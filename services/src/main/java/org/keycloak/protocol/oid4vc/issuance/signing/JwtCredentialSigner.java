@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oid4vc.issuance.signing;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.CredentialBody;
 import org.keycloak.protocol.oid4vc.issuance.credentialbuilder.JwtCredentialBody;
 import org.keycloak.protocol.oid4vc.model.CredentialBuildConfig;
@@ -32,7 +32,7 @@ public class JwtCredentialSigner extends AbstractCredentialSigner<String> {
 
     private static final Logger LOGGER = Logger.getLogger(JwtCredentialSigner.class);
 
-    public JwtCredentialSigner(KeycloakSession keycloakSession) {
+    public JwtCredentialSigner(KeycloakRequestSession keycloakSession) {
         super(keycloakSession);
     }
 

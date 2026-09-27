@@ -16,7 +16,7 @@
  */
 package org.keycloak.protocol.oidc.grants.ciba.resolvers;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 
@@ -25,9 +25,9 @@ import org.keycloak.models.utils.KeycloakModelUtils;
  */
 public class DefaultCIBALoginUserResolver implements CIBALoginUserResolver {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public DefaultCIBALoginUserResolver(KeycloakSession session) {
+    public DefaultCIBALoginUserResolver(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -23,7 +23,7 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.common.util.HtmlUtils;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.grants.ciba.endpoints.ClientNotificationEndpointRequest;
 import org.keycloak.representations.LogoutToken;
 import org.keycloak.representations.adapters.action.LogoutAction;
@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestApplicationResourceProvider implements RealmResourceProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
     private final BlockingQueue<LogoutAction> adminLogoutActions;
     private final BlockingQueue<LogoutToken> frontChannelLogoutTokens;
@@ -70,7 +70,7 @@ public class TestApplicationResourceProvider implements RealmResourceProvider {
 
     private final HttpRequest request;
 
-    public TestApplicationResourceProvider(KeycloakSession session, BlockingQueue<LogoutAction> adminLogoutActions,
+    public TestApplicationResourceProvider(KeycloakRequestSession session, BlockingQueue<LogoutAction> adminLogoutActions,
             BlockingQueue<String> backChannelLogoutTokens,
             BlockingQueue<LogoutToken> frontChannelLogoutTokens,
             BlockingQueue<PushNotBeforeAction> adminPushNotBeforeActions,

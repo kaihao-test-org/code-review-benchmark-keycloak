@@ -22,7 +22,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.events.Errors;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.RefreshToken;
@@ -44,10 +44,10 @@ import jakarta.ws.rs.core.Response;
 
 public class HolderOfKeyEnforcerExecutor implements ClientPolicyExecutorProvider<HolderOfKeyEnforcerExecutor.Configuration> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public HolderOfKeyEnforcerExecutor(KeycloakSession session) {
+    public HolderOfKeyEnforcerExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

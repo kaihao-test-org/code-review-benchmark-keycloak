@@ -24,7 +24,7 @@ import org.keycloak.authorization.model.Scope;
 import org.keycloak.authorization.store.PolicyStore;
 import org.keycloak.authorization.store.ResourceStore;
 import org.keycloak.authorization.store.ScopeStore;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.cache.infinispan.LazyModel;
 import org.keycloak.models.cache.infinispan.authorization.entities.CachedPolicy;
 import org.keycloak.representations.idm.authorization.DecisionStrategy;
@@ -47,7 +47,7 @@ public class PolicyAdapter implements Policy, CachedModel<Policy> {
     private final Supplier<Policy> modelSupplier;
     protected final CachedPolicy cached;
     protected final StoreFactoryCacheSession cacheSession;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected Policy updated;
 
     public PolicyAdapter(CachedPolicy cached, StoreFactoryCacheSession cacheSession) {

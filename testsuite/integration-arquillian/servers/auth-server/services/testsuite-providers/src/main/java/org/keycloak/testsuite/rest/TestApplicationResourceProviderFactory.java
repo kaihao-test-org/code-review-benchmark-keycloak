@@ -20,7 +20,7 @@ package org.keycloak.testsuite.rest;
 import org.keycloak.Config.Scope;
 import org.keycloak.crypto.KeyType;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.grants.ciba.endpoints.ClientNotificationEndpointRequest;
 import org.keycloak.representations.LogoutToken;
@@ -56,7 +56,7 @@ public class TestApplicationResourceProviderFactory implements RealmResourceProv
     private ConcurrentMap<String, String> intentClientBindings = new ConcurrentHashMap<>();
 
     @Override
-    public RealmResourceProvider create(KeycloakSession session) {
+    public RealmResourceProvider create(KeycloakRequestSession session) {
         return new TestApplicationResourceProvider(session, adminLogoutActions,
                 backChannelLogoutTokens, frontChannelLogoutTokens, pushNotBeforeActions, testAvailabilityActions, oidcClientData, authenticationChannelRequests, cibaClientNotifications, intentClientBindings);
     }

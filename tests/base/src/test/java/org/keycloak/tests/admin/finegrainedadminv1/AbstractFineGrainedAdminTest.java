@@ -10,7 +10,7 @@ import org.keycloak.common.Profile;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -60,7 +60,7 @@ public class AbstractFineGrainedAdminTest {
     public static final String REALM_NAME = "default";
     public static final String CLIENT_NAME = "application";
 
-    public static void setupPolices(KeycloakSession session) {
+    public static void setupPolices(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         AdminPermissionManagement permissions = AdminPermissions.management(session, realm);
         RoleModel realmRole = realm.addRole("realm-role");
@@ -128,7 +128,7 @@ public class AbstractFineGrainedAdminTest {
         }
     }
 
-    public static void setupUsers(KeycloakSession session) {
+    public static void setupUsers(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(REALM_NAME);
         ClientModel client = realm.getClientByClientId(CLIENT_NAME);
         RoleModel realmRole = realm.getRole("realm-role");
@@ -319,7 +319,7 @@ public class AbstractFineGrainedAdminTest {
         return exchanged;
     }
 
-    private static void setupTokenExchange(KeycloakSession session) {
+    private static void setupTokenExchange(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName("master");
         ClientModel client = session.clients().getClientByClientId(realm, "tokenexclient");
         if (client != null) {

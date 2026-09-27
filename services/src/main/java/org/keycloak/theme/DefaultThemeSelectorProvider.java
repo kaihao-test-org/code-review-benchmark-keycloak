@@ -2,15 +2,15 @@ package org.keycloak.theme;
 
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class DefaultThemeSelectorProvider implements ThemeSelectorProvider {
 
     public static final String LOGIN_THEME_KEY = "login_theme";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DefaultThemeSelectorProvider(KeycloakSession session) {
+    public DefaultThemeSelectorProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

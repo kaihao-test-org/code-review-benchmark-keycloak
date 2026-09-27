@@ -40,7 +40,7 @@ import org.keycloak.events.admin.ResourceType;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RequiredActionConfigModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
@@ -102,13 +102,13 @@ import org.keycloak.utils.ReservedCharValidator;
 public class AuthenticationManagementResource {
 
     private final RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
     private final AdminEventBuilder adminEvent;
 
     protected static final Logger logger = Logger.getLogger(AuthenticationManagementResource.class);
 
-    public AuthenticationManagementResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public AuthenticationManagementResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.auth = auth;
@@ -416,7 +416,7 @@ public class AuthenticationManagementResource {
         return Response.created(session.getContext().getUri().getAbsolutePathBuilder().path(copy.getId()).build()).build();
     }
 
-    public static AuthenticationFlowModel copyFlow(KeycloakSession session, RealmModel realm, AuthenticationFlowModel flow, String newName) {
+    public static AuthenticationFlowModel copyFlow(KeycloakRequestSession session, RealmModel realm, AuthenticationFlowModel flow, String newName) {
         AuthenticationFlowModel copy = new AuthenticationFlowModel();
         copy.setAlias(newName);
         copy.setDescription(flow.getDescription());
@@ -428,7 +428,7 @@ public class AuthenticationManagementResource {
         return copy;
     }
 
-    public static void copy(KeycloakSession session, RealmModel realm, String newName, AuthenticationFlowModel from, AuthenticationFlowModel to) {
+    public static void copy(KeycloakRequestSession session, RealmModel realm, String newName, AuthenticationFlowModel from, AuthenticationFlowModel to) {
         realm.getAuthenticationExecutionsStream(from.getId()).forEachOrdered(execution -> {
             if (execution.isAuthenticatorFlow()) {
                 AuthenticationFlowModel subFlow = realm.getAuthenticationFlowById(execution.getFlowId());

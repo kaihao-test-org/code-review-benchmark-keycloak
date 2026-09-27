@@ -17,7 +17,7 @@
 
 package org.keycloak.quarkus.runtime.integration;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.quarkus.runtime.integration.resteasy.QuarkusKeycloakContext;
 import org.keycloak.services.DefaultKeycloakContext;
 import org.keycloak.services.DefaultKeycloakSession;
@@ -30,7 +30,7 @@ public final class QuarkusKeycloakSession extends DefaultKeycloakSession {
     }
 
     @Override
-    protected DefaultKeycloakContext createKeycloakContext(KeycloakSession session) {
+    protected DefaultKeycloakContext createKeycloakContext(KeycloakRequestSession session) {
         return new QuarkusKeycloakContext(session);
     }
 }

@@ -20,7 +20,7 @@ package org.keycloak.email.freemarker;
 import org.keycloak.Config;
 import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.email.EmailTemplateProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -29,7 +29,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 public class FreeMarkerEmailTemplateProviderFactory implements EmailTemplateProviderFactory {
 
     @Override
-    public EmailTemplateProvider create(KeycloakSession session) {
+    public EmailTemplateProvider create(KeycloakRequestSession session) {
         return new FreeMarkerEmailTemplateProvider(session);
     }
 

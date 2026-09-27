@@ -26,7 +26,7 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.idm.ComponentRepresentation;
@@ -233,7 +233,7 @@ public class AccountLinkTest extends AbstractKeycloakTest {
         });
     }
 
-    private static void checkEmptyFederatedIdentities(KeycloakSession session) {
+    private static void checkEmptyFederatedIdentities(KeycloakRequestSession session) {
         RealmModel realm = session.getContext().getRealm();
         UserModel user = session.users().getUserByUsername(realm, "child");
         assertEquals(0, session.users().getFederatedIdentitiesStream(realm, user).count());

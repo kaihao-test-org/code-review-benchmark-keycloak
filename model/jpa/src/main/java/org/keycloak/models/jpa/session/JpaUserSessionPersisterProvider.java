@@ -22,7 +22,7 @@ import org.keycloak.common.util.MultiSiteUtils;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OfflineUserSessionModel;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -62,10 +62,10 @@ import static org.keycloak.utils.StreamsUtil.closing;
 public class JpaUserSessionPersisterProvider implements UserSessionPersisterProvider {
     private static final Logger logger = Logger.getLogger(JpaUserSessionPersisterProvider.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final EntityManager em;
 
-    public JpaUserSessionPersisterProvider(KeycloakSession session, EntityManager em) {
+    public JpaUserSessionPersisterProvider(KeycloakRequestSession session, EntityManager em) {
         this.session = session;
         this.em = em;
     }

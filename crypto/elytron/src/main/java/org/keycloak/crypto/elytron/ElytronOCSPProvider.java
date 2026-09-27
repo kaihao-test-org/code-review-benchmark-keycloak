@@ -52,7 +52,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.PemUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.OCSPProvider;
 import org.wildfly.security.asn1.ASN1;
 import org.wildfly.security.asn1.DERDecoder;
@@ -79,7 +79,7 @@ public class ElytronOCSPProvider extends OCSPProvider {
      * @throws CertPathValidatorException
      */
     @Override
-    protected OCSPRevocationStatus check(KeycloakSession session, X509Certificate cert,
+    protected OCSPRevocationStatus check(KeycloakRequestSession session, X509Certificate cert,
             X509Certificate issuerCertificate, List<URI> responderURIs, X509Certificate responderCert, Date date)
             throws CertPathValidatorException {
         if (responderURIs == null || responderURIs.size() == 0)

@@ -34,7 +34,7 @@ import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
@@ -60,7 +60,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
 
 
     @Override
-    public ExecutorsProvider create(KeycloakSession session) {
+    public ExecutorsProvider create(KeycloakRequestSession session) {
         return new ExecutorsProvider() {
 
             @Override
@@ -103,7 +103,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
 
     // IMPL
 
-    protected ExecutorService getExecutor(String taskType, KeycloakSession session) {
+    protected ExecutorService getExecutor(String taskType, KeycloakRequestSession session) {
         ExecutorService existing = executors.get(taskType);
 
         if (existing == null) {
@@ -121,7 +121,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
     }
 
 
-    protected ExecutorService retrievePool(String taskType, KeycloakSession session) {
+    protected ExecutorService retrievePool(String taskType, KeycloakRequestSession session) {
         if (managed == null) {
             detectManaged();
         }
@@ -146,7 +146,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
     }
 
 
-    protected ExecutorService getPoolManaged(String taskType, KeycloakSession session) {
+    protected ExecutorService getPoolManaged(String taskType, KeycloakRequestSession session) {
         try {
             InitialContext ctx = new InitialContext();
 
@@ -169,7 +169,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
     }
 
 
-    protected ExecutorService createPoolEmbedded(String taskType, KeycloakSession session) {
+    protected ExecutorService createPoolEmbedded(String taskType, KeycloakRequestSession session) {
         Config.Scope currentScope = config.scope(taskType);
         int min = DEFAULT_MIN_THREADS;
         int max = DEFAULT_MAX_THREADS;
@@ -195,7 +195,7 @@ public class DefaultExecutorsProviderFactory implements ExecutorsProviderFactory
     }
 
 
-    protected ThreadFactory createThreadFactory(String taskType, KeycloakSession session) {
+    protected ThreadFactory createThreadFactory(String taskType, KeycloakRequestSession session) {
         return new ThreadFactory() {
 
             private AtomicInteger i = new AtomicInteger(0);

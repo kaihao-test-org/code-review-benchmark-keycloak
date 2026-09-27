@@ -20,7 +20,7 @@ package org.keycloak.protocol.oidc.mappers;
 import org.keycloak.Config;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RealmModel;
@@ -57,7 +57,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
     }
 
     @Override
-    public final ProtocolMapper create(KeycloakSession session) {
+    public final ProtocolMapper create(KeycloakRequestSession session) {
         throw new RuntimeException("UNSUPPORTED METHOD");
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
 
     }
 
-    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformUserInfoToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                               UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
 
         if (!OIDCAttributeMapperHelper.includeInUserInfo(mappingModel)) {
@@ -81,12 +81,12 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
         return token;
     }
 
-    public static boolean getShouldUseLightweightToken(KeycloakSession session) {
+    public static boolean getShouldUseLightweightToken(KeycloakRequestSession session) {
         Object attributeValue = session.getAttribute(Constants.USE_LIGHTWEIGHT_ACCESS_TOKEN_ENABLED);
         return Boolean.parseBoolean(session.getContext().getClient().getAttribute(Constants.USE_LIGHTWEIGHT_ACCESS_TOKEN_ENABLED)) || (attributeValue != null && (boolean) attributeValue);
     }
 
-    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                             UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
         boolean shouldUseLightweightToken = getShouldUseLightweightToken(session);
         boolean includeInAccessToken = shouldUseLightweightToken ? OIDCAttributeMapperHelper.includeInLightweightAccessToken(mappingModel) : OIDCAttributeMapperHelper.includeInAccessToken(mappingModel);
@@ -98,7 +98,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
         return token;
     }
 
-    public IDToken transformIDToken(IDToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public IDToken transformIDToken(IDToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                     UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
 
         if (!OIDCAttributeMapperHelper.includeInIDToken(mappingModel)) {
@@ -110,7 +110,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
     }
 
     public AccessTokenResponse transformAccessTokenResponse(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel,
-                                                            KeycloakSession session, UserSessionModel userSession,
+                                                            KeycloakRequestSession session, UserSessionModel userSession,
                                                             ClientSessionContext clientSessionCtx) {
 
         if (!OIDCAttributeMapperHelper.includeInAccessTokenResponse(mappingModel)) {
@@ -121,7 +121,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
         return accessTokenResponse;
     }
 
-    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session,
+    public AccessToken transformIntrospectionToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakRequestSession session,
                                                    UserSessionModel userSession, ClientSessionContext clientSessionCtx) {
 
         if (!OIDCAttributeMapperHelper.includeInIntrospection(mappingModel)) {
@@ -138,7 +138,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
      * @param token
      * @param mappingModel
      * @param userSession
-     * @deprecated override {@link #setClaim(IDToken, ProtocolMapperModel, UserSessionModel, KeycloakSession, ClientSessionContext)} instead.
+     * @deprecated override {@link #setClaim(IDToken, ProtocolMapperModel, UserSessionModel, KeycloakRequestSession, ClientSessionContext)} instead.
      */
     @Deprecated
     protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession) {
@@ -153,7 +153,7 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
      * @param keycloakSession
      * @param clientSessionCtx
      */
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession,
+    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession,
                             ClientSessionContext clientSessionCtx) {
         // we delegate to the old #setClaim(...) method for backwards compatibility
         setClaim(token, mappingModel, userSession);
@@ -168,13 +168,13 @@ public abstract class AbstractOIDCProtocolMapper implements ProtocolMapper {
      * @param keycloakSession
      * @param clientSessionCtx
      */
-    protected void setClaim(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakSession keycloakSession,
+    protected void setClaim(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel, UserSessionModel userSession, KeycloakRequestSession keycloakSession,
                             ClientSessionContext clientSessionCtx) {
 
     }
 
     @Override
-    public ProtocolMapperModel getEffectiveModel(KeycloakSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
+    public ProtocolMapperModel getEffectiveModel(KeycloakRequestSession session, RealmModel realm, ProtocolMapperModel protocolMapperModel) {
         // Effectively clone
         ProtocolMapperModel copy = RepresentationToModel.toModel(ModelToRepresentation.toRepresentation(protocolMapperModel));
 

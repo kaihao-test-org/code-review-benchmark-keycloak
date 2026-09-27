@@ -45,7 +45,7 @@ import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.connections.infinispan.InfinispanUtil;
 import org.keycloak.connections.infinispan.TopologyInfo;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 
@@ -70,11 +70,11 @@ public class InfinispanClusterProviderFactory implements ClusterProviderFactory,
     private ViewChangeListener workCacheListener;
 
     @Override
-    public ClusterProvider create(KeycloakSession session) {
+    public ClusterProvider create(KeycloakRequestSession session) {
         return lazyInit(session);
     }
 
-    private ClusterProvider lazyInit(KeycloakSession session) {
+    private ClusterProvider lazyInit(KeycloakRequestSession session) {
         if (clusterProvider != null)
             return clusterProvider;
 
@@ -100,7 +100,7 @@ public class InfinispanClusterProviderFactory implements ClusterProviderFactory,
         }
     }
 
-    protected int initClusterStartupTime(KeycloakSession session) {
+    protected int initClusterStartupTime(KeycloakRequestSession session) {
         Integer existingClusterStartTime = (Integer) workCache.get(InfinispanClusterProvider.CLUSTER_STARTUP_TIME_KEY);
         if (existingClusterStartTime != null) {
             logger.debugf("Loaded cluster startup time: %s", Time.toDate(existingClusterStartTime).toString());

@@ -17,7 +17,7 @@
 
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  *
@@ -33,7 +33,7 @@ public class SHAKE256HashProviderFactory implements HashProviderFactory {
     }
 
     @Override
-    public HashProvider create(KeycloakSession session) {
+    public HashProvider create(KeycloakRequestSession session) {
         return new JavaAlgorithmHashProvider(ID);
     }
 }

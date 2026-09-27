@@ -28,7 +28,7 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.GroupMemberJoinEvent;
 import org.keycloak.models.GroupModel.GroupMemberLeaveEvent;
 import org.keycloak.models.MembershipMetadata;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.SubjectCredentialManager;
@@ -73,9 +73,9 @@ public class UserAdapter implements UserModel, JpaModel<UserEntity> {
     protected UserEntity user;
     protected EntityManager em;
     protected RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public UserAdapter(KeycloakSession session, RealmModel realm, EntityManager em, UserEntity user) {
+    public UserAdapter(KeycloakRequestSession session, RealmModel realm, EntityManager em, UserEntity user) {
         this.em = em;
         this.user = user;
         this.realm = realm;

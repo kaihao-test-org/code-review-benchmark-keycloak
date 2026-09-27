@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.collections4.ListUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserSessionModel;
@@ -65,13 +65,13 @@ public class OID4VCTargetRoleMapper extends OID4VCMapper {
         CONFIG_PROPERTIES.add(subjectPropertyNameConfig);
     }
 
-    private final KeycloakSession keycloakSession;
+    private final KeycloakRequestSession keycloakSession;
 
     public OID4VCTargetRoleMapper() {
         this.keycloakSession = null;
     }
 
-    public OID4VCTargetRoleMapper(KeycloakSession keycloakSession) {
+    public OID4VCTargetRoleMapper(KeycloakRequestSession keycloakSession) {
         this.keycloakSession = keycloakSession;
     }
 
@@ -109,7 +109,7 @@ public class OID4VCTargetRoleMapper extends OID4VCMapper {
     }
 
     @Override
-    public ProtocolMapper create(KeycloakSession session) {
+    public ProtocolMapper create(KeycloakRequestSession session) {
         return new OID4VCTargetRoleMapper(session);
     }
 

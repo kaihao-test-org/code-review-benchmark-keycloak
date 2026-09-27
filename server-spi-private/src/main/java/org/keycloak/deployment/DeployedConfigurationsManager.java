@@ -21,7 +21,7 @@ package org.keycloak.deployment;
 
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 
 /**
@@ -34,9 +34,9 @@ public class DeployedConfigurationsManager {
 
     private static final Logger log = Logger.getLogger(DeployedConfigurationsManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DeployedConfigurationsManager(KeycloakSession session) {
+    public DeployedConfigurationsManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

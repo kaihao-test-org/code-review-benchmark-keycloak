@@ -16,7 +16,7 @@
  */
 package org.keycloak.provider;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Handles invalidation requests. This interface is specifically implemented by
@@ -42,10 +42,10 @@ public interface InvalidationHandler {
 
     /**
      * Invalidates intermediate states of the given objects
-     * @param session KeycloakSession
+     * @param session KeycloakRequestSession
      * @param type Type of the objects to invalidate
      * @param params Parameters used for the invalidation
      */
-    void invalidate(KeycloakSession session, InvalidableObjectType type, Object... params);
+    void invalidate(KeycloakRequestSession session, InvalidableObjectType type, Object... params);
 
 }

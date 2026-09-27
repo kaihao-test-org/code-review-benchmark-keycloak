@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.saml.preprocessor.SamlAuthenticationPreprocessor;
@@ -47,7 +47,7 @@ public class SamlSessionUtils {
     }
 
 
-    public static AuthenticatedClientSessionModel getClientSession(KeycloakSession session, RealmModel realm, String sessionIndex) {
+    public static AuthenticatedClientSessionModel getClientSession(KeycloakRequestSession session, RealmModel realm, String sessionIndex) {
         if (sessionIndex == null) {
             return null;
         }
@@ -67,7 +67,7 @@ public class SamlSessionUtils {
         return userSession.getAuthenticatedClientSessionByClient(clientUUID);
     }
 
-    public static Iterator<SamlAuthenticationPreprocessor> getSamlAuthenticationPreprocessorIterator(KeycloakSession session) {
+    public static Iterator<SamlAuthenticationPreprocessor> getSamlAuthenticationPreprocessorIterator(KeycloakRequestSession session) {
         return session.getKeycloakSessionFactory().getProviderFactoriesStream(SamlAuthenticationPreprocessor.class)
                 .filter(Objects::nonNull)
                 .map(SamlAuthenticationPreprocessor.class::cast)

@@ -21,7 +21,7 @@ package org.keycloak.examples.providersoverride;
 
 import org.keycloak.email.DefaultEmailSenderProviderFactory;
 import org.keycloak.email.EmailSenderProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * Won't be used due lower order than CustomFreemarkerAccountProviderFactory2
@@ -34,7 +34,7 @@ public class CustomDefaultEmailSenderProviderFactory1 extends DefaultEmailSender
     }
 
     @Override
-    public EmailSenderProvider create(KeycloakSession session) {
+    public EmailSenderProvider create(KeycloakRequestSession session) {
         return new CustomDefaultEmailSenderProvider1(session, getEmailAuthenticators());
     }
 }

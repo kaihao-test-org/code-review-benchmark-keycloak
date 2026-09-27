@@ -21,7 +21,7 @@ import io.quarkus.arc.Arc;
 
 import org.jboss.resteasy.reactive.server.core.ResteasyReactiveRequestContext;
 import org.jboss.resteasy.reactive.server.spi.ServerRestHandler;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.KeycloakSessionUtil;
 
 public final class TransactionalSessionHandler implements ServerRestHandler, org.keycloak.quarkus.runtime.transaction.TransactionalSessionHandler {
@@ -29,7 +29,7 @@ public final class TransactionalSessionHandler implements ServerRestHandler, org
     @Override
     public void handle(ResteasyReactiveRequestContext requestContext) {
         requestContext.requireCDIRequestScope();
-        KeycloakSession currentSession = Arc.container().instance(KeycloakSession.class).get();
+        KeycloakRequestSession currentSession = Arc.container().instance(KeycloakRequestSession.class).get();
         // this handler might be invoked multiple times when resolving sub-resources
         // make sure the transaction is began once when the session is first associated with the thread
         if (KeycloakSessionUtil.setKeycloakSession(currentSession) == null) {

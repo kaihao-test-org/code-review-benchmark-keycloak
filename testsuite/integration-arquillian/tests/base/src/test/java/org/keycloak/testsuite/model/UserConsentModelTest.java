@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserConsentModel;
@@ -93,10 +93,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
         });
     }
 
-    public static void setupEnv(KeycloakSession session) {
+    public static void setupEnv(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionEnv) -> {
-            KeycloakSession currentSession = sessionEnv;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionEnv) -> {
+            KeycloakRequestSession currentSession = sessionEnv;
 
             RealmManager realmManager = new RealmManager(currentSession);
             RealmModel realm = realmManager.createRealm("original");
@@ -154,10 +154,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void basicConsentTest(KeycloakSession session) {
+    public void basicConsentTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCT) -> {
-            KeycloakSession currentSession = sessionCT;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCT) -> {
+            KeycloakRequestSession currentSession = sessionCT;
 
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
@@ -199,10 +199,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void getAllConsentTest(KeycloakSession session) {
+    public void getAllConsentTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionACT) -> {
-            KeycloakSession currentSession = sessionACT;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionACT) -> {
+            KeycloakRequestSession currentSession = sessionACT;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -236,10 +236,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void updateWithClientScopeRemovalTest(KeycloakSession session) {
+    public void updateWithClientScopeRemovalTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession removalTestSession1) -> {
-            KeycloakSession currentSession = removalTestSession1;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession removalTestSession1) -> {
+            KeycloakRequestSession currentSession = removalTestSession1;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -256,8 +256,8 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
             UserConsentManager.updateConsent(currentSession, realm, john, johnConsent);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession removalTestSession2) -> {
-            KeycloakSession currentSession = removalTestSession2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession removalTestSession2) -> {
+            KeycloakRequestSession currentSession = removalTestSession2;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -272,10 +272,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void revokeTest(KeycloakSession session) {
+    public void revokeTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionRT1) -> {
-            KeycloakSession currentSession = sessionRT1;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRT1) -> {
+            KeycloakRequestSession currentSession = sessionRT1;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -288,8 +288,8 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
             UserConsentManager.revokeConsentForClient(currentSession, realm, mary, hardcodedClient.getId());
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionRT2) -> {
-            KeycloakSession currentSession = sessionRT2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionRT2) -> {
+            KeycloakRequestSession currentSession = sessionRT2;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -305,10 +305,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void deleteUserTest(KeycloakSession session) {
+    public void deleteUserTest(KeycloakRequestSession session) {
         // Validate user deleted without any referential constraint errors
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionUT) -> {
-            KeycloakSession currentSession = sessionUT;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionUT) -> {
+            KeycloakRequestSession currentSession = sessionUT;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -321,10 +321,10 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void deleteClientScopeTest(KeycloakSession session) {
+    public void deleteClientScopeTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionST1) -> {
-            KeycloakSession currentSession = sessionST1;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionST1) -> {
+            KeycloakRequestSession currentSession = sessionST1;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -332,8 +332,8 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
             realm.removeClientScope(fooScope.getId());
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionST2) -> {
-            KeycloakSession currentSession = sessionST2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionST2) -> {
+            KeycloakRequestSession currentSession = sessionST2;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -348,12 +348,12 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void deleteClientTest(KeycloakSession session) {
+    public void deleteClientTest(KeycloakRequestSession session) {
 
         AtomicReference<String> barClientID = new AtomicReference<>();
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionDCT1) -> {
-            KeycloakSession currentSession = sessionDCT1;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionDCT1) -> {
+            KeycloakRequestSession currentSession = sessionDCT1;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -363,8 +363,8 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
             realm.removeClient(barClient.getId());
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionDCT2) -> {
-            KeycloakSession currentSession = sessionDCT2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionDCT2) -> {
+            KeycloakRequestSession currentSession = sessionDCT2;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
@@ -383,18 +383,18 @@ public class UserConsentModelTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void deleteClientStorageTest(KeycloakSession session) {
+    public void deleteClientStorageTest(KeycloakRequestSession session) {
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCST1) -> {
-            KeycloakSession currentSession = sessionCST1;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCST1) -> {
+            KeycloakRequestSession currentSession = sessionCST1;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 
             realm.removeComponent(clientStorageComponent);
         });
 
-        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionCST2) -> {
-            KeycloakSession currentSession = sessionCST2;
+        KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionCST2) -> {
+            KeycloakRequestSession currentSession = sessionCST2;
             RealmModel realm = currentSession.realms().getRealm(realmId);
             currentSession.getContext().setRealm(realm);
 

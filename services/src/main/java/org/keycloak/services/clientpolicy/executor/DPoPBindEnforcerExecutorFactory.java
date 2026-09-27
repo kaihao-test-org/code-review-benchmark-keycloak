@@ -23,7 +23,7 @@ import java.util.List;
 import org.keycloak.Config.Scope;
 import org.keycloak.common.Profile;
 import org.keycloak.common.Profile.Feature;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -38,7 +38,7 @@ public class DPoPBindEnforcerExecutorFactory  implements ClientPolicyExecutorPro
             AUTO_CONFIGURE, "Auto-configure", "If On, then the during client creation or update, the configuration of the client will be auto-configured to use DPoP bind token", ProviderConfigProperty.BOOLEAN_TYPE, false);
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new DPoPBindEnforcerExecutor(session);
     }
 

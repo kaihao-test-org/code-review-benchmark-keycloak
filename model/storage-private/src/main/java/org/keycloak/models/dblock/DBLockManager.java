@@ -18,7 +18,7 @@
 package org.keycloak.models.dblock;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
@@ -27,9 +27,9 @@ public class DBLockManager {
 
     protected static final Logger logger = Logger.getLogger(DBLockManager.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public DBLockManager(KeycloakSession session) {
+    public DBLockManager(KeycloakRequestSession session) {
         this.session = session;
     }
 

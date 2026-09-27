@@ -69,7 +69,7 @@ import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
@@ -143,7 +143,7 @@ public class AuthorizationTokenService {
             return new DefaultEvaluationContext(identity, claims, authorization.getKeycloakSession());
         });
         SUPPORTED_CLAIM_TOKEN_FORMATS.put(CLAIM_TOKEN_FORMAT_ID_TOKEN, (request, authorization) -> {
-            KeycloakSession keycloakSession = authorization.getKeycloakSession();
+            KeycloakRequestSession keycloakSession = authorization.getKeycloakSession();
             String subjectToken = request.getSubjectToken();
 
             if (subjectToken == null) {
@@ -306,7 +306,7 @@ public class AuthorizationTokenService {
     }
 
     private AuthorizationResponse createAuthorizationResponse(KeycloakIdentity identity, Collection<Permission> entitlements, KeycloakAuthorizationRequest request, ClientModel targetClient) {
-        KeycloakSession keycloakSession = request.getKeycloakSession();
+        KeycloakRequestSession keycloakSession = request.getKeycloakSession();
         AccessToken accessToken = identity.getAccessToken();
         RealmModel realm = request.getRealm();
         UserSessionProvider sessions = keycloakSession.sessions();
@@ -798,7 +798,7 @@ public class AuthorizationTokenService {
             return cors;
         }
 
-        KeycloakSession getKeycloakSession() {
+        KeycloakRequestSession getKeycloakSession() {
             return getAuthorization().getKeycloakSession();
         }
 

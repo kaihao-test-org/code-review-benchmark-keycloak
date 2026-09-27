@@ -20,7 +20,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.common.util.Base64;
 import org.keycloak.credential.CredentialModel;
 import org.keycloak.credential.UserCredentialStore;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -51,10 +51,10 @@ public class JpaUserCredentialStore implements UserCredentialStore {
 
     protected static final Logger logger = Logger.getLogger(JpaUserCredentialStore.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected final EntityManager em;
 
-    public JpaUserCredentialStore(KeycloakSession session, EntityManager em) {
+    public JpaUserCredentialStore(KeycloakRequestSession session, EntityManager em) {
         this.session = session;
         this.em = em;
     }

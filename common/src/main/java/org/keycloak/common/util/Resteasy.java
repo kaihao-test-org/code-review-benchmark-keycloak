@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Provides a way for obtaining the KeycloakSession
+ * <p>Provides a way for obtaining the KeycloakRequestSession
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Igor</a>
  *
@@ -58,7 +58,7 @@ public final class Resteasy {
 
     /**
      * Lookup the instance associated with the given type/key {@code type} from the context associated with the current thread.
-     * <br> Should only be used to obtain the KeycloakSession
+     * <br> Should only be used to obtain the KeycloakRequestSession
      *
      * @param type the type/key to lookup
      * @return the instance associated with the given {@code type} or null if non-existent.

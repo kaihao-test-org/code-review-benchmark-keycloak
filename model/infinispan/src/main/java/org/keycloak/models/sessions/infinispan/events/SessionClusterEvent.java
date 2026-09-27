@@ -24,7 +24,7 @@ import org.infinispan.protostream.annotations.ProtoReserved;
 import org.keycloak.cluster.ClusterEvent;
 import org.keycloak.connections.infinispan.InfinispanUtil;
 import org.keycloak.connections.infinispan.TopologyInfo;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
@@ -38,7 +38,7 @@ public abstract class SessionClusterEvent implements ClusterEvent {
     private String nodeId;
 
 
-    public static <T extends SessionClusterEvent> T createEvent(Class<T> eventClass, String eventKey, KeycloakSession session, String realmId) {
+    public static <T extends SessionClusterEvent> T createEvent(Class<T> eventClass, String eventKey, KeycloakRequestSession session, String realmId) {
         try {
             T event = eventClass.getDeclaredConstructor().newInstance();
             event.setData(session, eventKey, realmId);
@@ -49,7 +49,7 @@ public abstract class SessionClusterEvent implements ClusterEvent {
     }
 
 
-    void setData(KeycloakSession session, String eventKey, String realmId) {
+    void setData(KeycloakRequestSession session, String eventKey, String realmId) {
         this.realmId = realmId;
         this.eventKey = eventKey;
         TopologyInfo topology = InfinispanUtil.getTopologyInfo(session);

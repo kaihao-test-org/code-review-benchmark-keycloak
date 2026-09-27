@@ -4,7 +4,7 @@ import org.keycloak.Config;
 import org.keycloak.common.Profile;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.credential.hash.PasswordHashProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -40,7 +40,7 @@ public class Argon2PasswordHashProviderFactory implements PasswordHashProviderFa
     private int parallelism;
 
     @Override
-    public PasswordHashProvider create(KeycloakSession session) {
+    public PasswordHashProvider create(KeycloakRequestSession session) {
         return new Argon2PasswordHashProvider(version, type, hashLength, memory, iterations, parallelism, cpuCoreSemaphore);
     }
 

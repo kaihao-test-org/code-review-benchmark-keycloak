@@ -33,7 +33,7 @@ import org.keycloak.dom.saml.v2.assertion.AudienceRestrictionType;
 import org.keycloak.dom.saml.v2.assertion.NameIDType;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
@@ -115,7 +115,7 @@ public class ClientTokenExchangeSAML2Test extends AbstractKeycloakTest {
         testRealms.add(testRealmRep);
     }
 
-    public static void setupRealm(KeycloakSession session) {
+    public static void setupRealm(KeycloakRequestSession session) {
         addTargetClients(session);
         addDirectExchanger(session);
 
@@ -588,7 +588,7 @@ public class ClientTokenExchangeSAML2Test extends AbstractKeycloakTest {
         }
     }
 
-    private static void addTargetClients(KeycloakSession session) {
+    private static void addTargetClients(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
 
         // Create SAML 2.0 target clients
@@ -648,7 +648,7 @@ public class ClientTokenExchangeSAML2Test extends AbstractKeycloakTest {
         samlUnsignedAndUnencryptedTarget.setAttribute(SamlConfigAttributes.SAML_ENCRYPT, "false");
     }
 
-    private static void addDirectExchanger(KeycloakSession session) {
+    private static void addDirectExchanger(KeycloakRequestSession session) {
         RealmModel realm = session.realms().getRealmByName(TEST);
         RoleModel exampleRole = realm.addRole("example");
         AdminPermissionManagement management = AdminPermissions.management(session, realm);

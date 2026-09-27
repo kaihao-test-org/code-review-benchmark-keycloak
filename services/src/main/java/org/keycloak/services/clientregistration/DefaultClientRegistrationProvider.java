@@ -18,7 +18,7 @@
 package org.keycloak.services.clientregistration;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.utils.RepresentationToModel;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.authorization.ResourceServerRepresentation;
@@ -40,7 +40,7 @@ import java.net.URI;
  */
 public class DefaultClientRegistrationProvider extends AbstractClientRegistrationProvider {
 
-    public DefaultClientRegistrationProvider(KeycloakSession session) {
+    public DefaultClientRegistrationProvider(KeycloakRequestSession session) {
         super(session);
     }
 

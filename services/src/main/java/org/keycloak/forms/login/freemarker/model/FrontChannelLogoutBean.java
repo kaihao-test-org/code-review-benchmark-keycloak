@@ -1,14 +1,14 @@
 package org.keycloak.forms.login.freemarker.model;
 
 import java.util.List;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.FrontChannelLogoutHandler;
 
 public class FrontChannelLogoutBean {
 
     private final FrontChannelLogoutHandler logoutInfo;
 
-    public FrontChannelLogoutBean(KeycloakSession session) {
+    public FrontChannelLogoutBean(KeycloakRequestSession session) {
         logoutInfo = FrontChannelLogoutHandler.current(session);
     }
 

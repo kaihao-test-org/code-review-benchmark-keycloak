@@ -29,7 +29,7 @@ import org.keycloak.component.ComponentValidationException;
 import org.keycloak.component.SubComponentFactory;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -82,11 +82,11 @@ public class ComponentResource {
 
     protected final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final HttpHeaders headers;
 
-    public ComponentResource(KeycloakSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
+    public ComponentResource(KeycloakRequestSession session, AdminPermissionEvaluator auth, AdminEventBuilder adminEvent) {
         this.session = session;
         this.auth = auth;
         this.realm = session.getContext().getRealm();

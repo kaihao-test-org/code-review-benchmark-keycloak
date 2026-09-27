@@ -35,7 +35,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.keycloak.common.util.CollectionUtil;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -58,12 +58,12 @@ public final class DefaultUserProfile implements UserProfile {
     private final UserProfileMetadata metadata;
     private final Function<Attributes, UserModel> userSupplier;
     private final Attributes attributes;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private boolean validated;
     private UserModel user;
 
     public DefaultUserProfile(UserProfileMetadata metadata, Attributes attributes, Function<Attributes, UserModel> userCreator, UserModel user,
-            KeycloakSession session) {
+            KeycloakRequestSession session) {
         this.metadata = metadata;
         this.userSupplier = userCreator;
         this.attributes = attributes;

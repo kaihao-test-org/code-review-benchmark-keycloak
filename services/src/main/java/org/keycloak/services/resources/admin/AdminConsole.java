@@ -41,7 +41,7 @@ import org.keycloak.http.HttpResponse;
 import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -82,11 +82,11 @@ public class AdminConsole {
 
     protected final HttpResponse response;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final RealmModel realm;
 
-    public AdminConsole(KeycloakSession session) {
+    public AdminConsole(KeycloakRequestSession session) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.clientConnection = session.getContext().getConnection();

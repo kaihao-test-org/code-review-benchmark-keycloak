@@ -18,7 +18,7 @@
 package org.keycloak.protocol.oidc.mappers;
 
 import org.keycloak.models.ClientSessionContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
@@ -94,7 +94,7 @@ public class HardcodedClaim extends AbstractOIDCProtocolMapper implements OIDCAc
 
     @Override
     protected void setClaim(AccessTokenResponse accessTokenResponse, ProtocolMapperModel mappingModel, UserSessionModel userSession,
-                            KeycloakSession keycloakSession, ClientSessionContext clientSessionCtx) {
+                            KeycloakRequestSession keycloakSession, ClientSessionContext clientSessionCtx) {
 
         String attributeValue = mappingModel.getConfig().get(CLAIM_VALUE);
         if (attributeValue == null) return;

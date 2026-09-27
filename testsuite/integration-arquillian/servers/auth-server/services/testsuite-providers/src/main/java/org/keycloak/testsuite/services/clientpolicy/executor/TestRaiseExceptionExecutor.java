@@ -20,7 +20,7 @@ package org.keycloak.testsuite.services.clientpolicy.executor;
 import java.util.List;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
 import org.keycloak.services.clientpolicy.ClientPolicyEvent;
 import org.keycloak.services.clientpolicy.ClientPolicyException;
@@ -31,10 +31,10 @@ public class TestRaiseExceptionExecutor implements ClientPolicyExecutorProvider<
 
     private static final Logger logger = Logger.getLogger(TestRaiseExceptionExecutor.class);
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public TestRaiseExceptionExecutor(KeycloakSession session) {
+    public TestRaiseExceptionExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

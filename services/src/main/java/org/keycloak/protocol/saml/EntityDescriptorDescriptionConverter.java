@@ -29,7 +29,7 @@ import org.keycloak.dom.saml.v2.metadata.SPSSODescriptorType;
 import org.keycloak.exportimport.ClientDescriptionConverter;
 import org.keycloak.exportimport.ClientDescriptionConverterFactory;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.saml.mappers.AttributeStatementHelper;
@@ -316,7 +316,7 @@ public class EntityDescriptorDescriptionConverter implements ClientDescriptionCo
     }
 
     @Override
-    public ClientDescriptionConverter create(KeycloakSession session) {
+    public ClientDescriptionConverter create(KeycloakRequestSession session) {
         return this;
     }
 

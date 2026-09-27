@@ -15,7 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.admin.ui.rest.model.RealmNameRepresentation;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.services.resources.admin.fgap.AdminPermissions;
 import org.keycloak.services.resources.admin.fgap.AdminPermissionEvaluator;
@@ -23,10 +23,10 @@ import org.keycloak.services.resources.admin.fgap.RealmsPermissionEvaluator;
 
 public class UIRealmsResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final AdminPermissionEvaluator auth;
 
-    public UIRealmsResource(KeycloakSession session, AdminPermissionEvaluator auth) {
+    public UIRealmsResource(KeycloakRequestSession session, AdminPermissionEvaluator auth) {
         this.session = session;
         this.auth = auth;
     }

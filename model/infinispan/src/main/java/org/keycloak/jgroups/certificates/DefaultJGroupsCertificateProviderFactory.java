@@ -25,7 +25,7 @@ import java.util.Set;
 import org.keycloak.Config;
 import org.keycloak.config.CachingOptions;
 import org.keycloak.config.Option;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -59,7 +59,7 @@ public class DefaultJGroupsCertificateProviderFactory implements JGroupsCertific
     private volatile Config.Scope configuration;
 
     @Override
-    public JGroupsCertificateProvider create(KeycloakSession session) {
+    public JGroupsCertificateProvider create(KeycloakRequestSession session) {
         if (provider == null) {
             postInit(session.getKeycloakSessionFactory());
         }

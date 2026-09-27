@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import javax.security.auth.x500.X500Principal;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.truststore.TruststoreProvider;
 
 /**
@@ -52,7 +52,7 @@ public final class CRLUtils {
      * @param crl Given CRL
      * @throws GeneralSecurityException if some error in validation happens. Typically certificate not valid, or CRL signature not valid
      */
-    public static void check(X509Certificate[] certs, X509CRL crl, KeycloakSession session) throws GeneralSecurityException {
+    public static void check(X509Certificate[] certs, X509CRL crl, KeycloakRequestSession session) throws GeneralSecurityException {
         if (certs == null || certs.length < 1) {
             throw new GeneralSecurityException("Not possible to verify signature on CRL because no certificate chain was passed.");
         }
@@ -88,7 +88,7 @@ public final class CRLUtils {
     }
 
 
-    private static X509Certificate findCRLSignatureCertificateInTruststore(KeycloakSession session, X509Certificate[] certs, X509CRL crl) throws GeneralSecurityException {
+    private static X509Certificate findCRLSignatureCertificateInTruststore(KeycloakRequestSession session, X509Certificate[] certs, X509CRL crl) throws GeneralSecurityException {
         TruststoreProvider truststoreProvider = session.getProvider(TruststoreProvider.class);
         if (truststoreProvider == null || truststoreProvider.getTruststore() == null) {
             throw new GeneralSecurityException("Truststore not available");

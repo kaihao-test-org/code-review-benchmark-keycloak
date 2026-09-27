@@ -21,7 +21,7 @@ package org.keycloak.protocol.oidc.grants.ciba;
 import org.keycloak.Config;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantType;
 import org.keycloak.protocol.oidc.grants.OAuth2GrantTypeFactory;
@@ -47,7 +47,7 @@ public class CibaGrantTypeFactory implements OAuth2GrantTypeFactory, Environment
     }
 
     @Override
-    public OAuth2GrantType create(KeycloakSession session) {
+    public OAuth2GrantType create(KeycloakRequestSession session) {
         return new CibaGrantType();
     }
 

@@ -1,7 +1,7 @@
 package org.keycloak.protocol.docker.mapper;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.protocol.docker.DockerAuthV2Protocol;
@@ -35,7 +35,7 @@ public abstract class DockerAuthV2ProtocolMapper implements ProtocolMapper {
     }
 
     @Override
-    public final ProtocolMapper create(final KeycloakSession session) {
+    public final ProtocolMapper create(final KeycloakRequestSession session) {
         throw new UnsupportedOperationException("The create method is not supported by this mapper");
     }
 

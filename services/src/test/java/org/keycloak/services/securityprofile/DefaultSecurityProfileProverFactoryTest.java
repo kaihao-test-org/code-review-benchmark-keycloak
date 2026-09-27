@@ -29,7 +29,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.keycloak.common.Profile;
 import org.keycloak.common.crypto.CryptoIntegration;
 import org.keycloak.common.crypto.CryptoProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.securityprofile.SecurityProfileProvider;
 import org.keycloak.securityprofile.SecurityProfileProviderFactory;
 import org.keycloak.services.resteasy.ResteasyKeycloakSession;
@@ -43,7 +43,7 @@ import org.keycloak.utils.ScopeUtil;
 @RunWith(Parameterized.class)
 public class DefaultSecurityProfileProverFactoryTest {
 
-    private static KeycloakSession session;
+    private static KeycloakRequestSession session;
     private final String name;
 
     @Parameters

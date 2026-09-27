@@ -23,7 +23,7 @@ import org.keycloak.authentication.actiontoken.*;
 import org.keycloak.events.*;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserModel.RequiredAction;
@@ -71,7 +71,7 @@ public class VerifyEmailActionTokenHandler extends AbstractActionTokenHandler<Ve
     @Override
     public Response handleToken(VerifyEmailActionToken token, ActionTokenContext<VerifyEmailActionToken> tokenContext) {
         UserModel user = tokenContext.getAuthenticationSession().getAuthenticatedUser();
-        KeycloakSession session = tokenContext.getSession();
+        KeycloakRequestSession session = tokenContext.getSession();
         AuthenticationSessionModel authSession = tokenContext.getAuthenticationSession();
         EventBuilder event = tokenContext.getEvent();
 

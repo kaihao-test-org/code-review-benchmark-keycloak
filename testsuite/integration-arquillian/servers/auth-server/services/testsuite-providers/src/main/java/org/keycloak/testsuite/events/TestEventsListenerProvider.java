@@ -21,7 +21,7 @@ import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerTransaction;
 import org.keycloak.events.admin.AdminEvent;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -35,7 +35,7 @@ public class TestEventsListenerProvider implements EventListenerProvider {
     private static final BlockingQueue<AdminEvent> adminEvents = new LinkedBlockingQueue<>();
     private final EventListenerTransaction tx = new EventListenerTransaction((event, includeRepre) -> adminEvents.add(event), events::add);
 
-    public TestEventsListenerProvider(KeycloakSession session) {
+    public TestEventsListenerProvider(KeycloakRequestSession session) {
         session.getTransactionManager().enlistAfterCompletion(tx);
     }
 

@@ -20,7 +20,7 @@ package org.keycloak.testsuite.broker.oidc;
 import org.keycloak.broker.oidc.KeycloakOIDCIdentityProvider;
 import org.keycloak.broker.oidc.OIDCIdentityProviderConfig;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 /**
  * @author Vaclav Muzikar <vmuzikar@redhat.com>
@@ -28,7 +28,7 @@ import org.keycloak.models.KeycloakSession;
 public class LegacyIdIdentityProvider extends KeycloakOIDCIdentityProvider {
     public static final String LEGACY_ID = "3.14159265359";
 
-    public LegacyIdIdentityProvider(KeycloakSession session, OIDCIdentityProviderConfig config) {
+    public LegacyIdIdentityProvider(KeycloakRequestSession session, OIDCIdentityProviderConfig config) {
         super(session, config);
     }
 

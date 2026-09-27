@@ -17,13 +17,13 @@
 package org.keycloak.locale;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class DefaultLocaleUpdaterProviderFactory implements LocaleUpdaterProviderFactory {
 
     @Override
-    public LocaleUpdaterProvider create(KeycloakSession session) {
+    public LocaleUpdaterProvider create(KeycloakRequestSession session) {
         return new DefaultLocaleUpdaterProvider(session);
     }
 

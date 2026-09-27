@@ -50,7 +50,7 @@ import org.keycloak.keys.PublicKeyStorageUtils;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.IdentityProviderMapperModel;
 import org.keycloak.models.KeyManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.LoginProtocol;
@@ -114,7 +114,7 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
     protected static final Logger logger = Logger.getLogger(SAMLIdentityProvider.class);
 
     private final DestinationValidator destinationValidator;
-    public SAMLIdentityProvider(KeycloakSession session, SAMLIdentityProviderConfig config, DestinationValidator destinationValidator) {
+    public SAMLIdentityProvider(KeycloakRequestSession session, SAMLIdentityProviderConfig config, DestinationValidator destinationValidator) {
         super(session, config);
         this.destinationValidator = destinationValidator;
     }
@@ -271,12 +271,12 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
     }
 
     @Override
-    public Response retrieveToken(KeycloakSession session, FederatedIdentityModel identity) {
+    public Response retrieveToken(KeycloakRequestSession session, FederatedIdentityModel identity) {
         return Response.ok(identity.getToken()).type(MediaType.TEXT_PLAIN_TYPE).build();
     }
 
     @Override
-    public void backchannelLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
+    public void backchannelLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
         String singleLogoutServiceUrl = getConfig().getSingleLogoutServiceUrl();
         if (singleLogoutServiceUrl == null || singleLogoutServiceUrl.trim().equals("") || !getConfig().isBackchannelSupported()) return;
         JaxrsSAML2BindingBuilder binding = buildLogoutBinding(session, userSession, realm);
@@ -299,7 +299,7 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
     }
 
     @Override
-    public Response keycloakInitiatedBrowserLogout(KeycloakSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
+    public Response keycloakInitiatedBrowserLogout(KeycloakRequestSession session, UserSessionModel userSession, UriInfo uriInfo, RealmModel realm) {
         String singleLogoutServiceUrl = getConfig().getSingleLogoutServiceUrl();
         if (singleLogoutServiceUrl == null || singleLogoutServiceUrl.trim().equals("")) return null;
 
@@ -341,7 +341,7 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
         return logoutRequest;
     }
 
-    private JaxrsSAML2BindingBuilder buildLogoutBinding(KeycloakSession session, UserSessionModel userSession, RealmModel realm) {
+    private JaxrsSAML2BindingBuilder buildLogoutBinding(KeycloakRequestSession session, UserSessionModel userSession, RealmModel realm) {
         JaxrsSAML2BindingBuilder binding = new JaxrsSAML2BindingBuilder(session)
                 .relayState(userSession.getId());
         if (getConfig().isWantAuthnRequestsSigned()) {
@@ -516,7 +516,7 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
         return false;
     }
 
-    public SAMLDocumentHolder resolveArtifact(KeycloakSession session, UriInfo uriInfo, RealmModel realm, String relayState, String samlArt) {
+    public SAMLDocumentHolder resolveArtifact(KeycloakRequestSession session, UriInfo uriInfo, RealmModel realm, String relayState, String samlArt) {
         //get the URL of the artifact resolution service provided by the Identity Provider
         String artifactResolutionServiceUrl = getConfig().getArtifactResolutionServiceUrl();
         if (artifactResolutionServiceUrl == null || artifactResolutionServiceUrl.trim().isEmpty()) {
@@ -565,7 +565,7 @@ public class SAMLIdentityProvider extends AbstractIdentityProvider<SAMLIdentityP
         return artifactResolveRequest;
     }
 
-    private JaxrsSAML2BindingBuilder buildArtifactResolveBinding(KeycloakSession session, String relayState, RealmModel realm) {
+    private JaxrsSAML2BindingBuilder buildArtifactResolveBinding(KeycloakRequestSession session, String relayState, RealmModel realm) {
         JaxrsSAML2BindingBuilder binding = new JaxrsSAML2BindingBuilder(session).relayState(relayState);
         if (getConfig().isWantAuthnRequestsSigned()) {
             KeyManager.ActiveRsaKey keys = session.keys().getActiveRsaKey(realm);

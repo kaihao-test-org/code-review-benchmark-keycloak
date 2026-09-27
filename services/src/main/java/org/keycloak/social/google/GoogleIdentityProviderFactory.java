@@ -19,7 +19,7 @@ package org.keycloak.social.google;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -38,7 +38,7 @@ public class GoogleIdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public GoogleIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public GoogleIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new GoogleIdentityProvider(session, new GoogleIdentityProviderConfig(model));
     }
 

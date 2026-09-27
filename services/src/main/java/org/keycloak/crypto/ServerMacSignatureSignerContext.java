@@ -16,11 +16,11 @@
  */
 package org.keycloak.crypto;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 public class ServerMacSignatureSignerContext extends MacSignatureSignerContext {
 
-    public ServerMacSignatureSignerContext(KeycloakSession session, String algorithm) throws SignatureException {
+    public ServerMacSignatureSignerContext(KeycloakRequestSession session, String algorithm) throws SignatureException {
         super(getKey(session, algorithm));
     }
 
@@ -28,7 +28,7 @@ public class ServerMacSignatureSignerContext extends MacSignatureSignerContext {
         super(key);
     }
 
-    private static KeyWrapper getKey(KeycloakSession session, String algorithm) {
+    private static KeyWrapper getKey(KeycloakRequestSession session, String algorithm) {
         KeyWrapper key = session.keys().getActiveKey(session.getContext().getRealm(), KeyUse.SIG, algorithm);
         if (key == null) {
             throw new SignatureException("Active key for " + algorithm + " not found");

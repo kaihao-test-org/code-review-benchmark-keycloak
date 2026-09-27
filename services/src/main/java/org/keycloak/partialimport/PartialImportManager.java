@@ -17,7 +17,7 @@
 
 package org.keycloak.partialimport;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.PartialImportRepresentation;
 
@@ -33,10 +33,10 @@ public class PartialImportManager {
     private final List<PartialImport> partialImports = new ArrayList<>();
 
     private final PartialImportRepresentation rep;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realm;
 
-    public PartialImportManager(PartialImportRepresentation rep, KeycloakSession session,
+    public PartialImportManager(PartialImportRepresentation rep, KeycloakRequestSession session,
                                 RealmModel realm) {
         this.rep = rep;
         this.session = session;

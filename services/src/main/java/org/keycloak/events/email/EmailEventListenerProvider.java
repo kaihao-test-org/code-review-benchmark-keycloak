@@ -30,7 +30,7 @@ import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.RealmModel;
@@ -46,13 +46,13 @@ public class EmailEventListenerProvider implements EventListenerProvider {
 
     private static final Logger log = Logger.getLogger(EmailEventListenerProvider.class);
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private RealmProvider model;
     private Set<EventType> includedEvents;
     private EventListenerTransaction tx = new EventListenerTransaction(null, this::sendEmail);
     private final KeycloakSessionFactory sessionFactory;
 
-    public EmailEventListenerProvider(KeycloakSession session, Set<EventType> includedEvents) {
+    public EmailEventListenerProvider(KeycloakRequestSession session, Set<EventType> includedEvents) {
         this.session = session;
         this.model = session.realms();
         this.includedEvents = includedEvents;
@@ -74,7 +74,7 @@ public class EmailEventListenerProvider implements EventListenerProvider {
 
         runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 KeycloakContext context = session.getContext();
                 RealmModel realm = session.realms().getRealm(event.getRealmId());
 

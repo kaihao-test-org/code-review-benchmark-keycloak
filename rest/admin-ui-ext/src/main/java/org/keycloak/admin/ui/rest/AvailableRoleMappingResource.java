@@ -28,7 +28,7 @@ import org.keycloak.models.AdminRoles;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
@@ -43,7 +43,7 @@ import static org.keycloak.authorization.fgap.AdminPermissionsSchema.MAP_ROLES_C
 import static org.keycloak.authorization.fgap.AdminPermissionsSchema.MAP_ROLES_COMPOSITE;
 
 public class AvailableRoleMappingResource extends RoleMappingResource {
-    public AvailableRoleMappingResource(KeycloakSession session, RealmModel realm, AdminPermissionEvaluator auth) {
+    public AvailableRoleMappingResource(KeycloakRequestSession session, RealmModel realm, AdminPermissionEvaluator auth) {
         super(session, realm, auth);
     }
 

@@ -32,7 +32,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.LDAPConstants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -123,7 +123,7 @@ public class LDAPNoCacheTest extends AbstractLDAPTest {
     protected LoginPasswordUpdatePage updatePasswordPage;
 
     private static void checkEmailAddressMultipleVariants(KeycloakTestingClient testingClient, String username, String newEmail) {
-        testingClient.server().run((KeycloakSession session) -> {
+        testingClient.server().run((KeycloakRequestSession session) -> {
             LDAPTestContext ctx = LDAPTestContext.init(session);
 
             RealmModel realm = ctx.getRealm();
@@ -217,7 +217,7 @@ public class LDAPNoCacheTest extends AbstractLDAPTest {
     }
 
     private static void changeEmailAddressInLDAP(KeycloakTestingClient testingClient, String newEmail) {
-        testingClient.server().run((KeycloakSession session) -> {
+        testingClient.server().run((KeycloakRequestSession session) -> {
             LDAPTestContext ctx = LDAPTestContext.init(session);
 
             RealmModel realm = ctx.getRealm();

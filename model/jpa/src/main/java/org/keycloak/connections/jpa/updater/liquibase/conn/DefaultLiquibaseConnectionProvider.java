@@ -31,7 +31,7 @@ import liquibase.ui.LoggerUIService;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.connections.jpa.updater.liquibase.LiquibaseJpaUpdaterProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import java.sql.Connection;
@@ -53,7 +53,7 @@ public class DefaultLiquibaseConnectionProvider implements LiquibaseConnectionPr
     private static final AtomicBoolean INITIALIZATION = new AtomicBoolean(false);
     
     @Override
-    public LiquibaseConnectionProvider create(KeycloakSession session) {
+    public LiquibaseConnectionProvider create(KeycloakRequestSession session) {
         if (! INITIALIZATION.get()) {
             // We need critical section synchronized on some static final field, otherwise
             // e.g. several Undertows or parallel model tests could attempt initializing Liquibase

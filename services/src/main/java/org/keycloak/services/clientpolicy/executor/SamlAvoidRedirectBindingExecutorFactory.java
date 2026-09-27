@@ -19,7 +19,7 @@ package org.keycloak.services.clientpolicy.executor;
 
 import java.util.List;
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
@@ -35,7 +35,7 @@ public class SamlAvoidRedirectBindingExecutorFactory implements ClientPolicyExec
     public static final String PROVIDER_ID = "saml-avoid-redirect";
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SamlAvoidRedirectBindingExecutor(session);
     }
 

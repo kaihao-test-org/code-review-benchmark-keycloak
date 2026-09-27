@@ -28,7 +28,7 @@ import org.keycloak.logging.MappedDiagnosticContextProvider;
 import org.keycloak.logging.MappedDiagnosticContextUtil;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakUriInfo;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -58,7 +58,7 @@ public abstract class DefaultKeycloakContext implements KeycloakContext {
 
     private OrganizationModel organization;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
 
     private Map<UrlType, KeycloakUriInfo> uriInfo;
 
@@ -69,7 +69,7 @@ public abstract class DefaultKeycloakContext implements KeycloakContext {
     private ClientConnection clientConnection;
     private Token bearerToken;
 
-    public DefaultKeycloakContext(KeycloakSession session) {
+    public DefaultKeycloakContext(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -209,7 +209,7 @@ public abstract class DefaultKeycloakContext implements KeycloakContext {
 
     protected abstract HttpResponse createHttpResponse();
 
-    protected KeycloakSession getSession() {
+    protected KeycloakRequestSession getSession() {
         return session;
     }
 

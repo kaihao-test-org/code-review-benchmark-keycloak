@@ -22,7 +22,7 @@ import org.keycloak.authentication.CredentialValidator;
 import org.keycloak.credential.CredentialProvider;
 import org.keycloak.credential.PasswordCredentialProvider;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -32,7 +32,7 @@ import jakarta.ws.rs.core.Response;
 
 public class PasswordForm extends UsernamePasswordForm implements CredentialValidator<PasswordCredentialProvider> {
 
-    public PasswordForm(KeycloakSession session) {
+    public PasswordForm(KeycloakRequestSession session) {
         super(session);
     }
 
@@ -58,7 +58,7 @@ public class PasswordForm extends UsernamePasswordForm implements CredentialVali
     }
 
     @Override
-    public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+    public boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user) {
         return user.credentialManager().isConfiguredFor(getCredentialProvider(session).getType())
                 || (isConditionalPasskeysEnabled(user))
                 || alreadyAuthenticatedUsingPasswordlessCredential(session.getContext().getAuthenticationSession());
@@ -80,7 +80,7 @@ public class PasswordForm extends UsernamePasswordForm implements CredentialVali
     }
 
     @Override
-    public PasswordCredentialProvider getCredentialProvider(KeycloakSession session) {
+    public PasswordCredentialProvider getCredentialProvider(KeycloakRequestSession session) {
         return (PasswordCredentialProvider)session.getProvider(CredentialProvider.class, "keycloak-password");
     }
 }

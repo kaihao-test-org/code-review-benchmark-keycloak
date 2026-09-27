@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.clientregistration.policy.AbstractClientRegistrationPolicyFactory;
 import org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy;
@@ -34,7 +34,7 @@ public class ScopeClientRegistrationPolicyFactory extends AbstractClientRegistra
     public static final String PROVIDER_ID = "scope";
 
     @Override
-    public ClientRegistrationPolicy create(KeycloakSession session, ComponentModel model) {
+    public ClientRegistrationPolicy create(KeycloakRequestSession session, ComponentModel model) {
         return new ScopeClientRegistrationPolicy(session, model);
     }
 

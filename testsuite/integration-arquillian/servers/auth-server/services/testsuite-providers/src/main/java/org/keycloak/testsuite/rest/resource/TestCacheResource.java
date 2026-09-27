@@ -26,7 +26,7 @@ import jakarta.ws.rs.Produces;
 import org.infinispan.Cache;
 import org.infinispan.stream.CacheCollectors;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.utils.MediaType;
 
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class TestCacheResource {
 
     private final Cache<Object, Object> cache;
 
-    public TestCacheResource(KeycloakSession session, String cacheName) {
+    public TestCacheResource(KeycloakRequestSession session, String cacheName) {
         InfinispanConnectionProvider provider = session.getProvider(InfinispanConnectionProvider.class);
         cache = provider.getCache(cacheName);
     }

@@ -42,7 +42,7 @@ import org.keycloak.component.AmphibianProviderFactory;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.component.ComponentValidationException;
 import org.keycloak.models.KeycloakContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
@@ -107,7 +107,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
     }
 
     private static boolean editUsernameCondition(AttributeContext c) {
-        KeycloakSession session = c.getSession();
+        KeycloakRequestSession session = c.getSession();
         KeycloakContext context = session.getContext();
         RealmModel realm = context.getRealm();
 
@@ -125,7 +125,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
     }
 
     private static boolean readUsernameCondition(AttributeContext c) {
-        KeycloakSession session = c.getSession();
+        KeycloakRequestSession session = c.getSession();
         KeycloakContext context = session.getContext();
         RealmModel realm = context.getRealm();
 
@@ -180,7 +180,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
             return true;
         }
 
-        KeycloakSession session = c.getSession();
+        KeycloakRequestSession session = c.getSession();
 
         if (UpdateEmail.isEnabled(session.getContext().getRealm())) {
             if (UPDATE_PROFILE.equals(c.getContext())) {
@@ -297,7 +297,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
     }
 
     @Override
-    public void validateConfiguration(KeycloakSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
+    public void validateConfiguration(KeycloakRequestSession session, RealmModel realm, ComponentModel model) throws ComponentValidationException {
         String upConfigJson = model == null ? null : model.get(DeclarativeUserProfileProvider.UP_COMPONENT_CONFIG_KEY);
 
         if (!isBlank(upConfigJson)) {
@@ -345,7 +345,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
     }
 
     @Override
-    public DeclarativeUserProfileProvider create(KeycloakSession session) {
+    public DeclarativeUserProfileProvider create(KeycloakRequestSession session) {
         return new DeclarativeUserProfileProvider(session, this);
     }
 
@@ -529,7 +529,7 @@ public class DeclarativeUserProfileProviderFactory implements UserProfileProvide
         AttributeMetadata m = c.getMetadata();
         Map<String, Object> rawAnnotations = Optional.ofNullable(m.getAnnotations()).orElse(Map.of());
 
-        KeycloakSession session = c.getSession();
+        KeycloakRequestSession session = c.getSession();
         KeycloakContext context = session.getContext();
 
         if (UpdateEmail.isEnabled(context.getRealm())) {

@@ -48,19 +48,19 @@ public interface ClientModel extends ClientScopeModel, RoleContainerModel,  Prot
     // Called also during client creation after client is fully initialized (including all attributes etc)
     interface ClientUpdatedEvent extends ProviderEvent {
         ClientModel getUpdatedClient();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface ClientIdChangeEvent extends ProviderEvent {
         ClientModel getUpdatedClient();
         String getPreviousClientId();
         String getNewClientId();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface ClientRemovedEvent extends ProviderEvent {
         ClientModel getClient();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface ClientProtocolUpdatedEvent extends ProviderEvent {

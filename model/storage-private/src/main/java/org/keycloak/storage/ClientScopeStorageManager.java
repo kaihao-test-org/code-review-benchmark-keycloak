@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.ClientScopeProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.clientscope.ClientScopeLookupProvider;
 import org.keycloak.storage.clientscope.ClientScopeStorageProvider;
@@ -29,7 +29,7 @@ import org.keycloak.storage.clientscope.ClientScopeStorageProviderModel;
 
 public class ClientScopeStorageManager extends AbstractStorageManager<ClientScopeStorageProvider, ClientScopeStorageProviderModel> implements ClientScopeProvider {
 
-    public ClientScopeStorageManager(KeycloakSession session) {
+    public ClientScopeStorageManager(KeycloakRequestSession session) {
         super(session, ClientScopeStorageProviderFactory.class, ClientScopeStorageProvider.class,
                 ClientScopeStorageProviderModel::new, "clientscope");
     }

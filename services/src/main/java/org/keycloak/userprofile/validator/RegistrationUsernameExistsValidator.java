@@ -19,7 +19,7 @@ package org.keycloak.userprofile.validator;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.messages.Messages;
@@ -47,7 +47,7 @@ public class RegistrationUsernameExistsValidator implements SimpleValidator {
     @Override
     public ValidationContext validate(Object input, String inputHint, ValidationContext context, ValidatorConfig config) {
 
-        KeycloakSession session = context.getSession();
+        KeycloakRequestSession session = context.getSession();
         RealmModel realm = session.getContext().getRealm();
 
         if (realm.isRegistrationEmailAsUsername()) {

@@ -49,7 +49,7 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.GroupModel.Type;
 import org.keycloak.models.GroupProvider;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.MembershipMetadata;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
@@ -78,9 +78,9 @@ public class JpaOrganizationProvider implements OrganizationProvider {
     private final EntityManager em;
     private final GroupProvider groupProvider;
     private final UserProvider userProvider;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public JpaOrganizationProvider(KeycloakSession session) {
+    public JpaOrganizationProvider(KeycloakRequestSession session) {
         this.session = session;
         em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
         groupProvider = session.groups();

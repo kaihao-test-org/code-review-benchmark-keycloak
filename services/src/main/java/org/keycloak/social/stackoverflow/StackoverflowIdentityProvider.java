@@ -25,7 +25,7 @@ import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.social.SocialIdentityProvider;
 import org.keycloak.events.EventBuilder;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.StringWriter;
 import java.net.MalformedURLException;
@@ -48,7 +48,7 @@ public class StackoverflowIdentityProvider extends AbstractOAuth2IdentityProvide
 	public static final String PROFILE_URL = "https://api.stackexchange.com/2.2/me?order=desc&sort=name&site=stackoverflow";
 	public static final String DEFAULT_SCOPE = "";
 
-	public StackoverflowIdentityProvider(KeycloakSession session, StackOverflowIdentityProviderConfig config) {
+	public StackoverflowIdentityProvider(KeycloakRequestSession session, StackOverflowIdentityProviderConfig config) {
 		super(session, config);
 		config.setAuthorizationUrl(AUTH_URL);
 		config.setTokenUrl(TOKEN_URL);

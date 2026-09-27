@@ -21,7 +21,7 @@ import org.keycloak.Config;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.events.EventStoreProvider;
 import org.keycloak.events.EventStoreProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.InvalidationHandler;
 import org.keycloak.storage.datastore.PeriodicEventInvalidation;
@@ -34,7 +34,7 @@ public class JpaEventStoreProviderFactory implements EventStoreProviderFactory, 
     public static final String ID = "jpa";
 
     @Override
-    public EventStoreProvider create(KeycloakSession session) {
+    public EventStoreProvider create(KeycloakRequestSession session) {
         JpaConnectionProvider connection = session.getProvider(JpaConnectionProvider.class);
         return new JpaEventStoreProvider(session, connection.getEntityManager());
     }
@@ -58,7 +58,7 @@ public class JpaEventStoreProviderFactory implements EventStoreProviderFactory, 
     }
 
     @Override
-    public void invalidate(KeycloakSession session, InvalidableObjectType type, Object... params) {
+    public void invalidate(KeycloakRequestSession session, InvalidableObjectType type, Object... params) {
         if(type == PeriodicEventInvalidation.JPA_EVENT_STORE) {
             ((JpaEventStoreProvider) session.getProvider(EventStoreProvider.class)).clearExpiredAdminEvents();
         }

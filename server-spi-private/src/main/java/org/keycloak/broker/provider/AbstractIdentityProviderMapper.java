@@ -20,7 +20,7 @@ package org.keycloak.broker.provider;
 import org.jboss.logging.Logger;
 import org.keycloak.broker.provider.mappersync.ConfigSyncEventListener;
 import org.keycloak.models.IdentityProviderMapperModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -41,7 +41,7 @@ public abstract class AbstractIdentityProviderMapper implements IdentityProvider
     }
 
     @Override
-    public IdentityProviderMapper create(KeycloakSession session) {
+    public IdentityProviderMapper create(KeycloakRequestSession session) {
         return null;
     }
 
@@ -73,22 +73,22 @@ public abstract class AbstractIdentityProviderMapper implements IdentityProvider
     }
 
     @Override
-    public void preprocessFederatedIdentity(KeycloakSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void preprocessFederatedIdentity(KeycloakRequestSession session, RealmModel realm, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 
     }
 
     @Override
-    public void importNewUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void importNewUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 
     }
 
     @Override
-    public void updateBrokeredUser(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void updateBrokeredUser(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
 
     }
 
     @Override
-    public void updateBrokeredUserLegacy(KeycloakSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
+    public void updateBrokeredUserLegacy(KeycloakRequestSession session, RealmModel realm, UserModel user, IdentityProviderMapperModel mapperModel, BrokeredIdentityContext context) {
         updateBrokeredUser(session, realm, user, mapperModel, context);
     }
 }

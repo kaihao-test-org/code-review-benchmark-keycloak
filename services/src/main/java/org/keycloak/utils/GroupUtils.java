@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import org.keycloak.authorization.fgap.AdminPermissionsSchema;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.ModelToRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
@@ -26,7 +26,7 @@ public class GroupUtils {
      * @param groups The groups that we want to populate the hierarchy for
      * @return A stream of groups that contain all relevant groups from the root down with no extra siblings
      */
-    public static Stream<GroupRepresentation> populateGroupHierarchyFromSubGroups(KeycloakSession session, RealmModel realm, Stream<GroupModel> groups, boolean full, GroupPermissionEvaluator groupEvaluator, boolean subGroupsCount) {
+    public static Stream<GroupRepresentation> populateGroupHierarchyFromSubGroups(KeycloakRequestSession session, RealmModel realm, Stream<GroupModel> groups, boolean full, GroupPermissionEvaluator groupEvaluator, boolean subGroupsCount) {
         Map<String, GroupRepresentation> groupIdToGroups = new HashMap<>();
         groups.forEach(group -> {
 

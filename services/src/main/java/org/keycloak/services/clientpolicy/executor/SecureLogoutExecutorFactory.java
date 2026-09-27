@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.executor;
 import java.util.Collections;
 import java.util.List;
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -34,7 +34,7 @@ public class SecureLogoutExecutorFactory implements ClientPolicyExecutorProvider
             ALLOW_FRONT_CHANNEL_LOGOUT, "Allow Front-Channel Logout", "If On, then front-channel logout should be allowed. Otherwise, clients should favor other logout mechanisms such as back-channel logout.", ProviderConfigProperty.BOOLEAN_TYPE, false);
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SecureLogoutExecutor(session);
     }
 

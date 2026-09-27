@@ -32,7 +32,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel.Type;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleContainerModel;
 import org.keycloak.models.RoleModel;
@@ -73,12 +73,12 @@ import org.keycloak.representations.idm.MembershipType;
  */
 public class ExportUtils {
 
-    public static RealmRepresentation exportRealm(KeycloakSession session, RealmModel realm, boolean includeUsers, boolean internal) {
+    public static RealmRepresentation exportRealm(KeycloakRequestSession session, RealmModel realm, boolean includeUsers, boolean internal) {
         ExportOptions opts = new ExportOptions(includeUsers, true, true, false, false);
         return exportRealm(session, realm, opts, internal);
     }
 
-    public static RealmRepresentation exportRealm(KeycloakSession session, RealmModel realm, ExportOptions options, boolean internal) {
+    public static RealmRepresentation exportRealm(KeycloakRequestSession session, RealmModel realm, ExportOptions options, boolean internal) {
         RealmRepresentation rep = ModelToRepresentation.toRepresentation(session, realm, internal, true);
         ModelToRepresentation.exportAuthenticationFlows(session, realm, rep);
         ModelToRepresentation.exportRequiredActions(realm, rep);
@@ -300,7 +300,7 @@ public class ExportUtils {
      * @param client
      * @return full ApplicationRepresentation
      */
-    public static ClientRepresentation exportClient(KeycloakSession session, ClientModel client) {
+    public static ClientRepresentation exportClient(KeycloakRequestSession session, ClientModel client) {
         ClientRepresentation clientRep = ModelToRepresentation.toRepresentation(client, session);
         clientRep.setSecret(client.getSecret());
         if (Profile.isFeatureEnabled(Profile.Feature.AUTHORIZATION)) {
@@ -370,7 +370,7 @@ public class ExportUtils {
      * @param user
      * @return fully exported user representation
      */
-    public static UserRepresentation exportUser(KeycloakSession session, RealmModel realm, UserModel user, ExportOptions options, boolean internal) {
+    public static UserRepresentation exportUser(KeycloakRequestSession session, RealmModel realm, UserModel user, ExportOptions options, boolean internal) {
         UserRepresentation userRep = ModelToRepresentation.toRepresentation(session, realm, user);
 
         // Social links
@@ -462,11 +462,11 @@ public class ExportUtils {
 
     // Streaming API
 
-    public static void exportUsersToStream(KeycloakSession session, RealmModel realm, List<UserModel> usersToExport, ObjectMapper mapper, OutputStream os) throws IOException {
+    public static void exportUsersToStream(KeycloakRequestSession session, RealmModel realm, List<UserModel> usersToExport, ObjectMapper mapper, OutputStream os) throws IOException {
         exportUsersToStream(session, realm, usersToExport, mapper, os, new ExportOptions());
     }
 
-    public static void exportUsersToStream(KeycloakSession session, RealmModel realm, List<UserModel> usersToExport, ObjectMapper mapper, OutputStream os, ExportOptions options) throws IOException {
+    public static void exportUsersToStream(KeycloakRequestSession session, RealmModel realm, List<UserModel> usersToExport, ObjectMapper mapper, OutputStream os, ExportOptions options) throws IOException {
         JsonFactory factory = mapper.getFactory();
         JsonGenerator generator = factory.createGenerator(os, JsonEncoding.UTF8);
         try {
@@ -491,11 +491,11 @@ public class ExportUtils {
         }
     }
 
-    public static void exportFederatedUsersToStream(KeycloakSession session, RealmModel realm, List<String> usersToExport, ObjectMapper mapper, OutputStream os) throws IOException {
+    public static void exportFederatedUsersToStream(KeycloakRequestSession session, RealmModel realm, List<String> usersToExport, ObjectMapper mapper, OutputStream os) throws IOException {
         exportFederatedUsersToStream(session, realm, usersToExport, mapper, os, new ExportOptions());
     }
 
-    public static void exportFederatedUsersToStream(KeycloakSession session, RealmModel realm, List<String> usersToExport, ObjectMapper mapper, OutputStream os, ExportOptions options) throws IOException {
+    public static void exportFederatedUsersToStream(KeycloakRequestSession session, RealmModel realm, List<String> usersToExport, ObjectMapper mapper, OutputStream os, ExportOptions options) throws IOException {
         JsonFactory factory = mapper.getFactory();
         JsonGenerator generator = factory.createGenerator(os, JsonEncoding.UTF8);
         try {
@@ -526,7 +526,7 @@ public class ExportUtils {
      * @param id
      * @return fully exported user representation
      */
-    public static UserRepresentation exportFederatedUser(KeycloakSession session, RealmModel realm, String id, ExportOptions options) {
+    public static UserRepresentation exportFederatedUser(KeycloakRequestSession session, RealmModel realm, String id, ExportOptions options) {
         UserRepresentation userRep = new UserRepresentation();
         userRep.setId(id);
         MultivaluedHashMap<String, String> attributes = userFederatedStorage(session).getAttributes(realm, id);
@@ -602,7 +602,7 @@ public class ExportUtils {
         return userRep;
     }
 
-    private static UserFederatedStorageProvider userFederatedStorage(KeycloakSession session) {
+    private static UserFederatedStorageProvider userFederatedStorage(KeycloakRequestSession session) {
         return session.getProvider(UserFederatedStorageProvider.class);
     }
 

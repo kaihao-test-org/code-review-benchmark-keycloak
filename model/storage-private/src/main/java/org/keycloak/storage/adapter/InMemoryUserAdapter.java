@@ -17,7 +17,7 @@
 package org.keycloak.storage.adapter;
 
 import org.keycloak.credential.UserCredentialManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SubjectCredentialManager;
 
@@ -27,7 +27,7 @@ import org.keycloak.models.SubjectCredentialManager;
  */
 public class InMemoryUserAdapter extends AbstractInMemoryUserAdapter {
 
-    public InMemoryUserAdapter(KeycloakSession session, RealmModel realm, String id) {
+    public InMemoryUserAdapter(KeycloakRequestSession session, RealmModel realm, String id) {
         super(session, realm, id);
     }
 

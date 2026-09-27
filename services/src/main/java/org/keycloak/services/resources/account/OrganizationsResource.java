@@ -24,7 +24,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.models.AccountRoles;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.UserModel;
@@ -35,11 +35,11 @@ import org.keycloak.services.managers.Auth;
 
 public class OrganizationsResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final UserModel user;
     private final Auth auth;
 
-    public OrganizationsResource(KeycloakSession session,
+    public OrganizationsResource(KeycloakRequestSession session,
                                  Auth auth,
                                  UserModel user) {
         this.session = session;

@@ -33,7 +33,7 @@ import org.keycloak.connections.jpa.updater.JpaUpdaterProvider;
 import org.keycloak.connections.jpa.updater.liquibase.LiquibaseJpaUpdaterProviderFactory;
 import org.keycloak.connections.jpa.util.JpaUtils;
 import org.keycloak.migration.MigrationModelManager;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.dblock.DBLockManager;
@@ -85,14 +85,14 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
     private KeycloakSessionFactory factory;
 
     @Override
-    public JpaConnectionProvider create(KeycloakSession session) {
+    public JpaConnectionProvider create(KeycloakRequestSession session) {
         logger.trace("Create JpaConnectionProvider");
         lazyInit(session);
 
         return new DefaultJpaConnectionProvider(createEntityManager(session));
     }
 
-    private EntityManager createEntityManager(KeycloakSession session) {
+    private EntityManager createEntityManager(KeycloakRequestSession session) {
         EntityManager em;
         if (!jtaEnabled) {
             logger.trace("enlisting EntityManager in JpaKeycloakTransaction");
@@ -108,7 +108,7 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         return em;
     }
 
-    private void addSpecificNamedQueries(KeycloakSession session, Connection connection) {
+    private void addSpecificNamedQueries(KeycloakRequestSession session, Connection connection) {
         EntityManager em = null;
         try {
             em = createEntityManager(session);
@@ -158,7 +158,7 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         }
     }
 
-    private void lazyInit(KeycloakSession session) {
+    private void lazyInit(KeycloakRequestSession session) {
         if (emf == null) {
             synchronized (this) {
                 if (emf == null) {
@@ -289,13 +289,13 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         }
     }
 
-    protected void startGlobalStats(KeycloakSession session, int globalStatsIntervalSecs) {
+    protected void startGlobalStats(KeycloakRequestSession session, int globalStatsIntervalSecs) {
         logger.debugf("Started Hibernate statistics with the interval %s seconds", globalStatsIntervalSecs);
         TimerProvider timer = session.getProvider(TimerProvider.class);
         timer.scheduleTask(new HibernateStatsReporter(emf), globalStatsIntervalSecs * 1000);
     }
 
-    void migration(MigrationStrategy strategy, boolean initializeEmpty, String schema, File databaseUpdateFile, Connection connection, KeycloakSession session) {
+    void migration(MigrationStrategy strategy, boolean initializeEmpty, String schema, File databaseUpdateFile, Connection connection, KeycloakRequestSession session) {
         JpaUpdaterProvider updater = session.getProvider(JpaUpdaterProvider.class, LiquibaseJpaUpdaterProviderFactory.PROVIDER_ID);
 
         JpaUpdaterProvider.Status status = updater.validate(connection, schema);
@@ -330,10 +330,10 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         }
     }
 
-    protected void update(Connection connection, String schema, KeycloakSession session, JpaUpdaterProvider updater) {
+    protected void update(Connection connection, String schema, KeycloakRequestSession session, JpaUpdaterProvider updater) {
         KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), new KeycloakSessionTask() {
             @Override
-            public void run(KeycloakSession lockSession) {
+            public void run(KeycloakRequestSession lockSession) {
                 DBLockManager dbLockManager = new DBLockManager(lockSession);
                 DBLockProvider dbLock2 = dbLockManager.getDBLock();
                 dbLock2.waitForLock(DBLockProvider.Namespace.DATABASE);
@@ -346,10 +346,10 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         });
     }
 
-    protected void export(Connection connection, String schema, File databaseUpdateFile, KeycloakSession session, JpaUpdaterProvider updater) {
+    protected void export(Connection connection, String schema, File databaseUpdateFile, KeycloakRequestSession session, JpaUpdaterProvider updater) {
         KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), new KeycloakSessionTask() {
             @Override
-            public void run(KeycloakSession lockSession) {
+            public void run(KeycloakRequestSession lockSession) {
                 DBLockManager dbLockManager = new DBLockManager(lockSession);
                 DBLockProvider dbLock2 = dbLockManager.getDBLock();
                 dbLock2.waitForLock(DBLockProvider.Namespace.DATABASE);
@@ -420,7 +420,7 @@ public class DefaultJpaConnectionProviderFactory implements JpaConnectionProvide
         }
     }
 
-    private void migrateModel(KeycloakSession session) {
+    private void migrateModel(KeycloakRequestSession session) {
         KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), MigrationModelManager::migrate);
     }
 

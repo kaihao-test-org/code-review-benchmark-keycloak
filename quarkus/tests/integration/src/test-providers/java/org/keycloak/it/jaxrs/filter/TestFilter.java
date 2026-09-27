@@ -21,7 +21,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.net.SocketAddress;
 
 import org.jboss.logging.Logger;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public class TestFilter implements ContainerRequestFilter {
     HttpServerRequest request;
 
     @Context
-    KeycloakSession session;
+    KeycloakRequestSession session;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -53,7 +53,7 @@ public class TestFilter implements ContainerRequestFilter {
         final String path = info.getPath();
         final SocketAddress address = request.remoteAddress();
 
-        KeycloakSession s = null;
+        KeycloakRequestSession s = null;
         try {
             if (session != null) {
                 session.getContext();

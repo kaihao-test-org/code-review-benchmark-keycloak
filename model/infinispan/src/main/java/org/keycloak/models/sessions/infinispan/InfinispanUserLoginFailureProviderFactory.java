@@ -22,7 +22,7 @@ import org.keycloak.Config;
 import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.infinispan.util.InfinispanUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.UserLoginFailureProvider;
 import org.keycloak.models.UserLoginFailureProviderFactory;
@@ -50,7 +50,7 @@ public class InfinispanUserLoginFailureProviderFactory implements UserLoginFailu
     SerializeExecutionsByKey<LoginFailureKey> serializer = new SerializeExecutionsByKey<>();
 
     @Override
-    public InfinispanUserLoginFailureProvider create(KeycloakSession session) {
+    public InfinispanUserLoginFailureProvider create(KeycloakRequestSession session) {
         InfinispanConnectionProvider connections = session.getProvider(InfinispanConnectionProvider.class);
         Cache<LoginFailureKey, SessionEntityWrapper<LoginFailureEntity>> loginFailures = connections.getCache(InfinispanConnectionProvider.LOGIN_FAILURE_CACHE_NAME);
 
@@ -73,7 +73,7 @@ public class InfinispanUserLoginFailureProviderFactory implements UserLoginFailu
         });
     }
 
-    protected void registerClusterListeners(KeycloakSession session) {
+    protected void registerClusterListeners(KeycloakRequestSession session) {
         KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
         ClusterProvider cluster = session.getProvider(ClusterProvider.class);
 

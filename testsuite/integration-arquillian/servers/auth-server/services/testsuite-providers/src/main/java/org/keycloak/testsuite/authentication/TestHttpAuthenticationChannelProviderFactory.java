@@ -20,7 +20,7 @@
 package org.keycloak.testsuite.authentication;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.grants.ciba.channel.AuthenticationChannelProvider;
 import org.keycloak.protocol.oidc.grants.ciba.channel.HttpAuthenticationChannelProvider;
 import org.keycloak.protocol.oidc.grants.ciba.channel.HttpAuthenticationChannelProviderFactory;
@@ -36,7 +36,7 @@ public class TestHttpAuthenticationChannelProviderFactory extends HttpAuthentica
                     ServerURLs.AUTH_SERVER_SCHEME, ServerURLs.AUTH_SERVER_HOST, ServerURLs.AUTH_SERVER_PORT);
 
     @Override
-    public AuthenticationChannelProvider create(KeycloakSession session) {
+    public AuthenticationChannelProvider create(KeycloakRequestSession session) {
         return new HttpAuthenticationChannelProvider(session, TEST_HTTP_AUTH_CHANNEL);
     }
 

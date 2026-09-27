@@ -30,7 +30,7 @@ import org.keycloak.federation.kerberos.impl.KerberosUsernamePasswordAuthenticat
 import org.keycloak.federation.kerberos.impl.SPNEGOAuthenticator;
 import org.keycloak.models.CredentialValidationOutput;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RequiredActionProviderModel;
 import org.keycloak.models.RoleModel;
@@ -75,12 +75,12 @@ public class KerberosFederationProvider implements UserStorageProvider,
     private static final Logger logger = Logger.getLogger(KerberosFederationProvider.class);
     public static final String KERBEROS_PRINCIPAL = KerberosConstants.KERBEROS_PRINCIPAL;
 
-    protected KeycloakSession session;
+    protected KeycloakRequestSession session;
     protected UserStorageProviderModel model;
     protected KerberosConfig kerberosConfig;
     protected KerberosFederationProviderFactory factory;
 
-    public KerberosFederationProvider(KeycloakSession session, UserStorageProviderModel model, KerberosFederationProviderFactory factory) {
+    public KerberosFederationProvider(KeycloakRequestSession session, UserStorageProviderModel model, KerberosFederationProviderFactory factory) {
         this.session = session;
         this.model = model;
         this.kerberosConfig = new KerberosConfig(model);

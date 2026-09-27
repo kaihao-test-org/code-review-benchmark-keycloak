@@ -36,7 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.events.admin.OperationType;
 import org.keycloak.events.admin.ResourceType;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelValidationException;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.utils.ModelToRepresentation;
@@ -54,12 +54,12 @@ import java.util.Objects;
 @Extension(name = KeycloakOpenAPI.Profiles.ADMIN, value = "")
 public class OrganizationResource {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final OrganizationProvider provider;
     private final AdminEventBuilder adminEvent;
     private final OrganizationModel organization;
 
-    public OrganizationResource(KeycloakSession session, OrganizationModel organization, AdminEventBuilder adminEvent) {
+    public OrganizationResource(KeycloakRequestSession session, OrganizationModel organization, AdminEventBuilder adminEvent) {
         this.session = session;
         this.provider = session == null ? null : session.getProvider(OrganizationProvider.class);
         this.organization = organization;

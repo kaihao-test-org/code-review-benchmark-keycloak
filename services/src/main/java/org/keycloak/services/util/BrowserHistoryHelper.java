@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.keycloak.http.HttpRequest;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.sessions.AuthenticationSessionModel;
 import org.keycloak.utils.MediaType;
 
@@ -49,12 +49,12 @@ public abstract class BrowserHistoryHelper {
 
     protected static final Logger logger = Logger.getLogger(BrowserHistoryHelper.class);
 
-    public abstract Response saveResponseAndRedirect(KeycloakSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest);
+    public abstract Response saveResponseAndRedirect(KeycloakRequestSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest);
 
-    public abstract Response loadSavedResponse(KeycloakSession session, AuthenticationSessionModel authSession);
+    public abstract Response loadSavedResponse(KeycloakRequestSession session, AuthenticationSessionModel authSession);
 
 
-    protected boolean shouldReplaceBrowserHistory(boolean actionRequest, KeycloakSession session) {
+    protected boolean shouldReplaceBrowserHistory(boolean actionRequest, KeycloakRequestSession session) {
         if (actionRequest) {
             return true;
         }
@@ -80,7 +80,7 @@ public abstract class BrowserHistoryHelper {
         private static final Pattern HEAD_END_PATTERN = Pattern.compile("</[hH][eE][aA][dD]>");
 
         @Override
-        public Response saveResponseAndRedirect(KeycloakSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
+        public Response saveResponseAndRedirect(KeycloakRequestSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
             if (!shouldReplaceBrowserHistory(actionRequest, session)) {
                 return response;
             }
@@ -103,7 +103,7 @@ public abstract class BrowserHistoryHelper {
         }
 
         @Override
-        public Response loadSavedResponse(KeycloakSession session, AuthenticationSessionModel authSession) {
+        public Response loadSavedResponse(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
             return null;
         }
 
@@ -143,7 +143,7 @@ public abstract class BrowserHistoryHelper {
         private static final String CACHED_RESPONSE = "cached.response";
 
         @Override
-        public Response saveResponseAndRedirect(KeycloakSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
+        public Response saveResponseAndRedirect(KeycloakRequestSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
             if (!shouldReplaceBrowserHistory(actionRequest, session)) {
                 return response;
             }
@@ -170,7 +170,7 @@ public abstract class BrowserHistoryHelper {
 
 
         @Override
-        public Response loadSavedResponse(KeycloakSession session, AuthenticationSessionModel authSession) {
+        public Response loadSavedResponse(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
             String savedResponse = authSession.getAuthNote(CACHED_RESPONSE);
             if (savedResponse != null) {
                 authSession.removeAuthNote(CACHED_RESPONSE);
@@ -192,13 +192,13 @@ public abstract class BrowserHistoryHelper {
     private static class NoOpHelper extends BrowserHistoryHelper {
 
         @Override
-        public Response saveResponseAndRedirect(KeycloakSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
+        public Response saveResponseAndRedirect(KeycloakRequestSession session, AuthenticationSessionModel authSession, Response response, boolean actionRequest, HttpRequest httpRequest) {
             return response;
         }
 
 
         @Override
-        public Response loadSavedResponse(KeycloakSession session, AuthenticationSessionModel authSession) {
+        public Response loadSavedResponse(KeycloakRequestSession session, AuthenticationSessionModel authSession) {
             return null;
         }
 

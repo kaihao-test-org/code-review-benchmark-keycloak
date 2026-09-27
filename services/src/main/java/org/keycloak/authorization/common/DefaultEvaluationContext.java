@@ -21,7 +21,7 @@ package org.keycloak.authorization.common;
 import org.keycloak.authorization.attribute.Attributes;
 import org.keycloak.authorization.identity.Identity;
 import org.keycloak.authorization.policy.evaluation.EvaluationContext;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.AccessToken;
 
 import java.text.SimpleDateFormat;
@@ -38,16 +38,16 @@ import java.util.Map.Entry;
  */
 public class DefaultEvaluationContext implements EvaluationContext {
 
-    protected final KeycloakSession keycloakSession;
+    protected final KeycloakRequestSession keycloakSession;
     protected final Identity identity;
     private final Map<String, List<String>> claims;
     private Attributes attributes;
 
-    public DefaultEvaluationContext(Identity identity, KeycloakSession keycloakSession) {
+    public DefaultEvaluationContext(Identity identity, KeycloakRequestSession keycloakSession) {
         this(identity, null, keycloakSession);
     }
 
-    public DefaultEvaluationContext(Identity identity, Map<String, List<String>> claims, KeycloakSession keycloakSession) {
+    public DefaultEvaluationContext(Identity identity, Map<String, List<String>> claims, KeycloakRequestSession keycloakSession) {
         this.identity = identity;
         this.claims = claims;
         this.keycloakSession = keycloakSession;

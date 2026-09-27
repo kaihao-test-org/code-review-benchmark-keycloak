@@ -17,7 +17,7 @@
  */
 package org.keycloak.authorization.config;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.wellknown.WellKnownProvider;
 
 /**
@@ -25,9 +25,9 @@ import org.keycloak.wellknown.WellKnownProvider;
  */
 public class UmaWellKnownProvider implements WellKnownProvider {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
-    public UmaWellKnownProvider(KeycloakSession session) {
+    public UmaWellKnownProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

@@ -24,7 +24,7 @@ import java.util.Optional;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
 import org.keycloak.common.Profile;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.EnvironmentDependentProviderFactory;
 import org.keycloak.urls.HostnameProvider;
 import org.keycloak.urls.HostnameProviderFactory;
@@ -115,7 +115,7 @@ public class HostnameV2ProviderFactory implements HostnameProviderFactory, Envir
     }
 
     @Override
-    public HostnameProvider create(KeycloakSession session) {
+    public HostnameProvider create(KeycloakRequestSession session) {
         return new HostnameV2Provider(session, hostname, hostnameUrl, adminUrl, backchannelDynamic);
     }
 

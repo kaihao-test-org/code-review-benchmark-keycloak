@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.keycloak.Config.Scope;
 import org.keycloak.authentication.ClientAuthenticator;
 import org.keycloak.authentication.authenticators.client.JWTClientAuthenticator;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderFactory;
@@ -43,7 +43,7 @@ public class SecureClientAuthenticatorExecutorFactory implements ClientPolicyExe
     private List<ProviderConfigProperty> configProperties = new ArrayList<>();
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new SecureClientAuthenticatorExecutor(session);
     }
 

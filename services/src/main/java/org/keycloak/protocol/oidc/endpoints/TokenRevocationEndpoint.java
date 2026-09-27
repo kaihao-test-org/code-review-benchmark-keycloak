@@ -41,7 +41,7 @@ import org.keycloak.http.HttpRequest;
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.Constants;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.UserModel;
@@ -63,7 +63,7 @@ import org.keycloak.util.TokenUtil;
 public class TokenRevocationEndpoint {
     public static final String PARAM_TOKEN = "token";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
 
     private final HttpRequest request;
 
@@ -77,7 +77,7 @@ public class TokenRevocationEndpoint {
     private AccessToken token;
     private UserModel user;
 
-    public TokenRevocationEndpoint(KeycloakSession session, EventBuilder event) {
+    public TokenRevocationEndpoint(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

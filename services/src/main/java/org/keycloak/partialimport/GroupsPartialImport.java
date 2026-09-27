@@ -18,7 +18,7 @@
 package org.keycloak.partialimport;
 
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.models.utils.RepresentationToModel;
@@ -44,17 +44,17 @@ public class GroupsPartialImport extends AbstractPartialImport<GroupRepresentati
         return group.getName();
     }
 
-    private GroupModel findGroupModel(KeycloakSession session, RealmModel realm, GroupRepresentation groupRep) {
+    private GroupModel findGroupModel(KeycloakRequestSession session, RealmModel realm, GroupRepresentation groupRep) {
         return KeycloakModelUtils.findGroupByPath(session, realm, groupRep.getPath());
     }
 
     @Override
-    public String getModelId(RealmModel realm, KeycloakSession session, GroupRepresentation groupRep) {
+    public String getModelId(RealmModel realm, KeycloakRequestSession session, GroupRepresentation groupRep) {
         return findGroupModel(session, realm, groupRep).getId();
     }
 
     @Override
-    public boolean exists(RealmModel realm, KeycloakSession session, GroupRepresentation groupRep) {
+    public boolean exists(RealmModel realm, KeycloakRequestSession session, GroupRepresentation groupRep) {
         return findGroupModel(session, realm, groupRep) != null;
     }
 
@@ -69,13 +69,13 @@ public class GroupsPartialImport extends AbstractPartialImport<GroupRepresentati
     }
 
     @Override
-    public void remove(RealmModel realm, KeycloakSession session, GroupRepresentation groupRep) {
+    public void remove(RealmModel realm, KeycloakRequestSession session, GroupRepresentation groupRep) {
         GroupModel group = realm.getGroupById(getModelId(realm, session, groupRep));
         realm.removeGroup(group);
     }
 
     @Override
-    public void create(RealmModel realm, KeycloakSession session, GroupRepresentation groupRep) {
+    public void create(RealmModel realm, KeycloakRequestSession session, GroupRepresentation groupRep) {
         RepresentationToModel.importGroup(realm, null, groupRep);
     }
 

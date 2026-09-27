@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.keycloak.models.AuthenticatedClientSessionModel;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -46,7 +46,7 @@ public class PersistSessionsCommand extends AbstractCommand {
     }
 
     @Override
-    public void doRunCommand(KeycloakSession sess) {
+    public void doRunCommand(KeycloakRequestSession sess) {
         final int count = getIntArg(0);
         final int batchCount = getIntArg(1);
 
@@ -62,7 +62,7 @@ public class PersistSessionsCommand extends AbstractCommand {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 UserSessionPersisterProvider persister = session.getProvider(UserSessionPersisterProvider.class);
                 log.info("Command finished. Total number of sessions in persister: " + persister.getUserSessionsCount(true));
             }
@@ -77,7 +77,7 @@ public class PersistSessionsCommand extends AbstractCommand {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 RealmModel realm = session.realms().getRealmByName("master");
 
                 ClientModel testApp = realm.getClientByClientId("security-admin-console");
@@ -108,7 +108,7 @@ public class PersistSessionsCommand extends AbstractCommand {
         KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
             @Override
-            public void run(KeycloakSession session) {
+            public void run(KeycloakRequestSession session) {
                 RealmModel realm = session.realms().getRealmByName("master");
                 ClientModel testApp = realm.getClientByClientId("security-admin-console");
                 UserSessionPersisterProvider persister = session.getProvider(UserSessionPersisterProvider.class);

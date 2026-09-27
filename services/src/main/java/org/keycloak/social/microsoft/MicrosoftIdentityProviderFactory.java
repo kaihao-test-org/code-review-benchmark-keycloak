@@ -19,7 +19,7 @@ package org.keycloak.social.microsoft;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -38,7 +38,7 @@ public class MicrosoftIdentityProviderFactory extends AbstractIdentityProviderFa
     }
 
     @Override
-    public MicrosoftIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public MicrosoftIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new MicrosoftIdentityProvider(session, new MicrosoftIdentityProviderConfig(model));
     }
 

@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.dblock.DBLockManager;
 import org.keycloak.models.dblock.DBLockProvider;
@@ -89,7 +89,7 @@ public class DBLockTest extends KeycloakModelTest {
             dbLock1.waitForLock(DBLockProvider.Namespace.DATABASE);
             try {
                 Assert.assertEquals(DBLockProvider.Namespace.DATABASE, dbLock1.getCurrentLock());
-                KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakSession sessionLC2) -> {
+                KeycloakModelUtils.runJobInTransaction(session.getKeycloakSessionFactory(), (KeycloakRequestSession sessionLC2) -> {
                     // a second session/dblock-provider can lock another namespace OFFLINE_SESSIONS
                     DBLockProvider dbLock2 = new DBLockManager(sessionLC2).getDBLock();
                     dbLock2.waitForLock(DBLockProvider.Namespace.KEYCLOAK_BOOT);
@@ -141,7 +141,7 @@ public class DBLockTest extends KeycloakModelTest {
         });
     }
 
-    private void testLockConcurrentlyInternal(KeycloakSession sessionLC, DBLockProvider.Namespace lock) {
+    private void testLockConcurrentlyInternal(KeycloakRequestSession sessionLC, DBLockProvider.Namespace lock) {
         long startupTime = System.currentTimeMillis();
 
         final Semaphore semaphore = new Semaphore();
@@ -183,7 +183,7 @@ public class DBLockTest extends KeycloakModelTest {
         Assert.assertNull(semaphore.getException());
     }
 
-    private void testTwoLocksCurrentlyInternal(KeycloakSession sessionLC, DBLockProvider.Namespace lock1, DBLockProvider.Namespace lock2) {
+    private void testTwoLocksCurrentlyInternal(KeycloakRequestSession sessionLC, DBLockProvider.Namespace lock1, DBLockProvider.Namespace lock2) {
         final Semaphore semaphore = new Semaphore();
         final KeycloakSessionFactory sessionFactory = sessionLC.getKeycloakSessionFactory();
         List<Thread> threads = new LinkedList<>();
@@ -215,7 +215,7 @@ public class DBLockTest extends KeycloakModelTest {
         Assert.assertNotNull(semaphore.getException());
     }
 
-    private void testTwoNestedLocksCurrentlyInternal(KeycloakSession sessionLC, DBLockProvider.Namespace lockTop, DBLockProvider.Namespace lockInner) {
+    private void testTwoNestedLocksCurrentlyInternal(KeycloakRequestSession sessionLC, DBLockProvider.Namespace lockTop, DBLockProvider.Namespace lockInner) {
         final Semaphore semaphore = new Semaphore();
         final KeycloakSessionFactory sessionFactory = sessionLC.getKeycloakSessionFactory();
         List<Thread> threads = new LinkedList<>();
@@ -255,11 +255,11 @@ public class DBLockTest extends KeycloakModelTest {
         Assert.assertNull(semaphore.getException());
     }
 
-    private void lock(KeycloakSession session, DBLockProvider.Namespace lock, Semaphore semaphore) {
+    private void lock(KeycloakRequestSession session, DBLockProvider.Namespace lock, Semaphore semaphore) {
         this.lock(session, lock, semaphore, SLEEP_TIME_MILLIS);
     }
 
-    private void lock(KeycloakSession session, DBLockProvider.Namespace lock, Semaphore semaphore, long sleepTime) {
+    private void lock(KeycloakRequestSession session, DBLockProvider.Namespace lock, Semaphore semaphore, long sleepTime) {
         DBLockProvider dbLock = new DBLockManager(session).getDBLock();
         dbLock.waitForLock(lock);
         try {
@@ -273,7 +273,7 @@ public class DBLockTest extends KeycloakModelTest {
         }
     }
 
-    private void nestedTwoLevelLock(KeycloakSession session, DBLockProvider.Namespace lockTop,
+    private void nestedTwoLevelLock(KeycloakRequestSession session, DBLockProvider.Namespace lockTop,
             DBLockProvider.Namespace lockInner, Semaphore semaphore) {
         DBLockProvider dbLock = new DBLockManager(session).getDBLock();
         dbLock.waitForLock(lockTop);

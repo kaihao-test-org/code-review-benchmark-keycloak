@@ -22,7 +22,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -38,10 +38,10 @@ public class SecureClientAuthenticatorExecutor implements ClientPolicyExecutorPr
 
     private static final Logger logger = Logger.getLogger(SecureClientAuthenticatorExecutor.class);
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public SecureClientAuthenticatorExecutor(KeycloakSession session) {
+    public SecureClientAuthenticatorExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

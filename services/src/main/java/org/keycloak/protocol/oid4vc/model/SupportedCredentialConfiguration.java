@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.collections4.ListUtils;
 import org.keycloak.models.oid4vci.CredentialScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.Collections;
 import java.util.List;
@@ -98,7 +98,7 @@ public class SupportedCredentialConfiguration {
      *                                         for each credential
      * @return the credentials configuration that was entered into the ClientScope
      */
-    public static SupportedCredentialConfiguration parse(KeycloakSession keycloakSession,
+    public static SupportedCredentialConfiguration parse(KeycloakRequestSession keycloakSession,
                                                          CredentialScopeModel credentialScope,
                                                          List<String> globalSupportedSigningAlgorithms) {
         SupportedCredentialConfiguration credentialConfiguration = new SupportedCredentialConfiguration();

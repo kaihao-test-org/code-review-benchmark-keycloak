@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.OrganizationDomainModel;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.UserModel;
@@ -34,12 +34,12 @@ public class OrganizationAdapter implements OrganizationModel {
     private volatile boolean invalidated;
     private volatile OrganizationModel updated;
     private final Supplier<OrganizationModel> modelSupplier;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final CachedOrganization cached;
     private final Supplier<OrganizationProvider> delegate;
     private final InfinispanOrganizationProvider organizationCache;
 
-    public OrganizationAdapter(KeycloakSession session, CachedOrganization cached, Supplier<OrganizationProvider> delegate, InfinispanOrganizationProvider organizationCache) {
+    public OrganizationAdapter(KeycloakRequestSession session, CachedOrganization cached, Supplier<OrganizationProvider> delegate, InfinispanOrganizationProvider organizationCache) {
         this.session = session;
         this.cached = cached;
         this.delegate = delegate;

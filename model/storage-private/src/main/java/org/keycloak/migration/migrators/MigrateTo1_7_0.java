@@ -24,7 +24,7 @@ import org.keycloak.migration.ModelVersion;
 import org.keycloak.models.AuthenticationFlowModel;
 import org.keycloak.models.Constants;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.utils.DefaultAuthenticationFlows;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -40,7 +40,7 @@ public class MigrateTo1_7_0 implements Migration {
         return VERSION;
     }
 
-    public void migrate(KeycloakSession session) {
+    public void migrate(KeycloakRequestSession session) {
         RealmModel sessionRealm = session.getContext().getRealm();
         session.realms().getRealmsStream().forEach(realm -> {
             session.getContext().setRealm(realm);
@@ -50,14 +50,14 @@ public class MigrateTo1_7_0 implements Migration {
     }
 
     @Override
-    public void migrateImport(KeycloakSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
+    public void migrateImport(KeycloakRequestSession session, RealmModel realm, RealmRepresentation rep, boolean skipUserDependent) {
         RealmModel sessionRealm = session.getContext().getRealm();
         session.getContext().setRealm(realm);
         migrateRealm(session, realm);
         session.getContext().setRealm(sessionRealm);
     }
 
-    protected void migrateRealm(KeycloakSession session, RealmModel realm) {
+    protected void migrateRealm(KeycloakRequestSession session, RealmModel realm) {
         // Set default accessToken timeout for implicit flow
         realm.setAccessTokenLifespanForImplicitFlow(Constants.DEFAULT_ACCESS_TOKEN_LIFESPAN_FOR_IMPLICIT_FLOW_TIMEOUT);
 

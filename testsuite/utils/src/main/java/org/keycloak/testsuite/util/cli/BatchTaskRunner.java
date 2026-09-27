@@ -17,7 +17,7 @@
 
 package org.keycloak.testsuite.util.cli;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakSessionTask;
 import org.keycloak.models.utils.KeycloakModelUtils;
@@ -37,7 +37,7 @@ class BatchTaskRunner {
             KeycloakModelUtils.runJobInTransaction(sessionFactory, new KeycloakSessionTask() {
 
                 @Override
-                public void run(KeycloakSession session) {
+                public void run(KeycloakRequestSession session) {
                     batchTask.run(session, state.firstInThisBatch, state.countInThisBatch);
                 }
             });
@@ -60,7 +60,7 @@ class BatchTaskRunner {
     @FunctionalInterface
     public interface BatchTask {
 
-        void run(KeycloakSession session, int firstInThisIteration, int countInThisIteration);
+        void run(KeycloakRequestSession session, int firstInThisIteration, int countInThisIteration);
 
     }
 

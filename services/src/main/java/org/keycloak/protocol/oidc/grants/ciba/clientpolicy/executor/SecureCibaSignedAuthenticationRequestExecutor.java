@@ -27,7 +27,7 @@ import org.jboss.logging.Logger;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.grants.ciba.clientpolicy.context.BackchannelAuthenticationRequestContext;
 import org.keycloak.protocol.oidc.grants.ciba.endpoints.request.BackchannelAuthenticationEndpointRequest;
@@ -51,10 +51,10 @@ public class SecureCibaSignedAuthenticationRequestExecutor implements ClientPoli
     public static final String INVALID_REQUEST_OBJECT = "invalid_request_object";
     public static final Integer DEFAULT_AVAILABLE_PERIOD = Integer.valueOf(3600); // (sec) from FAPI-CIBA requirement
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public SecureCibaSignedAuthenticationRequestExecutor(KeycloakSession session) {
+    public SecureCibaSignedAuthenticationRequestExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

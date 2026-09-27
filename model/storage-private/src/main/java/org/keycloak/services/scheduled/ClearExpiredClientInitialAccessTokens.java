@@ -17,7 +17,7 @@
 
 package org.keycloak.services.scheduled;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.timer.ScheduledTask;
 
 /**
@@ -26,7 +26,7 @@ import org.keycloak.timer.ScheduledTask;
 public class ClearExpiredClientInitialAccessTokens implements ScheduledTask {
 
     @Override
-    public void run(KeycloakSession session) {
+    public void run(KeycloakRequestSession session) {
         session.realms().removeExpiredClientInitialAccess();
     }
 }

@@ -19,7 +19,7 @@ package org.keycloak.services.scheduled;
 
 import org.jboss.logging.Logger;
 import org.keycloak.logging.MappedDiagnosticContextUtil;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.timer.ScheduledTask;
@@ -58,7 +58,7 @@ public class ScheduledTaskRunner implements TaskRunner {
                 KeycloakModelUtils.runJobInTransaction(sessionFactory, new NamedSessionTask("Scheduled task: " + task.getTaskName()) {
 
                     @Override
-                    public void run(KeycloakSession session) {
+                    public void run(KeycloakRequestSession session) {
                         try {
                             if (transactionLimit != 0) {
                                 KeycloakModelUtils.setTransactionLimit(sessionFactory, transactionLimit);
@@ -81,7 +81,7 @@ public class ScheduledTaskRunner implements TaskRunner {
         }
     }
 
-    protected void runTask(KeycloakSession session) {
+    protected void runTask(KeycloakRequestSession session) {
         task.run(session);
 
         logger.debugf("Executed scheduled task %s", task.getTaskName());

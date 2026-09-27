@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.SingleUseObjectProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -49,7 +49,7 @@ public class SingleUseProviderTest extends AbstractTestRealmKeycloakTest {
 
     @Test
     @ModelTest
-    public void testConcurrentRemoveFromSingleUseCacheShouldFail(KeycloakSession session) throws Exception {
+    public void testConcurrentRemoveFromSingleUseCacheShouldFail(KeycloakRequestSession session) throws Exception {
         Map<Integer, Tracker> tracker = new ConcurrentHashMap<>();
 
         // Add some items to singleUse cache

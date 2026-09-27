@@ -19,7 +19,7 @@ package org.keycloak.services.managers;
 
 import jakarta.ws.rs.core.UriInfo;
 import org.keycloak.common.ClientConnection;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.Provider;
@@ -35,9 +35,9 @@ public interface BruteForceProtector extends Provider {
 
     void successfulLogin(RealmModel realm, UserModel user, ClientConnection clientConnection, UriInfo uriInfo);
 
-    boolean isTemporarilyDisabled(KeycloakSession session, RealmModel realm, UserModel user);
+    boolean isTemporarilyDisabled(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
-    boolean isPermanentlyLockedOut(KeycloakSession session, RealmModel realm, UserModel user);
+    boolean isPermanentlyLockedOut(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
     /**
      * Clears any remaining traces of the permanent lockout. Does not enable the user as such!
@@ -45,5 +45,5 @@ public interface BruteForceProtector extends Provider {
      * @param realm
      * @param user
      */
-    void cleanUpPermanentLockout(KeycloakSession session, RealmModel realm, UserModel user);
+    void cleanUpPermanentLockout(KeycloakRequestSession session, RealmModel realm, UserModel user);
 }

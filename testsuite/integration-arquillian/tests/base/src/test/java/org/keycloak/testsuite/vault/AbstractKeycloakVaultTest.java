@@ -19,7 +19,7 @@ package org.keycloak.testsuite.vault;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.testsuite.AbstractKeycloakTest;
 import org.keycloak.testsuite.runonserver.RunOnServer;
@@ -55,7 +55,7 @@ public abstract class AbstractKeycloakVaultTest extends AbstractKeycloakTest {
         }
 
         @Override
-        public void run(KeycloakSession session) {
+        public void run(KeycloakRequestSession session) {
             VaultTranscriber transcriber = getVaultTranscriber(session);
             // obtain an existing secret from the vault.
             Optional<String> optional = getSecret(transcriber, testKey);
@@ -79,7 +79,7 @@ public abstract class AbstractKeycloakVaultTest extends AbstractKeycloakTest {
     }
 
     @NotNull
-    private static VaultTranscriber getVaultTranscriber(KeycloakSession session) throws RuntimeException {
+    private static VaultTranscriber getVaultTranscriber(KeycloakRequestSession session) throws RuntimeException {
         return session.vault();
     }
 }

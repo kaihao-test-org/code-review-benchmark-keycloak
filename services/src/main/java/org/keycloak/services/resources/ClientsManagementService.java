@@ -28,7 +28,7 @@ import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.utils.AuthorizeClientUtil;
 import org.keycloak.representations.idm.OAuth2ErrorRepresentation;
@@ -62,9 +62,9 @@ public class ClientsManagementService {
 
     private final ClientConnection clientConnection;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
-    public ClientsManagementService(KeycloakSession session, EventBuilder event) {
+    public ClientsManagementService(KeycloakRequestSession session, EventBuilder event) {
         this.session = session;
         this.clientConnection = session.getContext().getConnection();
         this.realm = session.getContext().getRealm();

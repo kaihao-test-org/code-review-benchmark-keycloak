@@ -17,7 +17,7 @@
 
 package org.keycloak.testsuite.model.util;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.KeycloakTransactionManager;
 
@@ -40,7 +40,7 @@ import java.util.function.Function;
  * acquire the same lock repeatedly.
  */
 public class TransactionController implements AutoCloseable {
-    private final AtomicReference<KeycloakSession> session = new AtomicReference<>();
+    private final AtomicReference<KeycloakRequestSession> session = new AtomicReference<>();
     private final ExecutorService executor;
     private final AtomicReference<String> threadName = new AtomicReference<>();
 
@@ -75,7 +75,7 @@ public class TransactionController implements AutoCloseable {
         executeAndWaitUntilFinished(() -> getTransactionManager().rollback());
     }
 
-    public <R> R runStep(Function<KeycloakSession, R> task) {
+    public <R> R runStep(Function<KeycloakRequestSession, R> task) {
         AtomicReference<R> result = new AtomicReference<>();
         executeAndWaitUntilFinished(() -> result.set(task.apply(session.get())));
         return result.get();

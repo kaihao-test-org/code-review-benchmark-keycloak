@@ -18,7 +18,7 @@
 package org.keycloak.authentication;
 
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.provider.Provider;
@@ -70,13 +70,13 @@ public interface FormAction extends Provider {
      * @param user
      * @return
      */
-    boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user);
+    boolean configuredFor(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
     /**
      * Set actions to configure authenticator
      *
      */
-    void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user);
+    void setRequiredActions(KeycloakRequestSession session, RealmModel realm, UserModel user);
 
 
 }

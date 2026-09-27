@@ -17,7 +17,7 @@
 
 package org.keycloak.policy;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -30,9 +30,9 @@ import java.util.List;
  */
 public class DefaultPasswordPolicyManagerProvider implements PasswordPolicyManagerProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
 
-    public DefaultPasswordPolicyManagerProvider(KeycloakSession session) {
+    public DefaultPasswordPolicyManagerProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 
@@ -62,12 +62,12 @@ public class DefaultPasswordPolicyManagerProvider implements PasswordPolicyManag
     public void close() {
     }
 
-    private List<PasswordPolicyProvider> getProviders(KeycloakSession session) {
+    private List<PasswordPolicyProvider> getProviders(KeycloakRequestSession session) {
         return getProviders(session.getContext().getRealm(), session);
 
     }
 
-    private List<PasswordPolicyProvider> getProviders(RealmModel realm, KeycloakSession session) {
+    private List<PasswordPolicyProvider> getProviders(RealmModel realm, KeycloakRequestSession session) {
         LinkedList<PasswordPolicyProvider> list = new LinkedList<>();
         PasswordPolicy policy = realm.getPasswordPolicy();
         for (String id : policy.getPolicies()) {

@@ -26,7 +26,7 @@ import org.keycloak.common.constants.ServiceAccountConstants;
 import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.ClientScopeModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserManager;
 import org.keycloak.models.UserModel;
@@ -78,7 +78,7 @@ public class ClientManager {
      * @param rep
      * @return
      */
-    public static ClientModel createClient(KeycloakSession session, RealmModel realm, ClientRepresentation rep) {
+    public static ClientModel createClient(KeycloakRequestSession session, RealmModel realm, ClientRepresentation rep) {
 
         ClientModel client = RepresentationToModel.createClient(session, realm, rep);
 

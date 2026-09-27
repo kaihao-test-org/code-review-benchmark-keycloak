@@ -42,7 +42,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.OrganizationModel;
 import org.keycloak.models.RealmModel;
@@ -58,11 +58,11 @@ import org.keycloak.services.resources.admin.AdminEventBuilder;
 public class OrganizationIdentityProvidersResource {
 
     private final RealmModel realm;
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final OrganizationProvider organizationProvider;
     private final OrganizationModel organization;
 
-    public OrganizationIdentityProvidersResource(KeycloakSession session, OrganizationModel organization, AdminEventBuilder adminEvent) {
+    public OrganizationIdentityProvidersResource(KeycloakRequestSession session, OrganizationModel organization, AdminEventBuilder adminEvent) {
         this.realm = session == null ? null : session.getContext().getRealm();
         this.session = session;
         this.organizationProvider = session == null ? null : session.getProvider(OrganizationProvider.class);

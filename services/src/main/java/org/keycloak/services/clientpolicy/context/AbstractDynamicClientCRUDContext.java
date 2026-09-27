@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.context;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.representations.JsonWebToken;
@@ -29,7 +29,7 @@ abstract class AbstractDynamicClientCRUDContext implements ClientCRUDContext {
     private ClientModel authenticatedClient;
     private UserModel authenticatedUser;
 
-    public AbstractDynamicClientCRUDContext(KeycloakSession session, JsonWebToken token, RealmModel realm) {
+    public AbstractDynamicClientCRUDContext(KeycloakRequestSession session, JsonWebToken token, RealmModel realm) {
         this.token = token;
         if (token == null) {
             return;

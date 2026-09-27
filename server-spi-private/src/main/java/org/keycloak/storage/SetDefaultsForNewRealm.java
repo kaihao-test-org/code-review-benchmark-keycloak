@@ -17,7 +17,7 @@
 
 package org.keycloak.storage;
 
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderEvent;
 
@@ -27,20 +27,20 @@ import org.keycloak.provider.ProviderEvent;
  * @author Alexander Schwartz
  */
 public class SetDefaultsForNewRealm implements ProviderEvent {
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final RealmModel realmModel;
 
-    public SetDefaultsForNewRealm(KeycloakSession session, RealmModel realmModel) {
+    public SetDefaultsForNewRealm(KeycloakRequestSession session, RealmModel realmModel) {
         this.session = session;
         this.realmModel = realmModel;
     }
 
-    public static void fire(KeycloakSession session, RealmModel realm) {
+    public static void fire(KeycloakRequestSession session, RealmModel realm) {
         SetDefaultsForNewRealm event = new SetDefaultsForNewRealm(session, realm);
         session.getKeycloakSessionFactory().publish(event);
     }
 
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

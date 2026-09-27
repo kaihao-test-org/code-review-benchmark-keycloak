@@ -32,7 +32,7 @@ import org.keycloak.client.clienttype.ClientTypeException;
 import org.keycloak.client.clienttype.ClientTypeManager;
 import org.keycloak.client.clienttype.ClientTypeProvider;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.ClientTypeRepresentation;
 import org.keycloak.representations.idm.ClientTypesRepresentation;
@@ -49,10 +49,10 @@ public class DefaultClientTypeManager implements ClientTypeManager {
     // Realm attribute where are client types saved
     private static final String CLIENT_TYPE_REALM_ATTRIBUTE = "client-types";
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private final List<ClientTypeRepresentation> globalClientTypes;
 
-    public DefaultClientTypeManager(KeycloakSession session, List<ClientTypeRepresentation> globalClientTypes) {
+    public DefaultClientTypeManager(KeycloakRequestSession session, List<ClientTypeRepresentation> globalClientTypes) {
         this.session = session;
         this.globalClientTypes = globalClientTypes;
     }
@@ -129,7 +129,7 @@ public class DefaultClientTypeManager implements ClientTypeManager {
         }
     }
 
-    static List<ClientTypeRepresentation> validateAndCastConfiguration(KeycloakSession session, List<ClientTypeRepresentation> clientTypes, List<ClientTypeRepresentation> globalTypes) {
+    static List<ClientTypeRepresentation> validateAndCastConfiguration(KeycloakRequestSession session, List<ClientTypeRepresentation> clientTypes, List<ClientTypeRepresentation> globalTypes) {
         Set<String> usedNames = globalTypes.stream()
                 .map(ClientTypeRepresentation::getName)
                 .collect(Collectors.toSet());
@@ -141,7 +141,7 @@ public class DefaultClientTypeManager implements ClientTypeManager {
 
 
     // TODO:client-types some javadoc or comment about how this method works
-    private static ClientTypeRepresentation validateAndCastConfiguration(KeycloakSession session, ClientTypeRepresentation clientType, Set<String> currentNames) {
+    private static ClientTypeRepresentation validateAndCastConfiguration(KeycloakRequestSession session, ClientTypeRepresentation clientType, Set<String> currentNames) {
         ClientTypeProvider clientTypeProvider = session.getProvider(ClientTypeProvider.class, clientType.getProvider());
         if (clientTypeProvider == null) {
             logger.errorf("Did not find client type provider '%s' for the client type '%s'", clientType.getProvider(), clientType.getName());

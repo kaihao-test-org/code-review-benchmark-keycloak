@@ -21,7 +21,7 @@ import org.jboss.resteasy.reactive.NoCache;
 import org.keycloak.http.HttpRequest;
 import org.keycloak.http.HttpResponse;
 import org.keycloak.common.util.PemUtils;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.OIDCLoginProtocolService;
 import org.keycloak.representations.idm.PublishedRealmRepresentation;
@@ -49,11 +49,11 @@ public class PublicRealmResource {
 
     protected final HttpResponse response;
 
-    protected final KeycloakSession session;
+    protected final KeycloakRequestSession session;
 
     protected final RealmModel realm;
 
-    public PublicRealmResource(KeycloakSession session) {
+    public PublicRealmResource(KeycloakRequestSession session) {
         this.session = session;
         this.realm = session.getContext().getRealm();
         this.request = session.getContext().getHttpRequest();
@@ -84,7 +84,7 @@ public class PublicRealmResource {
         return realmRep(session, realm, session.getContext().getUri());
     }
 
-    public static PublishedRealmRepresentation realmRep(KeycloakSession session, RealmModel realm, UriInfo uriInfo) {
+    public static PublishedRealmRepresentation realmRep(KeycloakRequestSession session, RealmModel realm, UriInfo uriInfo) {
         PublishedRealmRepresentation rep = new PublishedRealmRepresentation();
         rep.setRealm(realm.getName());
         rep.setTokenServiceUrl(OIDCLoginProtocolService.tokenServiceBaseUrl(uriInfo).build(realm.getName()).toString());

@@ -18,7 +18,7 @@
 package org.keycloak.services.clientpolicy.executor;
 
 import org.keycloak.Config.Scope;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 
@@ -35,7 +35,7 @@ public class HolderOfKeyEnforcerExecutorFactory implements ClientPolicyExecutorP
             AUTO_CONFIGURE, "Auto-configure", "If On, then the during client creation or update, the configuration of the client will be auto-configured to use MTLS HoK token", ProviderConfigProperty.BOOLEAN_TYPE, false);
 
     @Override
-    public ClientPolicyExecutorProvider create(KeycloakSession session) {
+    public ClientPolicyExecutorProvider create(KeycloakRequestSession session) {
         return new HolderOfKeyEnforcerExecutor(session);
     }
 

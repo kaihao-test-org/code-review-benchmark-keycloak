@@ -18,21 +18,21 @@
 package org.keycloak.validation;
 
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.oidc.OIDCClientRepresentation;
 
 /**
  * @author Vaclav Muzikar <vmuzikar@redhat.com>
  */
 public class ClientValidationContext extends DefaultValidationContext<ClientModel> {
-    public ClientValidationContext(Event event, KeycloakSession session, ClientModel objectToValidate) {
+    public ClientValidationContext(Event event, KeycloakRequestSession session, ClientModel objectToValidate) {
         super(event, session, objectToValidate);
     }
 
     public static class OIDCContext extends ClientValidationContext {
         private final OIDCClientRepresentation oidcClient;
 
-        public OIDCContext(Event event, KeycloakSession session, ClientModel objectToValidate, OIDCClientRepresentation oidcClient) {
+        public OIDCContext(Event event, KeycloakRequestSession session, ClientModel objectToValidate, OIDCClientRepresentation oidcClient) {
             super(event, session, objectToValidate);
             this.oidcClient = oidcClient;
         }

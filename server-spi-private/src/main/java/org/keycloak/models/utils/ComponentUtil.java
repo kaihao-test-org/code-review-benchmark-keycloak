@@ -20,7 +20,7 @@ package org.keycloak.models.utils;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentFactory;
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserProvider;
 import org.keycloak.provider.Provider;
@@ -41,23 +41,23 @@ public class ComponentUtil {
 
     private static final Logger logger = Logger.getLogger(ComponentUtil.class);
 
-    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakSession session, ComponentRepresentation component) {
+    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakRequestSession session, ComponentRepresentation component) {
         return getComponentConfigProperties(session, component.getProviderType(), component.getProviderId());
     }
 
-    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakSession session, ComponentModel component) {
+    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakRequestSession session, ComponentModel component) {
         return getComponentConfigProperties(session, component.getProviderType(), component.getProviderId());
     }
 
-    public static ComponentFactory getComponentFactory(KeycloakSession session, ComponentRepresentation component) {
+    public static ComponentFactory getComponentFactory(KeycloakRequestSession session, ComponentRepresentation component) {
         return getComponentFactory(session, component.getProviderType(), component.getProviderId());
     }
 
-    public static ComponentFactory getComponentFactory(KeycloakSession session, ComponentModel component) {
+    public static ComponentFactory getComponentFactory(KeycloakRequestSession session, ComponentModel component) {
         return getComponentFactory(session, component.getProviderType(), component.getProviderId());
     }
 
-    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakSession session, String providerType, String providerId) {
+    public static Map<String, ProviderConfigProperty> getComponentConfigProperties(KeycloakRequestSession session, String providerType, String providerId) {
         try {
             ComponentFactory componentFactory = getComponentFactory(session, providerType, providerId);
             List<ProviderConfigProperty> l = componentFactory.getConfigProperties();
@@ -76,7 +76,7 @@ public class ComponentUtil {
         }
     }
 
-    private static ComponentFactory getComponentFactory(KeycloakSession session, String providerType, String providerId) {
+    private static ComponentFactory getComponentFactory(KeycloakRequestSession session, String providerType, String providerId) {
         Class<? extends Provider> provider = session.getProviderClass(providerType);
         if (provider == null) {
             throw new IllegalArgumentException("Invalid provider type '" + providerType + "'");
@@ -91,7 +91,7 @@ public class ComponentUtil {
         return cf;
     }
 
-    public static void notifyCreated(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public static void notifyCreated(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         ComponentFactory factory = getComponentFactory(session, model);
         factory.onCreate(session, realm, model);
         UserProvider users = session.users();
@@ -99,7 +99,7 @@ public class ComponentUtil {
             ((OnCreateComponent) users).onCreate(session, realm, model);
         }
     }
-    public static void notifyUpdated(KeycloakSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
+    public static void notifyUpdated(KeycloakRequestSession session, RealmModel realm, ComponentModel oldModel, ComponentModel newModel) {
         ComponentFactory factory = getComponentFactory(session, newModel);
         factory.onUpdate(session, realm, oldModel, newModel);
         UserProvider users = session.users();
@@ -107,7 +107,7 @@ public class ComponentUtil {
             ((OnUpdateComponent) users).onUpdate(session, realm, oldModel, newModel);
         }
     }
-    public static void notifyPreRemove(KeycloakSession session, RealmModel realm, ComponentModel model) {
+    public static void notifyPreRemove(KeycloakRequestSession session, RealmModel realm, ComponentModel model) {
         try {
             ComponentFactory factory = getComponentFactory(session, model);
             factory.preRemove(session, realm, model);

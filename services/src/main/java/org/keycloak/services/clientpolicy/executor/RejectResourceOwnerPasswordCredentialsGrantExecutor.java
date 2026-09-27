@@ -20,7 +20,7 @@ package org.keycloak.services.clientpolicy.executor;
 import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.keycloak.OAuthErrorException;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.representations.idm.ClientPolicyExecutorConfigurationRepresentation;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.services.clientpolicy.ClientPolicyContext;
@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RejectResourceOwnerPasswordCredentialsGrantExecutor implements ClientPolicyExecutorProvider<RejectResourceOwnerPasswordCredentialsGrantExecutor.Configuration> {
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     private Configuration configuration;
 
-    public RejectResourceOwnerPasswordCredentialsGrantExecutor(KeycloakSession session) {
+    public RejectResourceOwnerPasswordCredentialsGrantExecutor(KeycloakRequestSession session) {
         this.session = session;
     }
 

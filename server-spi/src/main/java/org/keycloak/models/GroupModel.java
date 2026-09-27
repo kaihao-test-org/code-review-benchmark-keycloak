@@ -60,11 +60,11 @@ public interface GroupModel extends RoleMapperModel {
     interface GroupEvent extends ProviderEvent {
         RealmModel getRealm();
         GroupModel getGroup();
-        KeycloakSession getKeycloakSession();
+        KeycloakRequestSession getKeycloakSession();
     }
 
     interface GroupCreatedEvent extends GroupEvent {
-        static void fire(GroupModel group, KeycloakSession session) {
+        static void fire(GroupModel group, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new GroupCreatedEvent() {
                 @Override
                 public RealmModel getRealm() {
@@ -77,7 +77,7 @@ public interface GroupModel extends RoleMapperModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });
@@ -89,7 +89,7 @@ public interface GroupModel extends RoleMapperModel {
     }
 
     interface GroupUpdatedEvent extends GroupEvent {
-        static void fire(GroupModel group, KeycloakSession session) {
+        static void fire(GroupModel group, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new GroupUpdatedEvent() {
                 @Override
                 public RealmModel getRealm() {
@@ -102,7 +102,7 @@ public interface GroupModel extends RoleMapperModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });
@@ -110,7 +110,7 @@ public interface GroupModel extends RoleMapperModel {
     }
 
     interface GroupMemberJoinEvent extends GroupEvent {
-        static void fire(GroupModel group, KeycloakSession session) {
+        static void fire(GroupModel group, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new GroupMemberJoinEvent() {
                 @Override
                 public RealmModel getRealm() {
@@ -123,7 +123,7 @@ public interface GroupModel extends RoleMapperModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });
@@ -131,7 +131,7 @@ public interface GroupModel extends RoleMapperModel {
     }
 
     interface GroupMemberLeaveEvent extends GroupEvent {
-        static void fire(GroupModel group, KeycloakSession session) {
+        static void fire(GroupModel group, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new GroupMemberLeaveEvent() {
                 @Override
                 public RealmModel getRealm() {
@@ -144,7 +144,7 @@ public interface GroupModel extends RoleMapperModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
             });
@@ -155,7 +155,7 @@ public interface GroupModel extends RoleMapperModel {
         String getNewPath();
         String getPreviousPath();
 
-        static void fire(GroupModel group, String newPath, String previousPath, KeycloakSession session) {
+        static void fire(GroupModel group, String newPath, String previousPath, KeycloakRequestSession session) {
             session.getKeycloakSessionFactory().publish(new GroupPathChangeEvent() {
                 @Override
                 public RealmModel getRealm() {
@@ -168,7 +168,7 @@ public interface GroupModel extends RoleMapperModel {
                 }
 
                 @Override
-                public KeycloakSession getKeycloakSession() {
+                public KeycloakRequestSession getKeycloakSession() {
                     return session;
                 }
 

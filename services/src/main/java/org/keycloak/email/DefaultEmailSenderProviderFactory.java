@@ -18,7 +18,7 @@
 package org.keycloak.email;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 import java.util.Map;
@@ -32,7 +32,7 @@ public class DefaultEmailSenderProviderFactory implements EmailSenderProviderFac
     private final Map<EmailAuthenticator.AuthenticatorType, EmailAuthenticator> emailAuthenticators = new ConcurrentHashMap<>();
 
     @Override
-    public EmailSenderProvider create(KeycloakSession session) {
+    public EmailSenderProvider create(KeycloakRequestSession session) {
         return new DefaultEmailSenderProvider(session, emailAuthenticators);
     }
 

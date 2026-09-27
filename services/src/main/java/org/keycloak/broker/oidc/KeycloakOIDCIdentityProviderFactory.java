@@ -18,7 +18,7 @@ package org.keycloak.broker.oidc;
 
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class KeycloakOIDCIdentityProviderFactory extends AbstractIdentityProvide
     }
 
     @Override
-    public KeycloakOIDCIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public KeycloakOIDCIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new KeycloakOIDCIdentityProvider(session, new OIDCIdentityProviderConfig(model));
     }
 
@@ -45,7 +45,7 @@ public class KeycloakOIDCIdentityProviderFactory extends AbstractIdentityProvide
     }
 
     @Override
-    public Map<String, String> parseConfig(KeycloakSession session, String config) {
+    public Map<String, String> parseConfig(KeycloakRequestSession session, String config) {
         return OIDCIdentityProviderFactory.parseOIDCConfig(session, config);
     }
 

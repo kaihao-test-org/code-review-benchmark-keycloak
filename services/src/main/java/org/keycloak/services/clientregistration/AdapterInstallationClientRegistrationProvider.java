@@ -20,7 +20,7 @@ package org.keycloak.services.clientregistration;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.services.managers.ClientManager;
 import org.keycloak.services.managers.RealmManager;
 
@@ -36,11 +36,11 @@ import jakarta.ws.rs.core.Response;
  */
 public class AdapterInstallationClientRegistrationProvider implements ClientRegistrationProvider {
 
-    private KeycloakSession session;
+    private KeycloakRequestSession session;
     private EventBuilder event;
     private ClientRegistrationAuth auth;
 
-    public AdapterInstallationClientRegistrationProvider(KeycloakSession session) {
+    public AdapterInstallationClientRegistrationProvider(KeycloakRequestSession session) {
         this.session = session;
     }
 

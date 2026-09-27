@@ -62,7 +62,7 @@ import org.keycloak.infinispan.util.InfinispanUtils;
 import org.keycloak.jgroups.protocol.KEYCLOAK_JDBC_PING2;
 import org.keycloak.jgroups.protocol.OPEN_TELEMETRY;
 import org.keycloak.jgroups.header.TracerHeader;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 import org.keycloak.spi.infinispan.JGroupsCertificateProvider;
@@ -93,9 +93,9 @@ public final class JGroupsConfigurator {
      *
      * @param config  The Keycloak configuration.
      * @param holder  The {@link ConfigurationBuilderHolder} where the transport is configured.
-     * @param session The {@link KeycloakSession} sessions for Database access.
+     * @param session The {@link KeycloakRequestSession} sessions for Database access.
      */
-    public static void configureJGroups(Config.Scope config, ConfigurationBuilderHolder holder, KeycloakSession session) {
+    public static void configureJGroups(Config.Scope config, ConfigurationBuilderHolder holder, KeycloakRequestSession session) {
         var stack = config.get(DefaultCacheEmbeddedConfigProviderFactory.STACK);
         if (stack != null) {
             transportOf(holder).stack(stack);
@@ -151,7 +151,7 @@ public final class JGroupsConfigurator {
         Arrays.stream(SystemProperties.values()).forEach(p -> p.set(config));
     }
 
-    private static void configureTls(ConfigurationBuilderHolder holder, KeycloakSession session) {
+    private static void configureTls(ConfigurationBuilderHolder holder, KeycloakRequestSession session) {
         var provider = session.getProvider(JGroupsCertificateProvider.class);
         if (provider == null || !provider.isEnabled()) {
             return;
@@ -182,7 +182,7 @@ public final class JGroupsConfigurator {
         return socketFactory;
     }
 
-    private static void configureDiscovery(ConfigurationBuilderHolder holder, KeycloakSession session, boolean tracingEnabled) {
+    private static void configureDiscovery(ConfigurationBuilderHolder holder, KeycloakRequestSession session, boolean tracingEnabled) {
         var stackXmlAttribute = transportStackOf(holder);
         if (stackXmlAttribute.isModified() && !isJdbcPingStack(stackXmlAttribute.get())) {
             logger.debugf("Custom stack configured (%s). JDBC_PING discovery disabled.", stackXmlAttribute.get());

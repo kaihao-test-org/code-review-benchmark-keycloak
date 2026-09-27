@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.provider.ProviderConfigProperty;
@@ -42,7 +42,7 @@ public class ProtocolMappersClientRegistrationPolicyFactory extends AbstractClie
     public static final String ALLOWED_PROTOCOL_MAPPER_TYPES = "allowed-protocol-mapper-types";
 
     @Override
-    public ClientRegistrationPolicy create(KeycloakSession session, ComponentModel model) {
+    public ClientRegistrationPolicy create(KeycloakRequestSession session, ComponentModel model) {
         return new ProtocolMappersClientRegistrationPolicy(session, model);
     }
 

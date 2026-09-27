@@ -28,7 +28,7 @@ import org.keycloak.models.ClientScopeModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.IdentityProviderModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.ProtocolMapperModel;
@@ -94,11 +94,11 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore, JpaUs
     private static final String LAST_NAME = "lastName";
     private static final char ESCAPE_BACKSLASH = '\\';
 
-    private final KeycloakSession session;
+    private final KeycloakRequestSession session;
     protected EntityManager em;
     private final JpaUserCredentialStore credentialStore;
 
-    public JpaUserProvider(KeycloakSession session, EntityManager em) {
+    public JpaUserProvider(KeycloakRequestSession session, EntityManager em) {
         this.session = session;
         this.em = em;
         credentialStore = new JpaUserCredentialStore(session, em);
@@ -1099,7 +1099,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore, JpaUs
     }
 
     @Override
-    public KeycloakSession getSession() {
+    public KeycloakRequestSession getSession() {
         return session;
     }
 

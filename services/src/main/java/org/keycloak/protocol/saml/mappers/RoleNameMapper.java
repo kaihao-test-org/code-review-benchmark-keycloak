@@ -19,7 +19,7 @@ package org.keycloak.protocol.saml.mappers;
 
 import org.keycloak.Config;
 import org.keycloak.models.ClientModel;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.RoleContainerModel;
@@ -137,7 +137,7 @@ public class RoleNameMapper implements SAMLRoleNameMapper, ProtocolMapper {
     }
 
     @Override
-    public final ProtocolMapper create(KeycloakSession session) {
+    public final ProtocolMapper create(KeycloakRequestSession session) {
         throw new RuntimeException("UNSUPPORTED METHOD");
     }
 

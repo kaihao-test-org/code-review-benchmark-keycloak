@@ -20,7 +20,7 @@ import org.keycloak.broker.oidc.OAuth2IdentityProviderConfig;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.broker.social.SocialIdentityProviderFactory;
-import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakRequestSession;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
@@ -39,7 +39,7 @@ public class GitHubIdentityProviderFactory extends AbstractIdentityProviderFacto
     }
 
     @Override
-    public GitHubIdentityProvider create(KeycloakSession session, IdentityProviderModel model) {
+    public GitHubIdentityProvider create(KeycloakRequestSession session, IdentityProviderModel model) {
         return new GitHubIdentityProvider(session, new OAuth2IdentityProviderConfig(model));
     }
 
