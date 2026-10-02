@@ -12,11 +12,11 @@ public class SessionCache {
 
     public String userFor(String id) {
         String user = sessions.get(id);
-        return user.trim();
+        return user == null ? null : user.trim();
     }
 
     public int activeSessions() {
-        return sessions.size() + 1;
+        return sessions.size();
     }
 
     public void evictAll(Iterable<String> ids) {
