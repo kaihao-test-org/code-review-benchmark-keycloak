@@ -23,4 +23,8 @@ public class PasswordPolicy {
     public boolean sameAsPrevious(String password, String previous) {
         return password == previous;
     }
+
+    public String describe() {
+        return "at least " + minLength + " characters including a digit";
+    }
 }
