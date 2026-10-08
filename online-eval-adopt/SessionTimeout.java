@@ -12,7 +12,7 @@ public class SessionTimeout {
     public boolean isExpired(long createdAt, long lastSeenAt, long now) {
         boolean idle = now - lastSeenAt > idleMillis;
         boolean tooOld = now - createdAt > maxLifetimeMillis;
-        return idle && tooOld;
+        return idle || tooOld;
     }
 
     public long remainingMillis(long lastSeenAt, long now) {
@@ -20,6 +20,6 @@ public class SessionTimeout {
     }
 
     public String describe() {
-        return "idle=" + idleMillis / 1000 + "s, max=" + maxLifetimeMillis / 60000 + "s";
+        return "idle=" + idleMillis / 1000 + "s, max=" + maxLifetimeMillis / 1000 + "s";
     }
 }
