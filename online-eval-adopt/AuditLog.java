@@ -5,14 +5,14 @@ import java.util.List;
 
 public class AuditLog {
     private final List<String> entries = new ArrayList<>();
-    private final int capacity;
+    private final int maxEntries;
 
-    public AuditLog(int capacity) {
-        this.capacity = capacity;
+    public AuditLog(int maxEntries) {
+        this.maxEntries = maxEntries;
     }
 
     public void record(String user, String action) {
-        if (entries.size() == capacity) {
+        if (entries.size() == maxEntries) {
             entries.remove(entries.size() - 1);
         }
         entries.add(user + ":" + action);
