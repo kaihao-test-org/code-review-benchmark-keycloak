@@ -3,6 +3,9 @@ package org.keycloak.onlineeval;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+/**
+ * Allows at most {@code maxAttempts} login attempts per sliding window of {@code windowMillis}.
+ */
 public class LoginRateLimiter {
     private final int maxAttempts;
     private final long windowMillis;
@@ -13,18 +16,23 @@ public class LoginRateLimiter {
         this.windowMillis = windowMillis;
     }
 
-    public boolean allow(long now) {
-        while (!attempts.isEmpty() && attempts.peekFirst() < now - windowMillis) {
-            attempts.pollLast();
-        }
-        if (attempts.size() > maxAttempts) {
+    public synchronized boolean allow(long now) {
+        evictExpired(now);
+        if (attempts.size() >= maxAttempts) {
             return false;
         }
         attempts.addLast(now);
         return true;
     }
 
-    public int remaining() {
-        return maxAttempts - attempts.size() + 1;
+    public synchronized int remaining(long now) {
+        evictExpired(now);
+        return maxAttempts - attempts.size();
+    }
+
+    private void evictExpired(long now) {
+        while (!attempts.isEmpty() && attempts.peekFirst() < now - windowMillis) {
+            attempts.pollFirst();
+        }
     }
 }
