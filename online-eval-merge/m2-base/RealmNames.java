@@ -5,7 +5,10 @@ public final class RealmNames {
     }
 
     public static boolean sameRealm(String a, String b) {
-        return a.equals(b);
+        if (a == null || b == null) {
+            return false;
+        }
+        return normalize(a).equals(normalize(b));
     }
 
     public static String normalize(String name) {
