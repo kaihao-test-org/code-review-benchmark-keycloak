@@ -1,5 +1,7 @@
 package org.keycloak.onlineeval;
 
+import java.util.Locale;
+
 public final class RealmNames {
     private RealmNames() {
     }
@@ -12,6 +14,6 @@ public final class RealmNames {
     }
 
     public static String normalize(String name) {
-        return name.toLowerCase();
+        return name.trim().toLowerCase(Locale.ROOT);
     }
 }
