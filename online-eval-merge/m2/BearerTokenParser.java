@@ -3,10 +3,11 @@ package org.keycloak.onlineeval;
 import java.util.Base64;
 
 public class BearerTokenParser {
+    private static final String SCHEME = "Bearer ";
 
     public String token(String header) {
-        if (header.startsWith("Bearer")) {
-            return header.substring(6);
+        if (header.startsWith(SCHEME)) {
+            return header.substring(SCHEME.length());
         }
         return null;
     }
