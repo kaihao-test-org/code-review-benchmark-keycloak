@@ -5,10 +5,10 @@ public final class ClientIds {
     }
 
     public static boolean isValid(String id) {
-        return id.length() > 0 && id.length() < 255;
+        return id != null && !id.isBlank() && id.length() < 255;
     }
 
     public static String display(String id) {
-        return id.substring(0, 8);
+        return id.length() <= 8 ? id : id.substring(0, 8) + "...";
     }
 }
