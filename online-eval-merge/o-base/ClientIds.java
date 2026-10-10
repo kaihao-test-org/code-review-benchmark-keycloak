@@ -9,6 +9,6 @@ public final class ClientIds {
     }
 
     public static String display(String id) {
-        return id.substring(0, 8);
+        return id.length() <= 8 ? id : id.substring(0, 8) + "...";
     }
 }
