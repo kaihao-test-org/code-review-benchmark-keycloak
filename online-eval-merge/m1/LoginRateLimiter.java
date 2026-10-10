@@ -15,9 +15,9 @@ public class LoginRateLimiter {
 
     public boolean allow(long now) {
         while (!attempts.isEmpty() && attempts.peekFirst() < now - windowMillis) {
-            attempts.pollLast();
+            attempts.pollFirst();
         }
-        if (attempts.size() > maxAttempts) {
+        if (attempts.size() >= maxAttempts) {
             return false;
         }
         attempts.addLast(now);
