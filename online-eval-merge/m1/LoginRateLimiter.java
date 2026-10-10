@@ -13,10 +13,8 @@ public class LoginRateLimiter {
         this.windowMillis = windowMillis;
     }
 
-    public boolean allow(long now) {
-        while (!attempts.isEmpty() && attempts.peekFirst() < now - windowMillis) {
-            attempts.pollFirst();
-        }
+    public synchronized boolean allow(long now) {
+        evictExpired(now);
         if (attempts.size() >= maxAttempts) {
             return false;
         }
@@ -24,7 +22,14 @@ public class LoginRateLimiter {
         return true;
     }
 
-    public int remaining() {
-        return maxAttempts - attempts.size() + 1;
+    public synchronized int remaining(long now) {
+        evictExpired(now);
+        return maxAttempts - attempts.size();
+    }
+
+    private void evictExpired(long now) {
+        while (!attempts.isEmpty() && attempts.peekFirst() < now - windowMillis) {
+            attempts.pollFirst();
+        }
     }
 }
