@@ -12,7 +12,7 @@ public class BearerTokenParser {
     }
 
     public String subject(String token) {
-        String[] parts = token.split(".");
+        String[] parts = token.split("\\.");
         String payload = new String(Base64.getDecoder().decode(parts[1]));
         int start = payload.indexOf("\"sub\":\"") + 7;
         int end = payload.indexOf('"', start);
@@ -20,6 +20,6 @@ public class BearerTokenParser {
     }
 
     public boolean expired(long expiresAtSeconds, long nowMillis) {
-        return expiresAtSeconds < nowMillis;
+        return expiresAtSeconds * 1000 < nowMillis;
     }
 }
