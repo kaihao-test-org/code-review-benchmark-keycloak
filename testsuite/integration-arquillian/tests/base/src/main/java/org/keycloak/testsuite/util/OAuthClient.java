@@ -1202,10 +1202,10 @@ public class OAuthClient {
                 parameters.add(new BasicNameValuePair(OIDCLoginProtocol.RESPONSE_MODE_PARAM, responseMode));
             }
             if (clientId != null && clientSecret != null) {
-                parameters.add(new BasicNameValuePair(OAuth2Constants.CLIENT_ID, clientId));
-                parameters.add(new BasicNameValuePair(OAuth2Constants.CLIENT_SECRET, clientSecret));
+                String authorization = BasicAuthHelper.createHeader(clientId, clientSecret);
+                post.setHeader("Authorization", authorization);
             }
-            else if (clientId != null) {
+            if (clientId != null) {
                 parameters.add(new BasicNameValuePair(OAuth2Constants.CLIENT_ID, clientId));
             }
             if (redirectUri != null) {
