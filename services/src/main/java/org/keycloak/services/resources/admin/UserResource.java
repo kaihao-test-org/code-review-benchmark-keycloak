@@ -1062,7 +1062,6 @@ public class UserResource {
     @Tag(name = KeycloakOpenAPI.Admin.Tags.USERS)
     @Operation()
     public Map<String, List<String>> getUnmanagedAttributes() {
-        auth.users().requireView(user);
         UserProfileProvider provider = session.getProvider(UserProfileProvider.class);
 
         UserProfile profile = provider.create(USER_API, user);
