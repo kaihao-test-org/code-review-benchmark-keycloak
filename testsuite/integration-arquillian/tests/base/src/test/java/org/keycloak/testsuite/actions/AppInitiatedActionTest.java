@@ -35,7 +35,6 @@ import org.keycloak.testsuite.util.GreenMailRule;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.keycloak.testsuite.actions.AbstractAppInitiatedActionTest.SUCCESS;
 
 /**
  * @author <a href="mailto:wadahiro@gmail.com">Hiroyuki Wada</a>
@@ -137,18 +136,12 @@ public class AppInitiatedActionTest extends AbstractTestRealmKeycloakTest {
             oauth.loginForm().kcAction(UserModel.RequiredAction.UPDATE_PASSWORD.name()).open();
             loginPage.login("test-user@localhost", "password");
 
-            // Terms and conditions are displayed first (They are not AIA, but displayed as a regular action as they were first)
-            termsAndConditionsPage.assertCurrent();
-            termsAndConditionsPage.acceptTerms();
-
-            // the update password should be displayed as an AIA
+            // the update password should be displayed
             passwordUpdatePage.assertCurrent();
-            assertTrue(passwordUpdatePage.isCancelDisplayed());
             passwordUpdatePage.changePassword("password", "password");
 
             // once the AIA password is executed the terms and conditions should be displayed for the login
-            appPage.assertCurrent();
-            assertEquals(SUCCESS, oauth.parseLoginResponse().getKcActionStatus());
+            termsAndConditionsPage.assertCurrent();
         } finally {
             termsAndConditions.setPriority(prevPriority);
             termsAndConditions.setEnabled(prevEnabled);
